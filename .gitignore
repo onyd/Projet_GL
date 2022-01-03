@@ -8,3 +8,6 @@
 .project
 .metadata
 .settings
+.idea
+.idea/*
+.gitignore
