@@ -41,7 +41,7 @@ WHILE: 'while';
 LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
-EOL: ('\n');
+EOL: ('\n') { skip(); };
 
 //Symboles speciaux
 
@@ -70,7 +70,7 @@ OR: '||';
 
 // Litteraux entiers
 
-POSITIVE_DIGIT: '1'..'9';
+fragment POSITIVE_DIGIT: '1'..'9';
 INT: '0'| POSITIVE_DIGIT DIGIT*;
 
 // Litteraux flottants
@@ -86,15 +86,15 @@ FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
 FLOAT: FLOATDEC|FLOATHEX;
 
 
-STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+fragment STRING_CAR: ~('"' | '\\' | '\n' | '\t');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 COMMENT: '/*' .*? '*/'{ skip(); };
-SINGLE_COMMENT: '////' .*? (EOL | EOF);
-SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT);
+SINGLE_COMMENT: '//' .*? (EOL | EOF){ skip(); };
+SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 ELSE : 'else';
 ELSEIF : 'elseif';
 IF : 'if';
 SPACE : (' ' | '\t') { skip(); };
-FILENAME:(LETTER|DIGIT|'.'|'-'|'_')+;
+FILENAME: (LETTER + DIGIT + '.' + '-' + '_')+;
 INCLUDE: '#include' (' ')* '"' FILENAME '"';
