@@ -95,4 +95,4 @@ SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT);
 ELSE : 'else';
 ELSEIF : 'elseif';
 IF : 'if';
-SPACE : ' ';
+SPACE : ' '{ skip(); };
