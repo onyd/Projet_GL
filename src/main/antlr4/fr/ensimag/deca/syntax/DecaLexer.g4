@@ -11,6 +11,11 @@ options {
 @members {
 }
 
+
+
 // Deca lexer rules.
-DUMMY_TOKEN: .; // A FAIRE : Règle bidon qui reconnait tous les caractères.
-                // A FAIRE : Il faut la supprimer et la remplacer par les vraies règles.
+
+LETTER: 'a'..'z'|'A'..'Z';
+fragment DIGIT: '0'..'9' ;
+IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
+
