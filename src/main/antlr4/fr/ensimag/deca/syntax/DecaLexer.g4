@@ -77,7 +77,7 @@ INT: '0'| POSITIVE_DIGIT DIGIT*;
 // Litteraux flottants
 
 NUM: DIGIT+;
-SIGN: '+'|'-'|;
+fragment SIGN: '+'|'-'|;
 EXP: ('E'|'e') SIGN NUM;
 DEC: NUM '.' NUM;
 FLOATDEC: (DEC|DEC EXP)('F'|'f'|);
