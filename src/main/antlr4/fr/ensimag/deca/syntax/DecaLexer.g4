@@ -45,24 +45,24 @@ EOL: ('\n');
 
 //Symboles speciaux
 
-LOWER: '<';
-GREATER: '>';
-EQUAL: '=';
+LT: '<';
+GT: '>';
+EQUALS: '=';
 PLUS: '+';
 MINUS: '-';
 TIMES: '*';
 SLASH: '/';
-PRECENT: '%';
+PERCENT: '%';
 DOT: '.';
-COMA: ',';
-OPAR: '(';
-CPAR: ')';
+COMMA: ',';
+OPARENT: '(';
+CPARENT: ')';
 OBRACE: '{';
 CBRACE: '}';
-DIFF: '!';
+EXCLAM: '!';
 SEMI: ';';
-ISEQUAL: '==';
-ISDIFF: '!=';
+EQEQ: '==';
+NEQ: '!=';
 GEQ: '>=';
 LEQ: '<=';
 AND: '&&';
