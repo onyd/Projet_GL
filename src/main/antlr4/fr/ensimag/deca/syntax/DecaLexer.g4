@@ -22,3 +22,8 @@ EOL: ('\n' | '\t');
 STRING_CAR: ~('"' | '\\' | '\n' | '\t');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
+ELSE : 'else';
+ELSEIF : 'elseif';
+IF : 'if';
+SPACE : ' ';
+COMMENT : '/*' .*? '*/' { skip(); } ;
