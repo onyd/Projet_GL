@@ -101,7 +101,7 @@ public class CompilerOptions {
         while(index < args.length) {
             String arg = args[index];
             if(Objects.equals(arg, "-b")) {
-                if(index != 0) {
+                if(args.length > 1) {
                     throw new UnsupportedOperationException("-b can just be use alone");
                 }
                 this.printBanner = true;
