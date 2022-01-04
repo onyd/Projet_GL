@@ -41,7 +41,8 @@ WHILE: 'while';
 LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
-EOL: ('\n');//peut-être il faut ajouter le \t aussi.
+EOL: ('\n');
+TAB: ('\t');
 
 //Symboles speciaux
 
