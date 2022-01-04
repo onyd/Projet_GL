@@ -2,9 +2,7 @@ package fr.ensimag.deca;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -36,14 +34,41 @@ public class CompilerOptions {
         return Collections.unmodifiableList(sourceFiles);
     }
 
+    public boolean getParseFiles() {
+        return parseFiles;
+    }
+
+    public boolean getVerifyFiles() {
+        return verifyFiles;
+    }
+
+    public boolean getNoCheck() {
+        return noCheck;
+    }
+
+    public int getRegisterNumber() {
+        return registerNumber;
+    }
+
+    public boolean getRegisterLimit() {
+        return registerLimit;
+    }
+
     private int debug = 0;
     private boolean parallel = false;
     private boolean printBanner = false;
     private List<File> sourceFiles = new ArrayList<File>();
 
-    
+    private boolean parseFiles = false;
+    private boolean verifyFiles = false;
+    private boolean noCheck = false;
+    private int registerNumber = 0;
+    private boolean registerLimit = false;
+
     public void parseArgs(String[] args) throws CLIException {
-        // A FAIRE : parcourir args pour positionner les options correctement.
+        // Parse options
+        treatOption(args);
+
         Logger logger = Logger.getRootLogger();
         // map command-line debug option to log4j's level.
         switch (getDebug()) {
@@ -66,11 +91,101 @@ public class CompilerOptions {
         } else {
             logger.info("Java assertions disabled");
         }
+    }
 
-        throw new UnsupportedOperationException("not yet implemented");
+    private void treatOption(String[] args) {
+        if(args.length == 0) {
+            return;
+        }
+        int index = 0;
+        while(index < args.length) {
+            String arg = args[index];
+            if(Objects.equals(arg, "-b")) {
+                if(index != 0) {
+                    throw new UnsupportedOperationException("-b can just be use alone");
+                }
+                this.printBanner = true;
+                break;
+            }
+            if(Objects.equals(arg,"-d")) {
+                while(Objects.equals(arg, "-d")) {
+                    if(this.debug < 3) {
+                        this.debug++;
+                    }
+                    index++;
+                    if(index == args.length) {
+                        break;
+                    }
+                    arg = args[index];
+                }
+                continue;
+            }
+            switch (arg) {
+                case "-p":
+                    if (this.verifyFiles) {
+                        throw new UnsupportedOperationException("You can't make the options -v and -p at the same time");
+                    } else {
+                        this.parseFiles = true;
+                    }
+                    break;
+                case "-v":
+                    if (this.parseFiles) {
+                        throw new UnsupportedOperationException("You can't make the options -v and -p at the same time");
+                    } else {
+                        this.verifyFiles = true;
+                    }
+                    break;
+                case "-n":
+                    this.noCheck = true;
+                    break;
+                case "-r":
+                    if (this.registerLimit) {
+                        throw new UnsupportedOperationException("option -r already typed");
+                    }
+                    this.registerLimit = true;
+                    try {
+                        index++;
+                        arg = args[index];
+                        int num = Integer.parseInt(arg);
+                        if(num < 4 || num > 16) {
+                            throw new UnsupportedOperationException("You have to use a number between 4 and 16 after -r");
+                        } else {
+                            this.registerNumber = num;
+                        }
+                    } catch(NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                        throw new UnsupportedOperationException("You have to use a number between 4 and 16 after -r");
+                    }
+                    break;
+                case "-P":
+                    this.parallel = true;
+                    break;
+                default:
+                    File file = new File(arg);
+                    if(!file.exists()) {
+                        throw new UnsupportedOperationException("Unknown Flags or Incorrect File");
+                    }
+                    sourceFiles.add(file);
+            }
+            index++;
+        }
     }
 
     protected void displayUsage() {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public String toString() {
+        return "CompilerOptions{" +
+                "debug=" + debug +
+                ", parallel=" + parallel +
+                ", printBanner=" + printBanner +
+                ", sourceFiles=" + sourceFiles +
+                ", parseFiles=" + parseFiles +
+                ", verifyFiles=" + verifyFiles +
+                ", noCheck=" + noCheck +
+                ", registerNumber=" + registerNumber +
+                ", registerLimit=" + registerLimit +
+                '}';
     }
 }
