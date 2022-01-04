@@ -41,7 +41,7 @@ WHILE: 'while';
 LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
-EOL: ('\n');
+EOL: ('\n');//peut-être il faut ajouter le \t aussi.
 
 //Symboles speciaux
 
@@ -96,3 +96,5 @@ ELSE : 'else';
 ELSEIF : 'elseif';
 IF : 'if';
 SPACE : ' '{ skip(); };
+FILENAME:(LETTER|DIGIT|'.'|'-'|'_')+;
+INCLUDE: '#include' (' ')* '"' FILENAME '"';
