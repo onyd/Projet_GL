@@ -34,7 +34,28 @@ public class AutomaticTestLex {
         System.out.println();
 
         System.out.println("Programme with a class that increment an integer");
-        arg = "src/test/deca/syntax/valid/custom/incr.java";
+        arg = "src/test/deca/syntax/valid/custom/incr.deca";
+        lex = new DecaLexer(CharStreams.fromFileName(arg));
+        lex.setSource(new File(arg));
+        lex.debugTokenStream();
+        System.out.println();
+
+        System.out.println("Programme with an if");
+        arg = "src/test/deca/syntax/valid/custom/if.deca";
+        lex = new DecaLexer(CharStreams.fromFileName(arg));
+        lex.setSource(new File(arg));
+        lex.debugTokenStream();
+        System.out.println();
+
+        System.out.println("Programme with a while");
+        arg = "src/test/deca/syntax/valid/custom/while.deca";
+        lex = new DecaLexer(CharStreams.fromFileName(arg));
+        lex.setSource(new File(arg));
+        lex.debugTokenStream();
+        System.out.println();
+
+        System.out.println("Programme with a string");
+        arg = "src/test/deca/syntax/valid/custom/string.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
         lex.debugTokenStream();
