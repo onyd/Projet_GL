@@ -18,4 +18,7 @@ options {
 LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
-
+EOL: ('\n' | '\t');
+STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
+MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
