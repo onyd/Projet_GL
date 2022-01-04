@@ -20,9 +20,7 @@ options {
 ASM:'asm';
 CLASS: 'class';
 EXTENDS: 'extends';
-ELSE: 'else';
 FALSE: 'false';
-IF: 'if';
 INSTANCEOF: 'instanceof';
 NEW: 'new';
 NULL: 'null';
@@ -87,3 +85,12 @@ FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
 FLOAT: FLOATDEC|FLOATHEX;
 
 
+EOL: ('\n' | '\t');
+STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
+MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
+ELSE : 'else';
+ELSEIF : 'elseif';
+IF : 'if';
+SPACE : ' ';
+COMMENT : '/*' .*? '*/' { skip(); } ;
