@@ -25,3 +25,8 @@ MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 COMMENT: '/*' .*? '*/'{ skip(); };
 SINGLE_COMMENT: '////' .*? (EOL | EOF);
 SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT);
+ELSE : 'else';
+ELSEIF : 'elseif';
+IF : 'if';
+SPACE : ' ';
+
