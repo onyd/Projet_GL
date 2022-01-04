@@ -42,7 +42,6 @@ LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
 EOL: ('\n');
-TAB: ('\t');
 
 //Symboles speciaux
 
@@ -96,6 +95,6 @@ SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT);
 ELSE : 'else';
 ELSEIF : 'elseif';
 IF : 'if';
-SPACE : ' '{ skip(); };
+SPACE : (' ' | '\t') { skip(); };
 FILENAME:(LETTER|DIGIT|'.'|'-'|'_')+;
 INCLUDE: '#include' (' ')* '"' FILENAME '"';
