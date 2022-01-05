@@ -9,9 +9,11 @@ def main():
     for f in os.listdir(project_path + "/src/test/java/fr/ensimag/deca/syntax/"):
         f = re.sub(".java", "", f)
         if f != "ManualTestLex" and f != "AutomaticTestLex" and "Lex" in f:
-            ret = os.system(project_path + "/src/test/script/launchers/test_lex_file " + f)
+            ret = os.system(project_path + "/src/test/script/launchers/test_lex_file " + f + " &> /dev/null")
             if ret != 0:
-                sys.exit(1)
+                print(f + " don't work")
+            else:
+                print(f + " OK")
 
 if __name__ == "__main__":
     main()
