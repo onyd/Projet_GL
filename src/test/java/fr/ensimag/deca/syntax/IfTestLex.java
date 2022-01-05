@@ -16,7 +16,6 @@ public class IfTestLex {
         String arg = "src/test/deca/syntax/valid/custom/if.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
-        lex.debugTokenStream();
-        System.out.println();
+        System.exit(lex.debugTokenStream() ? 1 : 0);
     }
 }
