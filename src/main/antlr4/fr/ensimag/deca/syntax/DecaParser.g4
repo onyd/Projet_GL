@@ -96,15 +96,17 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
         }
       )? {
             if($tree == null) {
-                $tree = new DeclVar($t, $t, new NoInitialization());
+                $tree = new DeclVar($t, $i, new NoInitialization());
             }
         }
     ;
 
 list_inst returns[ListInst tree]
 @init {
+    $tree = new ListInst();
 }
     : (inst {
+            $tree.add($inst.tree);
         }
       )*
     ;
@@ -112,30 +114,39 @@ list_inst returns[ListInst tree]
 inst returns[AbstractInst tree]
     : e1=expr SEMI {
             assert($e1.tree != null);
+            $tree = $e1.tree;
         }
     | SEMI {
+            $tree= new NoOperation();
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
+            $tree = new Print(false,$list_expr.tree);//L'affichage en hexa est réalisé par les inst d'après.
         }
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
+            $tree = new Println(false,$list_expr.tree);
         }
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
+            $tree = new Print(true,$list_expr.tree);
         }
     | PRINTLNX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
+            $tree = new Println(true,$list_expr.tree);
         }
     | if_then_else {
             assert($if_then_else.tree != null);
+            $tree = $if_then_else.tree;
         }
     | WHILE OPARENT condition=expr CPARENT OBRACE body=list_inst CBRACE {
             assert($condition.tree != null);
             assert($body.tree != null);
+            $tree = new While($condition.tree,$body.tree);
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            $tree = $expr.tree;
         }
     ;
 
