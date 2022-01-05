@@ -5,7 +5,7 @@ CP_FILE="$DECAC_HOME"/target/generated-sources/classpath.txt
 
 CP="$DECAC_HOME"/target/test-classes/:"$DECAC_HOME"/target/classes/:$(cat "$CP_FILE")
 
-echo java -enableassertions -cp "$CP" fr.ensimag.deca.syntax.ManualTestLex "$@"
+cd $DECAC_HOME
 
-exec java -enableassertions -cp "$CP" fr.ensimag.deca.syntax.ManualTestLex"$@"
+exec java -enableassertions -cp "$CP" fr.ensimag.deca.syntax."$@"
 
