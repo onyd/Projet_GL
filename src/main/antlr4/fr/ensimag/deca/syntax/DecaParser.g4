@@ -96,7 +96,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
         }
       )? {
             if($tree == null) {
-                $tree = new DeclVar($t, $i, new NoInitialization());
+                $tree = new DeclVar($t, $i.tree, new NoInitialization());
             }
         }
     ;
