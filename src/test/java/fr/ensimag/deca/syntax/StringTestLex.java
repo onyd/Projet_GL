@@ -16,6 +16,6 @@ public class StringTestLex {
         String arg = "src/test/deca/syntax/valid/custom/string.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
-        lex.debugTokenStream();
+        System.exit(lex.debugTokenStream() ? 1 : 0);
     }
 }
