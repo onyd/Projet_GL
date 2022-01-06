@@ -26,7 +26,13 @@ public class DecacMain {
             System.exit(1);
         }
         if (options.getPrintBanner()) {
-            throw new UnsupportedOperationException("decac -b not yet implemented");
+            System.out.println("G6 - GL28");
+            System.out.println("Valentin Laclautre");
+            System.out.println("Anthony Dard");
+            System.out.println("Damien Trouche");
+            System.out.println("Martin Gangand");
+            System.out.println("Basel Darwish Jzaerly");
+            System.exit(0);
         }
         if (options.getSourceFiles().isEmpty()) {
             throw new UnsupportedOperationException("decac without argument not yet implemented");
