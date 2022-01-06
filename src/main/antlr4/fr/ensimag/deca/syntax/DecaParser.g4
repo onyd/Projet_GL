@@ -73,7 +73,7 @@ list_decl returns[ListDeclVar tree]
     ;
 
 decl_var_set[ListDeclVar l]
-    : type list_decl_var[$l,$type.tree] SEMI
+    : type list_decl_var[$l, $type.tree] SEMI
     ;
 
 list_decl_var[ListDeclVar l, AbstractIdentifier t]
@@ -87,17 +87,15 @@ list_decl_var[ListDeclVar l, AbstractIdentifier t]
 
 decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
-            $tree = null;
+            $init = new NoInitialization();
         }
     : i=ident {
         }
       (EQUALS e=expr {
-            $tree = new DeclVar($t, $i.tree, new Initialization($e.tree));
+            $init = new Initialization($e.tree);
         }
       )? {
-            if($tree == null) {
-                $tree = new DeclVar($t, $i.tree, new NoInitialization());
-            }
+            $tree = new DeclVar($t, $i.tree, $init)
         }
     ;
 
