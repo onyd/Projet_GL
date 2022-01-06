@@ -59,5 +59,6 @@ public class AutomaticTestLex {
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
         lex.debugTokenStream();
+        System.exit(0);
     }
 }

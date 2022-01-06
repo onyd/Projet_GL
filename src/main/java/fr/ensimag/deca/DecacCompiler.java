@@ -5,6 +5,7 @@ import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
+import fr.ensimag.deca.tree.Program;
 import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
@@ -178,6 +179,10 @@ public class DecacCompiler {
         }
         assert(prog.checkAllLocations());
 
+        if(this.compilerOptions.getParseFiles()) {
+             System.out.println(prog.decompile());
+             System.exit(0);
+        }
 
         prog.verifyProgram(this);
         assert(prog.checkAllDecorations());
