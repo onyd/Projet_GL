@@ -1,0 +1,36 @@
+\documentclass[12pt, a4paper, one side]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\title{Documentation de validation}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+    Valentin Laclautre, Anthony Dard, Damien Trouche, Martin Gangand, Basel Darwish Jzaerly
+\end{center}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Cette documentation a pour but de présenter tout les différents tests créés pendant le projet.
+Pour chaque test, on décrira son fonctionnement, on expliquera son intérêt. On présentera aussi
+la manière de l'executer, ainsi que son importance dans la couverture de test.
+
+\section{Bon fonctionnement de decac}
+
+\subsection{Détection des différentes options données}
+
+Ce premier test a pour but de vérifier que le parsage des différentes options données en ligne
+de commande lors de l'execution de decac est correct. Pour cela on fait appel à la classe \textit{CompilerOptions}
+et on regarde la valeur des differents attributs donnant si une option est présente ou non. On vérifie aussi que si l'on
+donne des options incorrects, une erreur est levé.
+
+\end{document}

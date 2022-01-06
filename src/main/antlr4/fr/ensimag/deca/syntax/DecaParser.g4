@@ -73,7 +73,7 @@ list_decl returns[ListDeclVar tree]
     ;
 
 decl_var_set[ListDeclVar l]
-    : type list_decl_var[$l,$type.tree] SEMI
+    : type list_decl_var[$l, $type.tree] SEMI
     ;
 
 list_decl_var[ListDeclVar l, AbstractIdentifier t]
@@ -87,17 +87,15 @@ list_decl_var[ListDeclVar l, AbstractIdentifier t]
 
 decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
-            $tree = null;
+            AbstractInitialization init = new NoInitialization();
         }
     : i=ident {
         }
       (EQUALS e=expr {
-            $tree = new DeclVar($t, $i.tree, new Initialization($e.tree));
+            init = new Initialization($e.tree);
         }
       )? {
-            if($tree == null) {
-                $tree = new DeclVar($t, $i.tree, new NoInitialization());
-            }
+            $tree = new DeclVar($t, $i.tree, init);
         }
     ;
 
@@ -121,19 +119,19 @@ inst returns[AbstractInst tree]
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Print(false,$list_expr.tree);//L'affichage en hexa est réalisé par les inst d'après.
+            $tree = new Print(false, $list_expr.tree);
         }
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Println(false,$list_expr.tree);
+            $tree = new Println(false, $list_expr.tree);
         }
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Print(true,$list_expr.tree);
+            $tree = new Print(true, $list_expr.tree);
         }
     | PRINTLNX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Println(true,$list_expr.tree);
+            $tree = new Println(true, $list_expr.tree);
         }
     | if_then_else {
             assert($if_then_else.tree != null);
@@ -151,7 +149,7 @@ inst returns[AbstractInst tree]
     ;
 
 if_then_else returns[IfThenElse tree]
-@init {
+@init { // TODO to complete
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
             assert($condition.tree != null);
@@ -169,10 +167,13 @@ if_then_else returns[IfThenElse tree]
 
 list_expr returns[ListExpr tree]
 @init   {
+            $tree = new ListExpr();
         }
     : (e1=expr {
+            $tree.add($e1.tree);
         }
        (COMMA e2=expr {
+            $tree.add($e1.tree);
         }
        )* )?
     ;
@@ -184,21 +185,24 @@ expr returns[AbstractExpr tree]
         }
     ;
 
-assign_expr returns[AbstractExpr tree] // à completer
-    : e=or_expr (
-        /* condition: expression e must be a "LVALUE" */ {
+assign_expr returns[AbstractExpr tree]
+    : e=or_expr
+         {
+            assert($e.tree != null);
+            $tree = $e.tree;
+        }
+        (EQUALS e2=assign_expr {
+            assert($e.tree != null);
+            assert($e2.tree != null);
+            /* condition: expression e must be a "LVALUE" */
             if (! ($e.tree instanceof AbstractLValue)) {
                 throw new InvalidLValue(this, $ctx);
             }
-        }
-        EQUALS e2=assign_expr {
-            assert($e.tree != null);
-            assert($e2.tree != null);
-            //$tree = new Assign($e.tree,$e2.tree);
+            // $tree = new Assign($e.tree, $e2.tree);
         }
       | /* epsilon */ {
             assert($e.tree != null);
-            $tree=$e.tree;
+            $tree = $e.tree;
         }
       )
     ;
@@ -218,6 +222,7 @@ or_expr returns[AbstractExpr tree]
 and_expr returns[AbstractExpr tree]
     : e=eq_neq_expr {
             assert($e.tree != null);
+            $tree = $e.tree;
         }
     |  e1=and_expr AND e2=eq_neq_expr {
             assert($e1.tree != null);                         
@@ -373,6 +378,7 @@ primary_expr returns[AbstractExpr tree]
         }
     | literal {
             assert($literal.tree != null);
+            $tree = $literal.tree;
         }
     ;
 
@@ -409,6 +415,7 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
+
         }
     ;
 
