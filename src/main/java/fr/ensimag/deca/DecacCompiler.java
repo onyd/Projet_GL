@@ -118,6 +118,10 @@ public class DecacCompiler {
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
 
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
+
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
@@ -131,9 +135,9 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = null;
-        // A FAIRE: calculer le nom du fichier .ass à partir du nom du
-        // A FAIRE: fichier .deca.
+        String destFile = new String(sourceFile);
+        destFile = destFile.substring(0, destFile.length() - 4);
+        destFile = destFile + "ass";
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
