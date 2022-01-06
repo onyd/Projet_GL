@@ -2,6 +2,8 @@ package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
+import java.util.HashMap;
+
 /**
  * Dictionary associating identifier's ExpDefinition to their names.
  * 
@@ -20,15 +22,18 @@ import fr.ensimag.deca.tools.SymbolTable.Symbol;
  * @date 01/01/2022
  */
 public class EnvironmentExp {
-    // A FAIRE : implémenter la structure de donnée représentant un
+    // EN COURS : implémenter la structure de donnée représentant un
     // environnement (association nom -> définition, avec possibilité
     // d'empilement).
+
+    HashMap<String, ExpDefinition> currentExp = new HashMap<String, ExpDefinition>();
 
     EnvironmentExp parentEnvironment;
     
     public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
     }
+
 
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
@@ -39,7 +44,14 @@ public class EnvironmentExp {
      * symbol is undefined.
      */
     public ExpDefinition get(Symbol key) {
-        throw new UnsupportedOperationException("not yet implemented");
+        ExpDefinition def = currentExp.get(key.getName());
+        if (def == null){
+            if (parentEnvironment != null){
+                return this.parentEnvironment.get(key);
+            }
+            return null;
+        }
+        return def;
     }
 
     /**
@@ -58,7 +70,11 @@ public class EnvironmentExp {
      *
      */
     public void declare(Symbol name, ExpDefinition def) throws DoubleDefException {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (this.currentExp.containsKey(name.getName())){
+            throw new DoubleDefException();
+        }
+        this.currentExp.put(name.getName(), def);
+
     }
 
 }
