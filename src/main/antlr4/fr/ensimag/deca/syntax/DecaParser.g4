@@ -87,15 +87,15 @@ list_decl_var[ListDeclVar l, AbstractIdentifier t]
 
 decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
 @init   {
-            $init = new NoInitialization();
+            AbstractInitialization init = new NoInitialization();
         }
     : i=ident {
         }
       (EQUALS e=expr {
-            $init = new Initialization($e.tree);
+            init = new Initialization($e.tree);
         }
       )? {
-            $tree = new DeclVar($t, $i.tree, $init)
+            $tree = new DeclVar($t, $i.tree, init);
         }
     ;
 
@@ -119,19 +119,19 @@ inst returns[AbstractInst tree]
         }
     | PRINT OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Print(false,$list_expr.tree);//L'affichage en hexa est réalisé par les inst d'après.
+            $tree = new Print(false, $list_expr.tree);
         }
     | PRINTLN OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Println(false,$list_expr.tree);
+            $tree = new Println(false, $list_expr.tree);
         }
     | PRINTX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Print(true,$list_expr.tree);
+            $tree = new Print(true, $list_expr.tree);
         }
     | PRINTLNX OPARENT list_expr CPARENT SEMI {
             assert($list_expr.tree != null);
-            $tree = new Println(true,$list_expr.tree);
+            $tree = new Println(true, $list_expr.tree);
         }
     | if_then_else {
             assert($if_then_else.tree != null);
@@ -149,7 +149,7 @@ inst returns[AbstractInst tree]
     ;
 
 if_then_else returns[IfThenElse tree]
-@init {
+@init { // TODO to complete
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
             assert($condition.tree != null);
@@ -167,10 +167,13 @@ if_then_else returns[IfThenElse tree]
 
 list_expr returns[ListExpr tree]
 @init   {
+            $tree = new ListExpr();
         }
     : (e1=expr {
+            $tree.add($e1.tree);
         }
        (COMMA e2=expr {
+            $tree.add($e1.tree);
         }
        )* )?
     ;
