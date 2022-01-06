@@ -185,21 +185,24 @@ expr returns[AbstractExpr tree]
         }
     ;
 
-assign_expr returns[AbstractExpr tree] // à completer
-    : e=or_expr (
-        /* condition: expression e must be a "LVALUE" */ {
+assign_expr returns[AbstractExpr tree]
+    : e=or_expr
+         {
+            assert($e.tree != null);
+            $tree = $e.tree;
+        }
+        (EQUALS e2=assign_expr {
+            assert($e.tree != null);
+            assert($e2.tree != null);
+            /* condition: expression e must be a "LVALUE" */
             if (! ($e.tree instanceof AbstractLValue)) {
                 throw new InvalidLValue(this, $ctx);
             }
-        }
-        EQUALS e2=assign_expr {
-            assert($e.tree != null);
-            assert($e2.tree != null);
-            //$tree = new Assign($e.tree,$e2.tree);
+            // $tree = new Assign($e.tree, $e2.tree);
         }
       | /* epsilon */ {
             assert($e.tree != null);
-            $tree=$e.tree;
+            $tree = $e.tree;
         }
       )
     ;
@@ -219,6 +222,7 @@ or_expr returns[AbstractExpr tree]
 and_expr returns[AbstractExpr tree]
     : e=eq_neq_expr {
             assert($e.tree != null);
+            $tree = $e.tree;
         }
     |  e1=and_expr AND e2=eq_neq_expr {
             assert($e1.tree != null);                         
@@ -374,6 +378,7 @@ primary_expr returns[AbstractExpr tree]
         }
     | literal {
             assert($literal.tree != null);
+            $tree = $literal.tree;
         }
     ;
 
@@ -410,6 +415,7 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
+
         }
     ;
 
