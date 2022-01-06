@@ -49,7 +49,6 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.predefEnv();
     }
 
     /**
@@ -117,8 +116,6 @@ public class DecacCompiler {
     
     private final CompilerOptions compilerOptions;
     private final File source;
-    private EnvironmentType type = new EnvironmentType(null);
-    private EnvironmentExp exp = new EnvironmentExp(null);
     private SymbolTable symbolTable = new SymbolTable();
 
     /**
@@ -241,37 +238,5 @@ public class DecacCompiler {
         DecaParser parser = new DecaParser(tokens);
         parser.setDecacCompiler(this);
         return parser.parseProgramAndManageErrors(err);
-    }
-
-    /**
-     * Function that create and store predef EnvironmentExp and the
-     */
-    public void predefEnv() {
-        try {
-            this.type.declare(this.symbolTable.create("void"), new TypeDefinition(new VoidType(this.symbolTable.create("void")),
-                    new Location(0, 0, this.source.getName())));
-            this.type.declare(this.symbolTable.create("boolean"), new TypeDefinition(new BooleanType(this.symbolTable.create("boolean")),
-                    new Location(0, 0, this.source.getName())));
-            this.type.declare(this.symbolTable.create("float"), new TypeDefinition(new FloatType(this.symbolTable.create("float")),
-                    new Location(0, 0, this.source.getName())));
-            this.type.declare(this.symbolTable.create("int"), new TypeDefinition(new IntType(this.symbolTable.create("int")),
-                    new Location(0, 0, this.source.getName())));
-            this.type.declare(this.symbolTable.create("Object"), new ClassDefinition(
-                    new ClassType(this.symbolTable.create("Object"),
-                    new Location(0, 0, this.source.getName()),
-                            null),
-                    new Location(0, 0, this.source.getName()), null));
-            Signature equalsSign = new Signature();
-            equalsSign.add(this.type.get(this.symbolTable.create("Object")).getType());
-            this.exp.declare(this.symbolTable.create("equals"), new MethodDefinition(this.type.get(this.symbolTable.create("boolean")).getType(),
-                    new Location(0, 0, this.source.getName()),
-                    equalsSign,
-                    0));
-        } catch (EnvironmentType.DoubleDefException e) {
-            System.exit(1);
-        } catch (EnvironmentExp.DoubleDefException e) {
-            e.printStackTrace();
-        }
-
     }
 }
