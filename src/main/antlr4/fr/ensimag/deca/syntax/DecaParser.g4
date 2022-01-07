@@ -396,19 +396,23 @@ type returns[AbstractIdentifier tree]
 literal returns[AbstractExpr tree] // à completer lors de la partie objet
     : INT {
             $tree = new IntLiteral(Integer.parseInt($INT.text));
+            setLocation($tree, $INT);
         }
     | fd=FLOAT {
             $tree = new FloatLiteral(Float.parseFloat($fd.text));
+            setLocation($tree, $fd);
         }
     | STRING {
             $tree = new StringLiteral($STRING.text);
             setLocation($tree, $STRING);
         }
     | TRUE {
-            $tree = new BooleanLiteral ( Boolean.parseBoolean($TRUE.text) ) ;
+            $tree = new BooleanLiteral ( Boolean.parseBoolean($TRUE.text) );
+            setLocation($tree, $TRUE);
         }
     | FALSE {
-            $tree = new BooleanLiteral ( Boolean.parseBoolean($FALSE.text) ) ;
+            $tree = new BooleanLiteral ( Boolean.parseBoolean($FALSE.text) );
+            setLocation($tree, $FALSE);
         }
     | THIS {
             //$tree = $THIS.text;

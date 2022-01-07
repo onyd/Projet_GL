@@ -30,7 +30,7 @@ public class Main extends AbstractMain {
         LOG.debug("verify Main: start");
         LOG.debug("verify Main: end");
         this.declVariables.verifyListDeclVariable(compiler, null, null);
-        this.insts.verifyListInst(compiler, null, null, new VoidType(compiler.getSymbolTable().create("Main")));
+        this.insts.verifyListInst(compiler, null, null, new VoidType(compiler.getSymbolTable().create("void")));
     }
 
     @Override
