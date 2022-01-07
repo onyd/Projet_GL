@@ -11,7 +11,7 @@ def main():
         if f != "ManualTestLex" and f != "AutomaticTestLex" and "Lex" in f:
             ret = os.system(project_path + "/src/test/script/launchers/test_lex_file " + f + " &> /dev/null")
             if ret != 0:
-                print(f + " don't work")
+                print(f + " doesn't work")
             else:
                 print(f + " OK")
 
