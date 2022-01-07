@@ -16,4 +16,56 @@
 
 \tableofcontents
 
+\newpage
+
+\section{Description du compilateur}
+
+Ce compilateur a pour but de compiler des fichiers terminant en \textit{.deca}
+respectant la syntaxe décrite dans les spécifications du langage deca. Ce compilateur
+vient avec de nombreuses options qui seront décrites dans la section suivante. Il
+peut compiler plusieurs programmes en une fois, en spécifiant tout les programmes
+en argument. Le programme crée par défaut un fichier \textit{.ass} au même endroit que
+le fichier \textit{.deca}. Ce fichier correspond au programme assembleur pouvant être lu
+par la machine virtuelle ima. Il est aussi possible de compiler le programme deca en
+bytecode java (voir section suivante pour plus de détails), afin de pouvoir l'executer
+avec la machine virtuelle java.
+
+\section{commandes et options}
+
+\subsection{Commandes decac}
+
+\textbf{decac [-p \textbar -v] [-n] [-r X] [-d]* [-P] fichiers.java... \textbar [-b]}
+
+\subsection{option -b}
+
+Cette option n'est executé que de la manière suivante: \textbf{decac -b}. Elle permet
+d'afficher le numéro du groupe ainsi que les noms des différents membres de l'équipe
+ayant développé ce compilateur.
+
+\subsection{option -p}
+
+L'option \textbf{-p} permet de parser le (ou les) fichier(s) deca donnés en paramètres.
+Après cette étape, si aucune erreur n'est survenu, le programme est décompilé et est
+affiché. Il doit être syntaxiquement correct après la décompilation. Cette option ne peut
+pas être utilisé avec l'option \textbf{-p}
+
+\subsection{option -v}
+
+Cette option permet d'effectuer l'étape de vérification de l'arbre. Rien n'est affiché s'il
+n'y a pas d'erreur. Cette option ne peut pas être utilisé avec l'option \textbf{-p}
+
+\subsection{A finir }
+
+\section{Messages d'erreurs}
+
+Lors de la vérification de l'arbre, un grand nombre d'erreur peut survenir lors de la vérification
+contextuelle du programme deca. Cette section est consacré à la description de toutes ses erreurs,
+afin que vous puissiez les résoudres plus facilement.
+
+\subsection{(3.31) Wrong type for the print function. It should be int, float or string}
+
+Cette erreur survient lorque l'utilisateur a tenté d'utiliser une fonction d'affichage (print, println, printx, printlnx),
+mais qu'il a rentré un mauvais type en paramètres. En l'occurence, les seuls type autorisés dans une
+fonction d'affichage sont: int, float ou string.
+
 \end{document}
