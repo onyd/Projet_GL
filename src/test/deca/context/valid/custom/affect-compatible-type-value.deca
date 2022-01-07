@@ -1,0 +1,14 @@
+// Description:
+//    Affectation d'une valeur sur un type different mais compatibles.
+//
+// Resultats:
+//    Ligne 12: affichage 1.f;
+//    Selon page 75 du poly.
+// Historique:
+//    cree le 01/01/2022
+
+{
+   // Doit etre accepte.
+    float a = 1;
+    print(a);
+}
