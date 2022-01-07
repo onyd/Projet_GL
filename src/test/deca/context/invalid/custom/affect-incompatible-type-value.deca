@@ -3,7 +3,8 @@
 //
 // Resultats:
 //    Ligne 12: Affectation d'une valeur sur un type incompatibles.
-// 
+//    Selon page 75 du poly.
+// Remarque : la reciproque est accepte.
 // Historique:
 //    cree le 01/01/2022
 

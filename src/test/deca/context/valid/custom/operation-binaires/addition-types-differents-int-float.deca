@@ -1,0 +1,13 @@
+// Description:
+//   Affichage de une addition de deux valeurs de types differents
+//
+// Resultats:
+//    Ligne 12: affichage de 4.3f.
+//    Selon page 76 c'est possible.
+// Historique:
+//    cree le 01/01/2022
+
+{
+   // Doit etre accepte.
+   print(2+2.3f);
+}
