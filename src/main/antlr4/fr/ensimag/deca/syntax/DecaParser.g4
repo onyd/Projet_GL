@@ -90,7 +90,7 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
             AbstractInitialization init = new NoInitialization();
         }
     : i=ident {
-
+            $tree = $i.tree;
         }
       (EQUALS e=expr {
             init = new Initialization($e.tree);

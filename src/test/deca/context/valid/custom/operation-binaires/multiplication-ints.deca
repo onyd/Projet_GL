@@ -1,0 +1,13 @@
+// Description:
+//   Opération de multiplication entre deux valeurs de type int.
+//   Selon les specifications du langane, la fonction print peut afficher les types int, float et string.
+// Resultats:
+//    Ligne 12: affichage sur la sortie standard 8.
+//
+// Historique:
+//    cree le 07/01/2022
+
+{
+   // Doit etre compile.
+   print(2*4);
+}
