@@ -26,6 +26,9 @@ options {
 @header {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
+
+    // Temporary use of SymbolTable for indent rule
+    import fr.ensimag.deca.tools.SymbolTable;
 }
 
 @members {
@@ -90,13 +93,14 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
             AbstractInitialization init = new NoInitialization();
         }
     : i=ident {
-            $tree = $i.tree;
         }
       (EQUALS e=expr {
             init = new Initialization($e.tree);
+            setLocation(init, $EQUALS);
         }
       )? {
             $tree = new DeclVar($t, $i.tree, init);
+            setLocation($tree, $i.start);
         }
     ;
 
@@ -146,6 +150,7 @@ inst returns[AbstractInst tree]
             assert($condition.tree != null);
             assert($body.tree != null);
             $tree = new While($condition.tree, $body.tree);
+            setLocation($tree, $WHILE);
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
@@ -215,7 +220,8 @@ assign_expr returns[AbstractExpr tree]
             if (! ($e.tree instanceof AbstractLValue)) {
                 throw new InvalidLValue(this, $ctx);
             }
-            // $tree = new Assign($e.tree, $e2.tree);
+            $tree = new Assign((AbstractLValue) $e.tree, $e2.tree);
+            setLocation($tree, $e.start);
         }
       | /* epsilon */ {
             assert($e.tree != null);
@@ -388,6 +394,7 @@ select_expr returns[AbstractExpr tree]
 primary_expr returns[AbstractExpr tree]
     : ident {
             assert($ident.tree != null);
+            $tree = $ident.tree;
         }
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
@@ -451,7 +458,9 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
-
+            SymbolTable table = new SymbolTable();
+            $tree = new Identifier(table.create($IDENT.text));
+            setLocation($tree, $IDENT);
         }
     ;
 
