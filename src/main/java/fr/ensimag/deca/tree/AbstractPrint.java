@@ -39,7 +39,7 @@ public abstract class AbstractPrint extends AbstractInst {
         for(AbstractExpr expr: getArguments().getList()) {
             Type type = expr.verifyExpr(compiler, localEnv, currentClass);
             if(!(type.isInt() || type.isFloat() || type.isString())) {
-                throw new ContextualError("Wrong type for the print function", expr.getLocation());
+                throw new ContextualError("(3.31) Wrong type for the print function. It should be int, float or string", expr.getLocation());
             }
         }
     }
