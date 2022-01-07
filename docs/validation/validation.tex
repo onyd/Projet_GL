@@ -89,4 +89,26 @@ La structure est la même pour les fichiers invalides (qui se trouvent dans inva
     int a = 1.2f;
 }
 \end{lstlisting}
+
+\section{Test sur le Lexer et le Parser}
+\subsection{Lancer les tests pour le Lexer}
+Nous avons créé plusieurs tests pour le ficher DecaLexer.g4 sur différents fichiers deca. Pour les lancer de manière automatique, il faut aller dans le répertoire gl28/src/test/script et exécuter le fichier lex.py. Ce programme python nous permet d'exécuter le fichier test\_lex\_file pour nos différents tests.
+
+\subsection{Lancer les tests pour le Parser}
+Il est également possible de tester le fichier DecaParser.g4 sur les mêmes fichiers deca. Le fichier basic-synt.sh du répertoire gl28/src/test/script permet de lancer plusieurs tests. Pour chaque test, le programme ManualTestSynt.java est appelé et il permet d'utiliser le parseur sur le fichier passé en argument.
+
+\subsection{Les tests en détails}
+Tous les fichiers de tests pour le Lexer et le Parser se trouvent dans le répertoire gl28/src/test/deca/syntax.
+
+\subsubsection{empty.deca}
+Ce fichier ne contient qu'une accolade ouvrante et une accolade fermante. Ainsi le Lexer détecte seulement une OBRACE et une CBRACE avec les lignes et colonnes concernées.
+
+\subsubsection{float.deca}
+Dans ce fichier on affiche le résultat d'un flottant et d'un entier.
+
+\subsubsection{hello\_world.deca}
+Ce fichier affiche la chaîne de caratère "hello\_world". 
+
+\subsubsection{if.deca}
+Ici, nous utiliser un if et un else. Cela nous permet de vérifier que les lexèmes IF et ELSE sont correctement implémentés.
 \end{document}
