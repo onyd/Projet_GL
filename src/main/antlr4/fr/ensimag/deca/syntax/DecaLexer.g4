@@ -40,7 +40,7 @@ WHILE: 'while';
 
 //Identificateurs
 
-LETTER: 'a'..'z'|'A'..'Z';
+fragment LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
 EOL: ('\n') { skip(); };
@@ -80,11 +80,11 @@ INT: '0'| POSITIVE_DIGIT DIGIT*;
 NUM: DIGIT+;
 fragment SIGN: '+'|'-'|;
 EXP: ('E'|'e') SIGN NUM;
-DEC: NUM '.' NUM;
-FLOATDEC: (DEC|DEC EXP)('F'|'f'|);
+fragment DEC: NUM '.' NUM;
+fragment FLOATDEC: (DEC|DEC EXP)('F'|'f'|);
 DIGITHEX: '0'..'9'|'A'..'F'|'a'..'f';
 NUMHEX: DIGITHEX+;
-FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
+fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
 FLOAT: FLOATDEC|FLOATHEX;
 
 
