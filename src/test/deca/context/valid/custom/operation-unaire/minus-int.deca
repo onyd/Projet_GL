@@ -1,0 +1,14 @@
+// Description:
+//   Opération de changement du signe d un int.
+//   Selon les specifications du langane, page 76.
+// Resultats:
+//    Ligne 12: affichage -5 sur la sortie standard.
+//
+// Historique:
+//    cree le 07/01/2022
+
+{
+   // Doit etre compile.
+   int x = 5;
+   print(-x);
+}
