@@ -95,5 +95,5 @@ COMMENT: '/*' .*? '*/'{ skip(); };
 SINGLE_COMMENT: '//' .*? (EOL | EOF){ skip(); };
 SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 SPACE : (' ' | '\t') { skip(); };
-FILENAME: (LETTER + DIGIT + '.' + '-' + '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"';
+FILENAME: (LETTER + DIGIT * '.' * '-' * '_'?)+;
+INCLUDE: '#include' (' ')* '"' FILENAME '"' { doInclude(getText()); };

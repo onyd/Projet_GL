@@ -7,5 +7,5 @@ CP="$DECAC_HOME"/target/test-classes/:"$DECAC_HOME"/target/classes/:$(cat "$CP_F
 
 echo java -enableassertions -cp "$CP" fr.ensimag.deca.syntax.ManualTestLex "$@"
 
-exec java -enableassertions -cp "$CP" fr.ensimag.deca.syntax.ManualTestLex"$@"
+exec java -enableassertions -cp "$CP" fr.ensimag.deca.syntax.ManualTestLex "$@"
 
