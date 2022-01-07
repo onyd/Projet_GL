@@ -1,0 +1,13 @@
+// Description:
+//   somme de deux valeurs de types differents
+//
+// Resultats:
+//    Ligne 12: somme de deux valeurs de types differents.
+//
+// Historique:
+//    cree le 01/01/2022
+
+{
+   // Doit etre refuse.
+   1+2.3f;
+}
