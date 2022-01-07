@@ -2,9 +2,11 @@
 //    tests de programme incorrect lexicalement (point-vrigule manquant)
 //
 // Resultats:
-//    ligne 10 : Erreur, chaine point-vrigule manquant (sur fin de fichier)
+//    ligne 11 : Erreur, point-virgule manquant (sur fin de fichier)
 //
 // Historique:
 //    cree le 06/01/2022
 
-int i = 5
+{
+    println("Hello world")
+}

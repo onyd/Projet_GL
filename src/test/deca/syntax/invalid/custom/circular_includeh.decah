@@ -1,0 +1,6 @@
+/*
+    ceci est un test de commentaire pour le test de l'exception CircularInclude
+ */
+
+#include "circular_include.deca"
+{}
