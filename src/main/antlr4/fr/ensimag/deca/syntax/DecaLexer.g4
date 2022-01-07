@@ -40,7 +40,7 @@ WHILE: 'while';
 
 //Identificateurs
 
-LETTER: 'a'..'z'|'A'..'Z';
+fragment LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
 EOL: ('\n') { skip(); };
