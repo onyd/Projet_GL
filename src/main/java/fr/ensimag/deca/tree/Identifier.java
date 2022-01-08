@@ -170,10 +170,10 @@ public class Identifier extends AbstractIdentifier {
         if(localEnv != null) {
             ExpDefinition def = localEnv.get(this.name);
             if (def == null) {
-                throw new ContextualError("The identifier is not declared", this.getLocation());
+                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
             }
         } else {
-            throw new ContextualError("The identifier is not declared", this.getLocation());
+            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
         }
         return this.getType();
     }
