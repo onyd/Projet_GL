@@ -177,7 +177,7 @@ list_expr returns[ListExpr tree]
             $tree.add($e1.tree);
         }
        (COMMA e2=expr {
-            $tree.add($e1.tree);
+            $tree.add($e2.tree);
         }
        )* )?
     ;
