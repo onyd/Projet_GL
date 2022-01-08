@@ -194,6 +194,10 @@ public class DecacCompiler {
         }
 
         prog.verifyProgram(this);
+        if(this.compilerOptions.getVerifyFiles()) {
+            System.exit(0);
+        }
+
         assert(prog.checkAllDecorations());
 
         addComment("start main program");
