@@ -135,7 +135,7 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = new String(sourceFile);
+        String destFile = sourceFile;
         destFile = destFile.substring(0, destFile.length() - 4);
         destFile = destFile + "ass";
         PrintStream err = System.err;
@@ -194,6 +194,10 @@ public class DecacCompiler {
         }
 
         prog.verifyProgram(this);
+        if(this.compilerOptions.getVerifyFiles()) {
+            System.exit(0);
+        }
+
         assert(prog.checkAllDecorations());
 
         addComment("start main program");

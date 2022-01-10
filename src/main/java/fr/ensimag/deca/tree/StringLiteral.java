@@ -33,6 +33,7 @@ public class StringLiteral extends AbstractStringLiteral {
             ClassDefinition currentClass) throws ContextualError {
         Type type = new StringType(compiler.getSymbolTable().create("string"));
         this.setType(type);
+        this.value = this.value.substring(1, this.value.length() - 1);
         return type;
     }
 
