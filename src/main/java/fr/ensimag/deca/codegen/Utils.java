@@ -9,7 +9,7 @@ import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 public class Utils {
     public static DVal ImmediateFromType(Type type) {
-        if(type.isInt() || type.isString()) {
+        if(type.isInt() || type.isString() || type.isBoolean()) {
             return new ImmediateInteger(0);
         }
         else if(type.isFloat()) {

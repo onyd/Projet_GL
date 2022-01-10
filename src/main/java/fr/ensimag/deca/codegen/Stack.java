@@ -34,6 +34,12 @@ public class Stack {
                 this.decacCompiler.addInstruction(new LOAD(new ImmediateInteger(((IntLiteral) init.getExpression()).getValue()), Register.R1));
             } else if(init.getExpression().getType().isFloat()) {
                 this.decacCompiler.addInstruction(new LOAD(new ImmediateFloat(((FloatLiteral) init.getExpression()).getValue()), Register.R1));
+            } else if(init.getExpression().getType().isBoolean()) {
+                int value = 0;
+                if(((BooleanLiteral) init.getExpression()).getValue()) {
+                    value = 1;
+                }
+                this.decacCompiler.addInstruction(new LOAD(new ImmediateInteger(value), Register.R1));
             } else if(init.getExpression().getType().isString()) {
                 String text = ((StringLiteral) init.getExpression()).getValue();
                 DAddr dAddr;
