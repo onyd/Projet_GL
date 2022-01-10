@@ -64,4 +64,15 @@ public class Stack {
         this.decacCompiler.addInstruction(new ADDSP(1));
         this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
     }
+
+    public void getVariableFromStackOnR1(Identifier identifier) {
+        RegisterOffset addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
+        this.decacCompiler.addInstruction(new LOAD(addr, Register.R1));
+    }
+
+    public void getVariableFromStackOnR1(Identifier identifier, int position) {
+        if(identifier.getVariableDefinition().getType().isString()) {
+            this.decacCompiler.addInstruction(new LOAD(new RegisterOffset(position, Register.GB), Register.R1));
+        }
+    }
 }

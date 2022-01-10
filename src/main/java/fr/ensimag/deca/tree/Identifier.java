@@ -15,6 +15,11 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.instructions.WUTF8;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -186,8 +191,29 @@ public class Identifier extends AbstractIdentifier {
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
-    
-    
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        if(this.getVariableDefinition().getType().isInt()) {
+            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+            compiler.addInstruction(new WINT());
+        } else if(this.getVariableDefinition().getType().isFloat()) {
+            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+            compiler.addInstruction(new WFLOAT());
+        } else if(this.getVariableDefinition().getType().isBoolean()) {
+            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+            //A FAIRE
+            compiler.addInstruction(new WINT());
+        } else if(this.getVariableDefinition().getType().isString()) {
+            int position = ((RegisterOffset) this.getVariableDefinition().getOperand()).getOffset();
+            for(int i = 0; i < this.getVariableDefinition().getSizeOnStack(); i++) {
+                compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this, position);
+                compiler.addInstruction(new WUTF8());
+                position++;
+            }
+        }
+    }
+
     private Definition definition;
 
 
