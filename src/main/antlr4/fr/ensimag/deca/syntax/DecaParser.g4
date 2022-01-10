@@ -240,6 +240,7 @@ or_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree = new Or($e1.tree,$e2.tree);
+            setLocation($tree, $e1.start);
        }
     ;
 
@@ -252,6 +253,7 @@ and_expr returns[AbstractExpr tree]
             assert($e1.tree != null);                         
             assert($e2.tree != null);
             $tree = new And($e1.tree,$e2.tree);
+            setLocation($tree, $e1.start);
         }
     ;
 
