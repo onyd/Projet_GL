@@ -22,14 +22,7 @@ import java.util.HashMap;
  * @date 01/01/2022
  **/
 public class EnvironmentType {
-    HashMap<String, TypeDefinition> currentExp = new HashMap<String, TypeDefinition>();
-
-    EnvironmentType parentEnvironment;
-
-    public EnvironmentType(EnvironmentType parentEnvironment) {
-        this.parentEnvironment = parentEnvironment;
-    }
-
+    HashMap<String, Type> currentExp = new HashMap<String, Type>();
 
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
@@ -39,15 +32,8 @@ public class EnvironmentType {
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public TypeDefinition get(SymbolTable.Symbol key) {
-        TypeDefinition def = currentExp.get(key.getName());
-        if (def == null){
-            if (parentEnvironment != null){
-                return this.parentEnvironment.get(key);
-            }
-            return null;
-        }
-        return def;
+    public Type get(SymbolTable.Symbol key) {
+        return currentExp.get(key.getName());
     }
 
     /**
@@ -65,7 +51,7 @@ public class EnvironmentType {
      *             if the symbol is already defined at the "current" dictionary
      *
      */
-    public void declare(SymbolTable.Symbol name, TypeDefinition def) throws DoubleDefException {
+    public void declare(SymbolTable.Symbol name, Type def) throws DoubleDefException {
         if (this.currentExp.containsKey(name.getName())){
             throw new DoubleDefException();
         }

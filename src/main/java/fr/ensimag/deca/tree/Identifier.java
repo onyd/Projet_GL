@@ -15,6 +15,8 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
+import java.util.Map;
+
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -184,7 +186,10 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (compiler.getEnvironmentType().get(getType().getName()) == null) {
+            throw new ContextualError("(0.2) The identifier has an invalid type", this.getLocation());
+        }
+        return getType();
     }
     
     
