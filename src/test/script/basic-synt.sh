@@ -30,7 +30,7 @@ test_synt_valide () {
 }
 
 test_synt_invalide () {
-    if test_synt "$1" 2>&1
+    if test_synt "$1">fichier 2>&1
     then
         echo "Succès inattendu pour test_synt sur $1."
         exit 1
@@ -39,11 +39,25 @@ test_synt_invalide () {
     fi
 }
 
+echo "Test invalides fournis :"
 for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
 do
     test_synt_invalide "$cas _de_test"
 done
 
+echo "\nTest valides fournis :"
+for cas_de_test in src/test/deca/syntax/valid/provided/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest invalides personnalisés :"
+for cas_de_test in src/test/deca/syntax/invalid/custom/*.deca
+do
+    test_synt_invalide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés :"
 for cas_de_test in src/test/deca/syntax/valid/custom/*.deca
 do
     test_synt_valide "$cas_de_test"
