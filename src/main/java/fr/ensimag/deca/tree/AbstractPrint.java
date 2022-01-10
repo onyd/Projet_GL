@@ -65,7 +65,7 @@ public abstract class AbstractPrint extends AbstractInst {
         for (AbstractExpr expr : arguments.getList()) {
             s.print(expr.decompile() + ",");
         }
-        s.print(")");
+        s.print(");");
     }
 
     @Override

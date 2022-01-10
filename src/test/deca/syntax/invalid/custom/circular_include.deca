@@ -1,0 +1,15 @@
+// Description:
+//    tests de programme incorrect (le fichier du fichier n'existe pas)
+//
+// Resultats:
+//    ligne 10 : Erreur, le fichier courant importe "circular_includeh.decah",
+//               et "circular_includeh.decah" importe le fichier courant,
+//               donc il y a une exception de type CircularInclude
+//
+// Historique:
+//    cree le 07/01/2022
+
+#include "circular_includeh.decah"
+{
+    println("Hello world");
+}
