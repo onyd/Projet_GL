@@ -169,15 +169,21 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        if(localEnv != null) {
-            ExpDefinition def = localEnv.get(this.name);
-            if (def == null) {
+        if (localEnv != null) {
+            if (getExpDefinition() != null) {
+                try {
+                    localEnv.declare(getName(), getExpDefinition());
+                }
+                catch (EnvironmentExp.DoubleDefException e) {
+                    throw new ContextualError("(0.1) The identifier is already declared", this.getLocation());
+                }
+                return this.getType();
+            } else {
                 throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
             }
         } else {
-            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
         }
-        return this.getType();
     }
 
     /**
