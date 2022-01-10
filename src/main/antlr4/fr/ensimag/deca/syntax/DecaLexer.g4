@@ -8,6 +8,10 @@ options {
    superClass = AbstractDecaLexer;
 }
 
+@header {
+    import static java.lang.Integer.parseInt;
+}
+
 @members {
 }
 
@@ -73,7 +77,15 @@ OR: '||';
 // Litteraux entiers
 
 fragment POSITIVE_DIGIT: '1'..'9';
-INT: '0'| POSITIVE_DIGIT DIGIT*;
+INT: '0'| POSITIVE_DIGIT DIGIT* {
+try {
+    parseInt(getText());
+ }
+ catch (NumberFormatException e) {
+    System.out.println("The number is too large, it must be a positive signed integer on 32 bits");
+    System.exit(1);
+ }
+ };
 
 // Litteraux flottants
 
