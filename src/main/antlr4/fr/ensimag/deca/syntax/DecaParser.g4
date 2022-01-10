@@ -27,7 +27,6 @@ options {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
 
-    // Temporary use of SymbolTable for indent rule
     import fr.ensimag.deca.tools.SymbolTable;
 }
 
@@ -36,6 +35,8 @@ options {
     protected AbstractProgram parseProgram() {
         return prog().tree;
     }
+
+    SymbolTable table = new SymbolTable();
 }
 
 prog returns[AbstractProgram tree]
@@ -458,7 +459,6 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
-            SymbolTable table = new SymbolTable();
             $tree = new Identifier(table.create($IDENT.text));
             setLocation($tree, $IDENT);
         }
