@@ -28,7 +28,7 @@ public class Stack {
     public void setVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a no initialized declared variable on the stack");
-            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getType()), Register.R1));
+            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R1));
             DAddr dAddr= new RegisterOffset(this.currentStackPosition, Register.GB);
             identifier.getVariableDefinition().setOperand(dAddr);
             this.currentStackPosition++;
