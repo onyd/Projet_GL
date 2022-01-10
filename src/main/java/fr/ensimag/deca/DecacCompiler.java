@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 
+import fr.ensimag.deca.codegen.ManageCodeGen;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -49,6 +50,7 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        this.manageCodeGen = new ManageCodeGen(this);
     }
 
     /**
@@ -117,9 +119,14 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
+    private ManageCodeGen manageCodeGen;
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
+    }
+
+    public ManageCodeGen getManageCodeGen() {
+        return manageCodeGen;
     }
 
     /**
