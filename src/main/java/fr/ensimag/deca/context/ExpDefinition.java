@@ -20,6 +20,16 @@ public abstract class ExpDefinition extends Definition {
     }
     private DAddr operand;
 
+    private int sizeOnStack = 1;
+
+    public void setSizeOnStack(int sizeOnStack) {
+        this.sizeOnStack = sizeOnStack;
+    }
+
+    public int getSizeOnStack() {
+        return sizeOnStack;
+    }
+
     public ExpDefinition(Type type, Location location) {
         super(type, location);
     }
