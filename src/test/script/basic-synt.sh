@@ -41,7 +41,7 @@ test_synt_invalide () {
 
 for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
 do
-    test_synt_invalide "$cas_de_test"
+    test_synt_invalide "$cas _de_test"
 done
 
 for cas_de_test in src/test/deca/syntax/valid/custom/*.deca
