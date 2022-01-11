@@ -7,8 +7,11 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.Register;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -135,9 +138,25 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     public void codeGenExprOnR1(DecacCompiler compiler) {
+        this.codeGenExprOnRegister(compiler, 1);
+    }
+
+    /**
+     * generate code to load on the expression on the register i
+     * @param compiler
+     * @param register
+     */
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
-    
+
+    /**
+     * return the DVal of the expression (if it is possible), else return null
+     * @return
+     */
+    public DVal getDVal() {
+        return null;
+    }
 
     @Override
     protected void decompileInst(IndentPrintStream s) {

@@ -16,6 +16,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
@@ -212,6 +213,11 @@ public class Identifier extends AbstractIdentifier {
                 position++;
             }
         }
+    }
+
+    @Override
+    public DVal getDVal() {
+        return this.getExpDefinition().getOperand();
     }
 
     private Definition definition;

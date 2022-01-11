@@ -16,4 +16,8 @@ public class ManageCodeGen {
     public Stack getStack() {
         return stack;
     }
+
+    public RegisterManager getRegisterManager() {
+        return registerManager;
+    }
 }

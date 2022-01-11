@@ -77,9 +77,4 @@ public class Stack {
             this.decacCompiler.addInstruction(new LOAD(new RegisterOffset(position, Register.GB), Register.R1));
         }
     }
-
-    public void getVariableFromStackOnR0(Identifier identifier) {
-        RegisterOffset addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
-        this.decacCompiler.addInstruction(new LOAD(addr, Register.R0));
-    }
 }

@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
@@ -43,8 +44,13 @@ public class IntLiteral extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnR1(DecacCompiler compiler) {
-        compiler.addInstruction(new LOAD(new ImmediateInteger(this.value), Register.R1));
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        compiler.addInstruction(new LOAD(new ImmediateInteger(this.value), Register.getR(register)));
+    }
+
+    @Override
+    public DVal getDVal() {
+        return new ImmediateInteger((this.value));
     }
 
     @Override

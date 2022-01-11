@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
@@ -48,8 +49,13 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnR1(DecacCompiler compiler) {
-        compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), Register.R1));
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), Register.getR(register)));
+    }
+
+    @Override
+    public DVal getDVal() {
+        return new ImmediateFloat(this.value);
     }
 
     @Override
