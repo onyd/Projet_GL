@@ -35,7 +35,8 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        compiler.getManageCodeGen().getStack().getVariableFromStackOnR1((Identifier) getLeftOperand());
+        this.getRightOperand().codeGenExprOnR1(compiler);
+        compiler.getManageCodeGen().getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
     }
 
     @Override

@@ -22,6 +22,7 @@ public class TestPrintVar {
         ListExpr listExpr = new ListExpr();
         listExpr.add(ident);
         linst.add(new Println(false, listExpr));
+        linst.add(new Assign(ident, new ReadFloat()));
         return source;
     }
 

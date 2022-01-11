@@ -43,7 +43,7 @@ public class Stack {
         }
     }
 
-    public void setVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
+    public void declareVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a no initialized declared variable on the stack");
             this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R0));
@@ -61,6 +61,10 @@ public class Stack {
         this.currentStackPosition++;
         this.decacCompiler.addInstruction(new ADDSP(1));
         this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
+    }
+
+    public void setVariableOnStack(Identifier identifier, Register register) {
+        this.decacCompiler.addInstruction(new STORE(register, identifier.getExpDefinition().getOperand()));
     }
 
     public void getVariableFromStackOnR1(Identifier identifier) {
