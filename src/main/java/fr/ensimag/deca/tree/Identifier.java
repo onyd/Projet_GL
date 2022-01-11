@@ -170,7 +170,7 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
         }
         setType(expDef.getType());
-        setDefinition(new VariableDefinition(getType(), expDef.getLocation()));
+        setDefinition(expDef);
         return this.getType();
     }
 
