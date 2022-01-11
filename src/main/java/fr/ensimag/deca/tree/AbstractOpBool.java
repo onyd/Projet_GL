@@ -20,7 +20,16 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type leftType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        if (leftType.isBoolean() && rightType.isBoolean()) {
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType());
+            // TODO boolean binary check for objects
+        } else {
+            throw new ContextualError("Boolean operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
+        }
+        return getType();
     }
 
 }

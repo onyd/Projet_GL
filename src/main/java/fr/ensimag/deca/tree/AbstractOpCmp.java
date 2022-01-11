@@ -20,7 +20,15 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type leftType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        if ((leftType.isInt() || leftType.isFloat()) && (rightType.isInt() || rightType.isFloat())) {
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType());
+        } else {
+            throw new ContextualError("Comparison operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
+        }
+        return getType();
     }
 
 
