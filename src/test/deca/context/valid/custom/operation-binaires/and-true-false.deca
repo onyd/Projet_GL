@@ -1,0 +1,14 @@
+// Description:
+//   And condition between two booleans.
+// Results:
+//    Line 12: display the result of "true && false" on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   boolean t = true;
+   boolean f = false;
+   println(t && f);
+}
+

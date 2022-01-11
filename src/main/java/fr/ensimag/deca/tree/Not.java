@@ -20,7 +20,12 @@ public class Not extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type type = getOperand().verifyExpr(compiler, localEnv, currentClass);
+        if (!type.isBoolean()) {
+            throw new ContextualError("(3.37) Not operator only accept boolean operand", getLocation());
+        }
+        setType(type);
+        return getType();
     }
 
 
