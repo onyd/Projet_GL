@@ -46,7 +46,7 @@ public class Stack {
     public void declareVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a no initialized declared variable on the stack");
-            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R0));
+            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R1));
         } else {
             Initialization init = (Initialization) initialization;
             if(init.getExpression().getType().isString()) {

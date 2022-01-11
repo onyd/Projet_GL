@@ -1,0 +1,12 @@
+{
+	int x = 56;
+	int y = 4;
+	int z;
+
+	z = z + x / 4;
+
+	println("la valeur de x est ", x);
+	println("la valeur de y est ", y);
+	println("la valeur de z est ", z);
+	println("la valeur de x / y est ", x/y);
+}

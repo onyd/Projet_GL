@@ -10,7 +10,9 @@ import java.util.Map;
 
 
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import fr.ensimag.ima.pseudocode.instructions.WUTF8;
@@ -211,6 +213,11 @@ public class Identifier extends AbstractIdentifier {
                 position++;
             }
         }
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.getR(register)));
     }
 
     @Override
