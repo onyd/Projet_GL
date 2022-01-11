@@ -1,14 +1,12 @@
 // Description:
-//    Affectation et typage sur valeur
+//    Affectation of an incompatible value
 //
-// Resultats:
-//    Ligne 12: Affectation d'une valeur sur un type incompatibles.
-//    Selon page 75 du poly.
-// Remarque : la reciproque est accepte.
-// Historique:
-//    cree le 01/01/2022
+// Results:
+//    Line 11: error, affectation of a float on a int variable
+// Note : the reciprocal is accepted.
+// History:
+//    created on 01/01/2022
 
 {
-   // Doit etre refuse.
-    int a = 1.2f;
+    int a = 1.2;
 }

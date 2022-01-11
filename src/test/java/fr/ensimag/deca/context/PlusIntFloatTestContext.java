@@ -22,13 +22,13 @@ import org.apache.log4j.Logger;
  * @author Ensimag
  * @date 01/01/2022
  */
-public class DeclFloatTestContext {
+public class PlusIntFloatTestContext {
     public static void main(String[] args) throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
 
-        System.out.println("Declaration of a float and print it on the standard output :");
-        String arg = "src/test/deca/context/valid/custom/Declaration/decl_float.deca";
+        System.out.println("Arithmetic operation Plus between a boolean and an integer :");
+        String arg = "src/test/deca/context/invalid/custom/plus_int_float.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
 

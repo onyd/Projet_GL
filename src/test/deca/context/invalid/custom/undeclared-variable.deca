@@ -1,14 +1,13 @@
 // Description:
-//    utiliser une variable qui n a jamais ete declare.
+//    Use a variable that has never been declared and initialised.
 //
-// Resultats:
-//    Ligne 13: b n a pas ete declare dans ce scope.
+// Results:
+//    Line 13: error because b has not been declared.
 //
-// Historique:
-//    cree le 01/01/2022
+// History:
+//    created on 01/01/2022
 
 {
-    // ne doit pas complier.
-    int a;
-    print(a+b);
+    int a = 5;
+    println(a+b);
 }
