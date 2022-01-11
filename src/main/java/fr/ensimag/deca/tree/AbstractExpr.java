@@ -82,8 +82,14 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        this.verifyExpr(compiler, localEnv, currentClass);
-        return this; // TODO verify for cast
+        verifyExpr(compiler, localEnv, currentClass);
+        if (expectedType.sameType(getType())) {
+        } else if (getType().isInt() && expectedType.isFloat()) {
+            // TODO numeric cast ?
+        } else {
+            getType().asClassType("(3.28) expression type is not compatible", getLocation());
+        }
+        return this;
     }
     
     
@@ -91,7 +97,8 @@ public abstract class AbstractExpr extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        verifyExpr(compiler, localEnv, currentClass);
+        // TODO verify others
     }
 
     /**

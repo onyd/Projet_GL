@@ -57,10 +57,10 @@ public class DecacCompiler {
         SymbolTable.Symbol floatType = symbolTable.create("float");
         SymbolTable.Symbol intType = symbolTable.create("int");
         try {
-            env_types.declare(voidType, new TypeDefinition(new VoidType(voidType), null));
-            env_types.declare(booleanType, new TypeDefinition(new BooleanType(booleanType),null));
-            env_types.declare(floatType, new TypeDefinition(new FloatType(floatType),null));
-            env_types.declare(intType, new TypeDefinition(new IntType(intType),null));
+            env_types.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
+            env_types.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
+            env_types.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
+            env_types.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
@@ -221,11 +221,13 @@ public class DecacCompiler {
              System.out.println(prog.decompile());
              System.exit(0);
         }
+
         // STEP B
         prog.verifyProgram(this);
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
+        System.out.print(prog.prettyPrint());
 
         assert(prog.checkAllDecorations());
 
