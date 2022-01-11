@@ -60,7 +60,7 @@ public class DecacCompiler {
             env_types.declare(voidType, new TypeDefinition(new VoidType(voidType), null));
             env_types.declare(booleanType, new TypeDefinition(new BooleanType(booleanType),null));
             env_types.declare(floatType, new TypeDefinition(new FloatType(floatType),null));
-            env_types.declare(intType, new TypeDefinition(new VoidType(intType),null));
+            env_types.declare(intType, new TypeDefinition(new IntType(intType),null));
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
