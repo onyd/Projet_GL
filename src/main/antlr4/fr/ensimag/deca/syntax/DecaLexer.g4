@@ -110,5 +110,5 @@ SINGLE_COMMENT: '//' .*? (EOL | EOF){ skip(); };
 SEPARATOR: (SPACE | '\t' | EOL | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 SPACE : (' ' | '\t') { skip(); };
 
-FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
+fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
 INCLUDE: '#include' (' ')* '"' FILENAME '"' { doInclude(getText()); };

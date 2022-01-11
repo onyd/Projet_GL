@@ -60,7 +60,7 @@ public class TestFlagsDecac {
         try {
             options2.parseArgs(args);
         } catch(UnsupportedOperationException | CLIException e) {
-            System.out.println("It don't work ...OK :" + e);
+            System.out.println("It doesn't work ...OK :" + e);
         }
     }
 }
