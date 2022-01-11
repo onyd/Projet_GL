@@ -26,6 +26,14 @@ public abstract class AbstractExpr extends AbstractInst {
         return false;
     }
 
+    public boolean isReadFloat() {
+        return false;
+    }
+
+    public boolean isReadInt() {
+        return false;
+    }
+
     /**
      * Get the type decoration associated to this expression (i.e. the type computed by contextual verification).
      */
@@ -119,6 +127,14 @@ public abstract class AbstractExpr extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * Generate code to load the expression on the register R1
+     * @param compiler
+     */
+    public void codeGenExprOnR1(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     
