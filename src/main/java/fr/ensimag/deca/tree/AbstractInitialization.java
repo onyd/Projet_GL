@@ -26,4 +26,11 @@ public abstract class AbstractInitialization extends Tree {
             Type t, EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
+    /**
+     * tell if the class is Initialization or NoInitialization
+     * @return true if the class is Initialization else false
+     */
+    public boolean noInitialization() {
+        return false;
+    }
 }

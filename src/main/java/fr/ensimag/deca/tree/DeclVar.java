@@ -46,7 +46,11 @@ public class DeclVar extends AbstractDeclVar {
         }
     }
 
-    
+    @Override
+    protected void codeGenDeclVar(DecacCompiler compiler) {
+        compiler.getManageCodeGen().getStack().setVariableOnStack((Identifier) this.varName, this.initialization);
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         type.decompile(s);
