@@ -30,8 +30,9 @@ public class Main extends AbstractMain {
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
         LOG.debug("verify Main: end");
-        this.declVariables.verifyListDeclVariable(compiler, null, null);
-        this.insts.verifyListInst(compiler, null, null, new VoidType(compiler.getSymbolTable().create("void")));
+        EnvironmentExp env_exp = new EnvironmentExp(null);
+        this.declVariables.verifyListDeclVariable(compiler, env_exp, null);
+        this.insts.verifyListInst(compiler, env_exp, null, new VoidType(compiler.getSymbolTable().create("void")));
     }
 
     @Override

@@ -1,16 +1,7 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.ClassType;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Definition;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.FieldDefinition;
-import fr.ensimag.deca.context.MethodDefinition;
-import fr.ensimag.deca.context.ExpDefinition;
-import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
@@ -168,22 +159,11 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        if (localEnv != null) {
-            if (getExpDefinition() != null) {
-                try {
-                    localEnv.declare(getName(), getExpDefinition());
-                }
-                catch (EnvironmentExp.DoubleDefException e) {
-                    throw new ContextualError("(0.1) The identifier is already declared", this.getLocation());
-                }
-                return this.getType();
-            } else {
-                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
-            }
-        } else {
-                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+        ClassDefinition currentClass) throws ContextualError {
+        if(localEnv.get(getName()) == null) {
+            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
         }
+        return this.getType();
     }
 
     /**
@@ -192,15 +172,16 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        if (compiler.getEnvironmentType().get(getType().getName()) == null) {
+        TypeDefinition typeDef = compiler.getEnvironmentType().get(getName());
+        if (typeDef == null) {
             throw new ContextualError("(0.2) The identifier has an invalid type", this.getLocation());
         }
+        setType(typeDef.getType());
+        setDefinition(new TypeDefinition(getType(), getLocation()));
         return getType();
     }
-    
-    
-    private Definition definition;
 
+    private Definition definition;
 
     @Override
     protected void iterChildren(TreeFunction f) {

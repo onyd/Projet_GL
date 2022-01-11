@@ -22,7 +22,7 @@ import java.util.HashMap;
  * @date 01/01/2022
  **/
 public class EnvironmentType {
-    HashMap<String, Type> currentExp = new HashMap<String, Type>();
+    HashMap<String, TypeDefinition> typeDefs = new HashMap<>();
 
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
@@ -32,8 +32,8 @@ public class EnvironmentType {
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public Type get(SymbolTable.Symbol key) {
-        return currentExp.get(key.getName());
+    public TypeDefinition get(SymbolTable.Symbol key) {
+        return typeDefs.get(key.getName());
     }
 
     /**
@@ -51,11 +51,12 @@ public class EnvironmentType {
      *             if the symbol is already defined at the "current" dictionary
      *
      */
-    public void declare(SymbolTable.Symbol name, Type def) throws DoubleDefException {
-        if (this.currentExp.containsKey(name.getName())){
+    public void declare(SymbolTable.Symbol name, TypeDefinition def) throws DoubleDefException {
+        if (this.typeDefs.containsKey(name.getName())){
             throw new DoubleDefException();
         }
-        this.currentExp.put(name.getName(), def);
+        this.typeDefs.put(name.getName(), def);
 
     }
+
 }

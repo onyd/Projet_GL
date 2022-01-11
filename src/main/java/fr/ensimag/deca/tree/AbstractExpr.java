@@ -83,7 +83,7 @@ public abstract class AbstractExpr extends AbstractInst {
             Type expectedType)
             throws ContextualError {
         this.verifyExpr(compiler, localEnv, currentClass);
-        return this;
+        return this; // TODO verify for cast
     }
     
     

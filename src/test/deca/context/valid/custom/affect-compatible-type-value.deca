@@ -10,5 +10,5 @@
 {
    // Doit etre accepte.
     float a = 1;
-    print(a);
+    //print(a);
 }
