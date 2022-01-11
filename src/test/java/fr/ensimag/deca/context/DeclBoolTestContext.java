@@ -27,7 +27,7 @@ public class DeclBoolTestContext {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
 
-        System.out.println("Declaration of a boolean and print it on the standard output:");
+        System.out.println("Declaration of a boolean and print it on the standard output :");
         String arg = "src/test/deca/context/valid/custom/Declaration/decl_bool.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));

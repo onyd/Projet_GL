@@ -22,13 +22,13 @@ import org.apache.log4j.Logger;
  * @author Ensimag
  * @date 01/01/2022
  */
-public class DeclStringTestContext {
+public class SameVariableDeclTestContext {
     public static void main(String[] args) throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
 
-        System.out.println("Declaration of a String and print it on the standard output:");
-        String arg = "src/test/deca/context/valid/custom/Declaration/decl_string.deca";
+        System.out.println("Declaration of two variables of the same name but with different type :");
+        String arg = "src/test/deca/context/invalid/custom/same_variable_decl.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
 

@@ -1,0 +1,12 @@
+// Description:
+//    Declare and initialise a variable of a type int and then change the type of the variable into boolean.
+//
+// Results:
+//    Line 11: error, the type of the variable is int and not boolean
+// History:
+//    created on 11/01/2022
+
+{
+    int a = 5;
+    a = false;
+}

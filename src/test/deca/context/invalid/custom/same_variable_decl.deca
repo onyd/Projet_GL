@@ -1,0 +1,11 @@
+// Description:
+//    Declaration of two variables of the same name but with different type.
+// Results:
+//    Line 10: the variable has already been declared
+// History:
+//    cree le 01/01/2022
+
+{
+   int a;
+   float a;
+}
