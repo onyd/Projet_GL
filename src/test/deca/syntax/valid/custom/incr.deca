@@ -2,7 +2,7 @@ class Incr() {
     int i = 0;
 
     void incr() {
-        i = i + 1;
+        this.i = i+1;
     }
 }
 

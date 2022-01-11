@@ -27,7 +27,6 @@ options {
     import fr.ensimag.deca.tree.*;
     import java.io.PrintStream;
 
-    // Temporary use of SymbolTable for indent rule
     import fr.ensimag.deca.tools.SymbolTable;
 }
 
@@ -36,6 +35,8 @@ options {
     protected AbstractProgram parseProgram() {
         return prog().tree;
     }
+
+    SymbolTable table = new SymbolTable();
 }
 
 prog returns[AbstractProgram tree]
@@ -239,6 +240,7 @@ or_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($e2.tree != null);
             $tree = new Or($e1.tree,$e2.tree);
+            setLocation($tree, $e1.start);
        }
     ;
 
@@ -251,6 +253,7 @@ and_expr returns[AbstractExpr tree]
             assert($e1.tree != null);                         
             assert($e2.tree != null);
             $tree = new And($e1.tree,$e2.tree);
+            setLocation($tree, $e1.start);
         }
     ;
 
@@ -402,10 +405,15 @@ primary_expr returns[AbstractExpr tree]
         }
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
+            $tree = $expr.tree;
         }
     | READINT OPARENT CPARENT {
+            $tree = new ReadInt();
+            setLocation($tree, $READINT);
         }
     | READFLOAT OPARENT CPARENT {
+                $tree = new ReadFloat();
+                setLocation($tree, $READFLOAT);
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
@@ -458,7 +466,6 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
-            SymbolTable table = new SymbolTable();
             $tree = new Identifier(table.create($IDENT.text));
             setLocation($tree, $IDENT);
         }
