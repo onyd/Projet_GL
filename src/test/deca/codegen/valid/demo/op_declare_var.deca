@@ -9,4 +9,7 @@
 	println("la valeur de y est ", y);
 	println("la valeur de z est ", z);
 	println("la valeur de x / y est ", x/y);
+	z = (z+2)/y;
+	println("la valeur de z est :", z);
+	println("la valeur de z * 2 * y est ", z*2*y);
 }
