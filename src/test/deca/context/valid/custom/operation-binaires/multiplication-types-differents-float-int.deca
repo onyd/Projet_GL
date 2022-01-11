@@ -1,13 +1,11 @@
 // Description:
-//   Affichage de une multiplication de deux valeurs de types differents
+//  Multiplication between a float and an integer.
+// Results:
+//    Line 10: display 4.6 on the standard output.
 //
-// Resultats:
-//    Ligne 12: affichage de 4.6f.
-//    Selon page 76 c'est possible.
-// Historique:
-//    cree le 01/01/2022
+// History:
+//    created on 07/01/2022
 
 {
-   // Doit etre accepte.
-   print(2.3f*2);
+   println(2.3 * 2);
 }
