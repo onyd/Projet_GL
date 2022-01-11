@@ -21,6 +21,20 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type leftType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        if (leftType.isInt() && rightType.isInt()) {
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType());
+        } else if (leftType.isInt() && rightType.isFloat()){
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+        } else if (leftType.isFloat() && rightType.isInt()) {
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+        } else if (leftType.isFloat() && leftType.isFloat()) {
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+        } else {
+            throw new ContextualError("Arithmetic operation only accept ([int|float], [int|float]) as operands type", getLocation());
+        }
+        return getType();
     }
 }

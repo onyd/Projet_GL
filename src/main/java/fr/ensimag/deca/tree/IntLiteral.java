@@ -32,7 +32,7 @@ public class IntLiteral extends AbstractExpr {
             ClassDefinition currentClass) throws ContextualError {
         Type type = compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType();
         this.setType(type);
-        return type;
+        return getType();
     }
 
     @Override
