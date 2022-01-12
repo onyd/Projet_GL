@@ -1,0 +1,15 @@
+// Description:
+//   If with a condition >=.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   if (i >= j) {
+        i = 4;
+   } else {
+        i = 0;
+   }
+}

@@ -1,5 +1,5 @@
 // Description:
-//   Declaration of an int.
+//   Declaration and initialisation of two ints.
 // Results:
 //
 //
@@ -7,5 +7,5 @@
 //    created on 12/01/2022
 
 {
-   int i;
+   int i = 5, j = 1;
 }

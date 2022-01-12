@@ -1,0 +1,15 @@
+// Description:
+//   If with a condition unary not.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   if (!i) {
+        i = 4;
+   } else {
+        i = 0;
+   }
+}

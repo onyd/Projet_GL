@@ -1,5 +1,5 @@
 // Description:
-//   Declaration of an int.
+//   Print condition with or.
 // Results:
 //
 //
@@ -7,5 +7,6 @@
 //    created on 12/01/2022
 
 {
-   int i;
+   int i = 1;
+   print(a || b);
 }
