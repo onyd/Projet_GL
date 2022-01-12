@@ -7,5 +7,5 @@
 //    created on 12/01/2022
 
 {
-   int i
+   int i;
 }
