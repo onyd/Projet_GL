@@ -1,5 +1,5 @@
 // Description:
-//   Declaration of an int.
+//   If with a condition or.
 // Results:
 //
 //
@@ -7,5 +7,7 @@
 //    created on 12/01/2022
 
 {
-   int i;
+   if (i || j) {
+        i = 4;
+   }
 }
