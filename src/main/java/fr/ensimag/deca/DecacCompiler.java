@@ -227,7 +227,7 @@ public class DecacCompiler {
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
-
+        System.out.println(prog.prettyPrint());
         assert(prog.checkAllDecorations());
 
         // STEP C
