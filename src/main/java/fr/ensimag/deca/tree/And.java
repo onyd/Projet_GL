@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.DecacCompiler;
+
 /**
  *
  * @author gl28
@@ -17,5 +19,8 @@ public class And extends AbstractOpBool {
         return "&&";
     }
 
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
 
+    }
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -47,6 +48,7 @@ public class BooleanLiteral extends AbstractExpr {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        Utils.codeGenBool(compiler, Register.R0, compiler.getManageCodeGen().getLabelManager().getNextLabel(""));
         if(value) {
             compiler.addInstruction(new LOAD(1, Register.getR(register)));
         } else {
