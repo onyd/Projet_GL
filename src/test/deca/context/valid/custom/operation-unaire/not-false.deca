@@ -7,6 +7,6 @@
 //    created on 07/01/2022
 
 {
-   bool x = false;
-   print(!x);
+   boolean x = false;
+   x = !x;
 }
