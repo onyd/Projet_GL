@@ -25,7 +25,7 @@ test_synt_valide () {
         echo "Succès attendu pour test_synt sur $1."
     else
         echo "Echec inattendu de test_synt sur $1."
-        exit 1
+        #exit 1
     fi
 }
 
@@ -33,7 +33,7 @@ test_synt_invalide () {
     if test_synt "$1">fichier 2>&1
     then
         echo "Succès inattendu pour test_synt sur $1."
-        exit 1
+        #exit 1
     else
         echo "Echec attendu de test_synt sur $1."
     fi
