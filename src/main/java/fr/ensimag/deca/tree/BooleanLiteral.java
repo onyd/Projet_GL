@@ -48,7 +48,6 @@ public class BooleanLiteral extends AbstractExpr {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        Utils.codeGenBool(compiler, Register.R0, compiler.getManageCodeGen().getLabelManager().getNextLabel(""));
         if(value) {
             compiler.addInstruction(new LOAD(1, Register.getR(register)));
         } else {
