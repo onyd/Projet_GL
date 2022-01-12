@@ -3,10 +3,7 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.ERROR;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 public class Utils {
     public static DVal ImmediateFromType(Type type) {
@@ -35,5 +32,14 @@ public class Utils {
         compiler.addInstruction(new WSTR("Error: Input / Output error"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
+    }
+
+    protected static void codeGenBool(DecacCompiler compiler, int register, boolean negated, Label label) {
+        compiler.addInstruction(new CMP(0, Register.getR(register)));
+        if (negated) {
+            compiler.addInstruction(new BNE(label));
+        } else {
+            compiler.addInstruction(new BEQ(label));
+        }
     }
 }

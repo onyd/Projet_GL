@@ -24,10 +24,13 @@ public class LabelManager {
         }
     }
 
-    public Label getNextLabel(String labelName, String className) {
-        return getNextLabel(labelName + "." + className);
+    public Label getNextLabel(String labelName, String prefix) {
+        return getNextLabel(prefix + "_" + labelName);
     }
 
+    public Label getNextLabel(String labelName, String prefix, String className) {
+        return getNextLabel(prefix + "_" + labelName + "." + className);
+    }
 
 
 
