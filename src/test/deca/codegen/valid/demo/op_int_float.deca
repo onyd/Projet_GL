@@ -9,4 +9,6 @@
 	println(4/2);
 	print("10 % 3: ");
 	println(10%3);
+	print("4.5 / 0.5: ");
+	println(4.5 / 0.5);
 }
