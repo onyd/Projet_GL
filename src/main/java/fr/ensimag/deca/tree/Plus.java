@@ -34,8 +34,9 @@ public class Plus extends AbstractOpArith {
                 compiler.addInstruction(new POP(Register.getR(register)));
                 compiler.addInstruction(new ADD(Register.R0, Register.getR(register)));
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, register + 1);
-                compiler.addInstruction(new ADD(Register.getR(register + 1), Register.getR(register)));
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                compiler.addInstruction(new ADD(Register.getR(newRegister), Register.getR(register)));
+                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             compiler.addInstruction(new ADD(dVal, Register.getR(register)));

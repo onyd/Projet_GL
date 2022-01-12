@@ -53,8 +53,9 @@ public class Modulo extends AbstractOpArith {
                 compiler.addInstruction(new POP(Register.getR(register)));
                 compiler.addInstruction(new REM(Register.R0, Register.getR(register)));
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, register + 1);
-                compiler.addInstruction(new REM(Register.getR(register + 1), Register.getR(register)));
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                compiler.addInstruction(new REM(Register.getR(newRegister), Register.getR(register)));
+                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             compiler.addInstruction(new REM(dVal, Register.getR(register)));
