@@ -75,4 +75,10 @@ do
     test_synt_valide "$cas_de_test"
 done
 
+echo "\nTest valides personnalisés sur la condition if_then_else:"
+for cas_de_test in src/test/deca/syntax/valid/custom/if_then_else/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
 

@@ -1,5 +1,5 @@
 // Description:
-//   If with a condition or.
+//   If with a condition readInt().
 // Results:
 //
 //
@@ -7,9 +7,9 @@
 //    created on 12/01/2022
 
 {
-   if (i || j) {
+   if (readFloat() == 0) {
         i = 4;
    } else {
-         i = 0;
+        i = 0;
    }
 }
