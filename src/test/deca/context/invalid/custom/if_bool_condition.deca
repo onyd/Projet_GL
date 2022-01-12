@@ -7,10 +7,10 @@
 //    created on 12/01/2022
 
 {
-   boolean b = false;
-   if (!b) {
+   boolean b = true;
+   if (b == true) {
         println("Ok");
    } else {
-        println("Error because b is false");
+        println("Error because b is true");
    }
 }

@@ -10,22 +10,22 @@ cd "$(dirname "$0")"/../../.. || exit 1
 PATH=./src/test/script/launchers:"$PATH"
 
 test_context_valide () {
-    if test_synt "$1">fichier 2>&1
+    if test_context "$1">fichier 2>&1
     then
-        echo "Succès attendu pour test_synt sur $1."
+        echo "Succès attendu pour test_context sur $1."
     else
-        echo "Echec inattendu de test_synt sur $1."
+        echo "Echec inattendu de test_context sur $1."
         #exit 1
     fi
 }
 
 test_context_invalide () {
-    if test_synt "$1">fichier 2>&1
+    if test_context "$1">fichier 2>&1
     then
-        echo "Succès inattendu pour test_synt sur $1."
+        echo "Succès inattendu pour test_context sur $1."
         #exit 1
     else
-        echo "Echec attendu de test_synt sur $1."
+        echo "Echec attendu de test_context sur $1."
     fi
 }
 
