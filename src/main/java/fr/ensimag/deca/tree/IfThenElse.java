@@ -17,7 +17,7 @@ import org.apache.commons.lang.Validate;
  */
 public class IfThenElse extends AbstractInst {
     
-    private final AbstractExpr condition; 
+    private final AbstractExpr condition;
     private final ListInst thenBranch;
     private ListInst elseBranch;
 
