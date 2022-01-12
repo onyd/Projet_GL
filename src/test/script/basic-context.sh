@@ -70,3 +70,9 @@ for cas_de_test in src/test/deca/context/valid/custom/operation-unaire/*.deca
 do
     test_context_valide "$cas_de_test"
 done
+
+echo "\nTest valides personnalisés sur la condition if :"
+for cas_de_test in src/test/deca/context/valid/custom/if/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
