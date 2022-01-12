@@ -38,7 +38,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        compiler.addInstruction(new QUO(this.getOperand().getDVal(), Register.getR(register)));
+        //compiler.addInstruction(new QUO(this.getOperand().getDVal(), Register.getR(register)));
     }
 
     @Override
