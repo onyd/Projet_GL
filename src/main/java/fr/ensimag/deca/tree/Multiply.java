@@ -34,8 +34,9 @@ public class Multiply extends AbstractOpArith {
                 compiler.addInstruction(new POP(Register.getR(register)));
                 compiler.addInstruction(new MUL(Register.R0, Register.getR(register)));
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, register + 1);
-                compiler.addInstruction(new MUL(Register.getR(register + 1), Register.getR(register)));
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                compiler.addInstruction(new MUL(Register.getR(newRegister), Register.getR(register)));
+                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             compiler.addInstruction(new MUL(dVal, Register.getR(register)));

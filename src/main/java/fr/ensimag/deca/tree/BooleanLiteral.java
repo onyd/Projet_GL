@@ -7,6 +7,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
 import java.io.PrintStream;
 
@@ -33,6 +34,15 @@ public class BooleanLiteral extends AbstractExpr {
         Type type = compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType();
         this.setType(type);
         return type;
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        if(value) {
+            compiler.addInstruction(new WSTR("true"));
+        } else {
+            compiler.addInstruction(new WSTR("false"));
+        }
     }
 
     @Override
