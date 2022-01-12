@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -7,6 +8,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -41,7 +45,26 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        boolean isFirstIfElse = false;
+        Label labelEnd;
+        if(!compiler.getManageCodeGen().getLabelManager().isInIfElse()) {
+            compiler.getManageCodeGen().getLabelManager().setInIfElse(true);
+            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("endif");
+            isFirstIfElse = true;
+        } else {
+            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("endif", false);
+        }
+        this.condition.codeGenExprOnR1(compiler);
+        Label labelElse = compiler.getManageCodeGen().getLabelManager().getNextLabel("else");
+        Utils.codeGenBool(compiler, 1, false, labelElse);
+        this.thenBranch.codeGenListInst(compiler);
+        compiler.addInstruction(new BRA(labelEnd));
+        compiler.addLabel(labelElse);
+        this.elseBranch.codeGenListInst(compiler);
+        if(isFirstIfElse) {
+            compiler.addLabel(labelEnd);
+            compiler.getManageCodeGen().getLabelManager().setInIfElse(false);
+        }
     }
 
     @Override
