@@ -9,6 +9,6 @@
 {
    boolean t = true;
    boolean f = false;
-   println(t && f);
+   boolean ans = (t && f);
 }
 
