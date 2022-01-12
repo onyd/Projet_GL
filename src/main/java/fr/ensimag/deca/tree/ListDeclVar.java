@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 
 /**
  * List of declarations (e.g. int x; float y,z).
@@ -42,6 +45,9 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
     }
 
     void codeGenListDeclVariable(DecacCompiler compiler) {
+        compiler.addComment("Verify if we can add all the variable in the stack");
+        compiler.addInstruction(new TSTO(this.getList().size()));
+        compiler.addInstruction(new BOV(LabelManager.STACK_OVERFLOW_ERROR));
         compiler.addComment("Beginning of the variable declaration");
         for(AbstractDeclVar declVar : this.getList()) {
             declVar.codeGenDeclVar(compiler);

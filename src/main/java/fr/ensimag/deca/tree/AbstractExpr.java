@@ -7,11 +7,13 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.*;
+
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.BNE;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -158,6 +160,15 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param register
      */
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * generate code to make the operation
+     * @param dVal
+     * @param register
+     */
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
