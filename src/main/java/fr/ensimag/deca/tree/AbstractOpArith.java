@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -68,13 +69,16 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
                 compiler.addInstruction(new POP(Register.getR(register)));
                 this.codeMnemo(compiler, Register.R0, register);
+                compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
             } else {
                 this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
                 this.codeMnemo(compiler, Register.getR(newRegister), register);
+                compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                 compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             this.codeMnemo(compiler, dVal, register);
+            compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
         }
     }
 }
