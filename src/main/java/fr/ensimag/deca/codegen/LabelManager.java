@@ -36,8 +36,8 @@ public class LabelManager {
         Integer occurrences = labelsOccurrences.get(labelName);
         if (occurrences != null) {
             if(newLabel) {
-                labelsOccurrences.put(labelName, occurrences + 1);
-                return new Label(labelName + "." + occurrences + 1);
+                labelsOccurrences.put(labelName, (occurrences + 1));
+                return new Label(labelName + "." + (occurrences + 1));
             } else {
                 return new Label(labelName + "." + occurrences);
             }
