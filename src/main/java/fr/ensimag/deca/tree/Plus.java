@@ -22,24 +22,7 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        this.getLeftOperand().codeGenExprOnRegister(compiler, register);
-        DVal dVal = this.getRightOperand().getDVal();
-        if(dVal == null) {
-            int newRegister = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
-            if(newRegister == -1) {
-                compiler.addInstruction(new PUSH(Register.getR(register)));
-                this.getRightOperand().codeGenExprOnRegister(compiler, register);
-                compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
-                compiler.addInstruction(new POP(Register.getR(register)));
-                compiler.addInstruction(new ADD(Register.R0, Register.getR(register)));
-            } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
-                compiler.addInstruction(new ADD(Register.getR(newRegister), Register.getR(register)));
-                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
-            }
-        } else {
-            compiler.addInstruction(new ADD(dVal, Register.getR(register)));
-        }
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
+        compiler.addInstruction(new ADD(dVal, Register.getR(register)));
     }
 }

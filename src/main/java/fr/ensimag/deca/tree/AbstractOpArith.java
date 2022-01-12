@@ -5,8 +5,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -53,5 +54,27 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
 
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        this.getLeftOperand().codeGenExprOnRegister(compiler, register);
+        DVal dVal = this.getRightOperand().getDVal();
+        if(dVal == null) {
+            int newRegister = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
+            if(newRegister == -1) {
+                compiler.addInstruction(new PUSH(Register.getR(register)));
+                this.getRightOperand().codeGenExprOnRegister(compiler, register);
+                compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
+                compiler.addInstruction(new POP(Register.getR(register)));
+                this.codeMnemo(compiler, Register.R0, register);
+            } else {
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                this.codeMnemo(compiler, Register.getR(newRegister), register);
+                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
+            }
+        } else {
+            this.codeMnemo(compiler, dVal, register);
+        }
     }
 }
