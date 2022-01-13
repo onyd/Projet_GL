@@ -1,0 +1,12 @@
+// Description:
+//  Declaration with no semi at the end
+// Resultats:
+//    ligne 11 : Error, no viable alternative at input '}'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+int i = 1, e=2
+}
+

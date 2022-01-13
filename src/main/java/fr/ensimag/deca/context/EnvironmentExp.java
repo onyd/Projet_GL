@@ -22,10 +22,6 @@ import java.util.HashMap;
  * @date 01/01/2022
  */
 public class EnvironmentExp {
-    // EN COURS : implémenter la structure de donnée représentant un
-    // environnement (association nom -> définition, avec possibilité
-    // d'empilement).
-
     HashMap<String, ExpDefinition> currentExp = new HashMap<String, ExpDefinition>();
 
     EnvironmentExp parentEnvironment;

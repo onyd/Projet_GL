@@ -1,0 +1,12 @@
+// Description:
+//    '=!' instead of '!='
+//
+// Resultats:
+//    ligne 11 : Error, left-hand side of assignment is not an lvalue
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    4 =! 3;
+}

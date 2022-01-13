@@ -1,5 +1,6 @@
 package fr.ensimag.deca;
 
+import fr.ensimag.deca.codegen.ManageCodeGen;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -49,6 +50,21 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+
+        // Initialization of env_types
+        SymbolTable.Symbol voidType = symbolTable.create("void");
+        SymbolTable.Symbol booleanType = symbolTable.create("boolean");
+        SymbolTable.Symbol floatType = symbolTable.create("float");
+        SymbolTable.Symbol intType = symbolTable.create("int");
+        try {
+            env_types.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
+            env_types.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
+            env_types.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
+            env_types.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
+        } catch (EnvironmentType.DoubleDefException e) {
+            // Never happen
+        }
+        this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
     }
 
     /**
@@ -117,9 +133,19 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
+    private EnvironmentType env_types = new EnvironmentType();
+    private ManageCodeGen manageCodeGen;
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
+    }
+
+    public EnvironmentType getEnvironmentType() {
+        return env_types;
+    }
+
+    public ManageCodeGen getManageCodeGen() {
+        return manageCodeGen;
     }
 
     /**
@@ -180,6 +206,8 @@ public class DecacCompiler {
     private boolean doCompile(String sourceName, String destName,
             PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
+
+        // STEP A
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
 
         if (prog == null) {
@@ -193,13 +221,14 @@ public class DecacCompiler {
              System.exit(0);
         }
 
+        // STEP B
         prog.verifyProgram(this);
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
-
         assert(prog.checkAllDecorations());
 
+        // STEP C
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");
@@ -245,6 +274,8 @@ public class DecacCompiler {
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
         parser.setDecacCompiler(this);
+
+        // TODO get SymbolTable from parser
         return parser.parseProgramAndManageErrors(err);
     }
 }

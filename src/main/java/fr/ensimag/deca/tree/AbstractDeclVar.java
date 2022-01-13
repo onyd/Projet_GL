@@ -29,4 +29,10 @@ public abstract class AbstractDeclVar extends Tree {
     protected abstract void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
+
+    /**
+     * generate the code to declare the variable
+     * @param compiler contains addInstructions method
+     */
+    protected abstract void codeGenDeclVar(DecacCompiler compiler);
 }

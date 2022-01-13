@@ -1,14 +1,12 @@
 // Description:
-//   Opération de inversion de un boolean.
-//   Selon les specifications du langane, page 76.
-// Resultats:
-//    Ligne 12: affichage true sur la sortie standard.
+//   Opposite of a boolean.
+// Results:
+//    Line 11: display true on the standard output.
 //
-// Historique:
-//    cree le 07/01/2022
+// History:
+//    created on 07/01/2022
 
 {
-   // Doit etre compile.
-   bool x = false;
-   print(!x);
+   boolean x = false;
+   x = !x;
 }

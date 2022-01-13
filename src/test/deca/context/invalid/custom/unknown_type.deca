@@ -1,0 +1,11 @@
+// Description:
+//    Declare and initialise a variable of an unknown type.
+//
+// Results:
+//    Line 11: error, unknown type declaration.
+// History:
+//    created on 11/01/2022
+
+{
+    newType a = 5;
+}

@@ -1,12 +1,11 @@
 // Description:
-//   réalisation de un ou logique entre true et false;
+//   Or operation between true and false;
 //
-// Resultats:
-//    Ligne 12: res egal a true.
-// Historique:
-//    cree le 01/01/2022
+// Results:
+//    Line 10: res equals true.
+// History:
+//    created on 01/01/2022
 
 {
-   // Doit etre accepte.
    boolean res = true || false;
 }

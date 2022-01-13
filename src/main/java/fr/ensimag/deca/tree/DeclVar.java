@@ -1,12 +1,11 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+
+import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -33,9 +32,25 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        type.verifyType(compiler);
+        if (type.getType().isVoid()) {
+            throw new ContextualError("(3.17) Variable declaration with type void is forbidden", getLocation());
+        }
+        VariableDefinition varDef = new VariableDefinition(type.getType(), this.getLocation());
+        varName.setDefinition(varDef);
+        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
+        try {
+            localEnv.declare(varName.getName(), varName.getExpDefinition());
+        } catch (EnvironmentExp.DoubleDefException e) {
+            throw new ContextualError("(3.17) The identifier is already declared", this.getLocation());
+        }
     }
 
-    
+    @Override
+    protected void codeGenDeclVar(DecacCompiler compiler) {
+        compiler.getManageCodeGen().getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         type.decompile(s);

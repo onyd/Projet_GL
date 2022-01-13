@@ -1,9 +1,13 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 
 /**
  * Conversion of an int into a float. Used for implicit conversions.
@@ -22,6 +26,14 @@ public class ConvFloat extends AbstractUnaryExpr {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        this.getOperand().codeGenExprOnRegister(compiler, register);
+        compiler.addInstruction(new FLOAT(Register.getR(register), Register.getR(register)));
+        if(!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(LabelManager.CAST_ERROR));
+        }
+    }
 
     @Override
     protected String getOperatorName() {

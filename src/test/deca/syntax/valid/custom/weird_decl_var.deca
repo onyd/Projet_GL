@@ -1,0 +1,12 @@
+// Description:
+//    declaration with one single type on the same line
+//
+// Resultats:
+//    OK
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+weird_type i = 3, a = 2.55, f;
+}

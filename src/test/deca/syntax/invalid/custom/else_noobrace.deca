@@ -1,0 +1,8 @@
+{
+if (true){
+    println("string");
+} else
+i = 1;
+}
+
+}

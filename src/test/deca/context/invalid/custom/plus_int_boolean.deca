@@ -1,0 +1,13 @@
+// Description:
+//    Arithmetic operation Plus between a boolean and an integer.
+//
+// Results:
+//    Line 11: error, incompatible operation
+// History:
+//    created on 11/01/2022
+
+{
+    boolean b = false;
+    int x = 5;
+    println(b + x);
+}

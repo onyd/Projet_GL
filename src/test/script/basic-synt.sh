@@ -25,7 +25,7 @@ test_synt_valide () {
         echo "Succès attendu pour test_synt sur $1."
     else
         echo "Echec inattendu de test_synt sur $1."
-        exit 1
+        #exit 1
     fi
 }
 
@@ -33,7 +33,7 @@ test_synt_invalide () {
     if test_synt "$1">fichier 2>&1
     then
         echo "Succès inattendu pour test_synt sur $1."
-        exit 1
+        #exit 1
     else
         echo "Echec attendu de test_synt sur $1."
     fi
@@ -42,7 +42,7 @@ test_synt_invalide () {
 echo "Test invalides fournis :"
 for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
 do
-    test_synt_invalide "$cas_de_test"
+    test_synt_invalide "$cas _de_test"
 done
 
 echo "\nTest valides fournis :"
@@ -63,4 +63,44 @@ do
     test_synt_valide "$cas_de_test"
 done
 
+echo "\nTest valides personnalisés sur le print :"
+for cas_de_test in src/test/deca/syntax/valid/custom/print/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
 
+echo "\nTest valides personnalisés sur le println :"
+for cas_de_test in src/test/deca/syntax/valid/custom/println/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le printx :"
+for cas_de_test in src/test/deca/syntax/valid/custom/printx/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le printlnx :"
+for cas_de_test in src/test/deca/syntax/valid/custom/printlnx/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition if_then_else :"
+for cas_de_test in src/test/deca/syntax/valid/custom/if_then_else/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition while :"
+for cas_de_test in src/test/deca/syntax/valid/custom/while/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le return :"
+for cas_de_test in src/test/deca/syntax/valid/custom/return/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done

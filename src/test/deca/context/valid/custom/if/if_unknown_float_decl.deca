@@ -1,0 +1,16 @@
+// Description:
+//   Test if on a variable of type float that has not been declared.
+// Results:
+//    Line 11: Error, the variable is not initialised.
+//
+// History:
+//    created on 12/01/2022
+
+{
+   float i;
+   if (i == 1.1) {
+        println("Error, the variable is not initialised");
+   } else {
+        println("Error, the variable is not initialised");
+   }
+}
