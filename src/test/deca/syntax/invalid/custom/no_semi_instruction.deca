@@ -1,0 +1,12 @@
+// Description:
+//    instruction without semi at the end;
+//
+// Resultats:
+//    ligne 13: no viable alternative at input '}'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+bonjour
+}

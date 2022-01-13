@@ -1,0 +1,12 @@
+// Description:
+//    '+=' doesn't exist in deca
+//
+// Resultats:
+//    ligne 11 : Error, extraneous input '=' expecting {'false', 'new', 'null', 'readint', 'readfloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    4 += 1;
+}
