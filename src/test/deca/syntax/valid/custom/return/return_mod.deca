@@ -1,0 +1,11 @@
+// Description:
+//   Return with condition mod.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   return a % b == 1;
+}
