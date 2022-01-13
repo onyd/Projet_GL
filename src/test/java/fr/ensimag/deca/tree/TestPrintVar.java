@@ -14,7 +14,7 @@ public class TestPrintVar {
                         new Main(ldecl, linst));
         SymbolTable symb = new SymbolTable();
         Identifier ident = new Identifier(symb.create("x"));
-        ident.setDefinition(new VariableDefinition(new FloatType(symb.create("float")), new Location(1, 1, "test.deca")));
+        ident.setDefinition(new VariableDefinition(new FloatType(symb.create("float")), new Location(1, 1, "primary_expr_nopar.deca")));
         AbstractExpr expr = new FloatLiteral(12.5F);
         expr.setType(new FloatType(symb.create("float")));
         Initialization initialization = new Initialization(expr);
@@ -35,7 +35,7 @@ public class TestPrintVar {
                         new Main(ldecl, linst));
         SymbolTable symb = new SymbolTable();
         Identifier ident = new Identifier(symb.create("x"));
-        ident.setDefinition(new VariableDefinition(new StringType(symb.create("string")), new Location(1, 1, "test.deca")));
+        ident.setDefinition(new VariableDefinition(new StringType(symb.create("string")), new Location(1, 1, "primary_expr_nopar.deca")));
         AbstractExpr expr = new StringLiteral("toto");
         expr.setType(new StringType(symb.create("string")));
         Initialization initialization = new Initialization(expr);
@@ -55,7 +55,7 @@ public class TestPrintVar {
                         new Main(ldecl, linst));
         SymbolTable symb = new SymbolTable();
         Identifier ident = new Identifier(symb.create("x"));
-        ident.setDefinition(new VariableDefinition(new BooleanType(symb.create("boolean")), new Location(1, 1, "test.deca")));
+        ident.setDefinition(new VariableDefinition(new BooleanType(symb.create("boolean")), new Location(1, 1, "primary_expr_nopar.deca")));
         AbstractExpr expr = new BooleanLiteral(true);
         expr.setType(new BooleanType(symb.create("boolean")));
         Initialization initialization = new Initialization(expr);

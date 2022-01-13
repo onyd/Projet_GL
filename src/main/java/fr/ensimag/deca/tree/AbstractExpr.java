@@ -11,9 +11,7 @@ import fr.ensimag.ima.pseudocode.*;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.instructions.BEQ;
-import fr.ensimag.ima.pseudocode.instructions.BNE;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -160,6 +158,27 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param register
      */
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    public void codeGenExprOnRegister(DecacCompiler compiler, int register, boolean isNegated) {
+        Label label = compiler.getManageCodeGen().getLabelManager().getNextLabel("E");
+        Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel("E", "END");
+        compiler.addInstruction(new LOAD(0, Register.getR(register))); // Default expr is evaluated to false
+
+        codeGenBool(compiler, !isNegated, label);
+        compiler.addInstruction(new BRA(endLabel));
+
+        // True result label
+        compiler.addLabel(label);
+        compiler.addInstruction(new LOAD(1, Register.getR(register)));
+
+        // False result label
+        compiler.addLabel(endLabel);
+
+    }
+
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

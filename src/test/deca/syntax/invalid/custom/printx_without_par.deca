@@ -1,0 +1,12 @@
+// Description:
+//    printx instruction without parents
+//
+// Resultats:
+//    ligne 11 : Error, missing '(' at '"a string"'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+printx"a string";
+}

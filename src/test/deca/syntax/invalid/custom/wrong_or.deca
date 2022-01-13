@@ -1,0 +1,12 @@
+// Description:
+//    missing a '|' in '||' token
+//
+// Resultats:
+//    ligne 11 : Error, token recognition error at: '| '
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    true | true;
+}

@@ -1,0 +1,15 @@
+// Description:
+//    println instruction without braces
+//
+// Resultats:
+//    ligne 12 : Error, missing '{' at 'println'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+if (true)
+    println("string");
+}
+
+}

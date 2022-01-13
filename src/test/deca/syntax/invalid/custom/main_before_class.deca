@@ -1,0 +1,18 @@
+// Description:
+//    tests de programme incorrect lexicalement (pas de lvalue à gauche)
+//
+// Resultats:
+//    ligne 10 : Erreur, pas de lvalue à gauche (sur fin de fichier)
+//
+// Historique:
+//    cree le 11/01/2022
+
+
+
+class test (){
+println("ceci est une classe");
+}
+
+{
+println("ceci est le main");
+}

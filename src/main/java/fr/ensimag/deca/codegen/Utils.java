@@ -44,9 +44,9 @@ public class Utils {
         compiler.addInstruction(new ERROR());
     }
 
-    public static void codeGenBool(DecacCompiler compiler, int register, boolean negated, Label label) {
+    public static void codeGenBool(DecacCompiler compiler, int register, boolean negation, Label label) {
         compiler.addInstruction(new CMP(0, Register.getR(register)));
-        if (negated) {
+        if (negation) {
             compiler.addInstruction(new BNE(label));
         } else {
             compiler.addInstruction(new BEQ(label));
