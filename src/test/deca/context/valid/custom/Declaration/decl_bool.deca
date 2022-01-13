@@ -8,5 +8,4 @@
 
 {
    boolean b = true;
-   println(b);
 }

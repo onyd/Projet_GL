@@ -1,0 +1,11 @@
+// Description:
+//   Print condition with a function and plus.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   printx(func(a + c));
+}

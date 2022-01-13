@@ -64,8 +64,7 @@ public class DecacCompiler {
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
-
-        this.manageCodeGen = new ManageCodeGen(this);
+        this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
     }
 
     /**
@@ -227,7 +226,6 @@ public class DecacCompiler {
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
-
         assert(prog.checkAllDecorations());
 
         // STEP C

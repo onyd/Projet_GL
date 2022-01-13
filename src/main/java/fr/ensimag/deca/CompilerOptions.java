@@ -62,7 +62,7 @@ public class CompilerOptions {
     private boolean parseFiles = false;
     private boolean verifyFiles = false;
     private boolean noCheck = false;
-    private int registerNumber = 0;
+    private int registerNumber = 16;
     private boolean registerLimit = false;
 
     public void parseArgs(String[] args) throws CLIException {
@@ -161,7 +161,7 @@ public class CompilerOptions {
                     break;
                 default:
                     File file = new File(arg);
-                    if(!file.exists()) {
+                    if(!file.exists() || !arg.contains(".deca")) {
                         throw new UnsupportedOperationException("Unknown Flags or Incorrect File");
                     }
                     sourceFiles.add(file);

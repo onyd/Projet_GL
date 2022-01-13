@@ -1,0 +1,11 @@
+// Description:
+//   Print with condition object.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   println(a.incr(b) == 1);
+}

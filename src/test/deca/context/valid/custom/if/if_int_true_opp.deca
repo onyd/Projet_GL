@@ -1,0 +1,16 @@
+// Description:
+//   Declaration of an integer and test its value with an if condition.
+// Results:
+//    Line 11: display "Ok" on the standard output because the condition is true.
+//
+// History:
+//    created on 12/01/2022
+
+{
+   int i = 1;
+   if (i != 0) {
+        println("Ok");
+   } else {
+        println("Error because i != 0 is true");
+   }
+}

@@ -1,0 +1,7 @@
+{
+	int x = ReadInt();
+	float y;
+	y = ReadFloat();
+	println("la valeur de x est ", x);
+	println("la valeur de y est ", y);
+}

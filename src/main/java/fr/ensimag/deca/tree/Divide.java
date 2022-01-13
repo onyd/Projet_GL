@@ -4,10 +4,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  *
@@ -26,22 +23,10 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        this.getLeftOperand().codeGenExprOnRegister(compiler, register);
-        DVal dVal = this.getRightOperand().getDVal();
-        if(dVal == null) {
-            int newRegister = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
-            if(newRegister == -1) {
-                compiler.addInstruction(new PUSH(Register.getR(register)));
-                this.getRightOperand().codeGenExprOnRegister(compiler, register);
-                compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
-                compiler.addInstruction(new POP(Register.getR(register)));
-                compiler.addInstruction(new QUO(Register.R0, Register.getR(register)));
-            } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, register + 1);
-                compiler.addInstruction(new QUO(Register.getR(register + 1), Register.getR(register)));
-            }
-        } else {
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
+        if(this.getType().isFloat()) {
+            compiler.addInstruction(new DIV(dVal, Register.getR(register)));
+        } else if(this.getType().isInt()) {
             compiler.addInstruction(new QUO(dVal, Register.getR(register)));
         }
     }

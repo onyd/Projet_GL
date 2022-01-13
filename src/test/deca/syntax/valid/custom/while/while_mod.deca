@@ -1,0 +1,13 @@
+// Description:
+//   While with condition mod.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   while (a % b == 1) {
+        i = i + 1;
+   }
+}

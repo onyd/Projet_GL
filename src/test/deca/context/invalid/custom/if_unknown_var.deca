@@ -1,0 +1,15 @@
+// Description:
+//   Test if on a variable that has not been declared and initialised.
+// Results:
+//    Line 10: Error, the variable is unknown.
+//
+// History:
+//    created on 12/01/2022
+
+{
+   if (i == 1) {
+        println("Error, the variable is unknown");
+   } else {
+        println("Error, the variable is unknown");
+   }
+}
