@@ -15,5 +15,47 @@
 \end{center}
 
 \tableofcontents
+\newpage
+
+\section{Conception Architectural Etape B}
+
+\section{Conception Architectural Etape C}
+
+Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
+permettant de gérer la génération de code.
+
+\subsection{ManageCodeGen}
+
+Cette classe permet d'instancier toutes les classes necessaires dans le package codeGen. Elle permet
+aussi de gérer les classes directement dans un seul fichier. Cette classe est instanciée dans
+DecacCompiler. Cela évite aussi une surcharge du fichier DecacCompiler.
+
+\subsection{RegisterManager}
+
+Cette classe permet de gérer les registres. Elle prends en attributs le nombres de registres utilisés
+(ceux données en paramètres par la commande -r ou 16 sinon). Elle possède aussi un tableau de boolean
+an attributs. Chaque indice de ce tableau correspond à la valeur d'un registre. La valeur du tableau
+à cette indice est à vrai si le registre est utilisé et faux sinon. Cette classe possède aussi des
+méthodes permettant de renvoyer un registre inutilisé ou d'en libérer un.
+
+\subsection{Stack}
+
+Cette classe possède un attributs donnant la hauteur de la pile (par rapport à GB). Elle possède aussi
+de nombreuses méthodes permettant de mettre la valeur d'un registre au sommet de la pile, ou à un
+endroit précis de la pile. Elle possède aussi d'autres méthodes permettant de récupérer une variable
+se situant à une adresse précise dans la pile.
+
+\subsection{LabelManager}
+
+Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle possède aussi
+un attributs spécifiques pour le ifthenelse permettant de renvoyer la même étiquette. C'est utile car
+l'étiquette de fin reste la même pour tout les ifthenelse étant déjà dans un ifthenelse.
+
+\subsection{Utils}
+
+Cette classe regroupe des méthodes statiques utilisées à de nombreux endroits permettant la génération
+de code.
+
+\subsection{Propagation du code}
 
 \end{document}
