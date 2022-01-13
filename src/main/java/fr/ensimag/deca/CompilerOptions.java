@@ -161,7 +161,7 @@ public class CompilerOptions {
                     break;
                 default:
                     File file = new File(arg);
-                    if(!file.exists()) {
+                    if(!file.exists() || !arg.contains(".deca")) {
                         throw new UnsupportedOperationException("Unknown Flags or Incorrect File");
                     }
                     sourceFiles.add(file);
