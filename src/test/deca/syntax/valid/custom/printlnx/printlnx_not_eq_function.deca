@@ -1,0 +1,11 @@
+// Description:
+//   Print condition with a function and not equals condition.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   printlnx(func(a != c));
+}

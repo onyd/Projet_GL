@@ -1,0 +1,11 @@
+// Description:
+//   Return with condition readFloat().
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   return readFloat() == 1.1;
+}
