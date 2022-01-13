@@ -21,6 +21,7 @@ public class RegisterManager {
                 this.occupiedRegister[i] = true;
                 return i;
             }
+            i++;
         }
         return -1;
     }
