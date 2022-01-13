@@ -10,12 +10,10 @@ import java.util.Map;
 
 
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WUTF8;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -218,6 +216,16 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
         compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.getR(register)));
+    }
+
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.R0));
+        compiler.addInstruction(new CMP(0, Register.R0));
+        if (negation) {
+            compiler.addInstruction(new BNE(label));
+        } else {
+            compiler.addInstruction(new BEQ(label));
+        }
     }
 
     @Override
