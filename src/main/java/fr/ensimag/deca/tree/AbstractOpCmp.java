@@ -24,6 +24,19 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Verify that comparison context is respected and decorates the node accordingly
+     * @param compiler  (contains the "env_types" attribute)
+     * @param localEnv
+     *            Environment in which the expression should be checked
+     *            (corresponds to the "env_exp" attribute)
+     * @param currentClass
+     *            Definition of the class containing the expression
+     *            (corresponds to the "class" attribute)
+     *             is null in the main bloc.
+     * @return
+     * @throws ContextualError
+     */
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -38,6 +51,11 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         return getType();
     }
 
+    /**
+     * Generate assembly for comparison expression on the specified register
+     * @param compiler
+     * @param register
+     */
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
         getLeftOperand().codeGenExprOnRegister(compiler, 0);
@@ -46,6 +64,12 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         compiler.addInstruction(getCompInstr(register));
     }
 
+    /**
+     * Generate assembly for inner comparison expression
+     * @param compiler
+     * @param negation should the expression evaluated tu true if negation
+     * @param label the true label
+     */
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
         Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel(getClass().getSimpleName().toUpperCase(), "END");
 
@@ -62,7 +86,18 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         compiler.addLabel(endLabel);
     }
 
+    /**
+     * Return the comparison Instruction used in codeGenExprOnRegister
+     * @param register
+     * @return
+     */
     protected abstract Instruction getCompInstr(int register);
 
+    /**
+     * Return the jump Instruction used in codeGenBool
+     * @param label
+     * @param negation
+     * @return
+     */
     protected abstract Instruction getJumpInstr(Label label, boolean negation);
 }

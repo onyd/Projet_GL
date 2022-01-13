@@ -24,6 +24,19 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
+    /**
+     * Verify that arithmetic context is respected and decorates the node accordingly
+     * @param compiler  (contains the "env_types" attribute)
+     * @param localEnv
+     *            Environment in which the expression should be checked
+     *            (corresponds to the "env_exp" attribute)
+     * @param currentClass
+     *            Definition of the class containing the expression
+     *            (corresponds to the "class" attribute)
+     *             is null in the main bloc.
+     * @return
+     * @throws ContextualError
+     */
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
@@ -44,6 +57,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         return getType();
     }
 
+    /**
+     * Generate assembly for numeric print
+     * @param compiler
+     */
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         codeGenExprOnR1(compiler);
@@ -54,11 +71,17 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         }
     }
 
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
 
     }
 
+    /**
+     * Generate assembly for arithmetic operations
+     * @param compiler
+     * @param register
+     */
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
