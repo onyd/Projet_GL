@@ -28,7 +28,7 @@ public class PlusIntFloatTestContext {
         DecaLexer lex;
 
         System.out.println("Arithmetic operation Plus between a boolean and an integer :");
-        String arg = "src/test/deca/context/invalid/custom/plus_int_float.deca";
+        String arg = "src/test/deca/context/invalid/custom/plus_int_boolean.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
         lex.setSource(new File(arg));
 

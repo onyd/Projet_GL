@@ -47,8 +47,8 @@ do
     test_context_invalide "$cas_de_test"
 done
 
-echo "\nTest valides personnalisés d'affichage :"
-for cas_de_test in src/test/deca/context/valid/custom/affichage/*.deca
+echo "\nTest valides personnalisés de fonctions de bases :"
+for cas_de_test in src/test/deca/context/valid/custom/builtin_function/*.deca
 do
     test_context_valide "$cas_de_test"
 done
@@ -67,6 +67,12 @@ done
 
 echo "\nTest valides personnalisés d'opérations unaires :"
 for cas_de_test in src/test/deca/context/valid/custom/operation-unaire/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition if :"
+for cas_de_test in src/test/deca/context/valid/custom/if/*.deca
 do
     test_context_valide "$cas_de_test"
 done
