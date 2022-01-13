@@ -22,14 +22,7 @@ import java.util.HashMap;
  * @date 01/01/2022
  **/
 public class EnvironmentType {
-    HashMap<String, TypeDefinition> currentExp = new HashMap<String, TypeDefinition>();
-
-    EnvironmentType parentEnvironment;
-
-    public EnvironmentType(EnvironmentType parentEnvironment) {
-        this.parentEnvironment = parentEnvironment;
-    }
-
+    HashMap<String, TypeDefinition> typeDefs = new HashMap<>();
 
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
@@ -40,14 +33,7 @@ public class EnvironmentType {
      * symbol is undefined.
      */
     public TypeDefinition get(SymbolTable.Symbol key) {
-        TypeDefinition def = currentExp.get(key.getName());
-        if (def == null){
-            if (parentEnvironment != null){
-                return this.parentEnvironment.get(key);
-            }
-            return null;
-        }
-        return def;
+        return typeDefs.get(key.getName());
     }
 
     /**
@@ -66,10 +52,11 @@ public class EnvironmentType {
      *
      */
     public void declare(SymbolTable.Symbol name, TypeDefinition def) throws DoubleDefException {
-        if (this.currentExp.containsKey(name.getName())){
+        if (this.typeDefs.containsKey(name.getName())){
             throw new DoubleDefException();
         }
-        this.currentExp.put(name.getName(), def);
+        this.typeDefs.put(name.getName(), def);
 
     }
+
 }

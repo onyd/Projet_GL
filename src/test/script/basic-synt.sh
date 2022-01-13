@@ -19,29 +19,88 @@ cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:"$PATH"
 
-# exemple de définition d'une fonction
-test_synt_invalide () {
-    # $1 = premier argument.
-    if test_synt "$1" 2>&1 | grep -q -e "$1:[0-9][0-9]*:"
+test_synt_valide () {
+    if test_synt "$1">fichier 2>&1
     then
-        echo "Echec attendu pour test_synt sur $1."
+        echo "Succès attendu pour test_synt sur $1."
     else
-        echo "Succes inattendu de test_synt sur $1."
-        exit 1
+        echo "Echec inattendu de test_synt sur $1."
+        #exit 1
     fi
-}    
+}
 
+test_synt_invalide () {
+    if test_synt "$1">fichier 2>&1
+    then
+        echo "Succès inattendu pour test_synt sur $1."
+        #exit 1
+    else
+        echo "Echec attendu de test_synt sur $1."
+    fi
+}
+
+echo "Test invalides fournis :"
 for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
+do
+    test_synt_invalide "$cas _de_test"
+done
+
+echo "\nTest valides fournis :"
+for cas_de_test in src/test/deca/syntax/valid/provided/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest invalides personnalisés :"
+for cas_de_test in src/test/deca/syntax/invalid/custom/*.deca
 do
     test_synt_invalide "$cas_de_test"
 done
 
+echo "\nTest valides personnalisés :"
+for cas_de_test in src/test/deca/syntax/valid/custom/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
 
-if test_synt src/test/deca/syntax/valid/hello.deca 2>&1 | \
-    grep -q -e ':[0-9][0-9]*:'
-then
-    echo "Echec inattendu pour test_synt"
-    exit 1
-else
-    echo "Succes attendu de test_synt"
-fi
+echo "\nTest valides personnalisés sur le print :"
+for cas_de_test in src/test/deca/syntax/valid/custom/print/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le println :"
+for cas_de_test in src/test/deca/syntax/valid/custom/println/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le printx :"
+for cas_de_test in src/test/deca/syntax/valid/custom/printx/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le printlnx :"
+for cas_de_test in src/test/deca/syntax/valid/custom/printlnx/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition if_then_else :"
+for cas_de_test in src/test/deca/syntax/valid/custom/if_then_else/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition while :"
+for cas_de_test in src/test/deca/syntax/valid/custom/while/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur le return :"
+for cas_de_test in src/test/deca/syntax/valid/custom/return/*.deca
+do
+    test_synt_valide "$cas_de_test"
+done

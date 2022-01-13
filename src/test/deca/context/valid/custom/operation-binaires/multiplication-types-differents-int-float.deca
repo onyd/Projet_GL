@@ -1,0 +1,12 @@
+// Description:
+//  Multiplication between an integer and a float.
+// Results:
+//    Line 10: display 4.6 on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   // Doit etre accepte.
+   print(2 * 2.3);
+}

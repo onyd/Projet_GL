@@ -8,6 +8,10 @@ options {
    superClass = AbstractDecaLexer;
 }
 
+@header {
+    import static java.lang.Integer.parseInt;
+}
+
 @members {
 }
 
@@ -26,8 +30,8 @@ IF: 'if';
 INSTANCEOF: 'instanceof';
 NEW: 'new';
 NULL: 'null';
-READINT: 'readint';
-READFLOAT: 'readfloat';
+READINT: 'ReadInt';
+READFLOAT: 'ReadFloat';
 PRINT: 'print';
 PRINTLN: 'println';
 PRINTLNX: 'printlnx';
@@ -40,7 +44,7 @@ WHILE: 'while';
 
 //Identificateurs
 
-LETTER: 'a'..'z'|'A'..'Z';
+fragment LETTER: 'a'..'z'|'A'..'Z';
 fragment DIGIT: '0'..'9' ;
 IDENT: (LETTER|'$'|'_')(LETTER|DIGIT|'$'|'_')*;
 EOL: ('\n') { skip(); };
@@ -73,27 +77,38 @@ OR: '||';
 // Litteraux entiers
 
 fragment POSITIVE_DIGIT: '1'..'9';
-INT: '0'| POSITIVE_DIGIT DIGIT*;
+INT: '0'| POSITIVE_DIGIT DIGIT* {
+try {
+    parseInt(getText());
+ }
+ catch (NumberFormatException e) {
+    System.out.println("The number is too large, it must be a positive signed integer on 32 bits");
+    System.exit(1);
+ }
+ };
 
 // Litteraux flottants
 
-NUM: DIGIT+;
+fragment NUM: DIGIT+;
 fragment SIGN: '+'|'-'|;
-EXP: ('E'|'e') SIGN NUM;
-DEC: NUM '.' NUM;
-FLOATDEC: (DEC|DEC EXP)('F'|'f'|);
-DIGITHEX: '0'..'9'|'A'..'F'|'a'..'f';
-NUMHEX: DIGITHEX+;
-FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
+fragment EXP: ('E'|'e') SIGN NUM;
+fragment DEC: NUM '.' NUM;
+fragment FLOATDEC: (DEC|DEC EXP)('F'|'f'|);
+fragment DIGITHEX: '0'..'9'|'A'..'F'|'a'..'f';
+fragment NUMHEX: DIGITHEX+;
+fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | 'f'|);
 FLOAT: FLOATDEC|FLOATHEX;
 
 
 fragment STRING_CAR: ~('"' | '\\' | '\n' | '\t');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
+
 COMMENT: '/*' .*? '*/'{ skip(); };
 SINGLE_COMMENT: '//' .*? (EOL | EOF){ skip(); };
-SEPARATOR: (SPACE | '\t' | '\n' | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
+
+SEPARATOR: (SPACE | '\t' | EOL | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 SPACE : (' ' | '\t') { skip(); };
-FILENAME: (LETTER + DIGIT + '.' + '-' + '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"';
+
+fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
+INCLUDE: '#include' (' ')* '"' FILENAME '"' { doInclude(getText()); };

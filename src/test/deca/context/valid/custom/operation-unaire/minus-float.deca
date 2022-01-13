@@ -1,0 +1,12 @@
+// Description:
+//   Change the sign of a positive float.
+// Results:
+//    Line 11: display -5.7 on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   float x = 5;
+   println(-x);
+}

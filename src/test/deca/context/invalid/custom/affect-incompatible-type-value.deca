@@ -1,0 +1,12 @@
+// Description:
+//    Affectation of an incompatible value
+//
+// Results:
+//    Line 11: error, affectation of a float on a int variable
+// Note : the reciprocal is accepted.
+// History:
+//    created on 01/01/2022
+
+{
+    int a = 1.2;
+}

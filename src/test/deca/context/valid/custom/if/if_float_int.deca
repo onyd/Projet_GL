@@ -1,0 +1,17 @@
+// Description:
+//   Declaration of an integer and a float, and test if both are equals or not.
+// Results:
+//    Line 11: display "Ok" on the standard output because the condition is false.
+//
+// History:
+//    created on 12/01/2022
+
+{
+   int i = 1;
+   float j = 4.1;
+   if (i == j) {
+        println("Error because i == j is false");
+   } else {
+        println("Ok");
+   }
+}

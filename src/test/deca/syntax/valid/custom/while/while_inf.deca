@@ -1,0 +1,13 @@
+// Description:
+//   While with condition <.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   while (a < b) {
+        i = i + 1;
+   }
+}

@@ -1,0 +1,13 @@
+// Description:
+//    an instruction is before a declaration
+//
+// Resultats:
+//    ligne 10 : Error, no viable alternative at input 'i'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+println("ceci est une instruction");
+int i;
+}

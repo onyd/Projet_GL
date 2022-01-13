@@ -1,0 +1,12 @@
+// Description:
+//    declaration of two variables of different type in the same line
+//
+// Resultats:
+//    ligne 11: missing ';' at 'e'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+int i = 3, float e = 3.4;
+}

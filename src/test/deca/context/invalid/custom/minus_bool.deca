@@ -1,0 +1,12 @@
+// Description:
+//    Unary operation Minus on a boolean.
+//
+// Results:
+//    Line 11: error, incompatible operation.
+// History:
+//    created on 11/01/2022
+
+{
+    boolean b = false;
+    boolean ans = - b;
+}

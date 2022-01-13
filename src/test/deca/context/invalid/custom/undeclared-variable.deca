@@ -1,0 +1,13 @@
+// Description:
+//    Use a variable that has never been declared and initialised.
+//
+// Results:
+//    Line 13: error because b has not been declared.
+//
+// History:
+//    created on 01/01/2022
+
+{
+    int a = 5;
+    println(a+b);
+}

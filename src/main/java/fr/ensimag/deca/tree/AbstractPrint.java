@@ -62,10 +62,16 @@ public abstract class AbstractPrint extends AbstractInst {
         }else{
             s.print("print" + getSuffix() + "(");
         }
+        boolean first = true;
         for (AbstractExpr expr : arguments.getList()) {
-            s.print(expr.decompile() + ",");
+            if(first) {
+                s.print(expr.decompile());
+                first = false;
+            } else {
+                s.print("," + expr.decompile());
+            }
         }
-        s.print(")");
+        s.print(");");
     }
 
     @Override

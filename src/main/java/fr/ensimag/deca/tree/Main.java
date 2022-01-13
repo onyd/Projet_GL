@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
@@ -29,14 +30,15 @@ public class Main extends AbstractMain {
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
         LOG.debug("verify Main: end");
-        this.declVariables.verifyListDeclVariable(compiler, null, null);
-        this.insts.verifyListInst(compiler, null, null, new VoidType(compiler.getSymbolTable().create("Main")));
+        EnvironmentExp env_exp = new EnvironmentExp(null);
+        this.declVariables.verifyListDeclVariable(compiler, env_exp, null);
+        this.insts.verifyListInst(compiler, env_exp, null, new VoidType(compiler.getSymbolTable().create("void")));
     }
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
-        // A FAIRE: traiter les déclarations de variables.
         compiler.addComment("Beginning of main instructions:");
+        this.declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
     

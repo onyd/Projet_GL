@@ -6,6 +6,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.instructions.RINT;
+
 import java.io.PrintStream;
 
 /**
@@ -14,13 +17,23 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class ReadInt extends AbstractReadExpr {
+    @Override
+    public boolean isReadInt() {
+        return true;
+    }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type type = compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType();
+        setType(type);
+        return getType();
     }
 
+    @Override
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
+        compiler.addInstruction(new RINT());
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
