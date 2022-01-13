@@ -64,8 +64,8 @@ public class DecacCompiler {
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
-
-        this.manageCodeGen = new ManageCodeGen(this);
+        System.out.println(this.compilerOptions.getRegisterNumber());
+        this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
     }
 
     /**

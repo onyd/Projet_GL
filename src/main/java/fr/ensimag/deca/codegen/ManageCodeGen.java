@@ -8,10 +8,10 @@ public class ManageCodeGen {
     private LabelManager labelManager;
     private DecacCompiler decacCompiler;
 
-    public ManageCodeGen(DecacCompiler decacCompiler) {
+    public ManageCodeGen(DecacCompiler decacCompiler, int nbRegister) {
         this.decacCompiler = decacCompiler;
         this.stack = new Stack(decacCompiler);
-        this.registerManager = new RegisterManager(16);
+        this.registerManager = new RegisterManager(nbRegister);
         this.labelManager = new LabelManager();
     }
 
