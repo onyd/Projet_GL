@@ -32,6 +32,16 @@ public class Utils {
         compiler.addInstruction(new WSTR("Error: Input / Output error"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
+
+        compiler.addLabel(new Label("div_error"));
+        compiler.addInstruction(new WSTR("Error: Division by zero"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+
+        compiler.addLabel(new Label("cast_error"));
+        compiler.addInstruction(new WSTR("Error: Impossible cast"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
     }
 
     public static void codeGenBool(DecacCompiler compiler, int register, boolean negated, Label label) {

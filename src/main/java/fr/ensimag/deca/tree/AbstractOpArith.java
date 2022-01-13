@@ -10,6 +10,8 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
+import java.util.Objects;
+
 /**
  * Arithmetic binary operations (+, -, /, ...)
  * 
@@ -69,16 +71,34 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
                 compiler.addInstruction(new POP(Register.getR(register)));
                 this.codeMnemo(compiler, Register.R0, register);
-                compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+                if(!compiler.getCompilerOptions().getNoCheck()) {
+                    if(Objects.equals(this.getOperatorName(), "/")) {
+                        compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
+                    } else {
+                        compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+                    }
+                }
             } else {
                 this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
                 this.codeMnemo(compiler, Register.getR(newRegister), register);
-                compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+                if(!compiler.getCompilerOptions().getNoCheck()) {
+                    if(Objects.equals(this.getOperatorName(), "/")) {
+                        compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
+                    } else {
+                        compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+                    }
+                }
                 compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             this.codeMnemo(compiler, dVal, register);
-            compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+            if(!compiler.getCompilerOptions().getNoCheck()) {
+                if(Objects.equals(this.getOperatorName(), "/")) {
+                    compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
+                } else {
+                    compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
+                }
+            }
         }
     }
 }

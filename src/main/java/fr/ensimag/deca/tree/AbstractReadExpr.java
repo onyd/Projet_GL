@@ -20,12 +20,16 @@ public abstract class AbstractReadExpr extends AbstractExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         this.codeMnemo(compiler, null, 0);
-        compiler.addInstruction(new BOV(LabelManager.IO_ERROR));
+        if(!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(LabelManager.IO_ERROR));
+        }
     }
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
         this.codeMnemo(compiler, null, 0);
-        compiler.addInstruction(new BOV(LabelManager.IO_ERROR));
+        if(!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(LabelManager.IO_ERROR));
+        }
     }
 }

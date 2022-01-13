@@ -47,7 +47,9 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
     void codeGenListDeclVariable(DecacCompiler compiler) {
         compiler.addComment("Verify if we can add all the variable in the stack");
         compiler.addInstruction(new TSTO(this.getList().size()));
-        compiler.addInstruction(new BOV(LabelManager.STACK_OVERFLOW_ERROR));
+        if(!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(LabelManager.STACK_OVERFLOW_ERROR));
+        }
         compiler.addComment("Beginning of the variable declaration");
         for(AbstractDeclVar declVar : this.getList()) {
             declVar.codeGenDeclVar(compiler);

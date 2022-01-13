@@ -12,7 +12,9 @@ public class LabelManager {
 
     public static final Label STACK_OVERFLOW_ERROR = new Label("stack_overflow_error"),
             OVERFLOW_ERROR = new Label("overflow_error"),
-            IO_ERROR = new Label("io_error");
+            IO_ERROR = new Label("io_error"),
+            DIV_ERROR = new Label("div_error"),
+            CAST_ERROR = new Label("cast_error");
 
     /**
      * tells if we are already in an if else condition (used by an else)
