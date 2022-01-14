@@ -10,4 +10,5 @@
    float f = 5.1;
    int e = 1;
    float ans = e + f;
+   print(ans);
 }
