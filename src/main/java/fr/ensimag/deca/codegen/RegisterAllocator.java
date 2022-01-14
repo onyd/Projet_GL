@@ -32,11 +32,13 @@ public class RegisterAllocator {
             if (registerNumber == -1) {
                 compiler.addInstruction(new PUSH(Register.getR(i)));
                 toRestore.addFirst(i);
+                register.setNumber(i);
                 i++;
             } else {
                 toRelease.add(registerNumber);
+                register.setNumber(registerNumber);
             }
-            register.setNumber(registerNumber);
+
         }
     }
 
