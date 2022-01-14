@@ -1,0 +1,14 @@
+// Description:
+//   Declaration of a float and an int and add them.
+// Results:
+//    Line 11: display a float on the standard output.
+//
+// History:
+//    created on 11/01/2022
+
+{
+   float f = 5.1;
+   int e = 1;
+   float ans = f + e;
+   print(ans);
+}

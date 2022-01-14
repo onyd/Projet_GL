@@ -32,17 +32,21 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
 
         if (leftType.isInt() && rightType.isInt()) {
-            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType());
+            setType(compiler.getEnvironmentType().get(compiler.INT_SYMBOL).getType());
         } else if (leftType.isInt() && rightType.isFloat()){
-            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
-
+            setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
+            ConvFloat newLeftOperand = new ConvFloat(getLeftOperand());
+            setLeftOperand(newLeftOperand);
+            newLeftOperand.verifyExpr(compiler, localEnv, currentClass);
         } else if (leftType.isFloat() && rightType.isInt()) {
-            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
-
+            setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
+            ConvFloat newRightOperand = new ConvFloat(getRightOperand());
+            setRightOperand(newRightOperand);
+            newRightOperand.verifyExpr(compiler, localEnv, currentClass);
         } else if (leftType.isFloat() && leftType.isFloat()) {
-            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+            setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
         } else {
-            throw new ContextualError("Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
+            throw new ContextualError("(3.33) Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
         }
         return getType();
     }

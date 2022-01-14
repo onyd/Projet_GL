@@ -1,0 +1,12 @@
+// Description:
+//   Declaration of a float and assign an int.
+// Results:
+//    Line 11: display a float on the standard output.
+//
+// History:
+//    created on 11/01/2022
+
+{
+   float x = 5;
+   print(x);
+}

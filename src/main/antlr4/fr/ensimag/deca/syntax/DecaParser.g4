@@ -35,12 +35,6 @@ options {
     protected AbstractProgram parseProgram() {
         return prog().tree;
     }
-
-    public SymbolTable getSymbolTable() {
-        return table;
-    }
-
-    SymbolTable table = new SymbolTable();
 }
 
 prog returns[AbstractProgram tree]
@@ -216,7 +210,6 @@ assign_expr returns[AbstractExpr tree]
     : e=or_expr
          {
             assert($e.tree != null);
-            $tree = $e.tree;
         }
         (EQUALS e2=assign_expr {
             assert($e.tree != null);
@@ -470,7 +463,7 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
-            $tree = new Identifier(table.create($IDENT.text));
+            $tree = new Identifier(getDecacCompiler().getSymbolTable().create($IDENT.text));
             setLocation($tree, $IDENT);
         }
     ;

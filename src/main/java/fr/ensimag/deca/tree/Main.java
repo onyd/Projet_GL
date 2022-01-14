@@ -29,16 +29,17 @@ public class Main extends AbstractMain {
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
+        EnvironmentExp envExp = new EnvironmentExp(null);
+        this.declVariables.verifyListDeclVariable(compiler, envExp, null);
+        this.insts.verifyListInst(compiler, envExp, null, compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType());
         LOG.debug("verify Main: end");
-        EnvironmentExp env_exp = new EnvironmentExp(null);
-        this.declVariables.verifyListDeclVariable(compiler, env_exp, null);
-        this.insts.verifyListInst(compiler, env_exp, null, new VoidType(compiler.getSymbolTable().create("void")));
+
     }
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         compiler.addComment("Beginning of main instructions:");
-        this.declVariables.codeGenListDeclVariable(compiler);
+        declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
     

@@ -50,6 +50,16 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
+
+        // Initialization of env_types
+        try {
+            envTypes.declare(VOID_SYMBOL, new TypeDefinition(new VoidType(VOID_SYMBOL), Location.BUILTIN));
+            envTypes.declare(BOOLEAN_SYMBOL, new TypeDefinition(new BooleanType(BOOLEAN_SYMBOL), Location.BUILTIN));
+            envTypes.declare(FLOAT_SYMBOL, new TypeDefinition(new FloatType(FLOAT_SYMBOL), Location.BUILTIN));
+            envTypes.declare(INT_SYMBOL, new TypeDefinition(new IntType(INT_SYMBOL), Location.BUILTIN));
+        } catch (EnvironmentType.DoubleDefException e) {
+            // Never happen
+        }
     }
 
     /**
@@ -127,8 +137,12 @@ public class DecacCompiler {
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
     private EnvironmentType envTypes = new EnvironmentType();
-    private EnvironmentExp envExp = new EnvironmentExp(null);
     private ManageCodeGen manageCodeGen;
+
+    public SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
+            BOOLEAN_SYMBOL = symbolTable.create("boolean"),
+            FLOAT_SYMBOL = symbolTable.create("float"),
+            INT_SYMBOL = symbolTable.create("int");
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
@@ -269,23 +283,8 @@ public class DecacCompiler {
         DecaParser parser = new DecaParser(tokens);
         parser.setDecacCompiler(this);
 
-        symbolTable = parser.getSymbolTable();
-
-        // Initialization of envTypes
-        SymbolTable.Symbol voidType = symbolTable.create("void");
-        SymbolTable.Symbol booleanType = symbolTable.create("boolean");
-        SymbolTable.Symbol floatType = symbolTable.create("float");
-        SymbolTable.Symbol intType = symbolTable.create("int");
-        SymbolTable.Symbol objectType = symbolTable.create("Object");
-        try {
-            envTypes.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
-            envTypes.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
-            envTypes.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
-            envTypes.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
-        } catch (EnvironmentType.DoubleDefException e) {
-            // Never happen
-        }
-
         return parser.parseProgramAndManageErrors(err);
     }
+
+
 }

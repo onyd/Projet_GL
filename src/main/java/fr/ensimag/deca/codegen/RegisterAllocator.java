@@ -14,6 +14,7 @@ import java.util.*;
  */
 public class RegisterAllocator {
     private Set<VirtualRegister> registers;
+    private LinkedList<Integer> toRelease = new LinkedList<>();
     private LinkedList<Integer> toRestore = new LinkedList<>();
 
     public RegisterAllocator() {
@@ -30,16 +31,22 @@ public class RegisterAllocator {
             int registerNumber = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
             if (registerNumber == -1) {
                 compiler.addInstruction(new PUSH(Register.getR(i)));
-                toRestore.add(i);
+                toRestore.addFirst(i);
+                register.setNumber(i);
                 i++;
+            } else {
+                toRelease.add(registerNumber);
+                register.setNumber(registerNumber);
             }
-            register.setNumber(registerNumber);
+
         }
     }
 
     public void restoreFromStack(DecacCompiler compiler) {
         for (Integer registerNumber : toRestore) {
             compiler.addInstruction(new POP(Register.getR(registerNumber)));
+        }
+        for(Integer registerNumber : toRelease) {
             compiler.getManageCodeGen().getRegisterManager().releaseRegister(registerNumber);
         }
     }
