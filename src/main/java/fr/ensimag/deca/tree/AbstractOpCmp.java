@@ -32,7 +32,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         if ((leftType.isInt() || leftType.isFloat()) && (rightType.isInt() || rightType.isFloat())) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType());
         } else {
-            throw new ContextualError("Comparison operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
+            throw new ContextualError("(3.33) Comparison operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
         }
         return getType();
     }

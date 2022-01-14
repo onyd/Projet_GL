@@ -28,7 +28,7 @@ public class ConvFloat extends AbstractUnaryExpr {
         if (currentClass.getType().isFloat()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
         } else {
-            throw new ContextualError("Conversion operation: " + getOperatorName() + " only accept the conversion of an int into a float", getLocation());
+            throw new ContextualError("(3.37) Conversion operation: " + getOperatorName() + " only accept the conversion of an int into a float", getLocation());
         }
         return currentClass.getType();
     }

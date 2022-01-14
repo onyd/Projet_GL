@@ -1,0 +1,11 @@
+// Description:
+//   Empty with semi.
+// Results:
+//    Line 11: display an integer on the standard output.
+//
+// History:
+//    created on 11/01/2022
+
+{
+   ;
+}

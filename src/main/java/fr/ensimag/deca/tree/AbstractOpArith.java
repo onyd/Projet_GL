@@ -44,7 +44,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         } else if (leftType.isFloat() && leftType.isFloat()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
         } else {
-            throw new ContextualError("Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
+            throw new ContextualError("(3.33) Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
         }
         return getType();
     }

@@ -32,7 +32,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType());
             // TODO boolean binary check for objects
         } else {
-            throw new ContextualError("Boolean operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
+            throw new ContextualError("(3.33) Boolean operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
         }
         return getType();
     }
