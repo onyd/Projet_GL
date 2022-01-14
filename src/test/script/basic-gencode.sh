@@ -14,23 +14,25 @@ PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
 
 # On ne teste qu'un fichier. Avec une boucle for appropriée, on
 # pourrait faire bien mieux ...
-rm -f ./src/test/deca/codegen/valid/provided/cond0.ass 2>/dev/null
-decac ./src/test/deca/codegen/valid/provided/cond0.deca || exit 1
-if [ ! -f ./src/test/deca/codegen/valid/provided/cond0.ass ]; then
-    echo "Fichier cond0.ass non généré."
+rm -f ./src/test/deca/codegen/valid/provided/ecrit0.ass 2>/dev/null
+decac ./src/test/deca/codegen/valid/provided/ecrit0.deca || exit 1
+if [ ! -f ./src/test/deca/codegen/valid/provided/ecrit0.ass ]; then
+    echo "Fichier ecrit0.ass non généré."
     exit 1
 fi
 
-resultat=$(ima ./src/test/deca/codegen/valid/provided/cond0.ass) || exit 1
-rm -f ./src/test/deca/codegen/valid/provided/cond0.ass
+resultat=$(ima ./src/test/deca/codegen/valid/provided/ecrit0.ass) || exit 1
+rm -f ./src/test/deca/codegen/valid/provided/ecrit0.ass
 
 # On code en dur la valeur attendue.
-attendu=ok
+attendu='ok\nok'
+echo "${#attendu}"
+echo "$attendu"
 
 if [ "$resultat" = "$attendu" ]; then
     echo "Tout va bien"
 else
     echo "Résultat inattendu de ima:"
-    echo "$resultat"
+    echo `expr substr $resultat 5`
     exit 1
 fi
