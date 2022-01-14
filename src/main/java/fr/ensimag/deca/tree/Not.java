@@ -40,7 +40,7 @@ public class Not extends AbstractUnaryExpr {
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        getOperand().codeGenBool(compiler, !negation, label);
+        getOperand().codeGenBool(compiler, negation, label);
     }
 
     @Override
