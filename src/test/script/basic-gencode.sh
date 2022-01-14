@@ -25,8 +25,7 @@ resultat=$(ima ./src/test/deca/codegen/valid/provided/ecrit0.ass) || exit 1
 rm -f ./src/test/deca/codegen/valid/provided/ecrit0.ass
 
 # On code en dur la valeur attendue.
-attendu='ok\nok'
-echo "${#attendu}"
+attendu=$'ok\nok'
 echo "$attendu"
 
 if [ "$resultat" = "$attendu" ]; then
