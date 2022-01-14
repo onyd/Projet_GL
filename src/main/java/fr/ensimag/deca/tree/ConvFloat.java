@@ -25,7 +25,7 @@ public class ConvFloat extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError{
-        setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+        setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
         return getType();
     }
 
