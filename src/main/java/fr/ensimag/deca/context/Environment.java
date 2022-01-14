@@ -1,13 +1,13 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 import java.util.HashMap;
 
 /**
- * Dictionary associating identifier's TypeDefinition to their names.
+ * Dictionary associating identifier's ExpDefinition to their names.
  *
- * This is actually a linked list of dictionaries: each EnvironmentType has a
+ * This is actually a linked list of dictionaries: each EnvironmentExp has a
  * pointer to a parentEnvironment, corresponding to superblock (eg superclass).
  *
  * The dictionary at the head of this list thus corresponds to the "current"
@@ -20,17 +20,19 @@ import java.util.HashMap;
  *
  * @author gl28
  * @date 01/01/2022
- **/
-public class EnvironmentType implements Environment<TypeDefinition> {
-    HashMap<String, TypeDefinition> typeDefs = new HashMap<>();
+ */
+public interface Environment<T extends Definition> {
+    HashMap<String, ExpDefinition> currentExp = new HashMap<String, ExpDefinition>();
+
+    public static class DoubleDefException extends Exception {
+        private static final long serialVersionUID = -2733379901827316441L;
+    }
 
     /**
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public TypeDefinition get(SymbolTable.Symbol key) {
-        return typeDefs.get(key.getName());
-    }
+    public T get(Symbol key);
 
     /**
      * Add the definition def associated to the symbol name in the environment.
@@ -47,12 +49,6 @@ public class EnvironmentType implements Environment<TypeDefinition> {
      *             if the symbol is already defined at the "current" dictionary
      *
      */
-    public void declare(SymbolTable.Symbol name, TypeDefinition def) throws DoubleDefException {
-        if (this.typeDefs.containsKey(name.getName())){
-            throw new DoubleDefException();
-        }
-        this.typeDefs.put(name.getName(), def);
-
-    }
+    public void declare(Symbol name, T def) throws DoubleDefException;
 
 }

@@ -141,6 +141,7 @@ public class DecacCompiler {
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
     private EnvironmentType envTypes = new EnvironmentType();
+    private EnvironmentExp envExp = new EnvironmentExp(null);
     private ManageCodeGen manageCodeGen;
 
     public SymbolTable getSymbolTable() {

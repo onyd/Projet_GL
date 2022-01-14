@@ -21,18 +21,13 @@ import java.util.HashMap;
  * @author gl28
  * @date 01/01/2022
  */
-public class EnvironmentExp {
+public class EnvironmentExp implements Environment<ExpDefinition> {
     HashMap<String, ExpDefinition> currentExp = new HashMap<String, ExpDefinition>();
 
     EnvironmentExp parentEnvironment;
     
     public EnvironmentExp(EnvironmentExp parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
-    }
-
-
-    public static class DoubleDefException extends Exception {
-        private static final long serialVersionUID = -2733379901827316441L;
     }
 
     /**
