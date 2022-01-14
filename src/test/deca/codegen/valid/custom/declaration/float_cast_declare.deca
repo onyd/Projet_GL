@@ -1,0 +1,4 @@
+{
+    float y = 2.7 + 4;
+    println(y);
+}

@@ -1,0 +1,6 @@
+{
+    boolean x = true;
+    boolean y = false;
+    println(x);
+    println(y);
+}
