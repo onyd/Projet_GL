@@ -43,13 +43,6 @@ options {
     SymbolTable table = new SymbolTable();
 }
 
-@init {
-        symbolTable.create("void");
-        symbolTable.create("boolean");
-        floatType = symbolTable.create("float");
-        intType = symbolTable.create("int");
-}
-
 prog returns[AbstractProgram tree]
     : list_classes main EOF {
             assert($list_classes.tree != null);

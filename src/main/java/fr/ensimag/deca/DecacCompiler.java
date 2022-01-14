@@ -267,7 +267,12 @@ public class DecacCompiler {
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
         parser.setDecacCompiler(this);
+        initPreDefinition(parser);
 
+        return parser.parseProgramAndManageErrors(err);
+    }
+
+    public void initPreDefinition(DecaParser parser) {
         symbolTable = parser.getSymbolTable();
 
         // Initialization of env_types
@@ -283,7 +288,5 @@ public class DecacCompiler {
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
-
-        return parser.parseProgramAndManageErrors(err);
     }
 }
