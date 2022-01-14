@@ -2,5 +2,6 @@
     int x = 0;
     int y = 3;
     int z = 6;
-    boolean a = (x<3) && (z>y || y>0) && (y>z || y>0)
+    boolean a = (x<3) && (z>y || y>0) && (y>z || y>0);
+    println(a);
 }

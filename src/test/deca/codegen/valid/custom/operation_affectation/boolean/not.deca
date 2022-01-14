@@ -1,4 +1,5 @@
 {
     float x = true;
     x = !x;
+    println(x);
 }
