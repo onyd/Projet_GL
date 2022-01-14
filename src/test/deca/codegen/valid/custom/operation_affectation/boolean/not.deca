@@ -1,5 +1,7 @@
 {
-    float x = false;
+    boolean x = false;
     x = !x;
-    println(x);
+    if(x) {
+        println("true");
+    }
 }
