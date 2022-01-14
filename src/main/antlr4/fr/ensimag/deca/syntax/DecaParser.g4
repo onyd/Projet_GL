@@ -380,6 +380,8 @@ select_expr returns[AbstractExpr tree]
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
             assert($i.tree != null);
+            //$tree = $e1.tree;
+            //setLocation($tree, $e1.start);
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
@@ -455,9 +457,11 @@ literal returns[AbstractExpr tree] // à completer lors de la partie objet
         }
     | THIS {
             //$tree = $THIS.text;
+            setLocation($tree, $THIS);
         }
     | NULL {
             //$tree = $NULL.text;
+            setLocation($tree, $NULL);
         }
     ;
 
@@ -476,17 +480,21 @@ list_classes returns[ListDeclClass tree]
 }
     :
       (c1=class_decl {
+        //$tree.add($c1.text);
         }
       )*
     ;
 
 class_decl
     : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
+        //new DeclClass();
         }
     ;
 
 class_extension returns[AbstractIdentifier tree]
     : EXTENDS ident {
+        $tree = $ident.tree;
+        setLocation($tree, $EXTENDS);
         }
     | /* epsilon */ {
         }
