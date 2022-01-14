@@ -96,7 +96,9 @@ public abstract class AbstractExpr extends AbstractInst {
         verifyExpr(compiler, localEnv, currentClass);
         if (expectedType.sameType(getType())) {
         } else if (getType().isInt() && expectedType.isFloat()) {
-            // TODO numeric cast ?
+            ConvFloat newExpr = new ConvFloat(this);
+            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+            return newExpr;
         } else {
             getType().asClassType("(3.28) expression type is not compatible", getLocation());
         }
