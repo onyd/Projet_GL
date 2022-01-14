@@ -9,7 +9,6 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.deca.tree.Program;
 import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Instruction;
@@ -57,10 +56,10 @@ public class DecacCompiler {
         SymbolTable.Symbol floatType = symbolTable.create("float");
         SymbolTable.Symbol intType = symbolTable.create("int");
         try {
-            env_types.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
-            env_types.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
-            env_types.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
-            env_types.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
+            envTypes.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
+            envTypes.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
+            envTypes.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
+            envTypes.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
@@ -141,7 +140,7 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
-    private EnvironmentType env_types = new EnvironmentType();
+    private EnvironmentType envTypes = new EnvironmentType();
     private ManageCodeGen manageCodeGen;
 
     public SymbolTable getSymbolTable() {
@@ -149,7 +148,7 @@ public class DecacCompiler {
     }
 
     public EnvironmentType getEnvironmentType() {
-        return env_types;
+        return envTypes;
     }
 
     public ManageCodeGen getManageCodeGen() {
