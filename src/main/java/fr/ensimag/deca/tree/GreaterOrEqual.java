@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
@@ -19,8 +20,8 @@ public class GreaterOrEqual extends AbstractOpIneq {
     }
 
     @Override
-    protected Instruction getCompInstr(int register) {
-        return new SLE(Register.getR(register));
+    protected Instruction getCompInstr(GPRegister register) {
+        return new SLE(register);
     }
 
     @Override

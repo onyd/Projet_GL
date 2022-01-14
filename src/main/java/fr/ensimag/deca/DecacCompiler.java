@@ -121,6 +121,14 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
+
+    /**
+     * @see
+     * fr.ensimag.ima.pseudocode.IMAProgram#append(fr.ensimag.ima.pseudocode.IMAProgram)
+     */
+    public void append(IMAProgram p) {
+        program.append(p);
+    }
     
     /**
      * @see 

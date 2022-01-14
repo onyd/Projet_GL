@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
@@ -21,8 +22,8 @@ public class NotEquals extends AbstractOpExactCmp {
     }
 
     @Override
-    protected Instruction getCompInstr(int register) {
-        return new SNE(Register.getR(register));
+    protected Instruction getCompInstr(GPRegister register) {
+        return new SNE(register);
     }
 
     @Override

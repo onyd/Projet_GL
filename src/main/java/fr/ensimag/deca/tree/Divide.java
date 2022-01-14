@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -23,11 +24,11 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         if(this.getType().isFloat()) {
-            compiler.addInstruction(new DIV(dVal, Register.getR(register)));
+            compiler.addInstruction(new DIV(dVal, register));
         } else if(this.getType().isInt()) {
-            compiler.addInstruction(new QUO(dVal, Register.getR(register)));
+            compiler.addInstruction(new QUO(dVal, register));
         }
     }
 }

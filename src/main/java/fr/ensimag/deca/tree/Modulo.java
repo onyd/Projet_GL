@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -41,7 +42,7 @@ public class Modulo extends AbstractOpArith {
     }
 
     @Override
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
-        compiler.addInstruction(new REM(dVal, Register.getR(register)));
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
+        compiler.addInstruction(new REM(dVal, register));
     }
 }

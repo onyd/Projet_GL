@@ -10,6 +10,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import org.apache.commons.lang.Validate;
 
@@ -49,14 +50,14 @@ public class IfThenElse extends AbstractInst {
         Label labelEnd;
         if(!compiler.getManageCodeGen().getLabelManager().isInIfElse()) {
             compiler.getManageCodeGen().getLabelManager().setInIfElse(true);
-            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("endif");
+            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("IF", "END");
             isFirstIfElse = true;
         } else {
-            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("endif", false);
+            labelEnd = compiler.getManageCodeGen().getLabelManager().getNextLabel("IF", "END", false);
         }
         this.condition.codeGenExprOnR1(compiler);
-        Label labelElse = compiler.getManageCodeGen().getLabelManager().getNextLabel("else");
-        Utils.codeGenBool(compiler, 1, false, labelElse);
+        Label labelElse = compiler.getManageCodeGen().getLabelManager().getNextLabel("ELSE");
+        Utils.codeGenBool(compiler, Register.R1, false, labelElse);
         this.thenBranch.codeGenListInst(compiler);
         compiler.addInstruction(new BRA(labelEnd));
         compiler.addLabel(labelElse);

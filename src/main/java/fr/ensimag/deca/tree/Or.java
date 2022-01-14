@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.Utils;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
 
 /**
@@ -21,7 +22,7 @@ public class Or extends AbstractOpBool {
         return "||";
     }
 
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         codeGenExprOnRegister(compiler, register, false);
     }
 

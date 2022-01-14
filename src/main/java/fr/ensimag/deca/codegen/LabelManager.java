@@ -54,6 +54,10 @@ public class LabelManager {
         return getNextLabel(prefix + "_" + labelName);
     }
 
+    public Label getNextLabel(String labelName, String prefix, boolean newLabel) {
+        return getNextLabel(prefix + "_" + labelName, newLabel);
+    }
+
     public Label getNextLabel(String labelName, String prefix, String className) {
         return getNextLabel(prefix + "_" + labelName + "." + className);
     }
