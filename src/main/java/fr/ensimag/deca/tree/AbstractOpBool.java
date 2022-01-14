@@ -1,10 +1,15 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  *
@@ -27,9 +32,11 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType());
             // TODO boolean binary check for objects
         } else {
-            throw new ContextualError("Boolean operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
+            throw new ContextualError("(3.33) Boolean operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
         }
         return getType();
     }
+
+
 
 }

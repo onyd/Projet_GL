@@ -10,6 +10,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import org.apache.commons.lang.Validate;
 
@@ -39,14 +40,14 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        Label labelCond = compiler.getManageCodeGen().getLabelManager().getNextLabel("cond", "while");
-        Label labelDeb = compiler.getManageCodeGen().getLabelManager().getNextLabel("debut", "while");
+        Label labelCond = compiler.getManageCodeGen().getLabelManager().getNextLabel("WHILE", "COND");
+        Label labelDeb = compiler.getManageCodeGen().getLabelManager().getNextLabel("WHILE", "BEGIN");
         compiler.addInstruction(new BRA(labelCond));
         compiler.addLabel(labelDeb);
         this.body.codeGenListInst(compiler);
         compiler.addLabel(labelCond);
         this.condition.codeGenExprOnR1(compiler);
-        Utils.codeGenBool(compiler, 1, true, labelDeb);
+        Utils.codeGenBool(compiler, Register.R1, true, labelDeb);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package fr.ensimag.deca.codegen;
 
-import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.Label;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class LabelManager {
     private HashMap<String, Integer> labelsOccurrences = new HashMap<>();
@@ -55,6 +52,10 @@ public class LabelManager {
 
     public Label getNextLabel(String labelName, String prefix) {
         return getNextLabel(prefix + "_" + labelName);
+    }
+
+    public Label getNextLabel(String labelName, String prefix, boolean newLabel) {
+        return getNextLabel(prefix + "_" + labelName, newLabel);
     }
 
     public Label getNextLabel(String labelName, String prefix, String className) {

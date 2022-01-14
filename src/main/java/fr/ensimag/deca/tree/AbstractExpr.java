@@ -11,9 +11,7 @@ import fr.ensimag.ima.pseudocode.*;
 
 import java.io.PrintStream;
 
-import fr.ensimag.ima.pseudocode.instructions.BEQ;
-import fr.ensimag.ima.pseudocode.instructions.BNE;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -98,7 +96,8 @@ public abstract class AbstractExpr extends AbstractInst {
         verifyExpr(compiler, localEnv, currentClass);
         if (expectedType.sameType(getType())) {
         } else if (getType().isInt() && expectedType.isFloat()) {
-            // TODO numeric cast ?
+            ConvFloat newExpr = new ConvFloat(this);
+            return newExpr;
         } else {
             getType().asClassType("(3.28) expression type is not compatible", getLocation());
         }
@@ -111,7 +110,6 @@ public abstract class AbstractExpr extends AbstractInst {
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         verifyExpr(compiler, localEnv, currentClass);
-        // TODO verify others
     }
 
     /**
@@ -151,7 +149,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     public void codeGenExprOnR1(DecacCompiler compiler) {
-        this.codeGenExprOnRegister(compiler, 1);
+        this.codeGenExprOnRegister(compiler, Register.R1);
     }
 
     /**
@@ -159,7 +157,28 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      * @param register
      */
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register, boolean isNegated) {
+        Label label = compiler.getManageCodeGen().getLabelManager().getNextLabel("E");
+        Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel("E", "END");
+        compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
+
+        codeGenBool(compiler, !isNegated, label);
+        compiler.addInstruction(new BRA(endLabel));
+
+        // True result label
+        compiler.addLabel(label);
+        compiler.addInstruction(new LOAD(1, register));
+
+        // False result label
+        compiler.addLabel(endLabel);
+
+    }
+
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -168,7 +187,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param dVal
      * @param register
      */
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, int register) {
+    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

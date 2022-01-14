@@ -26,6 +26,7 @@ public class ManualTestContext {
         DecaParser parser = new DecaParser(tokens);
         DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
         parser.setDecacCompiler(compiler);
+        compiler.initPreDefinition(parser);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {
             System.exit(1);

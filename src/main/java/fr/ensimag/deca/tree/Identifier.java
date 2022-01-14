@@ -9,13 +9,8 @@ import java.io.PrintStream;
 import java.util.Map;
 
 
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import fr.ensimag.ima.pseudocode.instructions.WUTF8;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -201,10 +196,6 @@ public class Identifier extends AbstractIdentifier {
         } else if(this.getVariableDefinition().getType().isFloat()) {
             compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WFLOAT());
-        } else if(this.getVariableDefinition().getType().isBoolean()) {
-            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
-            //A FAIRE
-            compiler.addInstruction(new WINT());
         } else if(this.getVariableDefinition().getType().isString()) {
             int position = ((RegisterOffset) this.getVariableDefinition().getOperand()).getOffset();
             for(int i = 0; i < this.getVariableDefinition().getSizeOnStack(); i++) {
@@ -216,8 +207,18 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.getR(register)));
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+    }
+
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.R0));
+        compiler.addInstruction(new CMP(0, Register.R0));
+        if (negation) {
+            compiler.addInstruction(new BNE(label));
+        } else {
+            compiler.addInstruction(new BEQ(label));
+        }
     }
 
     @Override

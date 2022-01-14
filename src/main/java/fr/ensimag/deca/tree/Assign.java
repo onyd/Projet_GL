@@ -33,6 +33,7 @@ public class Assign extends AbstractBinaryExpr {
         getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()).getType();
         setType(type);
+        setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()));
         return getType();
     }
 

@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -34,12 +35,18 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType());
         } else if (leftType.isInt() && rightType.isFloat()){
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+            ConvFloat newLeftOperand = new ConvFloat(getLeftOperand());
+            setLeftOperand(newLeftOperand);
+            newLeftOperand.verifyExpr(compiler, localEnv, currentClass);
         } else if (leftType.isFloat() && rightType.isInt()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+            ConvFloat newRightOperand = new ConvFloat(getRightOperand());
+            setRightOperand(newRightOperand);
+            newRightOperand.verifyExpr(compiler, localEnv, currentClass);
         } else if (leftType.isFloat() && leftType.isFloat()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
         } else {
-            throw new ContextualError("Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
+            throw new ContextualError("(3.33) Arithmetic operation: " + getOperatorName() + " only accept ([int|float], [int|float]) as operands type", getLocation());
         }
         return getType();
     }
@@ -60,16 +67,16 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
             int newRegister = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
             if(newRegister == -1) {
-                compiler.addInstruction(new PUSH(Register.getR(register)));
+                compiler.addInstruction(new PUSH(register));
                 this.getRightOperand().codeGenExprOnRegister(compiler, register);
-                compiler.addInstruction(new LOAD(Register.getR(register), Register.R0));
-                compiler.addInstruction(new POP(Register.getR(register)));
+                compiler.addInstruction(new LOAD(register, Register.R0));
+                compiler.addInstruction(new POP(register));
                 this.codeMnemo(compiler, Register.R0, register);
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
@@ -79,7 +86,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                     }
                 }
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                this.getRightOperand().codeGenExprOnRegister(compiler, Register.getR(newRegister));
                 this.codeMnemo(compiler, Register.getR(newRegister), register);
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {

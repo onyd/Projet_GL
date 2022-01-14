@@ -1,10 +1,12 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.codegen.LabelManager;
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
@@ -22,14 +24,15 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) {
-        throw new UnsupportedOperationException("not yet implemented");
+            ClassDefinition currentClass) throws ContextualError{
+        setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+        return getType();
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         this.getOperand().codeGenExprOnRegister(compiler, register);
-        compiler.addInstruction(new FLOAT(Register.getR(register), Register.getR(register)));
+        compiler.addInstruction(new FLOAT(register, register));
         if(!compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BOV(LabelManager.CAST_ERROR));
         }

@@ -4,9 +4,8 @@ import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 
@@ -47,11 +46,13 @@ public class BooleanLiteral extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, int register) {
-        if(value) {
-            compiler.addInstruction(new LOAD(1, Register.getR(register)));
-        } else {
-            compiler.addInstruction(new LOAD(1, Register.getR(register)));
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        compiler.addInstruction(new LOAD(getDVal(), register));
+    }
+
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        if ((value && negation) || (!value && !negation)) {
+                compiler.addInstruction(new BRA(label));
         }
     }
 

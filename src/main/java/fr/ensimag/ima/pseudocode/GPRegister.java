@@ -14,7 +14,7 @@ public class GPRegister extends Register {
         return number;
     }
 
-    private int number;
+    protected int number;
 
     GPRegister(String name, int number) {
         super(name);

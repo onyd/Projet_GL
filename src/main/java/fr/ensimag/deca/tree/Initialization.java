@@ -35,7 +35,8 @@ public class Initialization extends AbstractInitialization {
     protected void verifyInitialization(DecacCompiler compiler, Type t,
             EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
-        getExpression().verifyRValue(compiler, localEnv, currentClass, t);
+        setExpression(getExpression().verifyRValue(compiler, localEnv, currentClass, t));
+        getExpression().verifyExpr(compiler, localEnv, currentClass);
     }
 
 
