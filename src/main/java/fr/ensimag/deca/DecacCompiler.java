@@ -49,20 +49,6 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-
-        // Initialization of envTypes
-        SymbolTable.Symbol voidType = symbolTable.create("void");
-        SymbolTable.Symbol booleanType = symbolTable.create("boolean");
-        SymbolTable.Symbol floatType = symbolTable.create("float");
-        SymbolTable.Symbol intType = symbolTable.create("int");
-        try {
-            envTypes.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
-            envTypes.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
-            envTypes.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
-            envTypes.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
-        } catch (EnvironmentType.DoubleDefException e) {
-            // Never happen
-        }
         this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
     }
 
@@ -283,7 +269,23 @@ public class DecacCompiler {
         DecaParser parser = new DecaParser(tokens);
         parser.setDecacCompiler(this);
 
-        // TODO get SymbolTable from parser
+        symbolTable = parser.getSymbolTable();
+
+        // Initialization of envTypes
+        SymbolTable.Symbol voidType = symbolTable.create("void");
+        SymbolTable.Symbol booleanType = symbolTable.create("boolean");
+        SymbolTable.Symbol floatType = symbolTable.create("float");
+        SymbolTable.Symbol intType = symbolTable.create("int");
+        SymbolTable.Symbol objectType = symbolTable.create("Object");
+        try {
+            envTypes.declare(voidType, new TypeDefinition(new VoidType(voidType), Location.BUILTIN));
+            envTypes.declare(booleanType, new TypeDefinition(new BooleanType(booleanType), Location.BUILTIN));
+            envTypes.declare(floatType, new TypeDefinition(new FloatType(floatType), Location.BUILTIN));
+            envTypes.declare(intType, new TypeDefinition(new IntType(intType), Location.BUILTIN));
+        } catch (EnvironmentType.DoubleDefException e) {
+            // Never happen
+        }
+
         return parser.parseProgramAndManageErrors(err);
     }
 }

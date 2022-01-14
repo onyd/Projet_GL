@@ -36,6 +36,10 @@ options {
         return prog().tree;
     }
 
+    public SymbolTable getSymbolTable() {
+        return table;
+    }
+
     SymbolTable table = new SymbolTable();
 }
 
