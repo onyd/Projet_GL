@@ -35,8 +35,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType());
         } else if (leftType.isInt() && rightType.isFloat()){
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+
         } else if (leftType.isFloat() && rightType.isInt()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
+
         } else if (leftType.isFloat() && leftType.isFloat()) {
             setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("float")).getType());
         } else {

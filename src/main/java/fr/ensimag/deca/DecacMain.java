@@ -1,6 +1,8 @@
 package fr.ensimag.deca;
 
 import java.io.File;
+import java.util.ArrayList;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -38,11 +40,19 @@ public class DecacMain {
             showUsage();
         }
         if (options.getParallel()) {
-            // A FAIRE : instancier DecacCompiler pour chaque fichier à
-            // compiler, et lancer l'exécution des méthodes compile() de chaque
-            // instance en parallèle. Il est conseillé d'utiliser
-            // java.util.concurrent de la bibliothèque standard Java.
-            throw new UnsupportedOperationException("Parallel build not yet implemented");
+            ArrayList<Thread> threads = new ArrayList<>();
+            for(File source : options.getSourceFiles()) {
+                Thread thread = new Thread(new ParallelCompile(source, options));
+                thread.start();
+                threads.add(thread);
+            }
+            for(Thread thread : threads) {
+                try{
+                    thread.join();
+                } catch (InterruptedException e) {
+                    System.exit(1);
+                }
+            }
         } else {
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);
