@@ -58,50 +58,66 @@ n'y a pas d'erreur. Cette option ne peut pas être utilisé avec l'option \textb
 
 \section{Messages d'erreurs}
 
-Lors de la vérification de l'arbre, un grand nombre d'erreur peut survenir lors de la vérification
-contextuelle du programme deca. Cette section est consacré à la description de toutes ses erreurs,
+Lors de la vérification de l'arbre, un grand nombre d'erreurs peut survenir lors de la vérification
+contextuelle du programme deca. Cette section est consacrée à la description de toutes ces erreurs,
 afin que vous puissiez les résoudres plus facilement.
 
-\subsection{(0.1) The identifier is not declared}
-Cette erreur survient lorsque l'utilisateur a tenté d'utilisé une variable qui n'a pas été déclarée avant. Celle-ci n'est donc
+\subsection{IncludeFileNotFound}
+\subsubsection{(...) include file not found}
+Cette erreur survient lorsque le fichier à importer n'est pas trouvé ou impossible à lire.
+
+
+\subsection{InvalidLValue}
+\subsubsection{left-hand side of assignment is not an lvalue}
+Cette erreur survient lorsque l'utilisateur tente d'assigner une valeur à une opérande qui n'est pas une lvalue. C'est à dire à laquelle il est impossible d'affecter une valeur.
+
+
+\subsection{Circular include for file }
+\subsubsection{Circular include for file (...)}
+Cette erreur survient lorsque l'utilisateur fait une inclusion de fichier circulaire. C'est à dire lorsqu'un fichier en inclut un autre qui a déjà été inclut.
+
+
+\subsection{ContextualError}
+\subsubsection{(0.1) The identifier is not declared}
+Cette erreur survient lorsque l'utilisateur a tenté d'utiliser une variable qui n'a pas été déclarée avant. Celle-ci n'est donc
 pas initialisée et est inconnue. Pour la résoudre, il faut déclarer cette variable.
 
-\subsection{(0.2) The identifier has an invalid type}
+\subsubsection{(0.2) The identifier has an invalid type}
 Cette erreur survient lorsque l'utilisateur tente d'utiliser un type inconnu. En effet, les types autorisés sont : int, float, string, et booléen.
 
-\subsection{(3.17) Variable declaration with type void is forbidden}
-Cette erreur survient lorsque l'utilisateur déclare une variable avec le type void.
+\subsubsection{(3.17) Variable declaration with type void is forbidden}
+Cette erreur survient lorsque l'utilisateur déclare une variable avec le type void, il est imossible d'effectuer cela.
 
-\subsection{(3.17) The identifier is already declared}
+\subsubsection{(3.17) The identifier is already declared}
 Cette erreur survient lorsque l'utilisateur déclare une variable qui a déjà été déclarée préalablement. En effet, il est impossible de déclarer deux variables qui ont le même nom, même si leur type est différent.
 
-\subsection{(3.28) Expression type is not compatible}
-Cette erreur survient lorsque l'utilisateur tente d'affecter une valeur à une variable dont le type est incompatible. Par exemple, il n'est pas possible d'affecter un boolean à un float. Cependant, il est possible d'affecter un int à une variable de type float, la conversion est implicite.
+\subsubsection{(3.28) Expression type is not compatible}
+Cette erreur survient lorsque l'utilisateur tente d'affecter une opérande à une variable dont le type est incompatible. Par exemple, il n'est pas possible d'affecter un booléen à un float. Cependant, il est possible d'affecter un int à une variable de type float, dans ce cas la conversion est implicite.
 
-\subsection{(3.29) Condition must return a boolean}
+\subsubsection{(3.29) Condition must return a boolean}
 Cette erreur survient lorsque l'utilisateur utilise une condition dont le type de retour n'est pas un booléen.
 
-\subsection{(3.31) Wrong type for the print function. It should be int, float or string}
+\subsubsection{(3.31) Wrong type for the print function. It should be int, float or string}
 Cette erreur survient lorque l'utilisateur a tenté d'utiliser une fonction d'affichage (print, println, printx, printlnx),
 mais qu'il a rentré un mauvais type en paramètres. En l'occurence, les seuls type autorisés dans une
 fonction d'affichage sont: int, float ou string.
 
-\subsection{(3.33) Arithmetic operation only: (...) accept (int, int) as operands type}
+\subsubsection{(3.33) Arithmetic operation only: (...) accept (int, int) as operands type}
 Cette erreur survient lorsque l'utilisateur tente d'effecter l'opération arithmétique modulo entre 2 variables qui ne sont pas de type int. En effet l'opération arithmétique modulo n'est autorisée qu'entre 2 entiers.
 
-\subsection{(3.33) Arithmetic operation:(...) only accept ([int|float], [int|float]) as operands type}
-Cette erreur survient lorsque l'utilisateur tente d'effectuer une opération arithmétique sur des variables qui ne sont pas de de type int ou float.
+\subsubsection{(3.33) Arithmetic operation: (...) only accept ([int|float], [int|float]) as operands type}
+Cette erreur survient lorsque l'utilisateur tente d'effectuer une opération arithmétique sur des variables qui ne sont pas de de type int ou float. En effet, les opérateurs arithmétiques +, -, *, et / n'acceptent que des entiers et des flottants.
 
-\subsection{(3.33) Boolean operation: (...) only accept ([int|float], [int|float]) or objects for == and !=, as operands type"}
-Cette erreur survient lorsque l'utilisateur utilise l'opération "==" ou "!=" avec des types différents de int et float, ou qui ne sont pas des objets. En effet, il n'est possible de tester une égalité ou inégalité que sur des entiers, des flottants, ou des objets.
+\subsubsection{(3.33) Boolean operation: (...) only accept ([int|float], [int|float]) or objects for == and !=, as operands type"}
+Cette erreur survient lorsque l'utilisateur utilise l'opérateur "==" ou "!=" avec des types différents de int et float, ou qui ne sont pas des objets. En effet, il n'est possible de tester une égalité ou inégalité que sur des entiers, des flottants, ou des objets.
 
-\subsection{(3.33) Comparison operation: (...) only accept ([int|float], [int|float]) or objects for a comparison, as operands type}
+\subsubsection{(3.33) Comparison operation: (...) only accept ([int|float], [int|float]) or objects for a comparison, as operands type}
 Cette erreur survient lorsque l'utilisateur utilise un opérateur de comparaison avec des types différents de int et float, ou qui ne sont pas des objets. En effet, il n'est possible de faire une comparaison que sur des entiers, des flottants, ou des objets.
 
-\subsection{(3.37) Not operator only accept boolean operand}
+\subsubsection{(3.37) Not operator only accept boolean operand}
 Cette erreur survient lorsque l'utilisateur utilise l'opérateur unaire "not" sur un type différent de booléen.
 
-\subsection{(3.37) UnaryMinus operator only accept int or float operand}
-Cette erreur survient lorsque l'utilisateur utilise l'opérateur unaire "-" sur un type différent de int ou un float.
+\subsubsection{(3.37) UnaryMinus operator only accept int or float operand}
+Cette erreur survient lorsque l'utilisateur utilise l'opérateur unaire "-" sur un type différent de int ou float.
 
 \end{document}
