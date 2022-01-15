@@ -22,19 +22,21 @@
 \section{Conception Architectural Etape C}
 
 Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
-permettant de gérer la génération de code.
+permettant de gérer la génération de code. Toutes les classes nécessaires sont instanciées dans DecacCompiler
+pour pouvoir être appelées lors de l'execution dans l'arbre.
 
-\subsection{ManageCodeGen}
+\subsection{Politique de gestion de pile et de registre}
 
-Cette classe permet d'instancier toutes les classes necessaires dans le package codeGen. Elle permet
-aussi de gérer les classes directement dans un seul fichier. Cette classe est instanciée dans
-DecacCompiler. Cela évite aussi une surcharge du fichier DecacCompiler.
+A chaque variable créée, on la place dans la pile et dans sa définition, on lui donne son adresse dans la pile.
+Lors de l'initialisation ou de l'affectation d'une variable, ou de n'importe quelle instruction nécessitant le
+calcul d'une expression, celui-ci est enregistré sur le registre R1. Bien sur lors du calcul, si c'est nécessaire,
+d'autres registres sont utilisé mais le résultat final est sur R1.
 
 \subsection{RegisterManager}
 
 Cette classe permet de gérer les registres. Elle prends en attributs le nombres de registres utilisés
 (ceux données en paramètres par la commande -r ou 16 sinon). Elle possède aussi un tableau de boolean
-an attributs. Chaque indice de ce tableau correspond à la valeur d'un registre. La valeur du tableau
+en attributs. Chaque indice de ce tableau correspond à la valeur d'un registre. La valeur du tableau
 à cette indice est à vrai si le registre est utilisé et faux sinon. Cette classe possède aussi des
 méthodes permettant de renvoyer un registre inutilisé ou d'en libérer un.
 
@@ -47,15 +49,23 @@ se situant à une adresse précise dans la pile.
 
 \subsection{LabelManager}
 
-Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle possède aussi
-un attributs spécifiques pour le ifthenelse permettant de renvoyer la même étiquette. C'est utile car
-l'étiquette de fin reste la même pour tout les ifthenelse étant déjà dans un ifthenelse.
+Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle utilise pour cela un HasMap
+qui a un nom de label associe un compteur correspondant au nombre de fois que ce nom de label est utilisé. Cela
+permet de s'assurer que tout les labels sont uniques
 
 \subsection{Utils}
 
 Cette classe regroupe des méthodes statiques utilisées à de nombreux endroits permettant la génération
-de code.
+de code. Elle permet entre autre de renvoyer un Immediat d'après son type. Elle permet aussi de renvoyer tout
+le code correspondant à la gestion d'erreur qui appelé à la fin du codeGen du programme.
 
-\subsection{Propagation du code}
+\subsection{Propagation du code - Les fonctions codeGen}
+
+A chaque action devant être réalisé, il existe une fonction codeGen spécifique appelant récursivement dans l'arbre
+d'autres fonction codeGen. La première fonction appelé est codeGenProgram qui se propage à la génération de classe
+et du programme principale. Il est interressant de revenir sur quelque fonction codeGen importantes qui sont réutilisés
+de nombreuses fois.
+    
+\subsubsection{codeGenPrint}
 
 \end{document}
