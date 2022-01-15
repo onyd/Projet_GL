@@ -1,4 +1,6 @@
 {
     boolean x;
-    println(x);
+    if(x){
+        println("true");
+    }
 }
