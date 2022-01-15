@@ -27,7 +27,7 @@ public class Or extends AbstractOpBool {
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel(getClass().getSimpleName().toUpperCase(), "END");
+        Label endLabel = compiler.getLabelManager().getNextLabel(getClass().getSimpleName().toUpperCase(), "END");
 
         if (!negation) {
             getLeftOperand().codeGenBool(compiler, true, endLabel);

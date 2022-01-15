@@ -11,6 +11,11 @@ public class VirtualRegister extends GPRegister {
         return dst;
     }
 
+    @Override
+    public boolean isVirtual() {
+        return true;
+    }
+
     /**
      * Precise to RegisterAllocator where to restore old value
      */

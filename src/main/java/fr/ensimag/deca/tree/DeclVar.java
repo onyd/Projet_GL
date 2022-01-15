@@ -48,7 +48,7 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void codeGenDeclVar(DecacCompiler compiler) {
-        compiler.getManageCodeGen().getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
+        compiler.getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
     }
 
     @Override

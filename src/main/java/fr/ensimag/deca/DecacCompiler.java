@@ -1,6 +1,9 @@
 package fr.ensimag.deca;
 
+import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.codegen.ManageCodeGen;
+import fr.ensimag.deca.codegen.RegisterManager;
+import fr.ensimag.deca.codegen.Stack;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -49,7 +52,9 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.manageCodeGen = new ManageCodeGen(this, this.compilerOptions.getRegisterNumber());
+        this.stack = new Stack(this);
+        this.registerManager = new RegisterManager(compilerOptions.getRegisterNumber());
+        this.labelManager = new LabelManager();
 
         // Initialization of env_types
         try {
@@ -137,7 +142,22 @@ public class DecacCompiler {
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
     private EnvironmentType envTypes = new EnvironmentType();
-    private ManageCodeGen manageCodeGen;
+
+    private Stack stack;
+    private RegisterManager registerManager;
+    private LabelManager labelManager;
+
+    public Stack getStack() {
+        return stack;
+    }
+
+    public RegisterManager getRegisterManager() {
+        return registerManager;
+    }
+
+    public LabelManager getLabelManager() {
+        return labelManager;
+    }
 
     public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
             BOOLEAN_SYMBOL = symbolTable.create("boolean"),
@@ -152,9 +172,6 @@ public class DecacCompiler {
         return envTypes;
     }
 
-    public ManageCodeGen getManageCodeGen() {
-        return manageCodeGen;
-    }
 
     /**
      * The main program. Every instruction generated will eventually end up here.
