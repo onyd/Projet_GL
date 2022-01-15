@@ -139,7 +139,7 @@ public class DecacCompiler {
     private EnvironmentType envTypes = new EnvironmentType();
     private ManageCodeGen manageCodeGen;
 
-    public SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
+    public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
             BOOLEAN_SYMBOL = symbolTable.create("boolean"),
             FLOAT_SYMBOL = symbolTable.create("float"),
             INT_SYMBOL = symbolTable.create("int");

@@ -13,14 +13,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  * @author gl28
  * @date 01/01/2022
  */
-public class ListExpr extends TreeList<AbstractExpr> {
+public class ListExpr extends AbstractCommaSeparatedListTree<AbstractExpr> {
 
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        for (AbstractExpr expr : getList()) {
-            s.println(expr.decompile());
-        }
-
-    }
 }

@@ -10,27 +10,19 @@ import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
-public class Selection extends AbstractExpr {
-    private AbstractExpr expr;
-    private AbstractIdentifier fieldIdent;
+public class New extends AbstractExpr {
+    private final AbstractIdentifier className;
 
-    public Selection(AbstractExpr expr, AbstractIdentifier fieldIdent) {
-        super();
-        Validate.notNull(expr);
-        Validate.notNull(fieldIdent);
-        this.expr = expr;
-        this.fieldIdent = fieldIdent;
-    }
-
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.65 3.66
+    public New(AbstractIdentifier className) {
+        Validate.notNull(className);
+        this.className = className;
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        s.print("new ");
+        className.decompile(s);
+        s.print("()");
     }
 
     @Override
@@ -41,5 +33,10 @@ public class Selection extends AbstractExpr {
     @Override
     protected void iterChildren(TreeFunction f) {
 
+    }
+
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+        return null; // TODO verify 3.42
     }
 }

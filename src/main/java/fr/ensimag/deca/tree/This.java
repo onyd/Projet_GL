@@ -6,43 +6,40 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
-public class MethodCall extends AbstractExpr {
-    private AbstractExpr expr;
-    private AbstractIdentifier methodIdent;
-    private ListExpr arguments;
+public class This extends AbstractExpr {
+    private final boolean implicit;
 
-    public MethodCall(AbstractExpr expr, AbstractIdentifier methodIdent, ListExpr arguments) {
-        super();
-        Validate.notNull(expr);
-        Validate.notNull(methodIdent);
-        Validate.notNull(arguments);
-        this.expr = expr;
-        this.methodIdent = methodIdent;
-        this.arguments = arguments;
+    public This(boolean implicit) {
+        this.implicit = implicit;
+    }
+
+    @Override
+    public boolean isImplicit() {
+        return implicit;
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.71
+        return null; // TODO verify 3.43
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        if (!implicit) {
+            s.print("this");
+        }
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        // leaf node => nothing to do
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        // leaf node => nothing to do
     }
 }

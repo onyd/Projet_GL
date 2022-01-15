@@ -10,25 +10,20 @@ import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
-public class MethodCall extends AbstractExpr {
-    private AbstractExpr expr;
-    private AbstractIdentifier methodIdent;
-    private ListExpr arguments;
+public class Cast extends AbstractExpr {
+    private final AbstractIdentifier type;
+    private final AbstractExpr expr;
 
-    public MethodCall(AbstractExpr expr, AbstractIdentifier methodIdent, ListExpr arguments) {
-        super();
+    public Cast(AbstractIdentifier type, AbstractExpr expr) {
+        Validate.notNull(type);
         Validate.notNull(expr);
-        Validate.notNull(methodIdent);
-        Validate.notNull(arguments);
+        this.type = type;
         this.expr = expr;
-        this.methodIdent = methodIdent;
-        this.arguments = arguments;
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.71
+        return null; // TODO verify 3.39
     }
 
     @Override
