@@ -1,9 +1,10 @@
 \babel@toc {french}{}\relax 
 \contentsline {section}{\numberline {1}Conception Architectural Etape B}{2}{}%
 \contentsline {section}{\numberline {2}Conception Architectural Etape C}{2}{}%
-\contentsline {subsection}{\numberline {2.1}ManageCodeGen}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Politique de gestion de pile et de registre}{2}{}%
 \contentsline {subsection}{\numberline {2.2}RegisterManager}{2}{}%
 \contentsline {subsection}{\numberline {2.3}Stack}{2}{}%
 \contentsline {subsection}{\numberline {2.4}LabelManager}{2}{}%
 \contentsline {subsection}{\numberline {2.5}Utils}{3}{}%
-\contentsline {subsection}{\numberline {2.6}Propagation du code}{3}{}%
+\contentsline {subsection}{\numberline {2.6}Propagation du code - Les fonctions codeGen}{3}{}%
+\contentsline {subsubsection}{\numberline {2.6.1}codeGenPrint}{3}{}%
