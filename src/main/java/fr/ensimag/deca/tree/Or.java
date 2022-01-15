@@ -23,7 +23,7 @@ public class Or extends AbstractOpBool {
     }
 
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        codeGenExprOnRegister(compiler, register, false);
+        codeGenExprOnRegister(compiler, register);
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
