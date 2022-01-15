@@ -1,5 +1,7 @@
 {
     int x = 0;
     boolean y = (x != 10);
-    println(x);
+    if(y) {
+        println("true");
+    }
 }

@@ -1,5 +1,8 @@
 {
-        int x = 10;
-        boolean y = (x >= 10);
-        println(x);
+    int x = 10;
+    boolean y = (x >= 10);
+    if(y) {
+        println("true");
+    }
+
 }
