@@ -31,7 +31,7 @@ public class BooleanLiteral extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        Type type = compiler.getEnvironmentType().get(compiler.getSymbolTable().create("boolean")).getType();
+        Type type = compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType();
         this.setType(type);
         return type;
     }

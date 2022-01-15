@@ -28,7 +28,7 @@ public class Modulo extends AbstractOpArith {
         Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
 
         if (leftType.isInt() && rightType.isInt()) {
-            setType(compiler.getEnvironmentType().get(compiler.getSymbolTable().create("int")).getType());
+            setType(compiler.getEnvironmentType().get(compiler.INT_SYMBOL).getType());
         } else {
             throw new ContextualError("(3.33) Arithmetic operation only: " + getOperatorName() + " accept (int, int) as operands type", getLocation());
         }
