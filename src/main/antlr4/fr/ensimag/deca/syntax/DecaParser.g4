@@ -434,12 +434,42 @@ type returns[AbstractIdentifier tree]
 
 literal returns[AbstractExpr tree] // à completer lors de la partie objet
     : INT {
-            $tree = new IntLiteral(Integer.parseInt($INT.text));
-            setLocation($tree, $INT);
+            try {
+                $tree = new IntLiteral(Integer.parseInt($INT.text));
+                setLocation($tree, $INT);
+            } catch(NumberFormatException e) {
+                Location loc = tokenLocation($INT);
+                String line;
+                String column;
+                if (loc == null) {
+                    line = "<unknown>";
+                    column = "";
+                } else {
+                    line = Integer.toString(loc.getLine());
+                    column = ":" + loc.getPositionInLine();
+                }
+                System.out.println(loc.getFilename() + ":" + line + column + ": " + "The number is too large");
+                System.exit(1);
+            }
         }
     | fd=FLOAT {
-            $tree = new FloatLiteral(Float.parseFloat($fd.text));
-            setLocation($tree, $fd);
+            try {
+                $tree = new FloatLiteral(Float.parseFloat($fd.text));
+                setLocation($tree, $fd);
+            } catch(NumberFormatException e) {
+                Location loc = tokenLocation($fd);
+                String line;
+                String column;
+                if (loc == null) {
+                    line = "<unknown>";
+                    column = "";
+                } else {
+                    line = Integer.toString(loc.getLine());
+                    column = ":" + loc.getPositionInLine();
+                }
+                System.out.println(loc.getFilename() + ":" + line + column + ": " + "The number is too large");
+                System.exit(1);
+            }
         }
     | STRING {
             $tree = new StringLiteral($STRING.text);
