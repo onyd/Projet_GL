@@ -28,7 +28,7 @@ public class RegisterAllocator {
     public void allocateRegisters(DecacCompiler compiler) {
         int i = 2;
         for (VirtualRegister register : registers) {
-            int registerNumber = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
+            int registerNumber = compiler.getRegisterManager().getFreeRegister();
             if (registerNumber == -1) {
                 compiler.addInstruction(new PUSH(Register.getR(i)));
                 toRestore.addFirst(i);
@@ -47,7 +47,7 @@ public class RegisterAllocator {
             compiler.addInstruction(new POP(Register.getR(registerNumber)));
         }
         for(Integer registerNumber : toRelease) {
-            compiler.getManageCodeGen().getRegisterManager().releaseRegister(registerNumber);
+            compiler.getRegisterManager().releaseRegister(registerNumber);
         }
     }
 

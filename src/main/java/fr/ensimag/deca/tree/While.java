@@ -40,8 +40,8 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        Label labelCond = compiler.getManageCodeGen().getLabelManager().getNextLabel("WHILE", "COND");
-        Label labelDeb = compiler.getManageCodeGen().getLabelManager().getNextLabel("WHILE", "BEGIN");
+        Label labelCond = compiler.getLabelManager().getNextLabel("WHILE", "COND");
+        Label labelDeb = compiler.getLabelManager().getNextLabel("WHILE", "BEGIN");
         compiler.addInstruction(new BRA(labelCond));
         compiler.addLabel(labelDeb);
         this.body.codeGenListInst(compiler);

@@ -71,7 +71,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
-            int newRegister = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
+            int newRegister = compiler.getRegisterManager().getFreeRegister();
             if(newRegister == -1) {
                 compiler.addInstruction(new PUSH(register));
                 this.getRightOperand().codeGenExprOnRegister(compiler, register);
@@ -95,7 +95,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                         compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                     }
                 }
-                compiler.getManageCodeGen().getRegisterManager().releaseRegister(newRegister);
+                compiler.getRegisterManager().releaseRegister(newRegister);
             }
         } else {
             this.codeMnemo(compiler, dVal, register);

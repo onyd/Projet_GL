@@ -191,15 +191,15 @@ public class Identifier extends AbstractIdentifier {
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         if(this.getVariableDefinition().getType().isInt()) {
-            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+            compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
         } else if(this.getVariableDefinition().getType().isFloat()) {
-            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+            compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WFLOAT());
         } else if(this.getVariableDefinition().getType().isString()) {
             int position = ((RegisterOffset) this.getVariableDefinition().getOperand()).getOffset();
             for(int i = 0; i < this.getVariableDefinition().getSizeOnStack(); i++) {
-                compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this, position);
+                compiler.getStack().getVariableFromStackOnR1(this, position);
                 compiler.addInstruction(new WUTF8());
                 position++;
             }

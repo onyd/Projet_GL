@@ -1,0 +1,31 @@
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:39) - verify program: start
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:31) - verify Main: start
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:35) - verify Main: end
+`> [9, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [9, 0] Main
+      +> ListDeclVar [List with 1 elements]
+      |  []> [10, 7] DeclVar
+      |      +> [10, 3] Identifier (int)
+      |      |  definition: type defined at [10, 3], type=int
+      |      +> [10, 7] Identifier (i)
+      |      |  definition: variable defined at [10, 7], type=int
+      |      `> NoInitialization
+      `> ListInst [List with 1 elements]
+         []> [11, 3] IfThenElse
+             +> [11, 7] Equals
+             |  type: boolean
+             |  +> [11, 7] Identifier (i)
+             |  |  definition: variable defined at [10, 7], type=int
+             |  `> [11, 12] Int (1)
+             |     type: int
+             +> ListInst [List with 1 elements]
+             |  []> [12, 8] Println
+             |      `> ListExpr [List with 1 elements]
+             |         []> [12, 16] StringLiteral (Error, the variable is not initialised)
+             |             type: string
+             `> ListInst [List with 1 elements]
+                []> [14, 8] Println
+                    `> ListExpr [List with 1 elements]
+                       []> [14, 16] StringLiteral (Error, the variable is not initialised)
+                           type: string

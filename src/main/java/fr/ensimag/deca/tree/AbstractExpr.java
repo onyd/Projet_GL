@@ -159,8 +159,8 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param register
      */
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        Label label = compiler.getManageCodeGen().getLabelManager().getNextLabel("E");
-        Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel("E", "END");
+        Label label = compiler.getLabelManager().getNextLabel("E");
+        Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
 
         codeGenBool(compiler, true, label);
