@@ -4,7 +4,5 @@
         println("Erreur");
     } else if (i > 0) {
         println("Erreur");
-    } else {
-        println("ok");
     }
 }
