@@ -1,6 +1,10 @@
 {
     boolean x = true;
     boolean y = false;
-    println(x);
-    println(y);
+    if(x){
+        println("true");
+    }
+    if(y){
+        println("false");
+    }
 }

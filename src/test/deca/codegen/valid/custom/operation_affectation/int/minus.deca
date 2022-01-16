@@ -2,4 +2,5 @@
         int x = 3;
         int y = 5;
         x = -y;
+        println(x);
 }
