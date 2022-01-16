@@ -3,6 +3,7 @@ package fr.ensimag.deca;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.codegen.RegisterManager;
 import fr.ensimag.deca.codegen.Stack;
+import fr.ensimag.deca.codegen.VTable;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -54,6 +55,7 @@ public class DecacCompiler {
         this.stack = new Stack(this);
         this.registerManager = new RegisterManager(compilerOptions.getRegisterNumber());
         this.labelManager = new LabelManager();
+        this.vTable = new VTable(this);
 
         // Initialization of env_types
         try {
@@ -145,6 +147,7 @@ public class DecacCompiler {
     private Stack stack;
     private RegisterManager registerManager;
     private LabelManager labelManager;
+    private VTable vTable;
 
     public Stack getStack() {
         return stack;
@@ -156,6 +159,10 @@ public class DecacCompiler {
 
     public LabelManager getLabelManager() {
         return labelManager;
+    }
+
+    public VTable getvTable() {
+        return vTable;
     }
 
     public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),

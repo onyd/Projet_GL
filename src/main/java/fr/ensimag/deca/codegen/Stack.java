@@ -63,6 +63,22 @@ public class Stack {
         this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
     }
 
+    public void declareImmediateOnStack(DVal dVal) {
+        decacCompiler.addInstruction(new LOAD(dVal, Register.R1));
+        DAddr dAddr= new RegisterOffset(this.currentStackPosition, Register.GB);
+        this.currentStackPosition++;
+        this.decacCompiler.addInstruction(new ADDSP(1));
+        this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
+    }
+
+    public void declareLabelOnStack(Label label) {
+        decacCompiler.addInstruction(new LOAD(new LabelOperand(label), Register.R1));
+        DAddr dAddr= new RegisterOffset(this.currentStackPosition, Register.GB);
+        this.currentStackPosition++;
+        this.decacCompiler.addInstruction(new ADDSP(1));
+        this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
+    }
+
     public void setVariableOnStack(Identifier identifier, Register register) {
         this.decacCompiler.addInstruction(new STORE(register, identifier.getExpDefinition().getOperand()));
     }

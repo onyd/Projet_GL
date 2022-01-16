@@ -59,6 +59,10 @@ public class DeclClass extends AbstractDeclClass {
         // TODO verify 3.5
     }
 
+    @Override
+    protected void codeGenDeclClassVTable(DecacCompiler compiler) {
+
+    }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {

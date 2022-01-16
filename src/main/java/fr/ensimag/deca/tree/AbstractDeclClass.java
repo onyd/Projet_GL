@@ -32,4 +32,10 @@ public abstract class AbstractDeclClass extends Tree {
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
 
+    /**
+     * generate the code to create the virtual methods table for this class
+     * @param compiler
+     */
+    protected abstract void codeGenDeclClassVTable(DecacCompiler compiler);
+
 }
