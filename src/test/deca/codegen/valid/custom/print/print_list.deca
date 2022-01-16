@@ -1,0 +1,5 @@
+{
+    int x = 1;
+    boolean y = true;
+    println("toto", x +9, y);
+}

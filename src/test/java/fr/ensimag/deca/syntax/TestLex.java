@@ -28,7 +28,7 @@ public class TestLex {
     public void testTokenEmpty() throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
-
+        System.out.println("Beginning of unit tests");
         System.out.println("Empty Program:");
         String arg = "src/test/deca/syntax/valid/custom/empty.deca";
         lex = new DecaLexer(CharStreams.fromFileName(arg));
@@ -86,13 +86,13 @@ public class TestLex {
 
         System.out.println("Programme with a string");
         String arg = "src/test/deca/syntax/invalid/provided/chaine_incomplete.deca";
-        lex = new DecaLexer(CharStreams.fromFileName(arg));
-        lex.setSource(new File(arg));
-        lex.nextToken();
         try{
-            assertEquals(lex.STRING,lex.getType());
+            lex = new DecaLexer(CharStreams.fromFileName(arg));
+            lex.setSource(new File(arg));
+            lex.nextToken();
+            assertEquals(lex.STRING, lex.getType());
         } catch(Exception e){
-            System.err.println("Caught ParseCa");
+            System.err.println("an expected error about the incomplete string has been raised");
         }
     }
 
@@ -190,7 +190,60 @@ public class TestLex {
         assertEquals(";",lex.getText());
         lex.nextToken();
         assertEquals("}",lex.getText());
+    }
 
+
+    /**
+     * Description: test if the text associated to each token is the right one in incr.deca
+     *
+     * Results : NOk
+     *           Bad String in line 236
+     */
+    @Test
+    public void testSum() throws IOException{
+        Logger.getRootLogger().setLevel(Level.DEBUG);
+        DecaLexer lex;
+
+        System.out.println("Programme with a class that increment an integer");
+        String arg = "src/test/deca/syntax/valid/custom/sum.deca";
+        lex = new DecaLexer(CharStreams.fromFileName(arg));
+        lex.setSource(new File(arg));
+        lex.nextToken();
+        assertEquals("{", lex.getText());
+        lex.nextToken();
+        assertEquals("int", lex.getText());
+        lex.nextToken();
+        assertEquals("i", lex.getText());
+        lex.nextToken();
+        assertEquals("=", lex.getText());
+        lex.nextToken();
+        assertEquals("0", lex.getText());
+        lex.nextToken();
+        assertEquals(";",lex.getText());
+        lex.nextToken();
+        assertEquals("i",lex.getText());
+        lex.nextToken();
+        assertEquals("=",lex.getText());
+        lex.nextToken();
+        assertEquals("2",lex.getText());
+        lex.nextToken();
+        assertEquals("+",lex.getText());
+        lex.nextToken();
+        assertEquals("343",lex.getText());
+        lex.nextToken();
+        assertEquals(";",lex.getText());
+        lex.nextToken();
+        assertEquals("println",lex.getText());
+        lex.nextToken();
+        assertEquals("(",lex.getText());
+        lex.nextToken();
+        assertEquals("i",lex.getText());
+        lex.nextToken();
+        assertEquals(")",lex.getText());
+        lex.nextToken();
+        assertEquals(";",lex.getText());
+        lex.nextToken();
+        assertEquals("}",lex.getText());
     }
 
 }

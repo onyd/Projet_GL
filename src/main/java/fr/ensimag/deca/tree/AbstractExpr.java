@@ -154,20 +154,16 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     /**
-     * generate code to load on the expression on the register i
+     * generate code to load on the expression on the register
      * @param compiler
      * @param register
      */
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register, boolean isNegated) {
         Label label = compiler.getLabelManager().getNextLabel("E");
         Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
 
-        codeGenBool(compiler, !isNegated, label);
+        codeGenBool(compiler, true, label);
         compiler.addInstruction(new BRA(endLabel));
 
         // True result label

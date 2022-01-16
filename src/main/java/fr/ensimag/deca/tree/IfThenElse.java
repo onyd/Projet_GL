@@ -46,27 +46,29 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-        boolean isFirstIfElse = false;
-        Label labelEnd;
-        if(!compiler.getLabelManager().isInIfElse()) {
-            compiler.getLabelManager().setInIfElse(true);
-            labelEnd = compiler.getLabelManager().getNextLabel("IF", "END");
-            isFirstIfElse = true;
+        Label endLabel = compiler.getLabelManager().getNextLabel("END", "IF");
+
+        codeGenInst(compiler, endLabel);
+
+        compiler.addLabel(endLabel);
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler, Label endLabel) {
+        if (!elseBranch.isEmpty()) {
+            Label elseLabel = compiler.getLabelManager().getNextLabel("ELSE");
+
+            condition.codeGenBool(compiler, false, elseLabel);
+            thenBranch.codeGenListInst(compiler, endLabel);
+            compiler.addInstruction(new BRA(endLabel));
+            compiler.addLabel(elseLabel);
+            elseBranch.codeGenListInst(compiler, endLabel);
         } else {
-            labelEnd = compiler.getLabelManager().getNextLabel("IF", "END", false);
-        }
-        this.condition.codeGenExprOnR1(compiler);
-        Label labelElse = compiler.getLabelManager().getNextLabel("ELSE");
-        Utils.codeGenBool(compiler, Register.R1, false, labelElse);
-        this.thenBranch.codeGenListInst(compiler);
-        compiler.addInstruction(new BRA(labelEnd));
-        compiler.addLabel(labelElse);
-        this.elseBranch.codeGenListInst(compiler);
-        if(isFirstIfElse) {
-            compiler.addLabel(labelEnd);
-            compiler.getLabelManager().setInIfElse(false);
+            condition.codeGenBool(compiler, false, endLabel);
+            thenBranch.codeGenListInst(compiler, endLabel);
         }
     }
+
 
     @Override
     public void decompile(IndentPrintStream s) {

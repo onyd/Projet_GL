@@ -1,7 +1,6 @@
 package fr.ensimag.deca;
 
 import fr.ensimag.deca.codegen.LabelManager;
-import fr.ensimag.deca.codegen.ManageCodeGen;
 import fr.ensimag.deca.codegen.RegisterManager;
 import fr.ensimag.deca.codegen.Stack;
 import fr.ensimag.deca.context.*;
