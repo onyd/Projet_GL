@@ -10,6 +10,7 @@ import fr.ensimag.ima.pseudocode.instructions.LEA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class VTable {
     private HashMap<String, List<Label>> VTables;
@@ -57,8 +58,9 @@ public class VTable {
      * @param listDeclMethod the list of method in classIdent
      */
     public void VTableFromIdent(Identifier classIdent, Identifier superClassIdent, ListDeclMethod listDeclMethod) {
+        compiler.addComment("For " + classIdent.getName().getName());
         String className = classIdent.getName().getName();
-        if(superClassIdent == null) {
+        if(Objects.equals(superClassIdent.getName().getName(), "Object")) {
             this.currentLabelList = new ArrayList<>(this.VTables.get("Object"));
             compiler.addInstruction(new LEA(new RegisterOffset(1, Register.GB), Register.R1));
         } else {

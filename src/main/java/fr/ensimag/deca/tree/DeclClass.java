@@ -25,6 +25,8 @@ public class DeclClass extends AbstractDeclClass {
         Validate.notNull(superClassName);
         this.name = name;
         this.superClassName = superClassName;
+        this.fields = new ListDeclField();
+        this.methods = new ListDeclMethod();
     }
 
     public void addFields(AbstractDeclField field) {

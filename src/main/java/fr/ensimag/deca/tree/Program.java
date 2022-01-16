@@ -67,6 +67,7 @@ public class Program extends AbstractProgram {
 
         /*PROVISOIRE */
         compiler.addLabel(new Label("code.Object.equals"));
+        compiler.addInstruction(new HALT());
     }
 
     @Override
