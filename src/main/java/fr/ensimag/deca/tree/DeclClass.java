@@ -61,7 +61,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void codeGenDeclClassVTable(DecacCompiler compiler) {
-
+        compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
     }
 
     @Override
