@@ -46,7 +46,7 @@ public class Stack {
         loadVariableOnR1FromIdentAndInit(identifier, initialization);
         decacCompiler.addInstruction(new LOAD(registerOffset, Register.R0));
         decacCompiler.addInstruction(new STORE(Register.R1,
-                new RegisterOffset(identifier.getFieldDefinition().getIndex() + 1, Register.R0)));
+                new RegisterOffset(identifier.getFieldDefinition().getIndex(), Register.R0)));
     }
 
     public void declareVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
