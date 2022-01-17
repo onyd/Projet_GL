@@ -63,7 +63,13 @@ public class DeclMethod extends AbstractDeclMethod {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        returnType.decompile(s);
+        s.print(" ");
+        methodIdent.decompile(s);
+        s.print("(");
+        params.decompile(s);
+        s.print(")");
+        body.decompile(s);
     }
 
     @Override

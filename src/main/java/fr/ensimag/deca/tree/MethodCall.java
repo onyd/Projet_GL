@@ -33,7 +33,12 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        expr.decompile(s);
+        s.print(".");
+        methodIdent.decompile(s);
+        s.print("(");
+        arguments.decompile(s);
+        s.print(")");
     }
 
     @Override

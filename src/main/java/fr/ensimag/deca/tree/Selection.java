@@ -33,7 +33,10 @@ public class Selection extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        expr.decompile(s);
+        s.print(".");
+        fieldIdent.decompile(s);
+        s.println();
     }
 
     @Override

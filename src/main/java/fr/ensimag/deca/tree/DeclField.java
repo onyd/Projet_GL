@@ -26,7 +26,12 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        typeName.decompile(s);
+        s.print(" ");
+        fieldIdent.decompile(s);
+        initialization.decompile(s);
+        s.print(";");
+        s.println();
     }
 
     @Override
