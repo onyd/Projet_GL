@@ -65,9 +65,8 @@ public class Program extends AbstractProgram {
         compiler.addComment("Handle the errors");
         Utils.handleError(compiler);
 
-        /*PROVISOIRE */
-        compiler.addLabel(new Label("code.Object.equals"));
-        compiler.addInstruction(new HALT());
+        //crete all the constructors and methods
+        compiler.append(compiler.getvTable().getImaProgram());
     }
 
     @Override

@@ -6,7 +6,7 @@ import fr.ensimag.deca.tree.Identifier;
 import fr.ensimag.deca.tree.ListDeclField;
 import fr.ensimag.deca.tree.ListDeclMethod;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LEA;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +22,10 @@ public class VTable {
     public VTable(DecacCompiler compiler) {
         this.compiler = compiler;
         this.VTables = new HashMap<>();
+    }
+
+    public IMAProgram getImaProgram() {
+        return imaProgram;
     }
 
     /**
@@ -97,6 +101,15 @@ public class VTable {
         return null;
     }
 
+    public void createEqualsMethod() {
+        imaProgram.addLabel(compiler.getLabelManager().getMethodLabel("Object", "equals"));
+        imaProgram.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+        imaProgram.addInstruction(new LOAD(new RegisterOffset(-3, Register.LB), Register.R0));
+        imaProgram.addInstruction(new CMP(Register.R1, Register.R0));
+        imaProgram.addInstruction(new SEQ(Register.R0));
+        imaProgram.addInstruction(new RTS());
+    }
+
     /**
      * create the constructor of the class
      * @param listDeclField
@@ -111,7 +124,7 @@ public class VTable {
      * @param listDeclMethod
      * @param className
      */
-    public void createMethode(ListDeclMethod listDeclMethod, String className) {
+    public void createMethods(ListDeclMethod listDeclMethod, String className) {
 
     }
 }

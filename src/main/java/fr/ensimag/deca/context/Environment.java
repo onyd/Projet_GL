@@ -22,7 +22,7 @@ public abstract class Environment<T extends Definition> {
      * symbol is undefined.
      */
     public T get(Symbol key) {
-        T def = defs.get(key.getName());
+        T def = defs.get(key);
         if (def == null){
             if (parentEnvironment != null){
                 return this.parentEnvironment.get(key);
