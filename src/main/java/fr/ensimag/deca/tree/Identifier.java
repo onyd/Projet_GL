@@ -6,13 +6,11 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
-import java.util.Map;
 
 
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 
 /**
  * Deca Identifier
@@ -188,10 +186,11 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public FieldDefinition verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+    public Type verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
         FieldDefinition fieldDef = localEnv.get(getName()).asFieldDefinition("(3.70) Identifier must be a field", getLocation());
+        setType(fieldDef.getType());
         setDefinition(fieldDef);
-        return fieldDef;
+        return getType();
     }
 
 

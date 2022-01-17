@@ -27,7 +27,8 @@ public class Selection extends AbstractExpr {
         Type type = expr.verifyExpr(compiler, localEnv, currentClass);
         ClassDefinition class2 = type.asClassType("Cannot select field on " + type, getLocation()).getDefinition();
         fieldIdent.verifyField(compiler, class2.getMembers());
-        return fieldIdent.getType();
+        setType(fieldIdent.getType());
+        return getType();
     }
 
     @Override

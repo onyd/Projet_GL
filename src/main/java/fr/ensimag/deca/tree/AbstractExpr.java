@@ -100,7 +100,7 @@ public abstract class AbstractExpr extends AbstractInst {
             setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
             return newExpr;
         } else {
-            getType().asClassType("(3.28) expression type is not compatible", getLocation());
+            getType().asClassType("(3.28) Expression type is not compatible", getLocation());
         }
         return this;
     }

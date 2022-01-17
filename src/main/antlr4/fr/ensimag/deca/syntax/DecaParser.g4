@@ -153,7 +153,8 @@ inst returns[AbstractInst tree]
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
-            $tree = $expr.tree;
+            $tree = new Return($expr.tree);
+            setLocation($tree, $RETURN);
         }
     ;
 
@@ -521,11 +522,11 @@ list_classes returns[ListDeclClass tree]
 
 class_decl returns[DeclClass tree]
 @init {
-        AbstractIdentifier objectSymbol = new Identifier(getDecacCompiler().getSymbolTable().create("Object"));
-        $tree = new DeclClass(objectSymbol);
+        $tree = new DeclClass();
 }
     : CLASS name=ident superclass=class_extension OBRACE class_body[$tree] CBRACE {
             $tree.setName($name.tree);
+            $tree.setSuperClassName($superclass.tree);
             setLocation($tree, $CLASS);
         }
     ;
@@ -536,6 +537,8 @@ class_extension returns[AbstractIdentifier tree]
         setLocation($tree, $EXTENDS);
         }
     | /* epsilon */ {
+            $tree = new Identifier(getDecacCompiler().getSymbolTable().create("Object"));
+            $tree.setLocation(Location.BUILTIN);
         }
     ;
 
