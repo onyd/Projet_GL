@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -9,6 +10,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+import org.objectweb.asm.ClassWriter;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -46,6 +48,18 @@ public class Program extends AbstractProgram {
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
         Utils.handleError(compiler);
+    }
+
+    @Override
+    public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+        ClassWriter classWriter = javaCompiler.getClassWriter();
+        classWriter.visit(javaCompiler.V1_5,
+                javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
+                "ClasseMain",
+                null,
+                "java/lang/Object",
+                null);
     }
 
     @Override
