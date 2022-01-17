@@ -35,7 +35,8 @@ public class MethodBody extends AbstractMethodBody {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        declVars.iter(f);
+        instructions.iter(f);
     }
 
     @Override

@@ -103,7 +103,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        name.iter(f);
+        superClassName.iter(f);
+        fields.iter(f);
+        methods.iter(f);
     }
 
 }

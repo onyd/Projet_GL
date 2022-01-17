@@ -30,7 +30,7 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        assembly.iter(f);
     }
 
     @Override

@@ -36,7 +36,9 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        typeName.iter(f);
+        fieldIdent.iter(f);
+        initialization.iter(f);
     }
 
     @Override

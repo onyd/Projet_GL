@@ -45,6 +45,8 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        expr.iter(f);
+        methodIdent.iter(f);
+        arguments.iter(f);
     }
 }

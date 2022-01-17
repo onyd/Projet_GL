@@ -32,7 +32,7 @@ public class New extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        className.iter(f);
     }
 
     @Override

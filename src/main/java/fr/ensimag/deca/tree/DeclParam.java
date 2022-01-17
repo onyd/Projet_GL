@@ -51,6 +51,7 @@ public class DeclParam extends AbstractDeclParam {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        typeName.iter(f);
+        paramIdent.iter(f);
     }
 }
