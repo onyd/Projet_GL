@@ -63,6 +63,10 @@ public class DecacCompiler {
             envTypes.declare(BOOLEAN_SYMBOL, new TypeDefinition(new BooleanType(BOOLEAN_SYMBOL), Location.BUILTIN));
             envTypes.declare(FLOAT_SYMBOL, new TypeDefinition(new FloatType(FLOAT_SYMBOL), Location.BUILTIN));
             envTypes.declare(INT_SYMBOL, new TypeDefinition(new IntType(INT_SYMBOL), Location.BUILTIN));
+
+            ClassType obejectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
+            envTypes.declare(OBJECT_SYMBOL, obejectType.getDefinition());
+
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
@@ -142,7 +146,7 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
-    private EnvironmentType envTypes = new EnvironmentType();
+    private EnvironmentType envTypes = new EnvironmentType(null);
 
     private Stack stack;
     private RegisterManager registerManager;
@@ -168,7 +172,9 @@ public class DecacCompiler {
     public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
             BOOLEAN_SYMBOL = symbolTable.create("boolean"),
             FLOAT_SYMBOL = symbolTable.create("float"),
-            INT_SYMBOL = symbolTable.create("int");
+            INT_SYMBOL = symbolTable.create("int"),
+            OBJECT_SYMBOL = symbolTable.create("Object"),
+            EQUALS_SYMBOL = symbolTable.create("equals");
 
     public SymbolTable getSymbolTable() {
         return symbolTable;

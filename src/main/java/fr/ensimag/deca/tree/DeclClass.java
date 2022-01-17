@@ -1,8 +1,7 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.ClassType;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -42,15 +41,27 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 1.3
+        ClassDefinition def = (ClassDefinition) compiler.getEnvironmentType().get(superClassName.getName());
+        if (def == null){
+            throw new ContextualError("(1.3) Super class must be declared before its children", getLocation());
+        }
+        try {
+            ClassType type = new ClassType(name.getName(), getLocation(), def);
+            compiler.getEnvironmentType().declare(name.getName(), type.getDefinition());
+        } catch (Environment.DoubleDefException e) {
+            throw new ContextualError("(1.3) The class has already been declared", getLocation());
+        }
+        fields.verifyListClassMembers(compiler);
+        methods.verifyListClassMembers(compiler);
+
     }
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 2.3
+        fields.verifyListClassBody(compiler);
+        methods.verifyListClassBody(compiler);
+
     }
     
     @Override

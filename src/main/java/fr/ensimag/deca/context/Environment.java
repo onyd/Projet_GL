@@ -3,26 +3,15 @@ package fr.ensimag.deca.context;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 
 import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Dictionary associating identifier's ExpDefinition to their names.
- *
- * This is actually a linked list of dictionaries: each EnvironmentExp has a
- * pointer to a parentEnvironment, corresponding to superblock (eg superclass).
- *
- * The dictionary at the head of this list thus corresponds to the "current"
- * block (eg class).
- *
- * Searching a definition (through method get) is done in the "current"
- * dictionary and in the parentEnvironment if it fails.
- *
- * Insertion (through method declare) is always done in the "current" dictionary.
- *
- * @author gl28
- * @date 01/01/2022
- */
-public interface Environment<T extends Definition> {
-    HashMap<String, ExpDefinition> currentExp = new HashMap<String, ExpDefinition>();
+public abstract class Environment<T extends Definition> {
+    private HashMap<Symbol, T> defs = new HashMap<Symbol, T>();
+    private Environment<T> parentEnvironment;
+
+    public Environment(Environment<T> parentEnvironment) {
+        this.parentEnvironment = parentEnvironment;
+    }
 
     public static class DoubleDefException extends Exception {
         private static final long serialVersionUID = -2733379901827316441L;
@@ -32,7 +21,16 @@ public interface Environment<T extends Definition> {
      * Return the definition of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public T get(Symbol key);
+    public T get(Symbol key) {
+        T def = defs.get(key.getName());
+        if (def == null){
+            if (parentEnvironment != null){
+                return this.parentEnvironment.get(key);
+            }
+            return null;
+        }
+        return def;
+    }
 
     /**
      * Add the definition def associated to the symbol name in the environment.
@@ -49,6 +47,18 @@ public interface Environment<T extends Definition> {
      *             if the symbol is already defined at the "current" dictionary
      *
      */
-    public void declare(Symbol name, T def) throws DoubleDefException;
+    public void declare(Symbol name, T def) throws DoubleDefException {
+        if (this.get(name) != null) {
+            throw new DoubleDefException();
+        }
+        this.defs.put(name, def);
+    }
 
+    public void stack(Environment<T> env) {
+        env.parentEnvironment = this;
+    }
+
+    public boolean isEmpty() {
+        return defs.isEmpty();
+    }
 }
