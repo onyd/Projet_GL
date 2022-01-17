@@ -4,6 +4,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -55,5 +57,11 @@ public class DeclField extends AbstractDeclField {
     @Override
     protected void verifyFieldInit(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         initialization.verifyInitialization(compiler, typeName.getType(), currentClass.getMembers(), currentClass);
+    }
+
+    @Override
+    protected void codeGenDeclField(DecacCompiler compiler) {
+        compiler.getStack().declareVariableOnAddressStoreOnStack((Identifier) fieldIdent,
+                initialization, new RegisterOffset(-2, Register.LB));
     }
 }

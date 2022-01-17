@@ -47,11 +47,15 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
     }
 
     protected void codeGenListDeclClass(DecacCompiler compiler) {
+        //for the Object class
         compiler.getvTable().VTableForObject();
+        compiler.setDeclareMethod(true);
         compiler.getvTable().createEqualsMethod();
+        compiler.setDeclareMethod(false);
+
+        //for the other class
         for(AbstractDeclClass declClass : getList()) {
             declClass.codeGenDeclClass(compiler);
         }
     }
-
 }
