@@ -1,7 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.log4j.Logger;
 
 public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
@@ -10,10 +12,10 @@ public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
-    public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
+    public void verifyListClassMembers(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 2] verify listDeclMethod: start");
         for (AbstractDeclMethod m : getList()) {
-            m.verifyMethod(compiler); // TODO verify 2.6
+            m.verifyMethod(compiler, superName, currentClass); // TODO verify 2.6
         }
         LOG.debug("[Pass 2] verify listDeclMethod: end");
     }
@@ -21,10 +23,10 @@ public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
-    public void verifyListClassBody(DecacCompiler compiler) throws ContextualError {
+    public void verifyListClassBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 3] verify listDeclMethod: start");
         for (AbstractDeclMethod m : getList()) {
-            m.verifyMethodBody(compiler);
+            m.verifyMethodBody(compiler, currentClass);
         }
         LOG.debug("[Pass 3] verify listDeclMethod: end");
     }

@@ -64,8 +64,8 @@ public class DecacCompiler {
             envTypes.declare(FLOAT_SYMBOL, new TypeDefinition(new FloatType(FLOAT_SYMBOL), Location.BUILTIN));
             envTypes.declare(INT_SYMBOL, new TypeDefinition(new IntType(INT_SYMBOL), Location.BUILTIN));
 
-            ClassType obejectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
-            envTypes.declare(OBJECT_SYMBOL, obejectType.getDefinition());
+            ClassType objectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
+            envTypes.declare(OBJECT_SYMBOL, objectType.getDefinition());
 
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen

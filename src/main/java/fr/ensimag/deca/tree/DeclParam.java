@@ -1,33 +1,40 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
 public class DeclParam extends AbstractDeclParam {
-    private final AbstractIdentifier type;
+    private final AbstractIdentifier typeName;
     private final  AbstractIdentifier paramIdent;
 
-    public DeclParam(AbstractIdentifier type, AbstractIdentifier paramIdent) {
-        Validate.notNull(type);
+    public DeclParam(AbstractIdentifier typeName, AbstractIdentifier paramIdent) {
+        Validate.notNull(typeName);
         Validate.notNull(paramIdent);
-        this.type = type;
+        this.typeName = typeName;
         this.paramIdent = paramIdent;
     }
 
     @Override
-    protected void verifyParamType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 2.9
+    protected Type verifyParamType(DecacCompiler compiler) throws ContextualError {
+        Type type = typeName.verifyType(compiler);
+        if (type.isVoid()) {
+            throw new ContextualError("(2.9) Param cannot have void type", getLocation());
+        }
+        return type;
     }
 
     @Override
-    protected void verifyParam(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify param 3.13
+    protected void verifyParam(DecacCompiler compiler, EnvironmentExp envExpParams) throws ContextualError {
+        ExpDefinition def = new ParamDefinition(typeName.getType(), getLocation());
+        try {
+            envExpParams.declare(paramIdent.getName(), def);
+        } catch (Environment.DoubleDefException e) {
+            throw new ContextualError("(3.13) Param has already been declared", getLocation());
+        }
     }
 
 
