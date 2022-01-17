@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
 
 import java.io.PrintStream;
 
@@ -14,13 +16,13 @@ public abstract class AbstractDeclMethod extends Tree {
      * Pass 2 of [SyntaxeContextuelle]. Verify that the class method
      * are OK, without looking at method body.
      */
-    protected abstract void verifyMethod(DecacCompiler compiler)
+    protected abstract void verifyMethod(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
      * Pass 3 of [SyntaxeContextuelle]. Verify that method body are OK.
      */
-    protected abstract void verifyMethodBody(DecacCompiler compiler)
+    protected abstract void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass)
             throws ContextualError;
 
     @Override

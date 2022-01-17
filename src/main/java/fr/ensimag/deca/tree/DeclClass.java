@@ -43,33 +43,35 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        ClassDefinition def = (ClassDefinition) compiler.getEnvironmentType().get(superClassName.getName());
-        if (def == null){
+        ClassDefinition superDef = (ClassDefinition) compiler.getEnvironmentType().get(superClassName.getName());
+        if (superDef == null){
             throw new ContextualError("(1.3) Super class must be declared before its children", getLocation());
         }
         try {
-            ClassType type = new ClassType(name.getName(), getLocation(), def);
+            ClassType type = new ClassType(name.getName(), getLocation(), superDef);
             compiler.getEnvironmentType().declare(name.getName(), type.getDefinition());
+            name.setDefinition(type.getDefinition());
+
+            // Stack the super environment
+            EnvironmentExp envExpSuper = superClassName.getClassDefinition().getMembers();
+            type.getDefinition().getMembers().stack(envExpSuper);
         } catch (Environment.DoubleDefException e) {
             throw new ContextualError("(1.3) The class has already been declared", getLocation());
         }
-        fields.verifyListClassMembers(compiler);
-        methods.verifyListClassMembers(compiler);
-
     }
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        fields.verifyListClassBody(compiler);
-        methods.verifyListClassBody(compiler);
+        fields.verifyListClassMembers(compiler, superClassName.getName(), name.getClassDefinition());
+        methods.verifyListClassMembers(compiler, superClassName.getName(), name.getClassDefinition());
 
     }
     
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.5
+        fields.verifyListClassBody(compiler, name.getClassDefinition());
+        methods.verifyListClassBody(compiler, name.getClassDefinition());
     }
 
     @Override

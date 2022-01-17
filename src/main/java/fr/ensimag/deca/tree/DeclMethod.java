@@ -1,28 +1,29 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.commons.lang.Validate;
 
 public class DeclMethod extends AbstractDeclMethod {
-    private final AbstractIdentifier type;
+    private final AbstractIdentifier returnType;
     private final AbstractIdentifier methodIdent;
     private ListDeclParam params;
     private final MethodBody body;
 
-    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodIdent, ListDeclParam params, MethodBody body) {
-        Validate.notNull(type);
+    public DeclMethod(AbstractIdentifier returnType, AbstractIdentifier methodIdent, ListDeclParam params, MethodBody body) {
+        Validate.notNull(returnType);
         Validate.notNull(methodIdent);
         Validate.notNull(params);
         Validate.notNull(body);
-        this.type = type;
+        this.returnType = returnType;
         this.methodIdent = methodIdent;
         this.params = params;
         this.body = body;
     }
 
     public AbstractIdentifier getType() {
-        return type;
+        return returnType;
     }
 
     @Override
@@ -39,14 +40,21 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    protected void verifyMethod(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify method 2.7
+    protected void verifyMethod(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
+        Type type = returnType.verifyType(compiler);
+        Signature sig = params.verifyListClassMembers(compiler);
+        methodIdent.setDefinition(new MethodDefinition(type, getLocation(), sig, 0));
+        try {
+            currentClass.getMembers().declare(methodIdent.getName(), methodIdent.getMethodDefinition());
+        } catch (Environment.DoubleDefException e) {
+            throw new ContextualError("Method has already been declared", getLocation());
+        }
     }
 
     @Override
-    protected void verifyMethodBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify method body 3.11
+    protected void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
+        EnvironmentExp envExpParams = new EnvironmentExp(null);
+        params.verifyListParams(compiler, envExpParams);
+        body.verifyBody(compiler, currentClass, envExpParams, returnType.getType());
     }
 }

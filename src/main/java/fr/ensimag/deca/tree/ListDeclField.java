@@ -1,7 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.log4j.Logger;
 
 public class ListDeclField extends AbstractListTree<AbstractDeclField> {
@@ -10,10 +12,10 @@ public class ListDeclField extends AbstractListTree<AbstractDeclField> {
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
-    public void verifyListClassMembers(DecacCompiler compiler) throws ContextualError {
+    public void verifyListClassMembers(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 2] verify listDeclField: start");
         for (AbstractDeclField f : getList()) {
-            f.verifyField(compiler); // TODO verify 2.4
+            f.verifyField(compiler, superName, currentClass);
         }
         LOG.debug("[Pass 2] verify listDeclField: end");
     }
@@ -21,10 +23,10 @@ public class ListDeclField extends AbstractListTree<AbstractDeclField> {
     /**
      * Pass 3 of [SyntaxeContextuelle]
      */
-    public void verifyListClassBody(DecacCompiler compiler) throws ContextualError {
+    public void verifyListClassBody(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 3] verify listDeclField: start");
         for (AbstractDeclField f : getList()) {
-            f.verifyFieldInit(compiler);
+            f.verifyFieldInit(compiler, currentClass);
         }
         LOG.debug("[Pass 3] verify listDeclField: end");
     }
