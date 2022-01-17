@@ -23,7 +23,7 @@ public abstract class Environment<T extends Definition> {
      */
     public T get(Symbol key) {
         T def = defs.get(key);
-        if (def == null){
+        if (def == null) {
             if (parentEnvironment != null){
                 return this.parentEnvironment.get(key);
             }
@@ -55,7 +55,7 @@ public abstract class Environment<T extends Definition> {
     }
 
     public void stack(Environment<T> env) {
-        env.parentEnvironment = this;
+        parentEnvironment = env;
     }
 
     public boolean isEmpty() {
