@@ -508,7 +508,7 @@ ident returns[AbstractIdentifier tree]
 
 list_classes returns[ListDeclClass tree]
 @init {
-    $tree = new ListDeclClass();
+        $tree = new ListDeclClass();
 }
     :
       (c1=class_decl {
@@ -519,10 +519,12 @@ list_classes returns[ListDeclClass tree]
 
 class_decl returns[DeclClass tree]
 @init {
-       $tree = new DeclClass();
+        AbstractIdentifier objectSymbol = new Identifier(getDecacCompiler().getSymbolTable().create("Object"));
+        $tree = new DeclClass(objectSymbol);
 }
     : CLASS name=ident superclass=class_extension OBRACE class_body[$tree] CBRACE {
             $tree.setName($name.tree);
+            setLocation($tree, $CLASS);
         }
     ;
 
@@ -530,7 +532,6 @@ class_extension returns[AbstractIdentifier tree]
     : EXTENDS ident {
         $tree = $ident.tree;
         setLocation($tree, $EXTENDS);
-
         }
     | /* epsilon */ {
         }
@@ -573,7 +574,7 @@ decl_field[AbstractIdentifier t] returns[AbstractDeclField tree]
         }
       (EQUALS e=expr {
             init = new Initialization($e.tree);
-            setLocation(init, $EQUALS);
+            setLocation(init, $i.start);
         }
       )? {
             $tree = new DeclField($t, $i.tree, init);
@@ -587,14 +588,16 @@ decl_method returns[AbstractDeclMethod tree]
       }
     : type ident OPARENT params=list_params CPARENT (block {
             body = new MethodBody($block.decls, $block.insts);
+            setLocation(body, $block.start);
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
             StringLiteral asm = new StringLiteral($code.text);
             body = new MethodAsmBody(asm);
-
+            setLocation(body, $block.start);
         }
       ) {
            $tree = new DeclMethod($type.tree, $ident.tree, $params.tree, body);
+           setLocation($tree, $type.start);
         }
     ;
 
@@ -626,5 +629,6 @@ param returns[AbstractDeclParam tree]
             assert($type.tree != null);
             assert($ident.tree != null);
             $tree = new DeclParam($type.tree, $ident.tree);
+            setLocation($tree, $type.start);
         }
     ;

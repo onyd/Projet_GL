@@ -28,18 +28,9 @@ public class DeclClass extends AbstractDeclClass {
         this.methods = new ListDeclMethod();
     }
 
-    public DeclClass(AbstractIdentifier name) {
+    public DeclClass(AbstractIdentifier superClassName) {
         //TODO set object as superclass
-        Validate.notNull(name);
-        this.name = name;
-        this.superClassName = null;
-        this.fields = new ListDeclField();
-        this.methods = new ListDeclMethod();
-    }
-
-    public DeclClass() {
-        //TODO set object as superclass
-        this.superClassName = null;
+        this.superClassName = superClassName;
         this.fields = new ListDeclField();
         this.methods = new ListDeclMethod();
     }
@@ -103,7 +94,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not yet supported");
+        name.prettyPrint(s, prefix, true);
+        superClassName.prettyPrint(s, prefix, true);
+        fields.prettyPrint(s, prefix, true);
+        methods.prettyPrint(s, prefix, true);
     }
 
     @Override
