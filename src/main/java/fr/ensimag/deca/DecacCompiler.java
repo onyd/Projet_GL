@@ -251,7 +251,7 @@ public class DecacCompiler {
             LOG.info("Parsing failed");
             return true;
         }
-        assert(prog.checkAllLocations());
+        //assert(prog.checkAllLocations());
 
         if(this.compilerOptions.getParseFiles()) {
              System.out.println(prog.decompile());

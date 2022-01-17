@@ -55,6 +55,7 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         ClassDefinition superDef = (ClassDefinition) compiler.getEnvironmentType().get(superClassName.getName());
+        superClassName.setDefinition(superDef);
         if (superDef == null){
             throw new ContextualError("(1.3) Super class must be declared before its children", getLocation());
         }
