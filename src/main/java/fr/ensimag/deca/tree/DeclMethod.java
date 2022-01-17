@@ -9,9 +9,9 @@ public class DeclMethod extends AbstractDeclMethod {
     private final AbstractIdentifier returnType;
     private final AbstractIdentifier methodIdent;
     private ListDeclParam params;
-    private final MethodBody body;
+    private final AbstractMethodBody body;
 
-    public DeclMethod(AbstractIdentifier returnType, AbstractIdentifier methodIdent, ListDeclParam params, MethodBody body) {
+    public DeclMethod(AbstractIdentifier returnType, AbstractIdentifier methodIdent, ListDeclParam params, AbstractMethodBody body) {
         Validate.notNull(returnType);
         Validate.notNull(methodIdent);
         Validate.notNull(params);
@@ -35,7 +35,7 @@ public class DeclMethod extends AbstractDeclMethod {
         return params;
     }
 
-    public MethodBody getBody() {
+    public AbstractMethodBody getBody() {
         return body;
     }
 
