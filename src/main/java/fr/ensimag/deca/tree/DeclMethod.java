@@ -5,6 +5,8 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.commons.lang.Validate;
 
+import java.io.PrintStream;
+
 public class DeclMethod extends AbstractDeclMethod {
     private final AbstractIdentifier returnType;
     private final AbstractIdentifier methodIdent;
@@ -56,5 +58,13 @@ public class DeclMethod extends AbstractDeclMethod {
         EnvironmentExp envExpParams = new EnvironmentExp(null);
         params.verifyListParams(compiler, envExpParams);
         body.verifyBody(compiler, currentClass, envExpParams, returnType.getType());
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        returnType.prettyPrint(s, prefix, false);
+        methodIdent.prettyPrint(s, prefix, false);
+        params.prettyPrint(s, prefix, false);
+        body.prettyPrint(s, prefix, true);
     }
 }

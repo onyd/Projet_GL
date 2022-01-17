@@ -25,7 +25,7 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        assembly.prettyPrint(s, prefix, true);
     }
 
     @Override

@@ -35,7 +35,8 @@ public class Selection extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        expr.prettyPrint(s, prefix, false);
+        fieldIdent.prettyPrint(s, prefix, true);
     }
 
     @Override

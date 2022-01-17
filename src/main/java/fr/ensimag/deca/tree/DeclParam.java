@@ -45,7 +45,8 @@ public class DeclParam extends AbstractDeclParam {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        typeName.prettyPrint(s, prefix, false);
+        paramIdent.prettyPrint(s, prefix, true);
     }
 
     @Override
