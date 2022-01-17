@@ -3,6 +3,7 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tree.AbstractDeclMethod;
 import fr.ensimag.deca.tree.Identifier;
+import fr.ensimag.deca.tree.ListDeclField;
 import fr.ensimag.deca.tree.ListDeclMethod;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LEA;
@@ -16,6 +17,7 @@ public class VTable {
     private HashMap<String, List<Label>> VTables;
     private List<Label> currentLabelList;
     private DecacCompiler compiler;
+    private IMAProgram imaProgram =new IMAProgram();
 
     public VTable(DecacCompiler compiler) {
         this.compiler = compiler;
@@ -93,5 +95,23 @@ public class VTable {
             }
         }
         return null;
+    }
+
+    /**
+     * create the constructor of the class
+     * @param listDeclField
+     * @param className
+     */
+    public void constructor(ListDeclField listDeclField, String className) {
+
+    }
+
+    /**
+     * create all the method of the class
+     * @param listDeclMethod
+     * @param className
+     */
+    public void createMethode(ListDeclMethod listDeclMethod, String className) {
+
     }
 }

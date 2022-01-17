@@ -55,7 +55,7 @@ public class Program extends AbstractProgram {
     public void codeGenProgram(DecacCompiler compiler) {
         //create the vtable
         compiler.addComment("Creation of the virtual methods table");
-        classes.codeGenListDeclClassVTable(compiler);
+        classes.codeGenListDeclClass(compiler);
 
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
