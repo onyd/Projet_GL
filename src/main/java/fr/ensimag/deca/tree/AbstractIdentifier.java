@@ -86,5 +86,5 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
 
-    public abstract FieldDefinition verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError;
+    public abstract Type verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError;
 }

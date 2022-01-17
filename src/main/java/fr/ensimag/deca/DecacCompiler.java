@@ -280,7 +280,7 @@ public class DecacCompiler {
             LOG.info("Parsing failed");
             return true;
         }
-        //assert(prog.checkAllLocations());
+        assert(prog.checkAllLocations());
 
         if(this.compilerOptions.getParseFiles()) {
              System.out.println(prog.decompile());
@@ -292,7 +292,8 @@ public class DecacCompiler {
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
-        //assert(prog.checkAllDecorations());
+        assert(prog.checkAllDecorations());
+        System.out.println(prog.prettyPrint());
 
         // STEP C
         addComment("start main program");

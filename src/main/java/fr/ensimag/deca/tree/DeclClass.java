@@ -14,6 +14,8 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclClass extends AbstractDeclClass {
+
+
     private AbstractIdentifier name;
     private AbstractIdentifier superClassName;
     private ListDeclField fields;
@@ -28,11 +30,21 @@ public class DeclClass extends AbstractDeclClass {
         this.methods = new ListDeclMethod();
     }
 
-    public DeclClass(AbstractIdentifier superClassName) {
-        //TODO set object as superclass
-        this.superClassName = superClassName;
+    public DeclClass() {
         this.fields = new ListDeclField();
         this.methods = new ListDeclMethod();
+    }
+
+    public AbstractIdentifier getSuperClassName() {
+        return superClassName;
+    }
+
+    public void setSuperClassName(AbstractIdentifier superClassName) {
+        this.superClassName = superClassName;
+    }
+
+    public AbstractIdentifier getName() {
+        return name;
     }
 
     public void setName(AbstractIdentifier name) {

@@ -26,7 +26,8 @@ public class This extends AbstractExpr {
         if (currentClass == null) {
             throw new ContextualError("This cannot be used in main program", getLocation());
         }
-        return currentClass.getType();
+        setType(currentClass.getType());
+        return getType();
     }
 
     @Override
