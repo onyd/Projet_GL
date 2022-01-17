@@ -68,6 +68,7 @@ public class Program extends AbstractProgram {
         classWriter.visitSource("MainClasse" + ".java", null);//il faut changer le chemin
         MethodVisitor methodVisitor = null;
 
+        // Création du constructeur par défaut.
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
         methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
         methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
@@ -78,7 +79,8 @@ public class Program extends AbstractProgram {
         methodVisitor.visitMaxs(1, 1);
         methodVisitor.visitEnd();
 
-        main.codeGenMainByte(compiler,javaCompiler);
+        main.codeGenMainByte(compiler,javaCompiler);// similaire à main.codeGenMain(compiler); de la méthode codeGenProgram.
+        
         classWriter.visitEnd();
     }
 
