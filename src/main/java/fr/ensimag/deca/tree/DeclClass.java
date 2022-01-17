@@ -97,15 +97,18 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        name.prettyPrint(s, prefix, true);
-        superClassName.prettyPrint(s, prefix, true);
-        fields.prettyPrint(s, prefix, true);
+        name.prettyPrint(s, prefix, false);
+        superClassName.prettyPrint(s, prefix, false);
+        fields.prettyPrint(s, prefix, false);
         methods.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        name.iter(f);
+        superClassName.iter(f);
+        fields.iter(f);
+        methods.iter(f);
     }
 
 }

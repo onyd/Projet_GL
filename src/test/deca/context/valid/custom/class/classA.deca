@@ -4,3 +4,9 @@ class A {
         return x ;
     }
 }
+
+{
+    A a = new A() ;
+    a.setX(1) ;
+    println("a.getX() = ", a.getX()) ;
+}

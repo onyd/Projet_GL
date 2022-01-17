@@ -2,8 +2,11 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
 
 public class DeclMethod extends AbstractDeclMethod {
     private final AbstractIdentifier returnType;
@@ -56,5 +59,26 @@ public class DeclMethod extends AbstractDeclMethod {
         EnvironmentExp envExpParams = new EnvironmentExp(null);
         params.verifyListParams(compiler, envExpParams);
         body.verifyBody(compiler, currentClass, envExpParams, returnType.getType());
+    }
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+
+    }
+
+    @Override
+    protected void prettyPrintChildren(PrintStream s, String prefix) {
+        returnType.prettyPrint(s, prefix, false);
+        methodIdent.prettyPrint(s, prefix, false);
+        params.prettyPrint(s, prefix, false);
+        body.prettyPrint(s, prefix, true);
+    }
+
+    @Override
+    protected void iterChildren(TreeFunction f) {
+        returnType.iter(f);
+        methodIdent.iter(f);
+        params.iter(f);
+        body.iter(f);
     }
 }

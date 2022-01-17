@@ -27,12 +27,12 @@ public class New extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        className.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        className.iter(f);
     }
 
     @Override

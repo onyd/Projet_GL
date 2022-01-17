@@ -38,11 +38,15 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        expr.prettyPrint(s, prefix, false);
+        methodIdent.prettyPrint(s, prefix, false);
+        arguments.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        expr.iter(f);
+        methodIdent.iter(f);
+        arguments.iter(f);
     }
 }

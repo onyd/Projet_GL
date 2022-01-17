@@ -25,12 +25,12 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        assembly.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        assembly.iter(f);
     }
 
     @Override

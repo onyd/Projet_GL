@@ -31,12 +31,16 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-
+        typeName.prettyPrint(s, prefix, false);
+        fieldIdent.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, true);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        typeName.iter(f);
+        fieldIdent.iter(f);
+        initialization.iter(f);
     }
 
     @Override
