@@ -160,7 +160,11 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
+
+    /**
+     * Contient les classes pour générer les fichiers .class
+     */
+    private JavaCompiler javaCompiler = new JavaCompiler();
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -239,6 +243,7 @@ public class DecacCompiler {
         // STEP C
         addComment("start main program");
         prog.codeGenProgram(this);
+        prog.codeGenProgramByte(this,javaCompiler);
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
