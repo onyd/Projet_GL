@@ -24,8 +24,10 @@ public class Selection extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.65 3.66
+        Type type = expr.verifyExpr(compiler, localEnv, currentClass);
+        ClassDefinition class2 = type.asClassType("Cannot select field on " + type, getLocation()).getDefinition();
+        fieldIdent.verifyField(compiler, class2.getMembers());
+        return fieldIdent.getType();
     }
 
     @Override
