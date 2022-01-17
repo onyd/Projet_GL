@@ -1,10 +1,19 @@
+// First we create a big number trough a factorial loop.
+// Then we decrement this big number until 0 and do some operations inside the loop.
+
+
 {
     int cpt = 1;
     int res = 1;
-    int n = 12;
-    while(cpt < n) {
+    int n = 1;
+    while(cpt<12) {
         cpt = cpt + 1;
         res = res * cpt;
+    }
+    while(res != 0){
+        res = res-100;
+        cpt=cpt*5;
+        cpt=cpt/5;
     }
     println(res);
 }
