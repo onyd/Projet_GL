@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 
@@ -13,6 +14,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 public abstract class AbstractMain extends Tree {
 
     protected abstract void codeGenMain(DecacCompiler compiler);
+    protected abstract void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler);
 
 
     /**

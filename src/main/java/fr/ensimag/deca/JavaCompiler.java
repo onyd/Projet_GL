@@ -10,6 +10,17 @@ public class JavaCompiler implements Opcodes
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;
 
+    public String getClassName()
+    {
+        return className;
+    }
+
+    public void setClassName(String className)
+    {
+        this.className = className;
+    }
+
+    private String className;
     public ClassWriter getClassWriter()
     {
         return classWriter;
