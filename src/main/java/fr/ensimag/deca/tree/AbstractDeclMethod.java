@@ -25,6 +25,8 @@ public abstract class AbstractDeclMethod extends Tree {
     protected abstract void verifyMethodBody(DecacCompiler compiler, ClassDefinition currentClass)
             throws ContextualError;
 
+    protected abstract void codeGenDeclMethod(DecacCompiler compiler, String className);
+
     @Override
     public void decompile(IndentPrintStream s) {
 

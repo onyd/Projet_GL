@@ -1,10 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.tree.AbstractDeclMethod;
-import fr.ensimag.deca.tree.Identifier;
-import fr.ensimag.deca.tree.ListDeclField;
-import fr.ensimag.deca.tree.ListDeclMethod;
+import fr.ensimag.deca.tree.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -28,14 +25,18 @@ public class VTable {
      * @param methodName
      * @param className
      */
-    private void addLabelInVTable(String methodName, String className) {
+    private void addLabelInVTable(String methodName, String className, AbstractDeclMethod declMethod, RegisterOffset reg) {
         Label label = compiler.getLabelManager().getMethodLabel(className, methodName);
+        declMethod.getMethodIdent().getMethodDefinition().setLabel(label);
         for(int i = 0; i < currentLabelList.size(); i++) {
             if(currentLabelList.get(i).toString().contains(methodName)) {
                 currentLabelList.set(i, label);
+                declMethod.getMethodIdent().getMethodDefinition().setOperand(new RegisterOffset(reg.getOffset() + i + 1, Register.GB));
                 return;
             }
         }
+        declMethod.getMethodIdent().getMethodDefinition().setOperand(
+                new RegisterOffset(reg.getOffset() + currentLabelList.size() + 1, Register.GB));
         currentLabelList.add(label);
     }
 
@@ -71,7 +72,7 @@ public class VTable {
         DAddr dAddr = compiler.getStack().declareImmediateOnStackAndReturnDAddr(Register.R1);
         classIdent.getClassDefinition().setdAddrVTable(dAddr);
         for(AbstractDeclMethod declMethod : listDeclMethod.getList()) {
-            this.addLabelInVTable(declMethod.getMethodIdent().getName().getName(), className);
+            this.addLabelInVTable(declMethod.getMethodIdent().getName().getName(), className, declMethod, (RegisterOffset) dAddr);
         }
         //add the VTable in the stack
         for(Label label : currentLabelList) {
@@ -89,7 +90,7 @@ public class VTable {
     public Label getMethodLabel(String methodName, String className) {
         this.currentLabelList = this.VTables.get(className);
         for(Label label : currentLabelList) {
-            if(label.toString().contains(methodName)) {
+            if(label.toString().contains("." + methodName)) {
                 return label;
             }
         }
@@ -108,6 +109,7 @@ public class VTable {
     public void constructor(ListDeclField listDeclField, String className) {
         compiler.addLabel(new Label("init." + className));
         listDeclField.codeGenListDeclField(compiler);
+        compiler.addInstruction(new RTS());
     }
 
     /**

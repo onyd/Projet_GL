@@ -4,9 +4,17 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 public class DeclMethod extends AbstractDeclMethod {
     private final AbstractIdentifier returnType;
@@ -59,6 +67,28 @@ public class DeclMethod extends AbstractDeclMethod {
         EnvironmentExp envExpParams = new EnvironmentExp(null);
         params.verifyListParams(compiler, envExpParams);
         body.verifyBody(compiler, currentClass, envExpParams, returnType.getType());
+    }
+
+    @Override
+    protected void codeGenDeclMethod(DecacCompiler compiler, String className) {
+        //save the registers
+        compiler.addComment("Save All used registers");
+        ArrayList<Integer> usedRegisters = compiler.getRegisterManager().allUsedRegisters();
+        compiler.addInstruction(new TSTO(new ImmediateInteger(usedRegisters.size())));
+        compiler.addInstruction(new BOV(new Label("stack_overflow_error")));
+        for(int registerNb : usedRegisters) {
+            compiler.addInstruction(new PUSH(Register.getR(registerNb)));
+        }
+
+        params.codeGenListDeclParam(compiler);
+
+
+        //restore the registers
+        compiler.addLabel(compiler.getLabelManager().getEndMethodLabel(className, methodIdent.getName().getName()));
+        compiler.addComment("restore Registers");
+        for(int i = usedRegisters.size() - 1; i >= 0; i--) {
+            compiler.addInstruction(new POP(Register.getR(i)));
+        }
     }
 
     @Override

@@ -65,4 +65,8 @@ public class LabelManager {
     public Label getMethodLabel(String className, String methodName) {
         return new Label("code." + className + "." + methodName);
     }
+
+    public Label getEndMethodLabel(String className, String methodName) {
+        return new Label("fin." + className + methodName);
+    }
 }
