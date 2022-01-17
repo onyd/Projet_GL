@@ -54,6 +54,8 @@ public class CompilerOptions {
         return registerLimit;
     }
 
+    public boolean getByteFiles(){ return byteFiles;}
+
     private int debug = 0;
     private boolean parallel = false;
     private boolean printBanner = false;
@@ -64,6 +66,7 @@ public class CompilerOptions {
     private boolean noCheck = false;
     private int registerNumber = 16;
     private boolean registerLimit = false;
+    private boolean byteFiles = false;
 
     public void parseArgs(String[] args) throws CLIException {
         // Parse options
@@ -137,6 +140,9 @@ public class CompilerOptions {
                     break;
                 case "-n":
                     this.noCheck = true;
+                    break;
+                case "-java":
+                    this.byteFiles = true;
                     break;
                 case "-r":
                     if (this.registerLimit) {

@@ -40,7 +40,9 @@ public abstract class AbstractInst extends Tree {
      *
      * @param compiler
      */
-    protected abstract void codeGenInstByte(DecacCompiler compiler);
+    protected  void codeGenInstByte(DecacCompiler compiler){
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
 
     /**
