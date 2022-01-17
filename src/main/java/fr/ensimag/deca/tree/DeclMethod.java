@@ -21,6 +21,23 @@ public class DeclMethod extends AbstractDeclMethod {
         this.body = body;
     }
 
+    public AbstractIdentifier getType() {
+        return type;
+    }
+
+    @Override
+    public AbstractIdentifier getMethodIdent() {
+        return methodIdent;
+    }
+
+    public ListDeclParam getParams() {
+        return params;
+    }
+
+    public MethodBody getBody() {
+        return body;
+    }
+
     @Override
     protected void verifyMethod(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");

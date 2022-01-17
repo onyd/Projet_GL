@@ -36,6 +36,6 @@ public abstract class AbstractDeclClass extends Tree {
      * generate the code to create the virtual methods table for this class
      * @param compiler
      */
-    protected abstract void codeGenDeclClassVTable(DecacCompiler compiler);
+    protected abstract void codeGenDeclClass(DecacCompiler compiler);
 
 }

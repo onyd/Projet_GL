@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -54,7 +55,7 @@ public class Program extends AbstractProgram {
     public void codeGenProgram(DecacCompiler compiler) {
         //create the vtable
         compiler.addComment("Creation of the virtual methods table");
-        classes.codeGenListDeclClassVTable(compiler);
+        classes.codeGenListDeclClass(compiler);
 
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
@@ -63,6 +64,10 @@ public class Program extends AbstractProgram {
         //add all the error
         compiler.addComment("Handle the errors");
         Utils.handleError(compiler);
+
+        /*PROVISOIRE */
+        compiler.addLabel(new Label("code.Object.equals"));
+        compiler.addInstruction(new HALT());
     }
 
     @Override

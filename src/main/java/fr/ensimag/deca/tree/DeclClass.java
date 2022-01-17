@@ -24,6 +24,8 @@ public class DeclClass extends AbstractDeclClass {
         Validate.notNull(superClassName);
         this.name = name;
         this.superClassName = superClassName;
+        this.fields = new ListDeclField();
+        this.methods = new ListDeclMethod();
     }
 
     public void addFields(AbstractDeclField field) {
@@ -71,8 +73,8 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenDeclClassVTable(DecacCompiler compiler) {
-
+    protected void codeGenDeclClass(DecacCompiler compiler) {
+        compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
     }
 
     @Override

@@ -46,10 +46,10 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
         LOG.debug("[Pass 3] verify listClass: end");
     }
 
-    protected void codeGenListDeclClassVTable(DecacCompiler compiler) {
+    protected void codeGenListDeclClass(DecacCompiler compiler) {
         compiler.getvTable().VTableForObject();
         for(AbstractDeclClass declClass : getList()) {
-            declClass.codeGenDeclClassVTable(compiler);
+            declClass.codeGenDeclClass(compiler);
         }
     }
 

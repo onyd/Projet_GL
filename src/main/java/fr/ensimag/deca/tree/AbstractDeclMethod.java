@@ -8,6 +8,8 @@ import java.io.PrintStream;
 
 public abstract class AbstractDeclMethod extends Tree {
 
+    public abstract AbstractIdentifier getMethodIdent();
+
     /**
      * Pass 2 of [SyntaxeContextuelle]. Verify that the class method
      * are OK, without looking at method body.
