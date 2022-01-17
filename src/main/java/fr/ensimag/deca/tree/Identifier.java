@@ -187,6 +187,13 @@ public class Identifier extends AbstractIdentifier {
         return getType();
     }
 
+    @Override
+    public FieldDefinition verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        FieldDefinition fieldDef = localEnv.get(getName()).asFieldDefinition("(3.70) Identifier must be a field", getLocation());
+        setDefinition(fieldDef);
+        return fieldDef;
+    }
+
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

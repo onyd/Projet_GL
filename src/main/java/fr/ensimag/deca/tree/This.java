@@ -23,7 +23,10 @@ public class This extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        return null; // TODO verify 3.43
+        if (currentClass == null) {
+            throw new ContextualError("This cannot be used in main program", getLocation());
+        }
+        return currentClass.getType();
     }
 
     @Override

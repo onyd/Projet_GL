@@ -61,12 +61,12 @@ public class Program extends AbstractProgram {
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
 
+        //crete all the constructors and methods
+        compiler.appendMethodProg();
+
         //add all the error
         compiler.addComment("Handle the errors");
         Utils.handleError(compiler);
-
-        //crete all the constructors and methods
-        compiler.append(compiler.getvTable().getImaProgram());
     }
 
     @Override

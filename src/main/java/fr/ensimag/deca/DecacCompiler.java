@@ -99,7 +99,11 @@ public class DecacCompiler {
      * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
      */
     public void addComment(String comment) {
-        program.addComment(comment);
+        if(declareMethod) {
+            declMethodProg.addComment(comment);
+        } else {
+            program.addComment(comment);
+        }
     }
 
     /**
@@ -107,7 +111,11 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
      */
     public void addLabel(Label label) {
-        program.addLabel(label);
+        if(declareMethod) {
+            declMethodProg.addLabel(label);
+        } else {
+            program.addLabel(label);
+        }
     }
 
     /**
@@ -115,7 +123,11 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
      */
     public void addInstruction(Instruction instruction) {
-        program.addInstruction(instruction);
+        if(declareMethod) {
+            declMethodProg.addInstruction(instruction);
+        } else {
+            program.addInstruction(instruction);
+        }
     }
 
     /**
@@ -124,7 +136,11 @@ public class DecacCompiler {
      * java.lang.String)
      */
     public void addInstruction(Instruction instruction, String comment) {
-        program.addInstruction(instruction, comment);
+        if(declareMethod) {
+            declMethodProg.addInstruction(instruction, comment);
+        } else {
+            program.addInstruction(instruction, comment);
+        }
     }
 
     /**
@@ -134,7 +150,11 @@ public class DecacCompiler {
     public void append(IMAProgram p) {
         program.append(p);
     }
-    
+
+    public void appendMethodProg() {
+        program.append(declMethodProg);
+    }
+
     /**
      * @see 
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
@@ -189,7 +209,16 @@ public class DecacCompiler {
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
+
+    /**
+     * The program that create the constructor and the method for all the classes
+     */
+    private final IMAProgram declMethodProg = new IMAProgram();
+    private boolean declareMethod = false;
+
+    public void setDeclareMethod(boolean declareMethod) {
+        this.declareMethod = declareMethod;
+    }
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -263,7 +292,7 @@ public class DecacCompiler {
         if(this.compilerOptions.getVerifyFiles()) {
             System.exit(0);
         }
-        assert(prog.checkAllDecorations());
+        //assert(prog.checkAllDecorations());
 
         // STEP C
         addComment("start main program");

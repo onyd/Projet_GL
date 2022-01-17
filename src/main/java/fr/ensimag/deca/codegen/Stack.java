@@ -26,24 +26,7 @@ public class Stack {
         expr.codeGenExprOnR1(this.decacCompiler);
     }
 
-    public void setStringOnStack(Identifier identifier, Initialization init) {
-        String text = ((StringLiteral) init.getExpression()).getValue();
-        DAddr dAddr;
-        for(int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            this.decacCompiler.addInstruction(new LOAD(new ImmediateInteger((int) c), Register.R0));
-            dAddr = new RegisterOffset(this.currentStackPosition, Register.GB);
-            if(i == 0) {
-                identifier.getVariableDefinition().setOperand(dAddr);
-                identifier.getVariableDefinition().setSizeOnStack(text.length());
-            }
-            this.currentStackPosition++;
-            this.decacCompiler.addInstruction(new ADDSP(1));
-            this.decacCompiler.addInstruction(new STORE(Register.R0, dAddr));
-        }
-    }
-
-    public void declareVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
+    public void loadVariableOnR1FromIdentAndInit(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a not initialized declared variable on the stack");
             this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R1));
@@ -51,11 +34,23 @@ public class Stack {
             Initialization init = (Initialization) initialization;
             if(init.getExpression().getType().isString()) {
                 setStringOnStack(identifier, init);
-                return;
             } else {
                 this.loadVariableFromExpr(init.getExpression());
             }
         }
+    }
+
+    public void declareVariableOnAddressStoreOnStack(Identifier identifier,
+                                                     AbstractInitialization initialization,
+                                                     RegisterOffset registerOffset) {
+        loadVariableOnR1FromIdentAndInit(identifier, initialization);
+        decacCompiler.addInstruction(new LOAD(registerOffset, Register.R0));
+        decacCompiler.addInstruction(new STORE(Register.R1,
+                new RegisterOffset(identifier.getFieldDefinition().getIndex() + 1, Register.R0)));
+    }
+
+    public void declareVariableOnStack(Identifier identifier, AbstractInitialization initialization) {
+        loadVariableOnR1FromIdentAndInit(identifier, initialization);
         DAddr dAddr= new RegisterOffset(this.currentStackPosition, Register.GB);
         identifier.getVariableDefinition().setOperand(dAddr);
         this.currentStackPosition++;
@@ -93,6 +88,23 @@ public class Stack {
     public void getVariableFromStackOnR1(Identifier identifier, int position) {
         if(identifier.getVariableDefinition().getType().isString()) {
             this.decacCompiler.addInstruction(new LOAD(new RegisterOffset(position, Register.GB), Register.R1));
+        }
+    }
+
+    public void setStringOnStack(Identifier identifier, Initialization init) {
+        String text = ((StringLiteral) init.getExpression()).getValue();
+        DAddr dAddr;
+        for(int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            this.decacCompiler.addInstruction(new LOAD(new ImmediateInteger((int) c), Register.R0));
+            dAddr = new RegisterOffset(this.currentStackPosition, Register.GB);
+            if(i == 0) {
+                identifier.getVariableDefinition().setOperand(dAddr);
+                identifier.getVariableDefinition().setSizeOnStack(text.length());
+            }
+            this.currentStackPosition++;
+            this.decacCompiler.addInstruction(new ADDSP(1));
+            this.decacCompiler.addInstruction(new STORE(Register.R0, dAddr));
         }
     }
 }

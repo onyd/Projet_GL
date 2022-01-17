@@ -17,15 +17,10 @@ public class VTable {
     private HashMap<String, List<Label>> VTables;
     private List<Label> currentLabelList;
     private DecacCompiler compiler;
-    private IMAProgram imaProgram =new IMAProgram();
 
     public VTable(DecacCompiler compiler) {
         this.compiler = compiler;
         this.VTables = new HashMap<>();
-    }
-
-    public IMAProgram getImaProgram() {
-        return imaProgram;
     }
 
     /**
@@ -102,21 +97,17 @@ public class VTable {
     }
 
     public void createEqualsMethod() {
-        imaProgram.addLabel(compiler.getLabelManager().getMethodLabel("Object", "equals"));
-        imaProgram.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
-        imaProgram.addInstruction(new LOAD(new RegisterOffset(-3, Register.LB), Register.R0));
-        imaProgram.addInstruction(new CMP(Register.R1, Register.R0));
-        imaProgram.addInstruction(new SEQ(Register.R0));
-        imaProgram.addInstruction(new RTS());
+        compiler.addLabel(compiler.getLabelManager().getMethodLabel("Object", "equals"));
+        compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+        compiler.addInstruction(new LOAD(new RegisterOffset(-3, Register.LB), Register.R0));
+        compiler.addInstruction(new CMP(Register.R1, Register.R0));
+        compiler.addInstruction(new SEQ(Register.R0));
+        compiler.addInstruction(new RTS());
     }
 
-    /**
-     * create the constructor of the class
-     * @param listDeclField
-     * @param className
-     */
     public void constructor(ListDeclField listDeclField, String className) {
-
+        compiler.addLabel(new Label("init." + className));
+        listDeclField.codeGenListDeclField(compiler);
     }
 
     /**
