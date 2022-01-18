@@ -55,12 +55,13 @@ public class DeclMethod extends AbstractDeclMethod {
         Type type = returnType.verifyType(compiler);
         Signature sig = params.verifyListClassMembers(compiler);
         currentClass.incNumberOfMethods();
-        methodIdent.setDefinition(new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods()));
+        MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
         try {
-            currentClass.getMembers().declare(methodIdent.getName(), methodIdent.getMethodDefinition());
+            currentClass.getMembers().declare(methodIdent.getName(), methodDef);
         } catch (Environment.DoubleDefException e) {
             throw new ContextualError("Method has already been declared", getLocation());
         }
+        methodIdent.verifyExpr(compiler, currentClass.getMembers(), currentClass);
     }
 
     @Override

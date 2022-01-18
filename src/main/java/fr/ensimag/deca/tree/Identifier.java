@@ -193,6 +193,13 @@ public class Identifier extends AbstractIdentifier {
         return getType();
     }
 
+    @Override
+    public Type verifyMethod(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        MethodDefinition methodDef = localEnv.get(getName()).asMethodDefinition("(3.72) Identifier must be a method", getLocation());
+        setType(methodDef.getType());
+        setDefinition(methodDef);
+        return getType();
+    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {

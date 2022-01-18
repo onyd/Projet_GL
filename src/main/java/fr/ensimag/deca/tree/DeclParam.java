@@ -34,8 +34,10 @@ public class DeclParam extends AbstractDeclParam {
         ExpDefinition def = new ParamDefinition(typeName.getType(), getLocation());
         try {
             envExpParams.declare(paramIdent.getName(), def);
+            paramIdent.setDefinition(def);
+            paramIdent.setType(def.getType());
         } catch (Environment.DoubleDefException e) {
-            throw new ContextualError("(3.13) Param has already been declared", getLocation());
+            throw new ContextualError("Param has already been declared", getLocation());
         }
     }
 

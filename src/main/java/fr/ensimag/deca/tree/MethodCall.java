@@ -29,7 +29,7 @@ public class MethodCall extends AbstractExpr {
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         Type typeClass2 = expr.verifyExpr(compiler, localEnv, currentClass);
         ClassDefinition class2Def = typeClass2.asClassType("(3.71) Method can only be called on class type", getLocation()).getDefinition();
-        Type type = methodIdent.verifyField(compiler, class2Def.getMembers());
+        Type type = methodIdent.verifyMethod(compiler, class2Def.getMembers());
         setType(type);
         arguments.verifyRValueStar(compiler, localEnv, currentClass, methodIdent.getMethodDefinition().getSignature());
         return getType();
