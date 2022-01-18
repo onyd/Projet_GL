@@ -15,7 +15,7 @@ public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
     public void verifyListClassMembers(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 2] verify listDeclMethod: start");
         for (AbstractDeclMethod m : getList()) {
-            m.verifyMethod(compiler, superName, currentClass); // TODO verify 2.6
+            m.verifyMethod(compiler, superName, currentClass);
         }
         LOG.debug("[Pass 2] verify listDeclMethod: end");
     }
