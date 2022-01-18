@@ -57,7 +57,7 @@ public class DeclMethod extends AbstractDeclMethod {
         ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
         if (def != null) {
             MethodDefinition superMethodDef = (MethodDefinition) def;
-            if (!sig.equals(superMethodDef.getSignature()) || type.isSubType(superMethodDef.getType())) {
+            if (!sig.equals(superMethodDef.getSignature()) || !type.isSubType(superMethodDef.getType())) {
                 throw new ContextualError("(2.7) Redefinition of a method must match the signature and return a subtype of the super definition", getLocation());
             }
         }
