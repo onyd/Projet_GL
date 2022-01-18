@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Register;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -36,7 +37,7 @@ public class Return extends  AbstractInst {
 
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
-
+        expr.codeGenExprOnRegister(compiler, Register.R0);
     }
 
     @Override

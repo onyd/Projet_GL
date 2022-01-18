@@ -118,6 +118,8 @@ public class VTable {
      * @param className
      */
     public void createMethods(ListDeclMethod listDeclMethod, String className) {
-
+        for(AbstractDeclMethod declMethod : listDeclMethod.getList()) {
+            declMethod.codeGenDeclMethod(compiler, className);
+        }
     }
 }

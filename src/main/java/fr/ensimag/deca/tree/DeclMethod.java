@@ -7,10 +7,7 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.BOV;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -71,7 +68,8 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    protected void codeGenDeclMethod(DecacCompiler compiler, String className) {
+    public void codeGenDeclMethod(DecacCompiler compiler, String className) {
+        compiler.addLabel(compiler.getLabelManager().getMethodLabel(className, methodIdent.getName().getName()));
         //save the registers
         compiler.addComment("Save All used registers");
         ArrayList<Integer> usedRegisters = compiler.getRegisterManager().allUsedRegisters();
@@ -82,7 +80,7 @@ public class DeclMethod extends AbstractDeclMethod {
         }
 
         params.codeGenListDeclParam(compiler);
-
+        body.codeGenMethodBody(compiler);
 
         //restore the registers
         compiler.addLabel(compiler.getLabelManager().getEndMethodLabel(className, methodIdent.getName().getName()));
@@ -90,6 +88,7 @@ public class DeclMethod extends AbstractDeclMethod {
         for(int i = usedRegisters.size() - 1; i >= 0; i--) {
             compiler.addInstruction(new POP(Register.getR(i)));
         }
+        compiler.addInstruction(new RTS());
     }
 
     @Override
