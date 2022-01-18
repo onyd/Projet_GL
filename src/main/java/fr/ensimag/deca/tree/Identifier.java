@@ -166,10 +166,18 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
         ClassDefinition currentClass) throws ContextualError {
+        // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
-        if(expDef == null) {
-            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+        if(expDef == null && currentClass == null) {
+            throw new ContextualError("(0.1) ", getLocation());
+        } else if (expDef == null) {
+            // Try to find variable as class field
+            expDef = currentClass.getMembers().get(getName());
+            if (expDef == null) {
+                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+            }
         }
+
         setType(expDef.getType());
         setDefinition(expDef);
         return this.getType();
