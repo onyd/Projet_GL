@@ -70,7 +70,6 @@ public class Selection extends AbstractLValue {
         expr.decompile(s);
         s.print(".");
         fieldIdent.decompile(s);
-        s.println();
     }
 
     @Override
