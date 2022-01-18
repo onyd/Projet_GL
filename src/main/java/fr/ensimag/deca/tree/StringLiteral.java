@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -7,6 +8,7 @@ import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * String literal
@@ -37,10 +39,35 @@ public class StringLiteral extends AbstractStringLiteral {
         return type;
     }
 
+    /*
+    @Override
+    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+
+    }*/
+
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
     }
+
+    @Override
+    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        // L'instruction System.out.PrintStream.println
+        methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
+                "java/lang/System",
+                "out",
+                "Ljava/io/PrintStream;");
+        methodVisitor.visitLdcInsn(value);
+        methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                "java/io/PrintStream",
+                "println",
+                "(Ljava/lang/String;)V",
+                false);
+    }
+
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -61,5 +88,4 @@ public class StringLiteral extends AbstractStringLiteral {
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";
     }
-
 }

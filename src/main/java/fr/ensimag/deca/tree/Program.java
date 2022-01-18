@@ -80,7 +80,6 @@ public class Program extends AbstractProgram {
         methodVisitor.visitEnd();
 
         main.codeGenMainByte(compiler,javaCompiler);// similaire à main.codeGenMain(compiler); de la méthode codeGenProgram.
-        
         classWriter.visitEnd();
     }
 

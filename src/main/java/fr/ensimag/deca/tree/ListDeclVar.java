@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -54,5 +55,9 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
         for(AbstractDeclVar declVar : this.getList()) {
             declVar.codeGenDeclVar(compiler);
         }
+    }
+    void codeGenListDeclVariableByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+
     }
 }

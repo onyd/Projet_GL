@@ -48,7 +48,27 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler)
     {
+        ClassWriter classWriter = javaCompiler.getClassWriter();
+        MethodVisitor methodVisitor = null;
 
+        // Ajout du main.
+        methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC + javaCompiler.ACC_STATIC,
+                "main",
+                "([Ljava/lang/String;)V",
+                null,
+                null);
+
+        javaCompiler.setMethodVisitor(methodVisitor);
+
+        //declVariables
+        insts.codeGenListInstByteCode(compiler,javaCompiler);
+
+        methodVisitor.visitInsn(javaCompiler.RETURN);
+        methodVisitor.visitMaxs(2, 1);
+
+
+        
+        methodVisitor.visitEnd();
     }
     
     @Override
