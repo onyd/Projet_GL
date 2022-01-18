@@ -306,7 +306,7 @@ inequality_expr returns[AbstractExpr tree]
     | e1=inequality_expr INSTANCEOF type { //a completer objet
             assert($e1.tree != null);
             assert($type.tree != null);
-            $tree = new NotEquals($e1.tree, $e2.tree);
+            $tree = new InstanceOf($e1.tree, $type.tree);
             setLocation($tree, $e1.start);
         }
     ;
@@ -404,6 +404,10 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
+            This implicitThis = new This(true);
+            $tree = new MethodCall(implicitThis, $m.tree, $args.tree);
+            setLocation(implicitThis, $m.start);
+            setLocation($tree, $m.start);
         }
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
@@ -425,6 +429,8 @@ primary_expr returns[AbstractExpr tree]
     | cast=OPARENT type CPARENT OPARENT expr CPARENT {
             assert($type.tree != null);
             assert($expr.tree != null);
+            $tree = new Cast($type.tree, $expr.tree);
+            setLocation($tree, $cast);
         }
     | literal {
             assert($literal.tree != null);
