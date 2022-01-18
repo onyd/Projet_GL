@@ -77,7 +77,14 @@ public class Stack {
     }
 
     public void setVariableOnStack(Identifier identifier, Register register) {
-        this.decacCompiler.addInstruction(new STORE(register, identifier.getExpDefinition().getOperand()));
+        if(identifier.getDefinition().isField()) {
+            // implicit selection of a field in a class
+            decacCompiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R0));
+            decacCompiler.addInstruction(new STORE(register,
+                    new RegisterOffset(identifier.getFieldDefinition().getIndex(), Register.R0)));
+        } else {
+            this.decacCompiler.addInstruction(new STORE(register, identifier.getExpDefinition().getOperand()));
+        }
     }
 
     public void getVariableFromStackOnR1(Identifier identifier) {

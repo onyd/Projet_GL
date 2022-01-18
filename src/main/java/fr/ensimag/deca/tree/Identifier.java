@@ -236,7 +236,13 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+        if(this.definition.isField()) {
+            // implicit selection of a field in a class
+            compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), register));
+            compiler.addInstruction(new LOAD(new RegisterOffset(this.getFieldDefinition().getIndex(), register), register));
+        } else {
+            compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+        }
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
