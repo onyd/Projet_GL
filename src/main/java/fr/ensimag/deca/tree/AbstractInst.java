@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -34,6 +35,25 @@ public abstract class AbstractInst extends Tree {
      * @param compiler
      */
     protected abstract void codeGenInst(DecacCompiler compiler);
+
+    /**
+     * Generate bytecode for the instruction.
+     *
+     * @param compiler
+     * @param javaCompiler
+     */
+    protected  void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler){
+
+    }
+
+    /**
+     * Generate assembly code for the instruction.
+     *
+     * @param compiler
+     */
+    protected  void codeGenInstByte(DecacCompiler compiler){
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
 
     /**

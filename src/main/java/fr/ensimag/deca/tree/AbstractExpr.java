@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -136,13 +137,22 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(DecacCompiler compiler)//Je pense qu'il faut la rendre abstraite.
+    {
+        throw new UnsupportedOperationException("codeGenPrint implemented mais pas dans AbstractExpr");
+    }
+    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)//Je pense qu'il faut la rendre
+    {
+        throw new UnsupportedOperationException("codeGenPrintByte implemented mais pas dans AbstractExpr");
+    }
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {//Je pense qu'il faut la rendre
         throw new UnsupportedOperationException("not yet implemented");
     }
-
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+    protected void codeGenInstByte(DecacCompiler compiler,JavaCompiler javaCompiler)
+    {
+        throw new UnsupportedOperationException("not yet implemented");//override dans stringliteral.
     }
 
     /**

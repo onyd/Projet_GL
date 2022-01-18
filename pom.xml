@@ -11,11 +11,21 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compileSource>1.8</compileSource>
-        <jacoco.skip>true</jacoco.skip>
+        <jacoco.skip>false</jacoco.skip>
         <jacoco.report_dir>${project.build.directory}/site</jacoco.report_dir>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-util</artifactId>
+            <version>6.0</version>
+        </dependency>
         <dependency>
             <!-- ANTLR needs a runtime library -->
             <groupId>org.antlr</groupId>
