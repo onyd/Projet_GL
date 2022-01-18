@@ -14,14 +14,17 @@ public class DeclField extends AbstractDeclField {
     private final AbstractIdentifier typeName;
     private final AbstractIdentifier fieldIdent;
     private  final AbstractInitialization initialization;
+    private final Visibility visibility;
 
-    public DeclField(AbstractIdentifier typeName, AbstractIdentifier fieldIdent, AbstractInitialization initialization) {
+    public DeclField(AbstractIdentifier typeName, AbstractIdentifier fieldIdent, AbstractInitialization initialization, Visibility visibility) {
         Validate.notNull(typeName);
         Validate.notNull(fieldIdent);
         Validate.notNull(initialization);
+        Validate.notNull(visibility);
         this.typeName = typeName;
         this.fieldIdent = fieldIdent;
         this.initialization = initialization;
+        this.visibility = visibility;
     }
 
     @Override

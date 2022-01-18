@@ -41,7 +41,9 @@ public class Return extends  AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        s.print("return ");
+        expr.decompile(s);
+        s.print(";");
     }
 
     @Override
@@ -51,6 +53,6 @@ public class Return extends  AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-
+        expr.iter(f);
     }
 }
