@@ -46,7 +46,8 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyMethod(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
         Type type = returnType.verifyType(compiler);
         Signature sig = params.verifyListClassMembers(compiler);
-        methodIdent.setDefinition(new MethodDefinition(type, getLocation(), sig, 0));
+        currentClass.incNumberOfMethods();
+        methodIdent.setDefinition(new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods()));
         try {
             currentClass.getMembers().declare(methodIdent.getName(), methodIdent.getMethodDefinition());
         } catch (Environment.DoubleDefException e) {

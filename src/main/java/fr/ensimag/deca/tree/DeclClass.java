@@ -98,6 +98,12 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
+        // Initialize number of fields/methods according to its super class
+        ClassDefinition superClassDef = superClassName.getClassDefinition();
+        name.getClassDefinition().setNumberOfFields(superClassDef.getNumberOfFields());
+        name.getClassDefinition().setNumberOfMethods(superClassDef.getNumberOfMethods());
+
+        // Verification of children
         fields.verifyListClassMembers(compiler, superClassName.getName(), name.getClassDefinition());
         methods.verifyListClassMembers(compiler, superClassName.getName(), name.getClassDefinition());
 
