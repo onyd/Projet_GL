@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -40,6 +37,15 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        return null; // TODO verify 3.40
+        ClassType type1 = expr.verifyExpr(compiler, localEnv, currentClass).asClassType("(3.40) Left side of instanceof must have class type", getLocation());
+        ClassType type2 = type.verifyType(compiler).asClassType("(3.40) Right side of instanceof must be a class identifier", getLocation());
+
+        if (type2.isSubClassOf(type1) || type1.isNull()) {
+            setType(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
+        }
+
+        // TODO finish 3.40
+
+        return getType();
     }
 }

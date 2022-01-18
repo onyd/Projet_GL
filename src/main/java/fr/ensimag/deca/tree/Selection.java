@@ -10,7 +10,7 @@ import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
-public class Selection extends AbstractExpr {
+public class Selection extends AbstractLValue {
     private AbstractExpr expr;
     private AbstractIdentifier fieldIdent;
 

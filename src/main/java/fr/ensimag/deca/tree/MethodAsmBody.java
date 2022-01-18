@@ -38,7 +38,6 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
-        // TODO verify 3.15
+        // Nothing it's up to the programmer to manage assembly code
     }
 }

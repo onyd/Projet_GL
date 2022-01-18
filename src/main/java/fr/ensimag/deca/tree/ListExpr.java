@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
 /**
@@ -14,5 +11,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  * @date 01/01/2022
  */
 public class ListExpr extends AbstractCommaSeparatedListTree<AbstractExpr> {
-
+    public void verifyRValueStar(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass, Signature sig) throws ContextualError {
+        for (int i = 0; i < sig.size(); i++) {
+            getList().get(i).verifyRValue(compiler, localEnv, currentClass, sig.paramNumber(i));
+        }
+    }
 }
