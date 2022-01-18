@@ -40,7 +40,7 @@ public class Stack {
         }
     }
 
-    public void declareVariableOnAddressStoreOnStack(Identifier identifier,
+    public void declareVariableOnAddressStoreOnHeap(Identifier identifier,
                                                      AbstractInitialization initialization,
                                                      RegisterOffset registerOffset) {
         loadVariableOnR1FromIdentAndInit(identifier, initialization);
