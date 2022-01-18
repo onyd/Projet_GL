@@ -37,6 +37,11 @@ public class New extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        return null; // TODO verify 3.42
+        Type type = className.verifyType(compiler);
+        if (!type.isClass()) {
+            throw new ContextualError("(3.42) New can only be used on class type", getLocation());
+        }
+        setType(type);
+        return getType();
     }
 }

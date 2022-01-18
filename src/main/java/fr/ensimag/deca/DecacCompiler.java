@@ -194,7 +194,8 @@ public class DecacCompiler {
             FLOAT_SYMBOL = symbolTable.create("float"),
             INT_SYMBOL = symbolTable.create("int"),
             OBJECT_SYMBOL = symbolTable.create("Object"),
-            EQUALS_SYMBOL = symbolTable.create("equals");
+            EQUALS_SYMBOL = symbolTable.create("equals"),
+            NULL_SYMBOL = symbolTable.create("null");
 
     public SymbolTable getSymbolTable() {
         return symbolTable;

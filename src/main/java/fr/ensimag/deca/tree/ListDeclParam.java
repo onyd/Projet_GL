@@ -28,7 +28,7 @@ public class ListDeclParam extends AbstractCommaSeparatedListTree<AbstractDeclPa
     public void verifyListParams(DecacCompiler compiler, EnvironmentExp envExpParams) throws ContextualError {
         LOG.debug("[Pass 3] verify listDeclParam: start");
         for (AbstractDeclParam p : getList()) {
-            p.verifyParam(compiler, envExpParams); // TODO verify 3.12
+            p.verifyParam(compiler, envExpParams);
         }
         LOG.debug("[Pass 3] verify listDeclParam: end");
     }
