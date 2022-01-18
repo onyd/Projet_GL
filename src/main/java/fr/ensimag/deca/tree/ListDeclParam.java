@@ -33,4 +33,11 @@ public class ListDeclParam extends AbstractCommaSeparatedListTree<AbstractDeclPa
         LOG.debug("[Pass 3] verify listDeclParam: end");
     }
 
+    public void codeGenListDeclParam(DecacCompiler compiler) {
+        int paramOffset = -3;
+        for(AbstractDeclParam param : getList()) {
+            param.codeGenDeclParam(compiler, paramOffset);
+            paramOffset--;
+        }
+    }
 }

@@ -4,6 +4,8 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 
+import java.util.ArrayList;
+
 public class RegisterManager {
     private final int nbRegister;
     private boolean[] occupiedRegister;
@@ -54,6 +56,18 @@ public class RegisterManager {
 
     public void releaseRegister(GPRegister register) {
         releaseRegister(register.getNumber());
+    }
+
+    public ArrayList<Integer> allUsedRegisters() {
+        ArrayList<Integer> res = new ArrayList<>();
+        int i = 2;
+        while(i < nbRegister) {
+            if(isOccupied(i)) {
+                res.add(i);
+            }
+            i++;
+        }
+        return res;
     }
 
 }

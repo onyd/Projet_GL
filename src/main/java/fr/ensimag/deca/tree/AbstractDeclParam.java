@@ -19,4 +19,6 @@ public abstract class AbstractDeclParam extends Tree {
      */
     protected abstract void verifyParam(DecacCompiler compiler, EnvironmentExp envExpParams)
             throws ContextualError;
+
+    protected abstract void codeGenDeclParam(DecacCompiler compiler, int offset);
 }
