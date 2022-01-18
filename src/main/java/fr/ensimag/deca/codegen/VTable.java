@@ -32,11 +32,13 @@ public class VTable {
             if(currentLabelList.get(i).toString().contains(methodName)) {
                 currentLabelList.set(i, label);
                 declMethod.getMethodIdent().getMethodDefinition().setOperand(new RegisterOffset(reg.getOffset() + i + 1, Register.GB));
+                declMethod.getMethodIdent().getMethodDefinition().setOffset(i + 1);
                 return;
             }
         }
         declMethod.getMethodIdent().getMethodDefinition().setOperand(
                 new RegisterOffset(reg.getOffset() + currentLabelList.size() + 1, Register.GB));
+        declMethod.getMethodIdent().getMethodDefinition().setOffset(currentLabelList.size() + 1);
         currentLabelList.add(label);
     }
 

@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -33,6 +35,40 @@ public class MethodCall extends AbstractExpr {
         setType(type);
         arguments.verifyRValueStar(compiler, localEnv, currentClass, methodIdent.getMethodDefinition().getSignature());
         return getType();
+    }
+
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        codeGenExprOnR1(compiler);
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        codeGenExprOnR1(compiler);
+        if(methodIdent.getMethodDefinition().getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(methodIdent.getMethodDefinition().getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        compiler.addInstruction(new ADDSP(arguments.size() + 1));
+        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
+        int offset = -1;
+        for(AbstractExpr expr : arguments.getList()) {
+            expr.codeGenExprOnR1(compiler);
+            compiler.addInstruction(new STORE(register, new RegisterOffset(offset, Register.SP)));
+        }
+        compiler.addInstruction(new LOAD(new RegisterOffset(0, Register.SP), register));
+        compiler.addInstruction(new CMP(new NullOperand(), register));
+        compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
+        compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
+        compiler.addInstruction(new SUBSP(arguments.size() + 1));
+        compiler.addInstruction(new LOAD(Register.R0, register));
     }
 
     @Override

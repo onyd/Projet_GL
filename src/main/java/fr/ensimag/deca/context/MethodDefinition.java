@@ -32,6 +32,15 @@ public class MethodDefinition extends ExpDefinition {
     }
 
     private int index;
+    private int offset;
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
 
     @Override
     public MethodDefinition asMethodDefinition(String errorMessage, Location l)
