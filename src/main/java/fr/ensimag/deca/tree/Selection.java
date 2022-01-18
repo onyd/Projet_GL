@@ -7,10 +7,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.BEQ;
-import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -58,6 +55,16 @@ public class Selection extends AbstractLValue {
         compiler.addInstruction(new CMP(new NullOperand(), register));
         compiler.addInstruction(new BEQ(new Label("seg_fault")));
         compiler.addInstruction(new LOAD(new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), register), register));
+    }
+
+    @Override
+    protected void codeGenPrint(DecacCompiler compiler) {
+        codeGenExprOnR1(compiler);
+        if(fieldIdent.getFieldDefinition().getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(fieldIdent.getFieldDefinition().getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
