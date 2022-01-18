@@ -12,10 +12,10 @@ public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
     /**
      * Pass 2 of [SyntaxeContextuelle]
      */
-    public void verifyListClassMembers(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
+    public void verifyListClassMembers(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         LOG.debug("[Pass 2] verify listDeclMethod: start");
         for (AbstractDeclMethod m : getList()) {
-            m.verifyMethod(compiler, superName, currentClass);
+            m.verifyMethod(compiler, currentClass);
         }
         LOG.debug("[Pass 2] verify listDeclMethod: end");
     }

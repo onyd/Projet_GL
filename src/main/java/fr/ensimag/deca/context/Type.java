@@ -80,4 +80,13 @@ public abstract class Type {
         throw new ContextualError(errorMessage, l);
     }
 
+    public boolean isSubType(Type otherType) {
+        if (this.isClass() && otherType.isClass()) {
+            return ((ClassType) this).isSubClassOf((ClassType) otherType);
+        } else {
+            return this.sameType(otherType);
+        }
+
+    }
+
 }

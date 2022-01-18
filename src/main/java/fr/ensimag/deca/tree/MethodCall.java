@@ -33,6 +33,11 @@ public class MethodCall extends AbstractExpr {
         ClassDefinition class2Def = typeClass2.asClassType("(3.71) Method can only be called on class type", getLocation()).getDefinition();
         Type type = methodIdent.verifyMethod(compiler, class2Def.getMembers());
         setType(type);
+
+        // Verify given arguments
+        if (arguments.size() != methodIdent.getMethodDefinition().getSignature().size()) {
+            throw new ContextualError("(3.71) Method call must match the number of arguments", getLocation());
+        }
         arguments.verifyRValueStar(compiler, localEnv, currentClass, methodIdent.getMethodDefinition().getSignature());
         return getType();
     }

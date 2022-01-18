@@ -48,11 +48,19 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    protected void verifyMethod(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
+    protected void verifyMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         Type type = returnType.verifyType(compiler);
         Signature sig = params.verifyListClassMembers(compiler);
         currentClass.incNumberOfMethods();
         MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
+
+        ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
+        if (def != null) {
+            MethodDefinition superMethodDef = (MethodDefinition) def;
+            if (!sig.equals(superMethodDef.getSignature()) || type.isSubType(superMethodDef.getType())) {
+                throw new ContextualError("(2.7) Redefinition of a method must match the signature and return a subtype of the super definition", getLocation());
+            }
+        }
         try {
             currentClass.getMembers().declare(methodIdent.getName(), methodDef);
         } catch (Environment.DoubleDefException e) {

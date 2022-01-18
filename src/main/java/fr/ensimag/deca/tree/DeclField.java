@@ -9,6 +9,7 @@ import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.util.Locale;
 
 public class DeclField extends AbstractDeclField {
     private final AbstractIdentifier typeName;
@@ -29,7 +30,8 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print(visibility.toString() + " ");
+        if (visibility == Visibility.PROTECTED)
+            s.print("protected ");
         typeName.decompile(s);
         s.print(" ");
         fieldIdent.decompile(s);
@@ -58,7 +60,7 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    protected void verifyField(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass) throws ContextualError {
+    protected void verifyField(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         Type type = typeName.verifyType(compiler);
         if (type.isVoid()) {
             throw new ContextualError("(2.5) Field type cannot be void", getLocation());
