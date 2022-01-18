@@ -176,6 +176,8 @@ public class Identifier extends AbstractIdentifier {
             if (expDef == null) {
                 throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
             }
+            if (!expDef.isField())
+                throw new ContextualError("(0.1) The field is not declared", getLocation());
         }
 
         setType(expDef.getType());
