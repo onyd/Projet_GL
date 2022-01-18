@@ -108,9 +108,17 @@ public class VTable {
         compiler.addInstruction(new RTS());
     }
 
-    public void constructor(ListDeclField listDeclField, String className) {
+    public void constructor(ListDeclField listDeclField, String className, Identifier superClass) {
         compiler.addLabel(new Label("init." + className));
         listDeclField.codeGenListDeclField(compiler);
+
+        //initialize the fields of the superclass
+        if(!Objects.equals(superClass.getName().getName(), "Object")) {
+            compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R0));
+            compiler.addInstruction(new PUSH(Register.R0));
+            compiler.addInstruction(new BSR(new Label("init." + superClass.getName().getName())));
+            compiler.addInstruction(new SUBSP(1));
+        }
         compiler.addInstruction(new RTS());
     }
 

@@ -82,7 +82,7 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void codeGenDeclField(DecacCompiler compiler) {
-        compiler.getStack().declareVariableOnAddressStoreOnStack((Identifier) fieldIdent,
+        compiler.getStack().declareVariableOnAddressStoreOnHeap((Identifier) fieldIdent,
                 initialization, new RegisterOffset(-2, Register.LB));
     }
 }
