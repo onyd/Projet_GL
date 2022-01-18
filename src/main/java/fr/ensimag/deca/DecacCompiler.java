@@ -175,13 +175,16 @@ public class DecacCompiler {
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
         String destFile = sourceFile;
+        String destByteFile = sourceFile;
         destFile = destFile.substring(0, destFile.length() - 4);
+        destByteFile = destByteFile.substring(0, destByteFile.length() - 4);
         destFile = destFile + "ass";
+        destByteFile = destByteFile + "class";
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
-            return doCompile(sourceFile, destFile, out, err);
+            return doCompile(sourceFile, destFile,destByteFile,out, err);
         } catch (LocationException e) {
             e.display(err);
             return true;
@@ -211,12 +214,13 @@ public class DecacCompiler {
      *
      * @param sourceName name of the source (deca) file
      * @param destName name of the destination (assembly) file
+     * @param destByteName name of the bytecode destination (assembly) file
      * @param out stream to use for standard output (output of decac -p)
      * @param err stream to use to display compilation errors
      *
      * @return true on error
      */
-    private boolean doCompile(String sourceName, String destName,
+    private boolean doCompile(String sourceName, String destName, String destByteName,
             PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
 
@@ -246,10 +250,24 @@ public class DecacCompiler {
         prog.codeGenProgram(this);
 
         //String destNameBytecode = removeLastCharactersAndGetClassName(destName,4);
-        String destNameBytecode = "MainClasse";
         if(this.compilerOptions.getByteFiles())
         {
-            prog.codeGenProgramByte(this,javaCompiler,destNameBytecode);// pour générer le bytecode
+            int index = 0;
+            int futurIndex = destByteName.indexOf("/");
+            while (futurIndex !=  -1) {
+                index = futurIndex;
+                futurIndex = destByteName.indexOf("/", index +  1) ;
+            }
+            String className = destByteName.substring(index+1, destByteName.length() - 6);
+            int fileIndex = destByteName.indexOf(className);
+            className = className.substring(0, 1).toUpperCase() + className.substring(1);
+            destByteName = (destByteName.substring(0,fileIndex )) + destByteName.substring(fileIndex,fileIndex+1).toUpperCase()
+                    + (destByteName.substring(fileIndex+1,destByteName.length()));
+            int beginIndex = destByteName.indexOf("src");
+            destByteName = destByteName.substring(beginIndex, destByteName.length());
+            System.out.println(destByteName);
+            System.out.println(className);
+            prog.codeGenProgramByte(this,javaCompiler, destByteName, className);
         }
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
@@ -266,8 +284,8 @@ public class DecacCompiler {
         if(this.compilerOptions.getByteFiles())
         {
             try {
-                fstreamByteCode = new FileOutputStream(destNameBytecode+".class");
-                System.out.println("Création du " + destNameBytecode+".class");
+                fstreamByteCode = new FileOutputStream(destByteName);
+                System.out.println("Création du " + destByteName+".class");
             } catch (FileNotFoundException e) {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }

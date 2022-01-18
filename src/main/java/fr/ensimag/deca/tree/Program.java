@@ -4,12 +4,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassWriter;
@@ -54,18 +52,17 @@ public class Program extends AbstractProgram {
     }
 
     @Override
-    public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler,String className)
+    public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler, String destByteName, String className)
     {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         classWriter.visit(javaCompiler.V1_5,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
-                //className,
-                "MainClasse", // changer le chemin ici et avant .java
+                destByteName.substring(0, destByteName.length()-6),
                 null,
                 "java/lang/Object",
                 null);
 
-        classWriter.visitSource("MainClasse" + ".java", null);//il faut changer le chemin
+        classWriter.visitSource(destByteName.substring(0, destByteName.length()-4) + "java", null);
         MethodVisitor methodVisitor = null;
 
         // Création du constructeur par défaut.

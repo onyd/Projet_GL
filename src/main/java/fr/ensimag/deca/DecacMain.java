@@ -53,7 +53,9 @@ public class DecacMain {
                     System.exit(1);
                 }
             }
-        } else {
+        }
+         else{
+
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);
                 if (compiler.compile()) {
