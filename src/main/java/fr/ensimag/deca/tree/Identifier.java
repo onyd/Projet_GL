@@ -186,7 +186,7 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError("(0.2) The identifier has an invalid type", this.getLocation());
         }
         setType(typeDef.getType());
-        setDefinition(new TypeDefinition(getType(), getLocation()));
+        setDefinition(typeDef);
         return getType();
     }
 
