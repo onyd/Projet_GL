@@ -6,6 +6,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 
 import java.io.PrintStream;
 
@@ -19,6 +22,11 @@ public class This extends AbstractExpr {
     @Override
     public boolean isImplicit() {
         return implicit;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return new RegisterOffset(-2, Register.LB);
     }
 
     @Override

@@ -40,4 +40,9 @@ public class MethodAsmBody extends AbstractMethodBody {
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
         // Nothing it's up to the programmer to manage assembly code
     }
+
+    @Override
+    protected void codeGenMethodBody(DecacCompiler compiler) {
+        // TODO
+    }
 }

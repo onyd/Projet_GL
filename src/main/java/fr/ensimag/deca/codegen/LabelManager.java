@@ -67,6 +67,6 @@ public class LabelManager {
     }
 
     public Label getEndMethodLabel(String className, String methodName) {
-        return new Label("fin." + className + methodName);
+        return new Label("fin." + className + "." + methodName);
     }
 }

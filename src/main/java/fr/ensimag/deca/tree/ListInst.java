@@ -33,6 +33,7 @@ public class ListInst extends TreeList<AbstractInst> {
     }
 
     public void codeGenListInst(DecacCompiler compiler) {
+        compiler.addComment("Begin the list of instructions");
         for (AbstractInst i : getList()) {
             i.codeGenInst(compiler);
         }

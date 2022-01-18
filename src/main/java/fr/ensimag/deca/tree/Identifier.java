@@ -153,6 +153,11 @@ public class Identifier extends AbstractIdentifier {
 
     private Symbol name;
 
+    @Override
+    public boolean isIdentifier() {
+        return true;
+    }
+
     public Identifier(Symbol name) {
         Validate.notNull(name);
         this.name = name;
