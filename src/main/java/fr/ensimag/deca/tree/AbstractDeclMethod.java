@@ -16,7 +16,7 @@ public abstract class AbstractDeclMethod extends Tree {
      * Pass 2 of [SyntaxeContextuelle]. Verify that the class method
      * are OK, without looking at method body.
      */
-    protected abstract void verifyMethod(DecacCompiler compiler, SymbolTable.Symbol superName, ClassDefinition currentClass)
+    protected abstract void verifyMethod(DecacCompiler compiler, ClassDefinition currentClass)
             throws ContextualError;
 
     /**

@@ -66,6 +66,9 @@ public class ClassType extends Type {
     public boolean isSubClassOf(ClassType potentialSuperClass) {
         if (this.sameType(potentialSuperClass))
             return true;
+        if (this.definition.getSuperClass() == null) {
+            return false;
+        }
 
         return this.definition.getSuperClass().getType().isSubClassOf(potentialSuperClass);
     }

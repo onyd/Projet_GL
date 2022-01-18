@@ -35,7 +35,7 @@ public class Selection extends AbstractLValue {
         ClassDefinition class2 = type.asClassType("Cannot select field on " + type, getLocation()).getDefinition();
         fieldIdent.verifyField(compiler, class2.getMembers());
         if (fieldIdent.getFieldDefinition().getVisibility() == Visibility.PROTECTED) {
-            if (currentClass == null || !class2.getType().isSubClassOf(currentClass.getType()) || !fieldIdent.getFieldDefinition().getContainingClass().getType().isSubClassOf(currentClass.getType())) {
+            if (currentClass == null || !class2.getType().isSubClassOf(currentClass.getType()) || !currentClass.getType().isSubClassOf(fieldIdent.getFieldDefinition().getContainingClass().getType())) {
                 throw new ContextualError("(3.66) Protected field must be used only in class body", getLocation());
             }
         }
