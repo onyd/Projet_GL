@@ -29,12 +29,18 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        s.print(visibility.toString() + " ");
         typeName.decompile(s);
         s.print(" ");
         fieldIdent.decompile(s);
         initialization.decompile(s);
         s.print(";");
         s.println();
+    }
+
+    @Override
+    String prettyPrintNode() {
+        return "[visibility=" + visibility.toString() + "] " + super.prettyPrintNode();
     }
 
     @Override

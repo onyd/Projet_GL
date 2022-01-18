@@ -1,5 +1,5 @@
 // Description:
-//   Print condition with a function and unary not.
+//   Print condition with new().
 // Results:
 //
 //
@@ -7,5 +7,5 @@
 //    created on 12/01/2022
 
 {
-   print(func(c = 4));
+   printx(new A().);
 }

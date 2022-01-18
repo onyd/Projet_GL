@@ -83,6 +83,17 @@ echo "Le taux de reussite dans cette partie est" $interSucc/$interTotal
 interSucc=0
 interTotal=0
 
+echo "\nTest invalides personnalisés sur les objets :"
+for cas_de_test in src/test/deca/syntax/invalid/custom/object/*.deca
+do
+    test_synt_invalide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
 echo "\nTest valides personnalisés :"
 for cas_de_test in src/test/deca/syntax/valid/custom/*.deca
 do

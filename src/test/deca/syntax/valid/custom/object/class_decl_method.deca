@@ -1,0 +1,23 @@
+class Car {
+    protected int maxSpeed;
+    int wheels = 4;
+
+    void Car(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+}
+
+{
+    Car car1 = new Car();
+    print(car1.getMaxSpeed);
+    car1.setMaxSpeed(150);
+    print(car1.getMaxSpeed);
+}

@@ -1,12 +1,12 @@
-class Incr() {
+class Incr {
     int i = 0;
 
-    void incr() {
+    int incr() {
         this.i = i+1;
     }
 }
 
 {
-    Incr incr = new Incr()
+    Incr incr = new Incr();
     incr.incr();
 }
