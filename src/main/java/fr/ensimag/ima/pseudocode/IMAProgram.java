@@ -28,7 +28,9 @@ public class IMAProgram {
     public void addInstruction(Instruction i) {
         lines.add(new Line(i));
     }
-
+    public void addInstructionByte(InstructionByte i) {
+        lines.add(new LineByte(i));
+    }
     public void addInstruction(Instruction i, String s) {
         lines.add(new Line(null, i, s));
     }

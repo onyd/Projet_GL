@@ -30,6 +30,7 @@ public class Println extends AbstractPrint {
     {
         super.codeGenInstByte(compiler,javaCompiler);
         //javaCompiler.addInstruction(-1); // devra remplacer le code suivant
+        compiler.addInstruction(new WNL());
 
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         // L'instruction System.out.PrintStream.println
