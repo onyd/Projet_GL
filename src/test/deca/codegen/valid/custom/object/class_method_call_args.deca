@@ -33,5 +33,5 @@ class Car {
     car2.Car(250, 2.9);
 
     distance = car1.distanceMax();
-    //print(distance);
+    print(distance);
 }

@@ -140,7 +140,12 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.codeGenExprOnR1(compiler);
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
