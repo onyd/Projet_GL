@@ -86,6 +86,7 @@ public class DeclClass extends AbstractDeclClass {
             ClassType type = new ClassType(name.getName(), getLocation(), superDef);
             compiler.getEnvironmentType().declare(name.getName(), type.getDefinition());
             name.setDefinition(type.getDefinition());
+            name.setType(type);
 
             // Stack the super environment
             EnvironmentExp envExpSuper = superClassName.getClassDefinition().getMembers();

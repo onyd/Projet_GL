@@ -48,7 +48,7 @@ public abstract class Environment<T extends Definition> {
      *
      */
     public void declare(Symbol name, T def) throws DoubleDefException {
-        if (defs.containsKey(def)) {
+        if (defs.containsKey(name)) {
             throw new DoubleDefException();
         }
         this.defs.put(name, def);
