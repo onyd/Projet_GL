@@ -50,15 +50,9 @@ class Car extends Vehicle {
 
 {
     Car car1 = new Car();
-    Vehicle vehicle1 = new Car();
-    Vehicle vehicle2;
-    int wheels1;
+    Vehicle vehicle1;
 
     car1.Car(200, 2.4);
-    vehicle1.Vehicle(4);
 
-    wheels1 = vehicle1.getWheels();
-    print(wheels1);
-
-    vehicle2 = car1.returnObject();
+    vehicle1 = car1.returnObject();
 }
