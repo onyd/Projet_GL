@@ -177,6 +177,8 @@ public class TestLex {
         lex.nextToken();
         assertEquals(")",lex.getText());
         lex.nextToken();
+        assertEquals(";",lex.getText());
+        lex.nextToken();
         assertEquals("incr",lex.getText());
         lex.nextToken();
         assertEquals(".",lex.getText());
