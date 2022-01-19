@@ -64,12 +64,12 @@
         \\
 
         L'option -java spécifie au compilateur qu'on souhaite compiler un programme Deca en executable pour la machine virtuelle Java.
-        Ainsi, on obtient avec cette obtion un fichier .class executable par la JVM au lieu d'un fichier .ass (executable IMA). Les conventions de nommage sont les même, c'est-à-dire que le nom du fichier compilé est celui du programme Deca, seule l'extension du fichier change.
+        Ainsi, on obtient avec cette obtion un fichier .class executable par la JVM au lieu d'un fichier .ass (executable IMA). Les conventions de nommage sont les mêmes, c'est-à-dire que le nom du fichier compilé est celui du programme Deca, seule l'extension du fichier change.
 
-        Cependant il y a quelques réstrictions. En effet, l'utilisation de code Java dans une méhode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ai pas de methode en Assembleur. (cf Limitations pour plus de précision)
+        Cependant il y a quelques réstrictions. En effet, l'utilisation de code Java dans une méhode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ai pas de méthode en Assembleur. (cf Limitations pour plus de précisions)
 
         \subsubsection{Spécification de compilation}
-        La compilation se fait de la même manière que pour la machine IMA au detail prés qu'au lieu d'appeler nos methode compilation pour la machine abstraite IMA, le compilateur utilise la bibliothèque ASM\cite{ASM} pour la génération du bytecode.
+        La compilation se fait de la même manière que pour la machine IMA au detail près qu'au lieu d'appeler nos méthodes de compilation pour la machine abstraite IMA, le compilateur utilise la bibliothèque ASM\cite{ASM} pour la génération du bytecode.
 
     \subsection{Appel de code Java en Deca}
     Cette section précise les spécifications liées à l'appel de code Java en Deca.
@@ -81,7 +81,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 \end{lstlisting}
 
         \subsubsection{Utilisation}
-        L'utilisation de l'appel de code Java en Deca est trés similaire à l'appel de code assembleur. En effet, il suffit de déclarer une méthode de la même manière c'est-à-dire une méthode dont le corp est une chaîne de caractères contenant du code Java et en utilisant le mot clé 'java' à la place de 'asm'.
+        L'utilisation de l'appel de code Java en Deca est trés similaire à l'appel de code assembleur. En effet, il suffit de déclarer une méthode de la même manière, c'est-à-dire une méthode dont le corps est une chaîne de caractères contenant du code Java et en utilisant le mot clé 'java' à la place de 'asm'.
 
     \subsection{Appel de code Deca en Java}
     Cette section précise les spécifications liées à l'appel de code Deca en Java.
@@ -107,9 +107,9 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     public DecaRunner(File programFile);
 \end{lstlisting}
 
-        Dans le cas où le programme est Deca-incorrecte, les mêmes erreurs Deca sont levées par apport à une compilation avec decac.
+        Dans le cas où le programme est Deca-incorrecte, les mêmes erreurs Deca sont levées par rapport à une compilation avec decac.
 
-        \textbf{DecaRunner} possède une méthode permettant l'execution du programme:
+        \textbf{DecaRunner} possède une méthode permettant l'exécution du programme:
 \begin{lstlisting}[language=java]
     public void run();
 \end{lstlisting}
@@ -118,7 +118,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 \begin{lstlisting}[language=java]
     public DecaResult getResult();
 \end{lstlisting}
-Cette méthode lève l'erreur \textbf{NoResultException} si le résultat n'existe pas en particulier si le programme n'a pas été appelé via la méthode \emph{run}.
+Cette méthode lève l'erreur \textbf{NoResultException} si le résultat n'existe pas, en particulier si le programme n'a pas été appelé via la méthode \emph{run}.
 
         \paragraphln{DecaResult:}
 
@@ -132,7 +132,7 @@ Cette méthode lève l'erreur \textbf{NoResultException} si le résultat n'exist
     public Object getValue(String varName);
 \end{lstlisting}
 Ces 2 méthodes lèvent l'exception \textbf{InvalidVariableName} si la variable n'existe pas dans le programme principale.
-Ainsi, la récupération de variable du programme Deca après exécution, impose qu'elle soient déclarées globalement dans le programme principale.
+Ainsi, la récupération de variable du programme Deca après exécution, impose qu'elle soit déclarée globalement dans le programme principale.
         \subsubsection{Utilisation}
 
 
