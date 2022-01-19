@@ -53,9 +53,6 @@ public class Cast extends AbstractExpr {
                     if(compiler.getCompilerOptions().getNoCheck()) {
                         compiler.addInstruction(new BEQ(new Label("seg_fault")));
                     }
-                    DAddr dAddr = ((ClassType) type.getType()).getDefinition().getdAddrVTable();
-                    compiler.addInstruction(new LEA(dAddr, Register.R0));
-                    compiler.addInstruction(new STORE(Register.R0, new RegisterOffset(0, register)));
                 }
             }
         }

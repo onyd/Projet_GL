@@ -1,0 +1,21 @@
+class A {
+	void crier() {
+		println("le cast marche bien");
+	}
+}
+
+class B extends A {
+	void coucou() {
+		println("coucou");
+	}
+	void crier() {
+		println("je te mmontre");
+	}
+}
+
+{
+	B b = new B();
+	A a;
+	a = (B) (b);
+	a.crier();
+}
