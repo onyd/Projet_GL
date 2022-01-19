@@ -69,7 +69,9 @@ public class MethodCall extends AbstractExpr {
         }
         compiler.addInstruction(new LOAD(new RegisterOffset(0, Register.SP), register));
         compiler.addInstruction(new CMP(new NullOperand(), register));
-        compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        if(compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        }
         compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
         compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
         compiler.addInstruction(new SUBSP(arguments.size() + 1));

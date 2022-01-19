@@ -54,6 +54,11 @@ public class Utils {
         compiler.addInstruction(new WSTR("Error: the heap is full"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
+
+        compiler.addLabel(new Label("cast_error"));
+        compiler.addInstruction(new WSTR("Error: Impossible Cast"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
     }
 
     public static void codeGenBool(DecacCompiler compiler, GPRegister register, boolean negation, Label label) {

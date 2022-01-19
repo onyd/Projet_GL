@@ -1,11 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -34,6 +33,33 @@ public class Cast extends AbstractExpr {
 
         setType(type2);
         return getType();
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        if(type.getType().isInt()) {
+            expr.codeGenExprOnRegister(compiler, register);
+            compiler.addInstruction(new INT(register, register));
+        } else if(type.getType().isFloat()) {
+            expr.codeGenExprOnRegister(compiler, register);
+            compiler.addInstruction(new FLOAT(register, register));
+        } else if(type.getType().isClass()) {
+            if(expr.getType().isClass()) {
+                Identifier className = (Identifier) expr;
+                if(!className.getClassDefinition().getType().isSubClassOf((ClassType) type.getType())) {
+                    compiler.addInstruction(new BRA(new Label("cast_error")));
+                } else {
+                    compiler.addInstruction(new LOAD(className.getDVal(), register));
+                    compiler.addInstruction(new CMP( new NullOperand(), register));
+                    if(compiler.getCompilerOptions().getNoCheck()) {
+                        compiler.addInstruction(new BEQ(new Label("seg_fault")));
+                    }
+                    DAddr dAddr = ((ClassType) type.getType()).getDefinition().getdAddrVTable();
+                    compiler.addInstruction(new LEA(dAddr, Register.R0));
+                    compiler.addInstruction(new STORE(Register.R0, new RegisterOffset(0, register)));
+                }
+            }
+        }
     }
 
     @Override
