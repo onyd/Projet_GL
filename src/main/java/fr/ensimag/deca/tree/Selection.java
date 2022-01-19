@@ -50,7 +50,9 @@ public class Selection extends AbstractLValue {
     protected void codeGenAssignFromR1(DecacCompiler compiler) {
         compiler.addInstruction(new LOAD(expr.getDVal(), Register.R0));
         compiler.addInstruction(new CMP(new NullOperand(), Register.R0));
-        compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        if(compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        }
         compiler.addInstruction(new STORE(Register.R1, new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), Register.R0)));
     }
 
@@ -58,7 +60,9 @@ public class Selection extends AbstractLValue {
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(expr.getDVal(), register));
         compiler.addInstruction(new CMP(new NullOperand(), register));
-        compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        if(compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BEQ(new Label("seg_fault")));
+        }
         compiler.addInstruction(new LOAD(new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), register), register));
     }
 

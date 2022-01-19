@@ -53,7 +53,9 @@ public class New extends AbstractExpr {
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         compiler.addInstruction(new NEW(className.getClassDefinition().getNumberOfFields() + 1, register));
-        compiler.addInstruction(new BOV(new Label("heap_overflow_error")));
+        if(compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(new Label("heap_overflow_error")));
+        }
         compiler.addInstruction(new LEA(className.getClassDefinition().getdAddrVTable(), Register.R0));
         compiler.addInstruction(new STORE(Register.R0, new RegisterOffset(0, register)));
         compiler.addInstruction(new PUSH(register));
