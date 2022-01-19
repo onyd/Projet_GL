@@ -184,7 +184,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
     /**
