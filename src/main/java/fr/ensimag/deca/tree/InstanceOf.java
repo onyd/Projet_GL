@@ -53,6 +53,7 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        System.out.println(expr.getType().isSubType(type.getType()));
         if (expr.getType().isSubType(type.getType())) {
             compiler.addInstruction(new LOAD(1, register));
         } else {
@@ -62,8 +63,14 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        if (expr.getType().isSubType(type.getType())) {
-            compiler.addInstruction(new BRA(label));
+        if (negation) {
+            if (expr.getType().isSubType(type.getType())) {
+                compiler.addInstruction(new BRA(label));
+            }
+        } else {
+            if (!expr.getType().isSubType(type.getType())) {
+                compiler.addInstruction(new BRA(label));
+            }
         }
     }
 }

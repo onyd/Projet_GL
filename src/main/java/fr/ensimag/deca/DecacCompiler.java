@@ -298,7 +298,6 @@ public class DecacCompiler {
             System.exit(0);
         }
         assert(prog.checkAllDecorations());
-
         // STEP C
         addComment("start main program");
         prog.codeGenProgram(this);

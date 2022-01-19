@@ -86,7 +86,6 @@ public abstract class Type {
         } else {
             return this.sameType(otherType);
         }
-
     }
 
     public boolean isAssignCompatible(Type otherType) {
