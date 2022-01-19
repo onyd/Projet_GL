@@ -1,0 +1,62 @@
+class Transport {
+    protected boolean type;
+}
+
+class Vehicle extends Transport {
+    protected int wheels;
+
+    void Vehicle(int wheels) {
+        this.wheels = wheels;
+    }
+
+    void setWheels(int newWheels) {
+        this.wheels = newWheels;
+    }
+
+    int getWheels() {
+        return this.wheels;
+    }
+}
+
+class Car extends Vehicle {
+    protected int maxSpeed;
+    float height;
+
+    void Car(int maxSpeed, float height) {
+        this.maxSpeed = maxSpeed;
+        this.height = height;
+    }
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+
+    int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    float calculateFuel() {
+        return (maxSpeed * height) / 10;
+    }
+
+    float distanceMax() {
+        return this.calculateFuel() * height;
+    }
+
+    int getWheels() {
+        return this.wheels;
+    }
+}
+
+{
+    Transport transport = new Car();
+    Car car1 = new Car();
+    Vehicle vehicle1 = new Car();
+    int wheels1;
+
+    car1.Car(200, 2.4);
+    vehicle1.Vehicle(4);
+
+    wheels1 = vehicle1.getWheels();
+    print(wheels1);
+}
