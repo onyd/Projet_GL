@@ -92,7 +92,11 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#add(fr.ensimag.ima.pseudocode.AbstractLine)
      */
     public void add(AbstractLine line) {
-        program.add(line);
+        if(declareMethod) {
+            declMethodProg.add(line);
+        } else {
+            program.add(line);
+        }
     }
 
     /**

@@ -92,7 +92,7 @@ fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | '
 FLOAT: FLOATDEC|FLOATHEX;
 
 
-fragment STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+fragment STRING_CAR: ~('"' | '\\' | '\n');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 

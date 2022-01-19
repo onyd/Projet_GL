@@ -607,6 +607,7 @@ decl_method returns[AbstractDeclMethod tree]
             StringLiteral asm = new StringLiteral($code.text);
             body = new MethodAsmBody(asm);
             setLocation(body, $ASM);
+            setLocation(asm, $ASM);
         }
       ) {
            $tree = new DeclMethod($type.tree, $ident.tree, $params.tree, body);

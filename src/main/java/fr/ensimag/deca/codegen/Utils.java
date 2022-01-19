@@ -40,11 +40,6 @@ public class Utils {
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("cast_error"));
-        compiler.addInstruction(new WSTR("Error: Impossible cast"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
-
         compiler.addLabel(new Label("seg_fault"));
         compiler.addInstruction(new WSTR("Error: Segmentation Fault"));
         compiler.addInstruction(new WNL());

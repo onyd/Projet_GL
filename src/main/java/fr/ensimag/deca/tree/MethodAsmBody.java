@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.InlinePortion;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -38,11 +39,11 @@ public class MethodAsmBody extends AbstractMethodBody {
 
     @Override
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
-        // Nothing it's up to the programmer to manage assembly code
+        assembly.verifyExpr(compiler, envExpParams, currentClass);
     }
 
     @Override
     protected void codeGenMethodBody(DecacCompiler compiler) {
-        // TODO
+        compiler.add(new InlinePortion(assembly.getValue()));
     }
 }
