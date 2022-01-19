@@ -210,7 +210,11 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyMethod(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
-        MethodDefinition methodDef = localEnv.get(getName()).asMethodDefinition("(3.72) Identifier must be a method", getLocation());
+        ExpDefinition def = localEnv.get(getName());
+        if (def == null) {
+            throw new ContextualError("(3.72) Invalid identifier", getLocation());
+        }
+        MethodDefinition methodDef = def.asMethodDefinition("(3.72) Identifier must be a method", getLocation());
         setType(methodDef.getType());
         setDefinition(methodDef);
         return getType();
