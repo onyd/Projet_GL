@@ -93,14 +93,16 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        verifyExpr(compiler, localEnv, currentClass);
-        if (expectedType.sameType(getType())) {
-        } else if (getType().isInt() && expectedType.isFloat()) {
+        Type type2 = verifyExpr(compiler, localEnv, currentClass);
+        if (!expectedType.isAssignCompatible(type2)) {
+            throw new ContextualError("(3.39) Can't cast void type", getLocation());
+        }
+
+        // Implicit float conversion
+        if (getType().isInt() && expectedType.isFloat()) {
             ConvFloat newExpr = new ConvFloat(this);
             setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
             return newExpr;
-        } else {
-            getType().asClassType("(3.28) Expression type is not compatible", getLocation());
         }
         return this;
     }

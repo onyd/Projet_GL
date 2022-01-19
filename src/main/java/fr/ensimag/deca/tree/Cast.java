@@ -22,7 +22,17 @@ public class Cast extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
-        return null; // TODO verify 3.39
+        Type type2 = type.verifyType(compiler);
+        Type type1 = expr.verifyExpr(compiler, localEnv, currentClass);
+        if (type1.isVoid()) {
+            throw new ContextualError("(3.39) Can't cast void type", getLocation());
+        }
+
+        if (!type1.isCastCompatible(type2))
+            throw new ContextualError("(3.39) Can't cast void type", getLocation());
+
+        setType(type2);
+        return getType();
     }
 
     @Override
@@ -54,7 +64,7 @@ public class Cast extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-
+        // TODO cast decompile
     }
 
     @Override

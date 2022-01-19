@@ -65,10 +65,19 @@ public class DeclField extends AbstractDeclField {
         if (type.isVoid()) {
             throw new ContextualError("(2.5) Field type cannot be void", getLocation());
         }
+
+        // Ensure that the name is not used
+        ExpDefinition def = currentClass.getSuperClass().getMembers().get(fieldIdent.getName());
+        if (def != null) {
+            if (!def.isField()) {
+                throw new ContextualError("(2.5) Name has already been declared", getLocation());
+            }
+        }
         currentClass.incNumberOfFields();
         FieldDefinition fieldDef = new FieldDefinition(type, fieldIdent.getLocation(), visibility, currentClass, currentClass.getNumberOfFields());
         try {
             currentClass.getMembers().declare(fieldIdent.getName(), fieldDef);
+
         } catch (Environment.DoubleDefException e) {
             throw new ContextualError("Field has already been declared", getLocation());
         }

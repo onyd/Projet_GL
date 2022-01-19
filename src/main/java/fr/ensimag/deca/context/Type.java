@@ -89,4 +89,19 @@ public abstract class Type {
 
     }
 
+    public boolean isAssignCompatible(Type otherType) {
+        if (this.sameType(otherType))
+            return true;
+        if (this.isFloat() && otherType.isInt())
+            return true;
+        if (this.isSubType(otherType))
+            return true;
+
+        return false;
+    }
+
+    public boolean isCastCompatible(Type otherType) {
+        return this.isAssignCompatible(otherType) || otherType.isAssignCompatible(this);
+    }
+
 }

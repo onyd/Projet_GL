@@ -1,0 +1,32 @@
+{
+int x = 2;
+int y = readInt();
+
+float a = 2;
+float b = 4.5;
+
+int p = 4, q = 2;
+
+int i = 10;
+
+// Arithmetics
+println("Arithmetics");
+
+println("2+",y,"=", x + y);
+
+println("2-4.5=", a-b);
+
+
+println("p/q=", p/q);
+println("p%q=", p%q);
+
+// Conditionnals
+
+while (i > 0) {
+    if (i % 2 == 0) {
+        println(i, " est pair");
+    }
+    i = i - 1;
+}
+
+}

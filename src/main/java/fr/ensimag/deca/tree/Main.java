@@ -32,7 +32,7 @@ public class Main extends AbstractMain {
         Signature signature = new Signature();
         signature.add(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
         try {
-            envExp.declare(compiler.EQUALS_SYMBOL, new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(),signature, 0));
+            envExp.declare(compiler.EQUALS_SYMBOL, new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(), signature, 0));
         } catch (Environment.DoubleDefException e) {
             // Never happen
         }
