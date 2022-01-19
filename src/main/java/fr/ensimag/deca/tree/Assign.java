@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 
 /**
@@ -45,6 +46,11 @@ public class Assign extends AbstractBinaryExpr {
         } else if(this.getLeftOperand().isSelection()) {
             ((Selection) this.getLeftOperand()).codeGenAssignFromR1(compiler);
         }
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        this.codeGenInst(compiler);
     }
 
     @Override

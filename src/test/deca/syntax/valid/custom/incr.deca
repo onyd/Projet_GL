@@ -1,7 +1,7 @@
-class Incr {
+class Incr() {
     int i = 0;
 
-    int incr() {
+    void incr() {
         this.i = i+1;
     }
 }

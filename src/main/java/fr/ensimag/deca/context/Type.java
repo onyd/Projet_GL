@@ -93,7 +93,7 @@ public abstract class Type {
             return true;
         if (this.isFloat() && otherType.isInt())
             return true;
-        if (this.isSubType(otherType))
+        if (otherType.isSubType(this))
             return true;
 
         return false;

@@ -94,7 +94,7 @@ public abstract class AbstractExpr extends AbstractInst {
             Type expectedType)
             throws ContextualError {
         Type type2 = verifyExpr(compiler, localEnv, currentClass);
-        if (!type2.isAssignCompatible(expectedType)) {
+        if (!expectedType.isAssignCompatible(type2)) {
             throw new ContextualError("(3.28) Types " + type2 + " can't be assigned to " + expectedType, getLocation());
         }
 
@@ -140,7 +140,12 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      */
     protected void codeGenPrint(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        this.codeGenExprOnR1(compiler);
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
