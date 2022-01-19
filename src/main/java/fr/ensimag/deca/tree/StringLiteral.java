@@ -63,7 +63,7 @@ public class StringLiteral extends AbstractStringLiteral {
         methodVisitor.visitLdcInsn(value);
         methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
                 "java/io/PrintStream",
-                "println",
+                "print",
                 "(Ljava/lang/String;)V",
                 false);
     }
