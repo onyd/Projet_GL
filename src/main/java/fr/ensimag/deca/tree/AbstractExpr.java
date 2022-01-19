@@ -94,7 +94,7 @@ public abstract class AbstractExpr extends AbstractInst {
             Type expectedType)
             throws ContextualError {
         Type type2 = verifyExpr(compiler, localEnv, currentClass);
-        if (!type2.isAssignCompatible(expectedType)) {
+        if (!expectedType.isAssignCompatible(type2)) {
             throw new ContextualError("(3.28) Types " + type2 + " can't be assigned to " + expectedType, getLocation());
         }
 
