@@ -95,7 +95,7 @@ public abstract class AbstractExpr extends AbstractInst {
             Type expectedType)
             throws ContextualError {
         Type type2 = verifyExpr(compiler, localEnv, currentClass);
-        if (!type2.isAssignCompatible(expectedType)) {
+        if (!expectedType.isAssignCompatible(type2)) {
             throw new ContextualError("(3.28) Types " + type2 + " can't be assigned to " + expectedType, getLocation());
         }
 
@@ -140,16 +140,20 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler)//Je pense qu'il faut la rendre abstraite.
-    {
-        throw new UnsupportedOperationException("codeGenPrint implemented mais pas dans AbstractExpr");
+    protected void codeGenPrint(DecacCompiler compiler) {
+        this.codeGenExprOnR1(compiler);
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
     protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)//Je pense qu'il faut la rendre
     {
         throw new UnsupportedOperationException("codeGenPrintByte implemented mais pas dans AbstractExpr");
     }
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {//Je pense qu'il faut la rendre
+    protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     @Override
@@ -189,7 +193,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
     /**

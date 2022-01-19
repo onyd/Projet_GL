@@ -45,26 +45,48 @@ public class Cast extends AbstractExpr {
             compiler.addInstruction(new FLOAT(register, register));
         } else if(type.getType().isClass()) {
             if(expr.getType().isClass()) {
-                Identifier className = (Identifier) expr;
-                if(!className.getClassDefinition().getType().isSubClassOf((ClassType) type.getType())) {
-                    compiler.addInstruction(new BRA(new Label("cast_error")));
-                } else {
-                    compiler.addInstruction(new LOAD(className.getDVal(), register));
-                    compiler.addInstruction(new CMP( new NullOperand(), register));
-                    if(compiler.getCompilerOptions().getNoCheck()) {
-                        compiler.addInstruction(new BEQ(new Label("seg_fault")));
-                    }
-                    DAddr dAddr = ((ClassType) type.getType()).getDefinition().getdAddrVTable();
-                    compiler.addInstruction(new LEA(dAddr, Register.R0));
-                    compiler.addInstruction(new STORE(Register.R0, new RegisterOffset(0, register)));
+                if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
+                    codeGenVerifyCast(compiler, expr, register);
+                }
+                compiler.addInstruction(new LOAD(expr.getDVal(), register));
+                compiler.addInstruction(new CMP( new NullOperand(), register));
+                if(compiler.getCompilerOptions().getNoCheck()) {
+                    compiler.addInstruction(new BEQ(new Label("seg_fault")));
                 }
             }
         }
     }
 
+    private void codeGenVerifyCast(DecacCompiler compiler, AbstractExpr expr, GPRegister register) {
+        // Load the expr method table adress
+        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
+        Label endLabel = compiler.getLabelManager().getNextLabel("cast", "end");
+        ClassType currentType = (ClassType) type.getType();
+        boolean first = true;
+        while (currentType != (ClassType) expr.getType()) {
+            compiler.addInstruction(new LEA(currentType.getDefinition().getdAddrVTable(), Register.R0));
+            compiler.addInstruction(new CMP(register, Register.R0));
+            //if it's the first, if it's a possible cast we need to go to the end label
+            if(first) {
+                compiler.addInstruction(new BEQ(endLabel));
+                first = false;
+            } else {
+                // if the real type of the expr is after it can't be cast
+                compiler.addInstruction(new BEQ(new Label("cast_error")));
+            }
+            currentType = currentType.getDefinition().getSuperClass().getType();
+        }
+        compiler.addLabel(endLabel);
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO cast decompile
+        s.print("(");
+        type.decompile(s);
+        s.print(") (");
+        expr.decompile(s);
+        s.print(")");
     }
 
     @Override

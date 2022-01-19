@@ -175,6 +175,36 @@ do
 
 done
 
+echo "${GREEN}  This part is for the operations on class\n${NC}"
+for fich in ./src/test/deca/codegen/valid/demo/class/*.deca
+do
+
+  resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
+  assFile=$(echo "$fich" | sed "s/deca/ass/g" | sed "s/ass/deca/")
+
+  rm -f $assFile 2>/dev/null
+  decac $fich || exit 1
+  if [ ! -f $assFile ]; then
+      echo "Fichier .ass non généré."
+      exit 1
+  fi
+
+  resultat=$(ima $assFile) || exit 1
+  rm -f $assFile
+
+
+  attendu=$(cat $resultFile)
+
+  echo "    Test for" $fich
+
+  if [ "$resultat" = "$attendu" ]; then
+      echo "    The result corresponds to the expected result"
+  else
+      echo "    The result doesn't correspond to the expected result. Indeed, the result is:"
+      echo $resultat
+  fi
+
+done
 echo "${GREEN}  This part is for the print instructions\n${NC}"
 for fich in ./src/test/deca/codegen/valid/custom/print/*.deca
 do

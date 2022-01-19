@@ -1,0 +1,30 @@
+class Animal {
+    void type() {
+        println("je suis un animal");
+    }
+}
+
+class Canard extends Animal {
+    void crier() {
+        println("coin coin");
+    }
+}
+
+class Femelle extends Canard {
+    void genre() {
+        println("Je suis une Canne");
+    }
+}
+
+{
+    Canard c = new Canard();
+    Canard c2;
+    Femelle f;
+    Animal a =  c;
+    a.type();
+    c.crier();
+    c2 = (Canard) (a);
+    c2.crier();
+    f = (Femelle) (a);
+    f.genre();
+}

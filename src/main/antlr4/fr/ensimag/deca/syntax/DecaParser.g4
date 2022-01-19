@@ -609,6 +609,12 @@ decl_method returns[AbstractDeclMethod tree]
             setLocation(body, $ASM);
             setLocation(asm, $ASM);
         }
+      | JAVA OPARENT code=multi_line_string CPARENT SEMI {
+            StringLiteral java = new StringLiteral($code.text);
+            body = new MethodJavaBody(java);
+            setLocation(body, $JAVA);
+            setLocation(java, $JAVA);
+        }
       ) {
            $tree = new DeclMethod($type.tree, $ident.tree, $params.tree, body);
            setLocation($tree, $type.start);
