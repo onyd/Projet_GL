@@ -1,0 +1,6 @@
+{
+int i;
+while("hello"){
+i = 1;
+}
+}

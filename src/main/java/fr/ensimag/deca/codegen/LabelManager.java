@@ -61,4 +61,12 @@ public class LabelManager {
     public Label getNextLabel(String labelName, String prefix, String className) {
         return getNextLabel(prefix + "_" + labelName + "." + className);
     }
+
+    public Label getMethodLabel(String className, String methodName) {
+        return new Label("code." + className + "." + methodName);
+    }
+
+    public Label getEndMethodLabel(String className, String methodName) {
+        return new Label("fin." + className + "." + methodName);
+    }
 }

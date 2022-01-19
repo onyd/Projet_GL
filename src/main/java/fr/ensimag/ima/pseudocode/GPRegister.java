@@ -20,4 +20,8 @@ public class GPRegister extends Register {
         super(name);
         this.number = number;
     }
+
+    public boolean isVirtual() {
+        return false;
+    }
 }

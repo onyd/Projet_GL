@@ -1,0 +1,37 @@
+class Car {
+    protected int maxSpeed;
+    float height;
+
+    void Car(int maxSpeed, float height) {
+        this.maxSpeed = maxSpeed;
+        this.height = height;
+    }
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+
+    int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    float calculateFuel() {
+        return (maxSpeed * height) / 10;
+    }
+
+    float distanceMax() {
+        return this.calculateFuel() * height;
+    }
+}
+
+{
+    Car car1 = new Car();
+    Car car2 = new Car();
+    float distance;
+
+    car1.Car(230, 2.5);
+    car2.Car(250, 2.9);
+
+    distance = car1.distanceMax();
+    print(distance);
+}

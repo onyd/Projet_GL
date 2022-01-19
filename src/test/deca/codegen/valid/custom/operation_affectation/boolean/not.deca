@@ -1,0 +1,9 @@
+{
+    boolean x = false;
+    x = !x;
+    if(x) {
+        println("true");
+    }else{
+    println("false");
+    }
+}

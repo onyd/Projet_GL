@@ -1,0 +1,11 @@
+// Description:
+//   Print condition with int cast.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   printlnx(((int) (4));
+}

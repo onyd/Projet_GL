@@ -1,0 +1,6 @@
+{
+    boolean x = false || (true && false);
+    if(x){
+        println("true");
+    }
+}

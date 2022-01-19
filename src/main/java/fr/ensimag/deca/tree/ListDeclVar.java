@@ -16,15 +16,7 @@ import fr.ensimag.ima.pseudocode.instructions.TSTO;
  * @author gl28
  * @date 01/01/2022
  */
-public class ListDeclVar extends TreeList<AbstractDeclVar> {
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        for(AbstractDeclVar declVar: this.getList()) {
-            declVar.decompile(s);
-            s.println();
-        }
-    }
+public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
 
     /**
      * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3

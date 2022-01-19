@@ -17,7 +17,7 @@ class EnvironmentExpTest
 
         symbolTable = new SymbolTable();
         environmentExp = new EnvironmentExp(null);
-        assertTrue(environmentExp.currentExp.isEmpty());
+        assertTrue(environmentExp.isEmpty());
 
         // tester int x;
         expDefinition = new VariableDefinition(new IntType(symbolTable.create("x")), new Location(0, 0, "test"));
@@ -49,7 +49,7 @@ class EnvironmentExpTest
 
         symbolTableParent = new SymbolTable();
         environmentExpParent = new EnvironmentExp(null);
-        assertTrue(environmentExpParent.currentExp.isEmpty());
+        assertTrue(environmentExpParent.isEmpty());
 
         //Partie similaire à la méthode précédente (Environment sans parents).
 
@@ -81,7 +81,7 @@ class EnvironmentExpTest
 
         symbolTableFils = new SymbolTable();
         environmentExpFils = new EnvironmentExp(environmentExpParent);
-        assertTrue(environmentExpFils.currentExp.isEmpty());
+        assertTrue(environmentExpFils.isEmpty());
 
         // tester int x;
         expDefinitionFils = new VariableDefinition(new IntType(symbolTableParent.create("x")), new Location(0, 0, "test"));

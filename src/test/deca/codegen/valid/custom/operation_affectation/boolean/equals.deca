@@ -1,0 +1,7 @@
+{
+    int x = 0;
+    boolean y = (x==0);
+    if(y) {
+        println("true");
+    }
+}

@@ -7,6 +7,6 @@ class Incr() {
 }
 
 {
-    Incr incr = new Incr()
+    Incr incr = new Incr();
     incr.incr();
 }

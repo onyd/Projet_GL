@@ -28,10 +28,11 @@ ELSE: 'else';
 FALSE: 'false';
 IF: 'if';
 INSTANCEOF: 'instanceof';
+JAVA: 'java';
 NEW: 'new';
 NULL: 'null';
-READINT: 'ReadInt';
-READFLOAT: 'ReadFloat';
+READINT: 'readInt';
+READFLOAT: 'readFloat';
 PRINT: 'print';
 PRINTLN: 'println';
 PRINTLNX: 'printlnx';
@@ -77,15 +78,7 @@ OR: '||';
 // Litteraux entiers
 
 fragment POSITIVE_DIGIT: '1'..'9';
-INT: '0'| POSITIVE_DIGIT DIGIT* {
-try {
-    parseInt(getText());
- }
- catch (NumberFormatException e) {
-    System.out.println("The number is too large, it must be a positive signed integer on 32 bits");
-    System.exit(1);
- }
- };
+INT: '0'| POSITIVE_DIGIT DIGIT*;
 
 // Litteraux flottants
 
@@ -100,7 +93,7 @@ fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | '
 FLOAT: FLOATDEC|FLOATHEX;
 
 
-fragment STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+fragment STRING_CAR: ~('"' | '\\' | '\n');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 

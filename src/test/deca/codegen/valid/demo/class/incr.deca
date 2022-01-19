@@ -1,0 +1,25 @@
+class Incr {
+    int cpt = 0;
+
+    int incr() {
+        cpt = cpt + 1;
+        return this.cpt;
+    }
+
+    void setCpt(int newCpt) {
+        cpt = newCpt;
+    }
+
+    int getCpt() {
+        return cpt;
+    }
+}
+
+{
+    Incr incr = new Incr();
+    println("valeur de incr.cpt: ", incr.cpt);
+    incr.setCpt(10);
+    println("le compteur est set à 10: valeur de incr.getCpt(): ", incr.getCpt());
+    incr.incr();
+    println("valeur du compteur après incrémentation: ", incr.getCpt());
+}

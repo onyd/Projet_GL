@@ -1,0 +1,13 @@
+// Description:
+//   While with condition new.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   while new A() == 1) {
+        i = i + 1;
+   }
+}

@@ -55,6 +55,16 @@ public abstract class AbstractInst extends Tree {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    /**
+     * Generate assembly code for the instruction and give the endLabel of the enclosing IfThenElse branch to the deeper IfThenElse.
+     *
+     * @param compiler
+     */
+    protected void codeGenInst(DecacCompiler compiler, Label endLabel) {
+        codeGenInst(compiler);
+    };
+
+
 
     /**
      * Decompile the tree, considering it as an instruction.
