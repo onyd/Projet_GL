@@ -63,7 +63,11 @@ public class Cast extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        // TODO cast decompile
+        s.print("(");
+        type.decompile(s);
+        s.print(") (");
+        expr.decompile(s);
+        s.print(")");
     }
 
     @Override

@@ -1,5 +1,5 @@
 class Vehicle {
-    protected int wheels;
+    protected int wheels = 4;
 
     void Vehicle(int wheels) {
         this.wheels = wheels;
@@ -55,4 +55,6 @@ class Car extends Vehicle {
     car1.Car(200, 2.4);
 
     vehicle1 = car1.returnObject();
+    print(car1.getWheels());
+
 }

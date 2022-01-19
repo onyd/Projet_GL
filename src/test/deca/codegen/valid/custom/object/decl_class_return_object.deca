@@ -55,4 +55,5 @@ class Car extends Vehicle {
     car1.Car(200, 2.4);
 
     car2 = car1.returnObject();
+    print(car2.getMaxSpeed());
 }
