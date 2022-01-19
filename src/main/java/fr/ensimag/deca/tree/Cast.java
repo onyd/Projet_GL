@@ -45,11 +45,10 @@ public class Cast extends AbstractExpr {
             compiler.addInstruction(new FLOAT(register, register));
         } else if(type.getType().isClass()) {
             if(expr.getType().isClass()) {
-                Identifier className = (Identifier) expr;
-                if(!className.getClassDefinition().getType().isSubClassOf((ClassType) type.getType())) {
+                if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
                     compiler.addInstruction(new BRA(new Label("cast_error")));
                 } else {
-                    compiler.addInstruction(new LOAD(className.getDVal(), register));
+                    compiler.addInstruction(new LOAD(expr.getDVal(), register));
                     compiler.addInstruction(new CMP( new NullOperand(), register));
                     if(compiler.getCompilerOptions().getNoCheck()) {
                         compiler.addInstruction(new BEQ(new Label("seg_fault")));
