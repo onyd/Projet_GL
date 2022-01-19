@@ -3,6 +3,10 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -45,5 +49,21 @@ public class InstanceOf extends AbstractExpr {
         }
 
         return getType();
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        if (expr.getType().isSubType(type.getType())) {
+            compiler.addInstruction(new LOAD(1, register));
+        } else {
+            compiler.addInstruction(new LOAD(0, register));
+        }
+    }
+
+    @Override
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        if (expr.getType().isSubType(type.getType())) {
+            compiler.addInstruction(new BRA(label));
+        }
     }
 }
