@@ -86,7 +86,6 @@ public abstract class Type {
         } else {
             return this.sameType(otherType);
         }
-
     }
 
     public boolean isAssignCompatible(Type otherType) {
@@ -94,7 +93,7 @@ public abstract class Type {
             return true;
         if (this.isFloat() && otherType.isInt())
             return true;
-        if (this.isSubType(otherType))
+        if (otherType.isSubType(this))
             return true;
 
         return false;

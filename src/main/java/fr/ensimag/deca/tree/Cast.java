@@ -29,7 +29,7 @@ public class Cast extends AbstractExpr {
         }
 
         if (!type1.isCastCompatible(type2))
-            throw new ContextualError("(3.39) Can't cast void type", getLocation());
+            throw new ContextualError("(3.39) Can't cast " + type2 + " to " + type1, getLocation());
 
         setType(type2);
         return getType();

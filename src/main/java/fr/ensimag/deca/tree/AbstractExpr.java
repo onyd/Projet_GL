@@ -95,7 +95,7 @@ public abstract class AbstractExpr extends AbstractInst {
             throws ContextualError {
         Type type2 = verifyExpr(compiler, localEnv, currentClass);
         if (!expectedType.isAssignCompatible(type2)) {
-            throw new ContextualError("(3.39) Can't cast void type", getLocation());
+            throw new ContextualError("(3.28) Types " + type2 + " can't be assigned to " + expectedType, getLocation());
         }
 
         // Implicit float conversion
@@ -104,6 +104,7 @@ public abstract class AbstractExpr extends AbstractInst {
             setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
             return newExpr;
         }
+
         return this;
     }
     
