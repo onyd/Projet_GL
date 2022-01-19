@@ -66,6 +66,7 @@ public class MethodCall extends AbstractExpr {
         for(AbstractExpr expr : arguments.getList()) {
             expr.codeGenExprOnR1(compiler);
             compiler.addInstruction(new STORE(register, new RegisterOffset(offset, Register.SP)));
+            offset--;
         }
         compiler.addInstruction(new LOAD(new RegisterOffset(0, Register.SP), register));
         compiler.addInstruction(new CMP(new NullOperand(), register));
