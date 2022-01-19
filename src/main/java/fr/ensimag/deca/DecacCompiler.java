@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -221,6 +222,11 @@ public class DecacCompiler {
     private final IMAProgram declMethodProg = new IMAProgram();
     private boolean declareMethod = false;
 
+    /**
+     * Contient les classes pour générer les fichiers .class
+     */
+    private JavaCompiler javaCompiler = new JavaCompiler();
+
     public void setDeclareMethod(boolean declareMethod) {
         this.declareMethod = declareMethod;
     }
@@ -301,20 +307,52 @@ public class DecacCompiler {
         // STEP C
         addComment("start main program");
         prog.codeGenProgram(this);
+
+        //String destNameBytecode = removeLastCharactersAndGetClassName(destName,4);
+        String destNameBytecode = "MainClasse";
+        if(this.compilerOptions.getByteFiles())
+        {
+            prog.codeGenProgramByte(this,javaCompiler,destNameBytecode);// pour générer le bytecode
+        }
         addComment("end main program");
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
 
         FileOutputStream fstream = null;
+        FileOutputStream fstreamByteCode = null;
         try {
             fstream = new FileOutputStream(destName);
         } catch (FileNotFoundException e) {
             throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
         }
 
+        if(this.compilerOptions.getByteFiles())
+        {
+            try {
+                fstreamByteCode = new FileOutputStream(destNameBytecode+".class");
+                System.out.println("Création du " + destNameBytecode+".class");
+            } catch (FileNotFoundException e) {
+                throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
+            }
+        }
         LOG.info("Writing assembler file ...");
 
         program.display(new PrintStream(fstream));
+
+        if(this.compilerOptions.getByteFiles())
+        {
+            LOG.info("Writing .class file ...");
+            byte[] b = javaCompiler.getClassWriter().toByteArray();
+            try
+            {
+                assert fstreamByteCode != null;
+                fstreamByteCode.write(b);
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
         LOG.info("Compilation of " + sourceName + " successful.");
         return false;
     }
@@ -348,5 +386,17 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
 
+    // peut être supprimer plus tard.
+    private String removeLastCharactersAndGetClassName(String inputString, int extensionLength)
+    {
+        String res = inputString;
+        for(int i=0;i<extensionLength;i++)
+        {
+            res = StringUtils.chop(res);// suppression du dernier s de ass, puis s, puis a.
+        }
+        String[] s = res.split("/");
+        s[s.length-1] = StringUtils.chop(s[s.length-1]);
+        return res;
+    }
 
 }

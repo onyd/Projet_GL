@@ -1,11 +1,17 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * @author gl28
@@ -48,7 +54,32 @@ public class Main extends AbstractMain {
         declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
-    
+    @Override
+    protected void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+        ClassWriter classWriter = javaCompiler.getClassWriter();
+        MethodVisitor methodVisitor = null;
+
+        // Ajout du main.
+        methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC + javaCompiler.ACC_STATIC,
+                "main",
+                "([Ljava/lang/String;)V",
+                null,
+                null);
+
+        javaCompiler.setMethodVisitor(methodVisitor);
+
+        //declVariables
+        insts.codeGenListInstByteCode(compiler,javaCompiler);
+
+        methodVisitor.visitInsn(javaCompiler.RETURN);
+        methodVisitor.visitMaxs(2, 1);
+
+
+
+        methodVisitor.visitEnd();
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");

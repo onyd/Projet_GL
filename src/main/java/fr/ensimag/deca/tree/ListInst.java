@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -36,6 +37,12 @@ public class ListInst extends TreeList<AbstractInst> {
         compiler.addComment("Begin the list of instructions");
         for (AbstractInst i : getList()) {
             i.codeGenInst(compiler);
+        }
+    }
+
+    public void codeGenListInstByteCode(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        for (AbstractInst i : getList()) {
+            i.codeGenInstByte(compiler,javaCompiler);
         }
     }
 

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -48,6 +49,14 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void codeGenInst(DecacCompiler compiler) {
         for (AbstractExpr a : getArguments().getList()) {
             a.codeGenPrint(compiler);
+        }
+    }
+
+    @Override
+    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    {
+        for (AbstractExpr a : getArguments().getList()) {
+            a.codeGenPrintByte(compiler,javaCompiler);
         }
     }
 

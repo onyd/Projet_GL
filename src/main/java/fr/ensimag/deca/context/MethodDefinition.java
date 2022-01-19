@@ -78,4 +78,6 @@ public class MethodDefinition extends ExpDefinition {
         return false;
     }
 
+    //Ici il faut créer des frames pour les variables locales.
+
 }
