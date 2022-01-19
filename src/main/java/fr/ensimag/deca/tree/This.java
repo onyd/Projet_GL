@@ -7,8 +7,10 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
 
@@ -36,6 +38,11 @@ public class This extends AbstractExpr {
         }
         setType(currentClass.getType());
         return getType();
+    }
+
+    @Override
+    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+        compiler.addInstruction(new LOAD(getDVal(), register));
     }
 
     @Override
