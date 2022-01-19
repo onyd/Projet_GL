@@ -265,8 +265,6 @@ public class DecacCompiler {
                     + (destByteName.substring(fileIndex+1,destByteName.length()));
             int beginIndex = destByteName.indexOf("src");
             destByteName = destByteName.substring(beginIndex, destByteName.length());
-            System.out.println(destByteName);
-            System.out.println(className);
             prog.codeGenProgramByte(this,javaCompiler, destByteName, className);
         }
         addComment("end main program");
@@ -285,7 +283,7 @@ public class DecacCompiler {
         {
             try {
                 fstreamByteCode = new FileOutputStream(destByteName);
-                System.out.println("Création du " + destByteName+".class");
+                System.out.println("Création du " + destByteName);
             } catch (FileNotFoundException e) {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }

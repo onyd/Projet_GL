@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -7,6 +8,8 @@ import java.io.PrintStream;
 
 import fr.ensimag.deca.tools.SymbolTable;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.FieldVisitor;
+
 
 /**
  * @author gl28
@@ -49,6 +52,10 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     protected void codeGenDeclVar(DecacCompiler compiler) {
         compiler.getManageCodeGen().getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
+    }
+
+    protected void codeGenDeclVarByte(DecacCompiler compiler, JavaCompiler javaCompiler){
+        //FieldVisitor fieldVisitor = javaCompiler.getClassWriter().visitField(javaCompiler.ACC_PRIVATE, this.varName, "()V", null, this.initialization);
     }
 
     @Override
