@@ -28,6 +28,7 @@ ELSE: 'else';
 FALSE: 'false';
 IF: 'if';
 INSTANCEOF: 'instanceof';
+JAVA: 'java';
 NEW: 'new';
 NULL: 'null';
 READINT: 'readInt';

@@ -9,5 +9,9 @@ class Car {
             return maxSpeed;
     }
 
-    void methodAsm() asm("Test");
+    void methodAsm() asm("  WSTR \"toto\"");
+}
+{
+    Car c = new Car();
+    c.methodAsm();
 }

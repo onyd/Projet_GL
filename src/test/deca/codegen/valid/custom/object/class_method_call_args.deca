@@ -20,7 +20,7 @@ class Car {
     }
 
     float distanceMax() {
-        return 5 * height;
+        return this.calculateFuel() * height;
     }
 }
 

@@ -31,8 +31,9 @@ public class Main extends AbstractMain {
         EnvironmentExp envExp = new EnvironmentExp(null);
         Signature signature = new Signature();
         signature.add(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
+        compiler.EQUALS_DEF = new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(), signature, 0);
         try {
-            envExp.declare(compiler.EQUALS_SYMBOL, new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(), signature, 0));
+            envExp.declare(compiler.EQUALS_SYMBOL, compiler.EQUALS_DEF);
         } catch (Environment.DoubleDefException e) {
             // Never happen
         }

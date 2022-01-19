@@ -200,6 +200,7 @@ public class DecacCompiler {
             OBJECT_SYMBOL = symbolTable.create("Object"),
             EQUALS_SYMBOL = symbolTable.create("equals"),
             NULL_SYMBOL = symbolTable.create("null");
+    public MethodDefinition EQUALS_DEF;
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
