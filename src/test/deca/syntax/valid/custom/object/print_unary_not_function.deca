@@ -7,5 +7,5 @@
 //    created on 12/01/2022
 
 {
-   printx(func(int c = 4));
+   print(func(c = 4));
 }

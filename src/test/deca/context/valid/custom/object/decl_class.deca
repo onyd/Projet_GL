@@ -1,0 +1,7 @@
+class Car {
+    protected int maxSpeed;
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+}

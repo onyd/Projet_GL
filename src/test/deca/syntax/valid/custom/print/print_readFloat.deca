@@ -7,6 +7,6 @@
 //    created on 12/01/2022
 
 {
-   float i = readFloat()
+   float i = readFloat();
    print(i);
 }

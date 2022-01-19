@@ -1,9 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.VoidType;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -18,6 +16,7 @@ public class Main extends AbstractMain {
     
     private ListDeclVar declVariables;
     private ListInst insts;
+
     public Main(ListDeclVar declVariables,
             ListInst insts) {
         Validate.notNull(declVariables);
@@ -30,6 +29,13 @@ public class Main extends AbstractMain {
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
         EnvironmentExp envExp = new EnvironmentExp(null);
+        Signature signature = new Signature();
+        signature.add(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
+        try {
+            envExp.declare(compiler.EQUALS_SYMBOL, new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(), signature, 0));
+        } catch (Environment.DoubleDefException e) {
+            // Never happen
+        }
         this.declVariables.verifyListDeclVariable(compiler, envExp, null);
         this.insts.verifyListInst(compiler, envExp, null, compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType());
         LOG.debug("verify Main: end");

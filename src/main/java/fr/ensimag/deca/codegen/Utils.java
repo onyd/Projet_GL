@@ -12,6 +12,8 @@ public class Utils {
         }
         else if(type.isFloat()) {
             return new ImmediateFloat(0.0F);
+        } else if(type.isClass()) {
+            return new NullOperand();
         } else {
             return null;
         }
@@ -38,8 +40,18 @@ public class Utils {
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
 
+        compiler.addLabel(new Label("seg_fault"));
+        compiler.addInstruction(new WSTR("Error: Segmentation Fault"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+
+        compiler.addLabel(new Label("heap_overflow_error"));
+        compiler.addInstruction(new WSTR("Error: the heap is full"));
+        compiler.addInstruction(new WNL());
+        compiler.addInstruction(new ERROR());
+
         compiler.addLabel(new Label("cast_error"));
-        compiler.addInstruction(new WSTR("Error: Impossible cast"));
+        compiler.addInstruction(new WSTR("Error: Impossible Cast"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
     }

@@ -1,5 +1,5 @@
 // Description:
-//   Print condition with instanceof.
+//   Print condition with new().
 // Results:
 //
 //
@@ -7,5 +7,5 @@
 //    created on 12/01/2022
 
 {
-   print(a instanceof b);
+   println(A()));
 }

@@ -1,0 +1,5 @@
+{
+    A  = new A ;
+    a.setX;
+    println("a.getX() = ", a.getX()) ;
+}

@@ -3,8 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -37,14 +37,35 @@ public class Program extends AbstractProgram {
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
-        getMain().verifyMain(compiler);
+
+        // Pass 1
+        classes.verifyListClass(compiler);
+
+        // Pass 2
+        classes.verifyListClassMembers(compiler);
+
+        // Pass 3
+        classes.verifyListClassBody(compiler);
+        main.verifyMain(compiler);
+
+        LOG.debug("verify program: end");
     }
 
     @Override
     public void codeGenProgram(DecacCompiler compiler) {
+        //create the vtable
+        compiler.addComment("Creation of the virtual methods table");
+        classes.codeGenListDeclClass(compiler);
+
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
+
+        //crete all the constructors and methods
+        compiler.appendMethodProg();
+
+        //add all the error
+        compiler.addComment("Handle the errors");
         Utils.handleError(compiler);
     }
 

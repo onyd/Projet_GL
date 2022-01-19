@@ -37,13 +37,13 @@ public class DeclVar extends AbstractDeclVar {
             throw new ContextualError("(3.17) Variable declaration with type void is forbidden", getLocation());
         }
         VariableDefinition varDef = new VariableDefinition(type.getType(), this.getLocation());
-        varName.setDefinition(varDef);
-        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
         try {
-            localEnv.declare(varName.getName(), varName.getExpDefinition());
+            localEnv.declare(varName.getName(), varDef);
         } catch (EnvironmentExp.DoubleDefException e) {
             throw new ContextualError("(3.17) The identifier is already declared", this.getLocation());
         }
+        varName.verifyExpr(compiler, localEnv, currentClass);
+        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class DeclVar extends AbstractDeclVar {
         varName.decompile(s);
         initialization.decompile(s);
         s.print(";");
+        s.println();
     }
 
     @Override

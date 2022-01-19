@@ -71,8 +71,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
-            int newRegister = compiler.getRegisterManager().getFreeRegister();
-            if(newRegister == -1) {
+            GPRegister newRegister = compiler.getRegisterManager().getFreeRegister();
+            if(newRegister == null) {
                 compiler.addInstruction(new PUSH(register));
                 this.getRightOperand().codeGenExprOnRegister(compiler, register);
                 compiler.addInstruction(new LOAD(register, Register.R0));
@@ -86,8 +86,8 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                     }
                 }
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, Register.getR(newRegister));
-                this.codeMnemo(compiler, Register.getR(newRegister), register);
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                this.codeMnemo(compiler, newRegister, register);
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
                         compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));

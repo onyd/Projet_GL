@@ -80,4 +80,27 @@ public abstract class Type {
         throw new ContextualError(errorMessage, l);
     }
 
+    public boolean isSubType(Type otherType) {
+        if (this.isClass() && otherType.isClass()) {
+            return ((ClassType) this).isSubClassOf((ClassType) otherType);
+        } else {
+            return this.sameType(otherType);
+        }
+    }
+
+    public boolean isAssignCompatible(Type otherType) {
+        if (this.sameType(otherType))
+            return true;
+        if (this.isFloat() && otherType.isInt())
+            return true;
+        if (this.isSubType(otherType))
+            return true;
+
+        return false;
+    }
+
+    public boolean isCastCompatible(Type otherType) {
+        return this.isAssignCompatible(otherType) || otherType.isAssignCompatible(this);
+    }
+
 }

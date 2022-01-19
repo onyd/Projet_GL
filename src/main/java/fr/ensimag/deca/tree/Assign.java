@@ -40,7 +40,11 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         this.getRightOperand().codeGenExprOnR1(compiler);
-        compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
+        if(this.getLeftOperand().isIdentifier()) {
+            compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
+        } else if(this.getLeftOperand().isSelection()) {
+            ((Selection) this.getLeftOperand()).codeGenAssignFromR1(compiler);
+        }
     }
 
     @Override

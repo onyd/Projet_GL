@@ -26,6 +26,23 @@ public class StringLiteral extends AbstractStringLiteral {
     public StringLiteral(String value) {
         Validate.notNull(value);
         this.value = value;
+        this.formatValue();
+    }
+
+    public void formatValue() {
+        StringBuilder res = new StringBuilder();
+        char[] chars = value.toCharArray();
+        int i = 0;
+        while(i < chars.length) {
+            if(i+1 != chars.length) {
+                if(((chars[i] == '\\') && (chars[i+1] == '\\')) || ((chars[i] == '\\') && (chars[i+1] == '\"'))) {
+                    i++;
+                }
+            }
+            res.append(chars[i]);
+            i++;
+        }
+        this.value = res.toString();
     }
 
     @Override

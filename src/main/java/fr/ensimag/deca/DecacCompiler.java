@@ -3,6 +3,7 @@ package fr.ensimag.deca;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.codegen.RegisterManager;
 import fr.ensimag.deca.codegen.Stack;
+import fr.ensimag.deca.codegen.VTable;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -54,6 +55,7 @@ public class DecacCompiler {
         this.stack = new Stack(this);
         this.registerManager = new RegisterManager(compilerOptions.getRegisterNumber());
         this.labelManager = new LabelManager();
+        this.vTable = new VTable(this);
 
         // Initialization of env_types
         try {
@@ -61,6 +63,10 @@ public class DecacCompiler {
             envTypes.declare(BOOLEAN_SYMBOL, new TypeDefinition(new BooleanType(BOOLEAN_SYMBOL), Location.BUILTIN));
             envTypes.declare(FLOAT_SYMBOL, new TypeDefinition(new FloatType(FLOAT_SYMBOL), Location.BUILTIN));
             envTypes.declare(INT_SYMBOL, new TypeDefinition(new IntType(INT_SYMBOL), Location.BUILTIN));
+
+            ClassType objectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
+            envTypes.declare(OBJECT_SYMBOL, objectType.getDefinition());
+
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
@@ -86,14 +92,22 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#add(fr.ensimag.ima.pseudocode.AbstractLine)
      */
     public void add(AbstractLine line) {
-        program.add(line);
+        if(declareMethod) {
+            declMethodProg.add(line);
+        } else {
+            program.add(line);
+        }
     }
 
     /**
      * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
      */
     public void addComment(String comment) {
-        program.addComment(comment);
+        if(declareMethod) {
+            declMethodProg.addComment(comment);
+        } else {
+            program.addComment(comment);
+        }
     }
 
     /**
@@ -101,7 +115,11 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
      */
     public void addLabel(Label label) {
-        program.addLabel(label);
+        if(declareMethod) {
+            declMethodProg.addLabel(label);
+        } else {
+            program.addLabel(label);
+        }
     }
 
     /**
@@ -109,7 +127,11 @@ public class DecacCompiler {
      * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
      */
     public void addInstruction(Instruction instruction) {
-        program.addInstruction(instruction);
+        if(declareMethod) {
+            declMethodProg.addInstruction(instruction);
+        } else {
+            program.addInstruction(instruction);
+        }
     }
 
     /**
@@ -118,7 +140,11 @@ public class DecacCompiler {
      * java.lang.String)
      */
     public void addInstruction(Instruction instruction, String comment) {
-        program.addInstruction(instruction, comment);
+        if(declareMethod) {
+            declMethodProg.addInstruction(instruction, comment);
+        } else {
+            program.addInstruction(instruction, comment);
+        }
     }
 
     /**
@@ -128,7 +154,11 @@ public class DecacCompiler {
     public void append(IMAProgram p) {
         program.append(p);
     }
-    
+
+    public void appendMethodProg() {
+        program.append(declMethodProg);
+    }
+
     /**
      * @see 
      * fr.ensimag.ima.pseudocode.IMAProgram#display()
@@ -140,11 +170,12 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private SymbolTable symbolTable = new SymbolTable();
-    private EnvironmentType envTypes = new EnvironmentType();
+    private EnvironmentType envTypes = new EnvironmentType(null);
 
     private Stack stack;
     private RegisterManager registerManager;
     private LabelManager labelManager;
+    private VTable vTable;
 
     public Stack getStack() {
         return stack;
@@ -158,10 +189,17 @@ public class DecacCompiler {
         return labelManager;
     }
 
-    public SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
+    public VTable getvTable() {
+        return vTable;
+    }
+
+    public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
             BOOLEAN_SYMBOL = symbolTable.create("boolean"),
             FLOAT_SYMBOL = symbolTable.create("float"),
-            INT_SYMBOL = symbolTable.create("int");
+            INT_SYMBOL = symbolTable.create("int"),
+            OBJECT_SYMBOL = symbolTable.create("Object"),
+            EQUALS_SYMBOL = symbolTable.create("equals"),
+            NULL_SYMBOL = symbolTable.create("null");
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
@@ -171,11 +209,21 @@ public class DecacCompiler {
         return envTypes;
     }
 
+
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
     private final IMAProgram program = new IMAProgram();
- 
+
+    /**
+     * The program that create the constructor and the method for all the classes
+     */
+    private final IMAProgram declMethodProg = new IMAProgram();
+    private boolean declareMethod = false;
+
+    public void setDeclareMethod(boolean declareMethod) {
+        this.declareMethod = declareMethod;
+    }
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -250,7 +298,6 @@ public class DecacCompiler {
             System.exit(0);
         }
         assert(prog.checkAllDecorations());
-
         // STEP C
         addComment("start main program");
         prog.codeGenProgram(this);
