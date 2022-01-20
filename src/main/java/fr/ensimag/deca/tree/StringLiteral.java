@@ -69,10 +69,9 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitLdcInsn(value);
-        javaCompiler.getClassWriter().newClass(value);// Ajout dans Constant Pool
     }
 
     @Override

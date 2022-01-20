@@ -63,7 +63,7 @@ public abstract class AbstractPrint extends AbstractInst {
                     "java/lang/System",
                     "out",
                     "Ljava/io/PrintStream;");
-            a.codeGenLDCInst(compiler, javaCompiler);
+            a.codeGenExprByteOnStack(compiler, javaCompiler);
             methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
                     "java/io/PrintStream",
                     "print",

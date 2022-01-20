@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -256,6 +257,15 @@ public class Identifier extends AbstractIdentifier {
             compiler.addInstruction(new BNE(label));
         } else {
             compiler.addInstruction(new BEQ(label));
+        }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        if(this.getType().isInt()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+        } else if(this.getType().isFloat()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
         }
     }
 

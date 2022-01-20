@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -66,5 +67,13 @@ public class Utils {
     }
 
     //for java bytecode
-    //public static void loadVariableOnStack(int index)
+    public static void loadVariableOnStack(int index, Type type, JavaCompiler javaCompiler) {
+        if(type.isInt() || type.isBoolean()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.BIPUSH, 0);
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, index);
+        } else if(type.isFloat()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FCONST_0);
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, index);
+        }
+    }
 }

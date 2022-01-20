@@ -51,10 +51,9 @@ public class IntLiteral extends AbstractExpr {
     }
 
     @Override
-    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitLdcInsn(value);
-        javaCompiler.getClassWriter().newClass(Integer.toString(value));// Ajout dans Constant Pool
     }
 
     @Override

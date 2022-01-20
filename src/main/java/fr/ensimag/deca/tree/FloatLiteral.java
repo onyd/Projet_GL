@@ -57,10 +57,9 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitLdcInsn(value);
-        javaCompiler.getClassWriter().newClass(Float.toString(value));// Ajout dans Constant Pool
     }
 
     @Override

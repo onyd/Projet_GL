@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -57,7 +58,13 @@ public class DeclVar extends AbstractDeclVar {
     protected void codeGenDeclVarByte(DecacCompiler compiler, JavaCompiler javaCompiler, int currentIndexVar){
         varName.getExpDefinition().setIndexOnStack(currentIndexVar);
         if(initialization.noInitialization()) {
-
+            Utils.loadVariableOnStack(currentIndexVar, varName.getType(), javaCompiler);
+        } else {
+            Initialization init = (Initialization) initialization;
+            if(init.getExpression().getType().isInt()) {
+                init.getExpression().codeGenExprByteOnStack(compiler, javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, varName.getExpDefinition().getIndexOnStack());
+            }
         }
     }
 

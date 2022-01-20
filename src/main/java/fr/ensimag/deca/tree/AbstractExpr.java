@@ -249,15 +249,12 @@ public abstract class AbstractExpr extends AbstractInst {
         }
     }
 
-    public void codeGenExprOnStack() {
-    }
-
     /**
-     * load the expression on the constant pool
+     * load the expression on the top of the operand stack
      * @param compiler
      * @param javaCompiler
      */
-    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
