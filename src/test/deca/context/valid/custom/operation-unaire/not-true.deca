@@ -1,0 +1,12 @@
+// Description:
+//   Opposite of a boolean.
+// Results:
+//    Line 11: display false on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   boolean x = true;
+   x = !x;
+}

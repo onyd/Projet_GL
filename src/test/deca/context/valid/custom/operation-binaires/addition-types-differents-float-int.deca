@@ -1,0 +1,11 @@
+// Description:
+//   Sum of a float and an integer.
+// Results:
+//    Line 10: display 4.3 on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   println(2.3 + 2);
+}

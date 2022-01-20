@@ -1,0 +1,11 @@
+{
+    if (2 < 1) {
+        println("2 est plus petit que 1");
+    }
+    else if (1 > 0) {
+        println("On arrivera jamais ici");
+    }
+    else {
+        println("Là non plus");
+    }
+}

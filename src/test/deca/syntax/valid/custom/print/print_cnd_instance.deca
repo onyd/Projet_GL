@@ -1,0 +1,11 @@
+// Description:
+//   Print condition with instanceof.
+// Results:
+//
+//
+// History:
+//    created on 12/01/2022
+
+{
+   print(a instanceof b);
+}

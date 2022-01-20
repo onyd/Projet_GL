@@ -1,0 +1,12 @@
+// Description:
+//   Change the sign of a positive int.
+// Results:
+//    Line 11: display -5 on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   int x = 5;
+   println(-x);
+}

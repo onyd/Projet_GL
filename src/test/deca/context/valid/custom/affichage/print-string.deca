@@ -1,0 +1,12 @@
+// Description:
+//   Display a String
+//   The print function should display String type.
+// Results:
+//    Line 11: Display on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   println("je suis string");
+}

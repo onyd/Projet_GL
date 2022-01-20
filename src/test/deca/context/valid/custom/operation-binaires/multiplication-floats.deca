@@ -1,0 +1,11 @@
+// Description:
+//  Multiplication between two floats.
+// Results:
+//    Line 10: display 9.66 on the standard output.
+//
+// History:
+//    created on 07/01/2022
+
+{
+   println(2.3 * 4.2);
+}

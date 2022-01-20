@@ -1,1 +1,29 @@
 \babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Description du compilateur}{2}{}%
+\contentsline {section}{\numberline {2}commandes et options}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Commandes decac}{2}{}%
+\contentsline {subsection}{\numberline {2.2}option -b}{2}{}%
+\contentsline {subsection}{\numberline {2.3}option -p}{2}{}%
+\contentsline {subsection}{\numberline {2.4}option -v}{2}{}%
+\contentsline {subsection}{\numberline {2.5}A finir }{3}{}%
+\contentsline {section}{\numberline {3}Messages d'erreurs}{3}{}%
+\contentsline {subsection}{\numberline {3.1}IncludeFileNotFound}{3}{}%
+\contentsline {subsubsection}{\numberline {3.1.1}(...) include file not found}{3}{}%
+\contentsline {subsection}{\numberline {3.2}InvalidLValue}{3}{}%
+\contentsline {subsubsection}{\numberline {3.2.1}left-hand side of assignment is not an lvalue}{3}{}%
+\contentsline {subsection}{\numberline {3.3}Circular include for file }{3}{}%
+\contentsline {subsubsection}{\numberline {3.3.1}Circular include for file (...)}{3}{}%
+\contentsline {subsection}{\numberline {3.4}ContextualError}{3}{}%
+\contentsline {subsubsection}{\numberline {3.4.1}(0.1) The identifier is not declared}{3}{}%
+\contentsline {subsubsection}{\numberline {3.4.2}(0.2) The identifier has an invalid type}{3}{}%
+\contentsline {subsubsection}{\numberline {3.4.3}(3.17) Variable declaration with type void is forbidden}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.4}(3.17) The identifier is already declared}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.5}(3.28) Expression type is not compatible}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.6}(3.29) Condition must return a boolean}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.7}(3.31) Wrong type for the print function. It should be int, float or string}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.8}(3.33) Arithmetic operation only: (...) accept (int, int) as operands type}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.9}(3.33) Arithmetic operation: (...) only accept ([int|float], [int|float]) as operands type}{4}{}%
+\contentsline {subsubsection}{\numberline {3.4.10}(3.33) Boolean operation: (...) only accept ([int|float], [int|float]) or objects for == and !=, as operands type"}{5}{}%
+\contentsline {subsubsection}{\numberline {3.4.11}(3.33) Comparison operation: (...) only accept ([int|float], [int|float]) or objects for a comparison, as operands type}{5}{}%
+\contentsline {subsubsection}{\numberline {3.4.12}(3.37) Not operator only accept boolean operand}{5}{}%
+\contentsline {subsubsection}{\numberline {3.4.13}(3.37) UnaryMinus operator only accept int or float operand}{5}{}%

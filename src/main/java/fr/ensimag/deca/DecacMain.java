@@ -35,7 +35,7 @@ public class DecacMain {
             System.exit(0);
         }
         if (options.getSourceFiles().isEmpty()) {
-            throw new UnsupportedOperationException("decac without argument not yet implemented");
+            showUsage();
         }
         if (options.getParallel()) {
             // A FAIRE : instancier DecacCompiler pour chaque fichier à
@@ -52,5 +52,9 @@ public class DecacMain {
             }
         }
         System.exit(error ? 1 : 0);
+    }
+
+    private static void showUsage() {
+        System.out.println("Usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
     }
 }

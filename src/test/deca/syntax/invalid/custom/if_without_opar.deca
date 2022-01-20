@@ -1,0 +1,14 @@
+// Description:
+//    if instruction without parents
+//
+// Resultats:
+//    ligne 11 : Error, missing '(' at true
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+if true) {
+println("a string");
+}
+}

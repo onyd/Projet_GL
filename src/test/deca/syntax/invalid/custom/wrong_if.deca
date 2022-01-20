@@ -1,0 +1,17 @@
+// Description:
+//    declaration of a variable into a if
+//
+// Resultats:
+//    ligne 11 : Error, no viable alternative at input 'i'
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    if(true){
+    i = i + 1;
+    }
+    else(true){
+    i = i + 1;
+    }
+}

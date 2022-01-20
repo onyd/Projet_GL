@@ -1,0 +1,16 @@
+{
+	print("5+5: ");
+	println(5+5);
+	print("4.5 - 2.5: ");
+	println(4.5 - 2.5);
+	print("8 * 8: ");
+	println(8*8);
+	print("4 / 2: ");
+	println(4/2);
+	print("10 % 3: ");
+	println(10%3);
+	print("4.5 / 0.5: ");
+	println(4.5 / 0.5);
+	print("-(4+5*2): ");
+	println(-(4+5*2));
+}

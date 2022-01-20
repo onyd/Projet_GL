@@ -1,11 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.Register;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -29,9 +30,17 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()).getType();
+        setType(type);
+        return getType();
     }
 
+    @Override
+    protected void codeGenInst(DecacCompiler compiler) {
+        this.getRightOperand().codeGenExprOnR1(compiler);
+        compiler.getManageCodeGen().getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
+    }
 
     @Override
     protected String getOperatorName() {

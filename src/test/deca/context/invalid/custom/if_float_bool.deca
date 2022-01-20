@@ -1,0 +1,17 @@
+// Description:
+//   Declaration of a float and a boolean, and test if both are equals or not.
+// Results:
+//    Line 12: Error, incompatible type.
+//
+// History:
+//    created on 12/01/2022
+
+{
+   float i = 1.1;
+   boolean b = true;
+   if (i == b) {
+        println("Error, incompatible type");
+   } else {
+        println("Error, incompatible type");
+   }
+}

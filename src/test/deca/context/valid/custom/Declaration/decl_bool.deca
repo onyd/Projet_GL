@@ -1,0 +1,11 @@
+// Description:
+//   Declaration of a boolean and print it on the standard output.
+// Results:
+//    Line 11: display a boolean on the standard output.
+//
+// History:
+//    created on 11/01/2022
+
+{
+   boolean b = true;
+}

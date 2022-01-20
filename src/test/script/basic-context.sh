@@ -9,21 +9,70 @@ cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:"$PATH"
 
-if test_context src/test/deca/context/invalid/provided/affect-incompatible.deca 2>&1 | \
-    grep -q -e 'affect-incompatible.deca:15:'
-then
-    echo "Echec attendu pour test_context"
-else
-    echo "Succes inattendu de test_context"
-    exit 1
-fi
+test_context_valide () {
+    if test_context "$1">fichier 2>&1
+    then
+        echo "Succès attendu pour test_context sur $1."
+    else
+        echo "Echec inattendu de test_context sur $1."
+        #exit 1
+    fi
+}
 
-if test_context src/test/deca/context/valid/provided/hello-world.deca 2>&1 | \
-    grep -q -e 'hello-world.deca:[0-9]'
-then
-    echo "Echec inattendu pour test_context"
-    exit 1
-else
-    echo "Succes attendu de test_context"
-fi
+test_context_invalide () {
+    if test_context "$1">fichier 2>&1
+    then
+        echo "Succès inattendu pour test_context sur $1."
+        #exit 1
+    else
+        echo "Echec attendu de test_context sur $1."
+    fi
+}
 
+echo "Test invalides fournis :"
+for cas_de_test in src/test/deca/context/invalid/provided/*.deca
+do
+    test_context_invalide "$cas _de_test"
+done
+
+echo "\nTest valides fournis :"
+for cas_de_test in src/test/deca/context/valid/provided/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest invalides personnalisés :"
+for cas_de_test in src/test/deca/context/invalid/custom/*.deca
+do
+    test_context_invalide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés d'affichage :"
+for cas_de_test in src/test/deca/context/valid/custom/affichage/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés de déclarations :"
+for cas_de_test in src/test/deca/context/valid/custom/Declaration/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés d'opérations binaires :"
+for cas_de_test in src/test/deca/context/valid/custom/operation-binaires/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés d'opérations unaires :"
+for cas_de_test in src/test/deca/context/valid/custom/operation-unaire/*.deca
+do
+    test_context_valide "$cas_de_test"
+done
+
+echo "\nTest valides personnalisés sur la condition if :"
+for cas_de_test in src/test/deca/context/valid/custom/if/*.deca
+do
+    test_context_valide "$cas_de_test"
+done

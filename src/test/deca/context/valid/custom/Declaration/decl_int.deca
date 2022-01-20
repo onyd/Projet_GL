@@ -1,0 +1,12 @@
+// Description:
+//   Declaration of an integer and print it on the standard output.
+// Results:
+//    Line 11: display an integer on the standard output.
+//
+// History:
+//    created on 11/01/2022
+
+{
+   int x = 5;
+   println(x);
+}

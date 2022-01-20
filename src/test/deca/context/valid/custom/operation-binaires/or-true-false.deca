@@ -1,0 +1,11 @@
+// Description:
+//   Or operation between true and false;
+//
+// Results:
+//    Line 10: res equals true.
+// History:
+//    created on 01/01/2022
+
+{
+   boolean res = true || false;
+}
