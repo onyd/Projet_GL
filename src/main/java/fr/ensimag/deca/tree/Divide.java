@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
@@ -30,5 +31,15 @@ public class Divide extends AbstractOpArith {
         } else if(this.getType().isInt()) {
             compiler.addInstruction(new QUO(dVal, register));
         }
+    }
+
+    @Override
+    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        if(this.getType().isFloat()) {
+            return javaCompiler.FDIV;
+        } else if(this.getType().isInt()) {
+            return javaCompiler.IDIV;
+        }
+        return 0;
     }
 }

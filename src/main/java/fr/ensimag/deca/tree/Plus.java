@@ -28,6 +28,7 @@ public class Plus extends AbstractOpArith {
     public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         compiler.addInstruction(new ADD(dVal, register));
     }
+
     @Override
     public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
         Type leftType = getLeftOperand().getType();

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -50,6 +51,16 @@ public class UnaryMinus extends AbstractUnaryExpr {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
             compiler.addInstruction(new WFLOAT());
+        }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        getOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+        if(this.getType().isInt()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.INEG);
+        } else if(this.getType().isFloat()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FNEG);
         }
     }
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Type;
@@ -36,6 +37,12 @@ public class ConvFloat extends AbstractUnaryExpr {
         if(!compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BOV(LabelManager.CAST_ERROR));
         }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        this.getOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.I2F);
     }
 
     @Override

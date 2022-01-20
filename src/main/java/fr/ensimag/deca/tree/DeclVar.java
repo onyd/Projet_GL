@@ -64,6 +64,9 @@ public class DeclVar extends AbstractDeclVar {
             if(init.getExpression().getType().isInt()) {
                 init.getExpression().codeGenExprByteOnStack(compiler, javaCompiler);
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, varName.getExpDefinition().getIndexOnStack());
+            } else if(init.getExpression().getType().isFloat()) {
+                init.getExpression().codeGenExprByteOnStack(compiler, javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, varName.getExpDefinition().getIndexOnStack());
             }
         }
     }

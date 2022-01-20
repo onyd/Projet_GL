@@ -132,9 +132,6 @@ public class DecacCompiler {
             program.addInstruction(instruction);
         }
     }
-    public void addInstructionByte(InstructionByte instructionByte) {
-        program.addInstruction(instructionByte);
-    }
 
     /**
      * @see

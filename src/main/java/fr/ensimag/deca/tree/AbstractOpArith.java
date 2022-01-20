@@ -110,7 +110,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         }
     }
 
-    public void codeGenByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
-
+    @Override
+    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        getLeftOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+        getRightOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+        javaCompiler.getMethodVisitor().visitInsn(this.codeMnemoByte(compiler, javaCompiler));
     }
 }

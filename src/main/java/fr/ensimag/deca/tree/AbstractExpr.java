@@ -148,18 +148,16 @@ public abstract class AbstractExpr extends AbstractInst {
             compiler.addInstruction(new WFLOAT());
         }
     }
-    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)//Je pense qu'il faut la rendre
-    {
-        throw new UnsupportedOperationException("codeGenPrintByte implemented mais pas dans AbstractExpr");
-    }
+
     @Override
     protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
+
     @Override
     protected void codeGenInstByte(DecacCompiler compiler,JavaCompiler javaCompiler)
     {
-        throw new UnsupportedOperationException("not yet implemented");//override dans stringliteral.
+        this.codeGenExprByteOnStack(compiler, javaCompiler);
     }
 
     /**
@@ -204,6 +202,13 @@ public abstract class AbstractExpr extends AbstractInst {
     public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
+
+    /**
+     * return the opcode of the operation
+     * @param compiler
+     * @param javaCompiler
+     * @return
+     */
     public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }

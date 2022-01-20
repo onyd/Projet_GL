@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -44,5 +45,15 @@ public class Modulo extends AbstractOpArith {
     @Override
     public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         compiler.addInstruction(new REM(dVal, register));
+    }
+
+    @Override
+    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        if(this.getType().isFloat()) {
+            return javaCompiler.FREM;
+        } else if(this.getType().isInt()) {
+            return javaCompiler.IREM;
+        }
+        return 0;
     }
 }

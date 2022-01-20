@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -46,6 +47,18 @@ public class Assign extends AbstractBinaryExpr {
             compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
         } else if(this.getLeftOperand().isSelection()) {
             ((Selection) this.getLeftOperand()).codeGenAssignFromR1(compiler);
+        }
+    }
+
+    @Override
+    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        getRightOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+        if(this.getLeftOperand().isIdentifier()) {
+            if(this.getType().isFloat()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isInt()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            }
         }
     }
 
