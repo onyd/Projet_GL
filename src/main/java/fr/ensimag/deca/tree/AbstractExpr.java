@@ -204,7 +204,9 @@ public abstract class AbstractExpr extends AbstractInst {
     public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
-
+    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
     /**
      * return the DVal of the expression (if it is possible), else return null
      * @return

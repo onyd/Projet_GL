@@ -41,7 +41,7 @@ public class MethodJavaBody extends AbstractMethodBody {
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
         assembly.verifyExpr(compiler, envExpParams, currentClass);
         if (!compiler.getCompilerOptions().getJavaCompilation()) {
-            throw new ContextualError("The option mush be -java in order to use java compiler", getLocation());
+            throw new ContextualError("The option must be -java in order to use java compiler", getLocation());
         }
     }
 

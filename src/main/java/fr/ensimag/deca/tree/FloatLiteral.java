@@ -60,6 +60,7 @@ public class FloatLiteral extends AbstractExpr {
     public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitLdcInsn(value);
+        javaCompiler.getClassWriter().newClass(Float.toString(value));// Ajout dans Constant Pool
     }
 
     @Override

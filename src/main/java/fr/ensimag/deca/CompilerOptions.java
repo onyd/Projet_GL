@@ -65,7 +65,12 @@ public class CompilerOptions {
     private boolean noCheck = false;
     private int registerNumber = 16;
     private boolean registerLimit = false;
+
     private boolean javaCompilation = false;
+
+    public void setJavaCompilation(boolean javaCompilation) {
+        this.javaCompilation = javaCompilation;
+    }
 
     public void parseArgs(String[] args) throws CLIException {
         // Parse options

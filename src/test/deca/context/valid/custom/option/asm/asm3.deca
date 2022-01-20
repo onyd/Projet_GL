@@ -1,7 +1,11 @@
 class TestAsm {
     void methodAsm() asm("  WSTR \"toto\"");
+
+    void methodAsm2() asm("  WSTR \"abc\"");
 }
 {
     TestAsm test = new TestAsm();
+    TestAsm test2 = new TestAsm();
     test.methodAsm();
+    test2.methodAsm2();
 }

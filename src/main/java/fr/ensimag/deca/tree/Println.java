@@ -29,7 +29,6 @@ public class Println extends AbstractPrint {
     protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
     {
         super.codeGenInstByte(compiler,javaCompiler);
-
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
                 "java/lang/System",
