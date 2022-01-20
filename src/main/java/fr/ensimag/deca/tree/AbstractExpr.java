@@ -94,15 +94,18 @@ public abstract class AbstractExpr extends AbstractInst {
             EnvironmentExp localEnv, ClassDefinition currentClass, 
             Type expectedType)
             throws ContextualError {
-        verifyExpr(compiler, localEnv, currentClass);
-        if (expectedType.sameType(getType())) {
-        } else if (getType().isInt() && expectedType.isFloat()) {
+        Type type2 = verifyExpr(compiler, localEnv, currentClass);
+        if (!expectedType.isAssignCompatible(type2)) {
+            throw new ContextualError("(3.28) Types " + type2 + " can't be assigned to " + expectedType, getLocation());
+        }
+
+        // Implicit float conversion
+        if (getType().isInt() && expectedType.isFloat()) {
             ConvFloat newExpr = new ConvFloat(this);
             setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
             return newExpr;
-        } else {
-            getType().asClassType("(3.28) expression type is not compatible", getLocation());
         }
+
         return this;
     }
     
@@ -137,16 +140,20 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler)//Je pense qu'il faut la rendre abstraite.
-    {
-        throw new UnsupportedOperationException("codeGenPrint implemented mais pas dans AbstractExpr");
+    protected void codeGenPrint(DecacCompiler compiler) {
+        this.codeGenExprOnR1(compiler);
+        if(this.getType().isInt()) {
+            compiler.addInstruction(new WINT());
+        } else if(this.getType().isFloat()) {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
     protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)//Je pense qu'il faut la rendre
     {
         throw new UnsupportedOperationException("codeGenPrintByte implemented mais pas dans AbstractExpr");
     }
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {//Je pense qu'il faut la rendre
+    protected void codeGenInst(DecacCompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     @Override
@@ -164,20 +171,16 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     /**
-     * generate code to load on the expression on the register i
+     * generate code to load on the expression on the register
      * @param compiler
      * @param register
      */
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register, boolean isNegated) {
-        Label label = compiler.getManageCodeGen().getLabelManager().getNextLabel("E");
-        Label endLabel = compiler.getManageCodeGen().getLabelManager().getNextLabel("E", "END");
+        Label label = compiler.getLabelManager().getNextLabel("E");
+        Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
 
-        codeGenBool(compiler, !isNegated, label);
+        codeGenBool(compiler, true, label);
         compiler.addInstruction(new BRA(endLabel));
 
         // True result label
@@ -190,7 +193,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
     /**
@@ -201,12 +204,31 @@ public abstract class AbstractExpr extends AbstractInst {
     public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
-
+    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
     /**
      * return the DVal of the expression (if it is possible), else return null
      * @return
      */
     public DVal getDVal() {
+        return null;
+    }
+
+    /**
+     * return the type used by the asm library
+     * @return
+     */
+    public String getJavaType() {
+        if(this.getType().isFloat()) {
+            return "F";
+        }
+        else if(this.getType().isInt()) {
+            return "I";
+        }
+        else if(this.getType().isString()) {
+            return "Ljava/lang/String;";
+        }
         return null;
     }
 
@@ -225,5 +247,17 @@ public abstract class AbstractExpr extends AbstractInst {
             s.print(t);
             s.println();
         }
+    }
+
+    public void codeGenExprOnStack() {
+    }
+
+    /**
+     * load the expression on the constant pool
+     * @param compiler
+     * @param javaCompiler
+     */
+    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

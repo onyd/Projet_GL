@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
 public class TestSynt {
-    @Test
+    //@Test
     public void testCircularInclude() throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
@@ -39,7 +39,7 @@ public class TestSynt {
         }
     }
 
-    @Test
+    //@Test
     public void testEmpty() throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;
@@ -65,7 +65,7 @@ public class TestSynt {
         }
     }
 
-    @Test
+    //@Test
     public void testIf() throws IOException {
         Logger.getRootLogger().setLevel(Level.DEBUG);
         DecaLexer lex;

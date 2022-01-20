@@ -5,7 +5,7 @@ import org.objectweb.asm.*;
 
 public class JavaCompiler implements Opcodes
 {
-    private ClassWriter classWriter = new ClassWriter(0);
+    private ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
     private FieldVisitor fieldVisitor;
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -12,6 +13,7 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * Single precision, floating-point literal
@@ -55,13 +57,19 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
+    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        methodVisitor.visitLdcInsn(value);
+    }
+
+    @Override
     public DVal getDVal() {
         return new ImmediateFloat(this.value);
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print(java.lang.Float.toHexString(value));
+        s.print(java.lang.Float.toString(value));
     }
 
     @Override

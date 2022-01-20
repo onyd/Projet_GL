@@ -1,4 +1,4 @@
-class Incr() {
+class Incr {
     int i = 0;
 
     void incr() {
@@ -7,6 +7,6 @@ class Incr() {
 }
 
 {
-    Incr incr = new Incr()
+    Incr incr = new Incr();
     incr.incr();
 }

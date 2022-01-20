@@ -30,7 +30,6 @@ public class Println extends AbstractPrint {
     {
         super.codeGenInstByte(compiler,javaCompiler);
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
-        // L'instruction System.out.PrintStream.println
         methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
                 "java/lang/System",
                 "out",

@@ -1,0 +1,11 @@
+class TestJava {
+    void methodJava() java("  WSTR \"toto\"");
+
+    void methodJava2() java("  WSTR \"toto\"");
+}
+{
+    TestJava test = new TestJava();
+    TestJava test2 = new TestJava();
+    test.methodJava();
+    test2.methodJava2();
+}

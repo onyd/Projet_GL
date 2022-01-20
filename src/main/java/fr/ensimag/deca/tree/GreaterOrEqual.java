@@ -21,7 +21,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
 
     @Override
     protected Instruction getCompInstr(GPRegister register) {
-        return new SLE(register);
+        return new SGE(register);
     }
 
     @Override

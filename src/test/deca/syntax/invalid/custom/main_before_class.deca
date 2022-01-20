@@ -9,10 +9,12 @@
 
 
 
-class test (){
-println("ceci est une classe");
-}
-
 {
 println("ceci est le main");
 }
+
+
+class test (){
+int i =0;;
+}
+

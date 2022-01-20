@@ -34,6 +34,7 @@ public class ListInst extends TreeList<AbstractInst> {
     }
 
     public void codeGenListInst(DecacCompiler compiler) {
+        compiler.addComment("Begin the list of instructions");
         for (AbstractInst i : getList()) {
             i.codeGenInst(compiler);
         }
@@ -42,6 +43,12 @@ public class ListInst extends TreeList<AbstractInst> {
     public void codeGenListInstByteCode(DecacCompiler compiler, JavaCompiler javaCompiler) {
         for (AbstractInst i : getList()) {
             i.codeGenInstByte(compiler,javaCompiler);
+        }
+    }
+
+    public void codeGenListInst(DecacCompiler compiler, Label endLabel) {
+        for (AbstractInst i : getList()) {
+            i.codeGenInst(compiler, endLabel);
         }
     }
 

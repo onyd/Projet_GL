@@ -28,6 +28,23 @@ public class StringLiteral extends AbstractStringLiteral {
     public StringLiteral(String value) {
         Validate.notNull(value);
         this.value = value;
+        this.formatValue();
+    }
+
+    public void formatValue() {
+        StringBuilder res = new StringBuilder();
+        char[] chars = value.toCharArray();
+        int i = 0;
+        while(i < chars.length) {
+            if(i+1 != chars.length) {
+                if(((chars[i] == '\\') && (chars[i+1] == '\\')) || ((chars[i] == '\\') && (chars[i+1] == '\"'))) {
+                    i++;
+                }
+            }
+            res.append(chars[i]);
+            i++;
+        }
+        this.value = res.toString();
     }
 
     @Override
@@ -52,22 +69,10 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)
-    {
+    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
-        // L'instruction System.out.PrintStream.println
-        methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
-                "java/lang/System",
-                "out",
-                "Ljava/io/PrintStream;");
         methodVisitor.visitLdcInsn(value);
-        methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
-                "java/io/PrintStream",
-                "print",
-                "(Ljava/lang/String;)V",
-                false);
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {

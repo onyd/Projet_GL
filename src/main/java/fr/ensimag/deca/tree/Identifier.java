@@ -6,13 +6,11 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
-import java.util.Map;
 
 
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 
 /**
  * Deca Identifier
@@ -155,6 +153,11 @@ public class Identifier extends AbstractIdentifier {
 
     private Symbol name;
 
+    @Override
+    public boolean isIdentifier() {
+        return true;
+    }
+
     public Identifier(Symbol name) {
         Validate.notNull(name);
         this.name = name;
@@ -163,10 +166,20 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
         ClassDefinition currentClass) throws ContextualError {
+        // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
-        if(expDef == null) {
-            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+        if(expDef == null && currentClass == null) {
+            throw new ContextualError("(0.1) ", getLocation());
+        } else if (expDef == null) {
+            // Try to find variable as class field
+            expDef = currentClass.getMembers().get(getName());
+            if (expDef == null) {
+                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+            }
+            if (!expDef.isField())
+                throw new ContextualError("(0.1) The field is not declared", getLocation());
         }
+
         setType(expDef.getType());
         setDefinition(expDef);
         return this.getType();
@@ -183,23 +196,42 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError("(0.2) The identifier has an invalid type", this.getLocation());
         }
         setType(typeDef.getType());
-        setDefinition(new TypeDefinition(getType(), getLocation()));
+        setDefinition(typeDef);
         return getType();
     }
 
+    @Override
+    public Type verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        FieldDefinition fieldDef = localEnv.get(getName()).asFieldDefinition("(3.70) Identifier must be a field", getLocation());
+        setType(fieldDef.getType());
+        setDefinition(fieldDef);
+        return getType();
+    }
+
+    @Override
+    public Type verifyMethod(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        ExpDefinition def = localEnv.get(getName());
+        if (def == null) {
+            throw new ContextualError("(3.72) Invalid identifier", getLocation());
+        }
+        MethodDefinition methodDef = def.asMethodDefinition("(3.72) Identifier must be a method", getLocation());
+        setType(methodDef.getType());
+        setDefinition(methodDef);
+        return getType();
+    }
 
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
-        if(this.getVariableDefinition().getType().isInt()) {
-            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+        if(this.getExpDefinition().getType().isInt()) {
+            compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
-        } else if(this.getVariableDefinition().getType().isFloat()) {
-            compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this);
+        } else if(this.getExpDefinition().getType().isFloat()) {
+            compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WFLOAT());
-        } else if(this.getVariableDefinition().getType().isString()) {
-            int position = ((RegisterOffset) this.getVariableDefinition().getOperand()).getOffset();
-            for(int i = 0; i < this.getVariableDefinition().getSizeOnStack(); i++) {
-                compiler.getManageCodeGen().getStack().getVariableFromStackOnR1(this, position);
+        } else if(this.getExpDefinition().getType().isString()) {
+            int position = ((RegisterOffset) this.getExpDefinition().getOperand()).getOffset();
+            for(int i = 0; i < this.getExpDefinition().getSizeOnStack(); i++) {
+                compiler.getStack().getVariableFromStackOnR1(this, position);
                 compiler.addInstruction(new WUTF8());
                 position++;
             }
@@ -208,7 +240,13 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+        if(this.definition.isField()) {
+            // implicit selection of a field in a class
+            compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), register));
+            compiler.addInstruction(new LOAD(new RegisterOffset(this.getFieldDefinition().getIndex(), register), register));
+        } else {
+            compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+        }
     }
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {

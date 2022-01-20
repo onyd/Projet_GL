@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * Print statement (print, println, ...).
@@ -56,7 +57,18 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
     {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenPrintByte(compiler,javaCompiler);
+            MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+            // Instruction System.out.PrintStream.println
+            methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
+                    "java/lang/System",
+                    "out",
+                    "Ljava/io/PrintStream;");
+            a.codeGenLDCInst(compiler, javaCompiler);
+            methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                    "java/io/PrintStream",
+                    "print",
+                    "(" + a.getJavaType() + ")V",
+                    false);
         }
     }
 
@@ -71,15 +83,7 @@ public abstract class AbstractPrint extends AbstractInst {
         }else{
             s.print("print" + getSuffix() + "(");
         }
-        boolean first = true;
-        for (AbstractExpr expr : arguments.getList()) {
-            if(first) {
-                s.print(expr.decompile());
-                first = false;
-            } else {
-                s.print("," + expr.decompile());
-            }
-        }
+        arguments.decompile(s);
         s.print(");");
     }
 

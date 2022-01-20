@@ -1,7 +1,8 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.VirtualRegister;
 import fr.ensimag.ima.pseudocode.instructions.POP;
@@ -13,41 +14,51 @@ import java.util.*;
  * Representation of an IMA program which registers can be VirtualRegister allocated safely by pushing on stack if necessary
  */
 public class RegisterAllocator {
-    private Set<VirtualRegister> registers;
-    private LinkedList<Integer> toRelease = new LinkedList<>();
-    private LinkedList<Integer> toRestore = new LinkedList<>();
+    private Set<VirtualRegister> virtualRegisters;
+    private LinkedList<GPRegister> toRelease = new LinkedList<>();
+    private LinkedList<GPRegister> toRestore = new LinkedList<>();
 
     public RegisterAllocator() {
-        this.registers = new HashSet<>();
+        this.virtualRegisters = new HashSet<>();
     }
 
     public void addVirtualRegister(VirtualRegister register) {
-        this.registers.add(register);
+        this.virtualRegisters.add(register);
     }
+
 
     public void allocateRegisters(DecacCompiler compiler) {
         int i = 2;
-        for (VirtualRegister register : registers) {
-            int registerNumber = compiler.getManageCodeGen().getRegisterManager().getFreeRegister();
-            if (registerNumber == -1) {
+        for (VirtualRegister register : virtualRegisters) {
+            // Try to find a register
+            GPRegister newRegister = compiler.getRegisterManager().getFreeRegister();
+            if (newRegister == null) {
+                // No register is available so we save on stack
                 compiler.addInstruction(new PUSH(Register.getR(i)));
-                toRestore.addFirst(i);
                 register.setNumber(i);
-                i++;
+                if (register.getDst() == null) {
+                    // No destination specified => we'll restore it on the same register
+                    toRestore.addFirst(Register.getR(i));
+                    i++;
+                } else {
+                    // Destination has been specified => we restore old value on it
+                    toRestore.addFirst(register.getDst());
+                }
             } else {
-                toRelease.add(registerNumber);
-                register.setNumber(registerNumber);
+                // The register was free => we just release it later
+                toRelease.add(newRegister);
+                register.setNumber(newRegister.getNumber());
             }
 
         }
     }
 
     public void restoreFromStack(DecacCompiler compiler) {
-        for (Integer registerNumber : toRestore) {
-            compiler.addInstruction(new POP(Register.getR(registerNumber)));
+        for (GPRegister register : toRestore) {
+            compiler.addInstruction(new POP(register));
         }
-        for(Integer registerNumber : toRelease) {
-            compiler.getManageCodeGen().getRegisterManager().releaseRegister(registerNumber);
+        for(GPRegister register : toRelease) {
+            compiler.getRegisterManager().releaseRegister(register);
         }
     }
 

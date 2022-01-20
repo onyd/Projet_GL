@@ -1,0 +1,4 @@
+{
+    int x = 1;
+    println("toto", x +9, x-9);
+}
