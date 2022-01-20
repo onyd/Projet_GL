@@ -25,7 +25,7 @@ public class EmptyMain extends AbstractMain {
     }
 
     @Override
-    protected void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    protected void codeGenMainByte(JavaCompiler javaCompiler)
     {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         MethodVisitor methodVisitor = null;

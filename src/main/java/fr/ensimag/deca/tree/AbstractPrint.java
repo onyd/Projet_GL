@@ -54,7 +54,7 @@ public abstract class AbstractPrint extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    protected void codeGenInstByte(JavaCompiler javaCompiler)
     {
         for (AbstractExpr a : getArguments().getList()) {
             MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
@@ -63,7 +63,7 @@ public abstract class AbstractPrint extends AbstractInst {
                     "java/lang/System",
                     "out",
                     "Ljava/io/PrintStream;");
-            a.codeGenExprByteOnStack(compiler, javaCompiler);
+            a.codeGenExprByteOnStack(javaCompiler);
             methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
                     "java/io/PrintStream",
                     "print",

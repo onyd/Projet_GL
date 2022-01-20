@@ -51,8 +51,8 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
-        getRightOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        getRightOperand().codeGenExprByteOnStack(javaCompiler);
         if(this.getLeftOperand().isIdentifier()) {
             if(this.getType().isFloat()) {
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());

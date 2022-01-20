@@ -40,8 +40,8 @@ public class ConvFloat extends AbstractUnaryExpr {
     }
 
     @Override
-    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
-        this.getOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        this.getOperand().codeGenExprByteOnStack(javaCompiler);
         javaCompiler.getMethodVisitor().visitInsn(javaCompiler.I2F);
     }
 

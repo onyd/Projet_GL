@@ -30,7 +30,7 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         Type leftType = getLeftOperand().getType();
         Type rightType = getRightOperand().getType();
 

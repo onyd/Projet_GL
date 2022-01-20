@@ -40,9 +40,9 @@ public class ListInst extends TreeList<AbstractInst> {
         }
     }
 
-    public void codeGenListInstByteCode(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenListInstByteCode(JavaCompiler javaCompiler) {
         for (AbstractInst i : getList()) {
-            i.codeGenInstByte(compiler,javaCompiler);
+            i.codeGenInstByte(javaCompiler);
         }
     }
 

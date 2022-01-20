@@ -55,17 +55,17 @@ public class DeclVar extends AbstractDeclVar {
         compiler.getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
     }
 
-    protected void codeGenDeclVarByte(DecacCompiler compiler, JavaCompiler javaCompiler, int currentIndexVar){
+    protected void codeGenDeclVarByte(JavaCompiler javaCompiler, int currentIndexVar){
         varName.getExpDefinition().setIndexOnStack(currentIndexVar);
         if(initialization.noInitialization()) {
             Utils.loadVariableOnStack(currentIndexVar, varName.getType(), javaCompiler);
         } else {
             Initialization init = (Initialization) initialization;
             if(init.getExpression().getType().isInt()) {
-                init.getExpression().codeGenExprByteOnStack(compiler, javaCompiler);
+                init.getExpression().codeGenExprByteOnStack(javaCompiler);
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, varName.getExpDefinition().getIndexOnStack());
             } else if(init.getExpression().getType().isFloat()) {
-                init.getExpression().codeGenExprByteOnStack(compiler, javaCompiler);
+                init.getExpression().codeGenExprByteOnStack(javaCompiler);
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, varName.getExpDefinition().getIndexOnStack());
             }
         }

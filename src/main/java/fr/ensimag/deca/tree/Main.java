@@ -56,7 +56,7 @@ public class Main extends AbstractMain {
         insts.codeGenListInst(compiler);
     }
     @Override
-    protected void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    protected void codeGenMainByte(JavaCompiler javaCompiler)
     {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         MethodVisitor methodVisitor = null;
@@ -71,10 +71,10 @@ public class Main extends AbstractMain {
         javaCompiler.setMethodVisitor(methodVisitor);
 
         //declVariables
-        declVariables.codeGenListDeclVariableByte(compiler, javaCompiler);
+        declVariables.codeGenListDeclVariableByte(javaCompiler);
 
         //decl inst
-        insts.codeGenListInstByteCode(compiler,javaCompiler);
+        insts.codeGenListInstByteCode(javaCompiler);
 
         methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);

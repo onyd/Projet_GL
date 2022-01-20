@@ -48,7 +48,7 @@ public class Modulo extends AbstractOpArith {
     }
 
     @Override
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         if(this.getType().isFloat()) {
             return javaCompiler.FREM;
         } else if(this.getType().isInt()) {

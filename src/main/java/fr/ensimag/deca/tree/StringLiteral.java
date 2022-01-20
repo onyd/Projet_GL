@@ -56,20 +56,13 @@ public class StringLiteral extends AbstractStringLiteral {
         return type;
     }
 
-    /*
-    @Override
-    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
-    {
-
-    }*/
-
     @Override
     protected void codeGenPrint(DecacCompiler compiler) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
     }
 
     @Override
-    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitLdcInsn(value);
     }

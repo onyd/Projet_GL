@@ -74,7 +74,7 @@ public class Program extends AbstractProgram {
     }
 
     @Override
-    public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler, String destByteName, String className)
+    public void codeGenProgramByte(JavaCompiler javaCompiler, String destByteName, String className)
     {
         //main class
         ClassWriter classWriter = javaCompiler.getClassWriter();
@@ -99,7 +99,7 @@ public class Program extends AbstractProgram {
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
 
-        main.codeGenMainByte(compiler,javaCompiler);
+        main.codeGenMainByte(javaCompiler);
         classWriter.visitEnd();
     }
 

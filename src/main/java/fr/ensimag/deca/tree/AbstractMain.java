@@ -14,7 +14,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 public abstract class AbstractMain extends Tree {
 
     protected abstract void codeGenMain(DecacCompiler compiler);
-    protected abstract void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler);
+
+    protected abstract void codeGenMainByte(JavaCompiler javaCompiler);
 
 
     /**

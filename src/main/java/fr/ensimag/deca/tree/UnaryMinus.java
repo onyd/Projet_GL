@@ -55,8 +55,8 @@ public class UnaryMinus extends AbstractUnaryExpr {
     }
 
     @Override
-    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
-        getOperand().codeGenExprByteOnStack(compiler, javaCompiler);
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        getOperand().codeGenExprByteOnStack(javaCompiler);
         if(this.getType().isInt()) {
             javaCompiler.getMethodVisitor().visitInsn(javaCompiler.INEG);
         } else if(this.getType().isFloat()) {

@@ -29,7 +29,7 @@ public class Minus extends AbstractOpArith {
         compiler.addInstruction(new SUB(dVal, register));
     }
     @Override
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         Type leftType = getLeftOperand().getType();
         Type rightType = getRightOperand().getType();
 

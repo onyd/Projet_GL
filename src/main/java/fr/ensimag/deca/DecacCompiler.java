@@ -321,7 +321,7 @@ public class DecacCompiler {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }
             String className = source.getName().substring(0, source.getName().length() - 5);
-            prog.codeGenProgramByte(this,javaCompiler, destByteName, className);
+            prog.codeGenProgramByte(this.javaCompiler, destByteName, className);
             LOG.info("Writing .class file ...");
             byte[] b = javaCompiler.getClassWriter().toByteArray();
             try

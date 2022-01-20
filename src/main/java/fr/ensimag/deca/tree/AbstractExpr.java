@@ -155,9 +155,9 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler,JavaCompiler javaCompiler)
+    protected void codeGenInstByte(JavaCompiler javaCompiler)
     {
-        this.codeGenExprByteOnStack(compiler, javaCompiler);
+        this.codeGenExprByteOnStack(javaCompiler);
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param javaCompiler
      * @return
      */
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
     /**
@@ -259,7 +259,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      * @param javaCompiler
      */
-    public void codeGenExprByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 

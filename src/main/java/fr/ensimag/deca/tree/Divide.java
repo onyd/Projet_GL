@@ -34,7 +34,7 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         if(this.getType().isFloat()) {
             return javaCompiler.FDIV;
         } else if(this.getType().isInt()) {

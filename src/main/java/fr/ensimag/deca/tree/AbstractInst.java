@@ -39,20 +39,10 @@ public abstract class AbstractInst extends Tree {
     /**
      * Generate bytecode for the instruction.
      *
-     * @param compiler
      * @param javaCompiler
      */
-    protected  void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler){
+    protected  void codeGenInstByte(JavaCompiler javaCompiler){
 
-    }
-
-    /**
-     * Generate assembly code for the instruction.
-     *
-     * @param compiler
-     */
-    protected  void codeGenInstByte(DecacCompiler compiler){
-        throw new UnsupportedOperationException("not yet implemented");
     }
 
     /**

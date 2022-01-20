@@ -26,9 +26,9 @@ public class Println extends AbstractPrint {
         compiler.addInstruction(new WNL());
     }
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    protected void codeGenInstByte(JavaCompiler javaCompiler)
     {
-        super.codeGenInstByte(compiler,javaCompiler);
+        super.codeGenInstByte(javaCompiler);
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
         methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
                 "java/lang/System",

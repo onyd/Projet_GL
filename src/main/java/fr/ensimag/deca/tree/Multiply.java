@@ -29,7 +29,7 @@ public class Multiply extends AbstractOpArith {
     }
 
     @Override
-    public int codeMnemoByte(DecacCompiler compiler, JavaCompiler javaCompiler) {
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
         if(this.getType().isFloat()) {
             return javaCompiler.FMUL;
         } else if(this.getType().isInt()) {
