@@ -213,6 +213,23 @@ public abstract class AbstractExpr extends AbstractInst {
         return null;
     }
 
+    /**
+     * return the type used by the asm library
+     * @return
+     */
+    public String getJavaType() {
+        if(this.getType().isFloat()) {
+            return "F";
+        }
+        else if(this.getType().isInt()) {
+            return "I";
+        }
+        else if(this.getType().isString()) {
+            return "Ljava/lang/String;";
+        }
+        return null;
+    }
+
     @Override
     protected void decompileInst(IndentPrintStream s) {
         decompile(s);
@@ -228,5 +245,17 @@ public abstract class AbstractExpr extends AbstractInst {
             s.print(t);
             s.println();
         }
+    }
+
+    public void codeGenExprOnStack() {
+    }
+
+    /**
+     * load the expression on the constant pool
+     * @param compiler
+     * @param javaCompiler
+     */
+    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

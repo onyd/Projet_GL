@@ -76,8 +76,9 @@ public class Program extends AbstractProgram {
     @Override
     public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler, String destByteName, String className)
     {
+        //main class
         ClassWriter classWriter = javaCompiler.getClassWriter();
-        classWriter.visit(javaCompiler.V1_5,
+        classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 className,
                 null,
@@ -87,7 +88,7 @@ public class Program extends AbstractProgram {
         classWriter.visitSource(destByteName.substring(0, destByteName.length()-4) + "java", null);
         MethodVisitor methodVisitor = null;
 
-        // Création du constructeur par défaut.
+        // default constructor
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
         methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
         methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
@@ -95,10 +96,10 @@ public class Program extends AbstractProgram {
                 "<init>",
                 "()V",false);
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(1, 1);
+        methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
 
-        main.codeGenMainByte(compiler,javaCompiler);// similaire à main.codeGenMain(compiler); de la méthode codeGenProgram.
+        main.codeGenMainByte(compiler,javaCompiler);
         classWriter.visitEnd();
     }
 

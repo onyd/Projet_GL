@@ -315,7 +315,6 @@ public class DecacCompiler {
 
         // STEP C
         //case compilation in java bytecode
-        //String destNameBytecode = removeLastCharactersAndGetClassName(destName,4);
         if(this.compilerOptions.getJavaCompilation())
         {
             FileOutputStream fstreamByteCode = null;
@@ -385,19 +384,6 @@ public class DecacCompiler {
         parser.setDecacCompiler(this);
 
         return parser.parseProgramAndManageErrors(err);
-    }
-
-    // peut être supprimer plus tard.
-    private String removeLastCharactersAndGetClassName(String inputString, int extensionLength)
-    {
-        String res = inputString;
-        for(int i=0;i<extensionLength;i++)
-        {
-            res = StringUtils.chop(res);// suppression du dernier s de ass, puis s, puis a.
-        }
-        String[] s = res.split("/");
-        s[s.length-1] = StringUtils.chop(s[s.length-1]);
-        return res;
     }
 
 }

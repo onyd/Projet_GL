@@ -61,7 +61,7 @@ public class Main extends AbstractMain {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         MethodVisitor methodVisitor = null;
 
-        // Ajout du main.
+        // main function
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC + javaCompiler.ACC_STATIC,
                 "main",
                 "([Ljava/lang/String;)V",
@@ -74,9 +74,7 @@ public class Main extends AbstractMain {
         insts.codeGenListInstByteCode(compiler,javaCompiler);
 
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(2, 1);
-
-
+        methodVisitor.visitMaxs(-1, -1);
 
         methodVisitor.visitEnd();
     }
