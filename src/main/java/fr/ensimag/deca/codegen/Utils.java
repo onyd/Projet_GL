@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tree.AbstractExpr;
@@ -73,14 +74,14 @@ public class Utils {
         Label endLabel = compiler.getLabelManager().getNextLabel("cast", "end");
 
         if (negation) {
-            instanceOfComputation(compiler, expr, type, label, endLabel, tmpRegister);
+            instanceOfComputation(compiler, type, label, endLabel, tmpRegister);
         } else {
-            instanceOfComputation(compiler, expr, type, endLabel, label, tmpRegister);
+            instanceOfComputation(compiler, type, endLabel, label, tmpRegister);
         }
         compiler.addLabel(endLabel);
     }
 
-    private static void instanceOfComputation(DecacCompiler compiler, AbstractExpr expr, ClassType type, Label trueLabel, Label falseLabel, GPRegister tmpRegister) {
+    private static void instanceOfComputation(DecacCompiler compiler, ClassType type, Label trueLabel, Label falseLabel, GPRegister tmpRegister) {
         boolean first = true;
         while (type.getDefinition().getSuperClass() != null) {
             compiler.addInstruction(new LEA(type.getDefinition().getdAddrVTable(), Register.R0));

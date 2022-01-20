@@ -49,12 +49,7 @@ public class Cast extends AbstractExpr {
                 if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
                     codeGenVerifyCast(compiler, expr, register);
                 }
-                DVal val = expr.getDVal();
-                if (val != null) {
-                    compiler.addInstruction(new LOAD(val, register));
-                } else {
-                    expr.codeGenExprOnRegister(compiler, register);
-                }
+                Utils.loadExpr(compiler, expr, register);
                 compiler.addInstruction(new CMP(new NullOperand(), register));
                 if(compiler.getCompilerOptions().getNoCheck()) {
                     compiler.addInstruction(new BEQ(new Label("seg_fault")));
