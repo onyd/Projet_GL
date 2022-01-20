@@ -41,7 +41,7 @@ public class MethodAsmBody extends AbstractMethodBody {
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
         assembly.verifyExpr(compiler, envExpParams, currentClass);
         if (compiler.getCompilerOptions().getJavaCompilation()) {
-            throw new ContextualError("The -java option can't be used in order to use ima compiler", getLocation());
+            throw new ContextualError("The -java option can't be used with ima compiler", getLocation());
         }
     }
 
