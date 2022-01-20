@@ -88,6 +88,28 @@ echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTota
 interSucc=0
 interTotal=0
 
+echo "\n  Test invalides personnalisés sur les objets :${NC}"
+for cas_de_test in src/test/deca/syntax/invalid/custom/object/*.deca
+do
+    test_synt_invalide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
+echo "\n  Test invalides personnalisés sur les options :${NC}"
+for cas_de_test in src/test/deca/syntax/invalid/custom/option/*.deca
+do
+    test_synt_invalide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
 echo "\n  Test valides personnalisés :${NC}"
 for cas_de_test in src/test/deca/syntax/valid/custom/*.deca
 do
@@ -180,4 +202,26 @@ do
     interTotal=$((interTotal+1))
 done
 echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
+
+echo "\n  Test valides personnalisés sur les objets :${NC}"
+for cas_de_test in src/test/deca/syntax/valid/custom/object/*.deca
+do
+    test_synt_valide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
+echo "\n  Test valides personnalisés sur les options :${NC}"
+for cas_de_test in src/test/deca/syntax/valid/custom/option/*.deca
+do
+    test_synt_valide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
 echo "${RED}Le taux de reussite sur l'ensemble de la partie syntax est"$succ/$total

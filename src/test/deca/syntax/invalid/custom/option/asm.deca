@@ -1,0 +1,7 @@
+class TestAsm {
+    void methodAsm() asm(  WSTR \"toto\"");
+}
+{
+    TestAsm test = new Car();
+    test.methodAsm();
+}

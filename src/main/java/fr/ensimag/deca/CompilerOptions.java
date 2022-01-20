@@ -1,7 +1,6 @@
 package fr.ensimag.deca;
 
 import java.io.File;
-import java.io.PrintStream;
 import java.util.*;
 
 import org.apache.log4j.Level;
@@ -54,7 +53,7 @@ public class CompilerOptions {
         return registerLimit;
     }
 
-    public boolean getByteFiles(){ return byteFiles;}
+    public boolean getJavaCompilation(){ return javaCompilation;}
 
     private int debug = 0;
     private boolean parallel = false;
@@ -66,7 +65,7 @@ public class CompilerOptions {
     private boolean noCheck = false;
     private int registerNumber = 16;
     private boolean registerLimit = false;
-    private boolean byteFiles = false;
+    private boolean javaCompilation = false;
 
     public void parseArgs(String[] args) throws CLIException {
         // Parse options
@@ -142,7 +141,7 @@ public class CompilerOptions {
                     this.noCheck = true;
                     break;
                 case "-java":
-                    this.byteFiles = true;
+                    this.javaCompilation = true;
                     break;
                 case "-r":
                     if (this.registerLimit) {
