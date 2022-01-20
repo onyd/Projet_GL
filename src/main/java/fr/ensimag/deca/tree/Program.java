@@ -78,7 +78,7 @@ public class Program extends AbstractProgram {
     {
         //main class
         ClassWriter classWriter = javaCompiler.getClassWriter();
-        classWriter.visit(javaCompiler.V1_5,
+        classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 className,
                 null,
@@ -96,7 +96,7 @@ public class Program extends AbstractProgram {
                 "<init>",
                 "()V",false);
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(1, 1);
+        methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
 
         main.codeGenMainByte(compiler,javaCompiler);

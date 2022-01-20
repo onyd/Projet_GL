@@ -74,9 +74,7 @@ public class Main extends AbstractMain {
         insts.codeGenListInstByteCode(compiler,javaCompiler);
 
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(2, 1);
-
-
+        methodVisitor.visitMaxs(-1, -1);
 
         methodVisitor.visitEnd();
     }

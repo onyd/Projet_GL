@@ -315,7 +315,7 @@ public class DecacCompiler {
 
         // STEP C
         //case compilation in java bytecode
-        if(this.compilerOptions.getByteFiles())
+        if(this.compilerOptions.getJavaCompilation())
         {
             FileOutputStream fstreamByteCode = null;
             try {
