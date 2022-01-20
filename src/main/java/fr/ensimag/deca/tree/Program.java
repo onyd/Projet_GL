@@ -79,7 +79,7 @@ public class Program extends AbstractProgram {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         classWriter.visit(javaCompiler.V1_5,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
-                destByteName.substring(0, destByteName.length()-6),
+                className,
                 null,
                 "java/lang/Object",
                 null);

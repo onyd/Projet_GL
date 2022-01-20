@@ -310,66 +310,49 @@ public class DecacCompiler {
             System.exit(0);
         }
         assert(prog.checkAllDecorations());
-        // STEP C
-        addComment("start main program");
-        prog.codeGenProgram(this);
 
+
+
+        // STEP C
+        //case compilation in java bytecode
         //String destNameBytecode = removeLastCharactersAndGetClassName(destName,4);
         if(this.compilerOptions.getByteFiles())
         {
-            int index = 0;
-            int futurIndex = destByteName.indexOf("/");
-            while (futurIndex !=  -1) {
-                index = futurIndex;
-                futurIndex = destByteName.indexOf("/", index +  1) ;
-            }
-            String className = destByteName.substring(index+1, destByteName.length() - 6);
-            int fileIndex = destByteName.indexOf(className);
-            className = className.substring(0, 1).toUpperCase() + className.substring(1);
-            destByteName = (destByteName.substring(0,fileIndex )) + destByteName.substring(fileIndex,fileIndex+1).toUpperCase()
-                    + (destByteName.substring(fileIndex+1,destByteName.length()));
-            int beginIndex = destByteName.indexOf("src");
-            destByteName = destByteName.substring(beginIndex, destByteName.length());
-            prog.codeGenProgramByte(this,javaCompiler, destByteName, className);
-        }
-        addComment("end main program");
-        LOG.debug("Generated assembly code:" + nl + program.display());
-        LOG.info("Output file assembly file is: " + destName);
-
-        FileOutputStream fstream = null;
-        FileOutputStream fstreamByteCode = null;
-        try {
-            fstream = new FileOutputStream(destName);
-        } catch (FileNotFoundException e) {
-            throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
-        }
-
-        if(this.compilerOptions.getByteFiles())
-        {
+            FileOutputStream fstreamByteCode = null;
             try {
                 fstreamByteCode = new FileOutputStream(destByteName);
-                System.out.println("Création du " + destByteName);
             } catch (FileNotFoundException e) {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }
-        }
-        LOG.info("Writing assembler file ...");
-
-        program.display(new PrintStream(fstream));
-
-        if(this.compilerOptions.getByteFiles())
-        {
+            String className = source.getName().substring(0, source.getName().length() - 5);
+            prog.codeGenProgramByte(this,javaCompiler, destByteName, className);
             LOG.info("Writing .class file ...");
             byte[] b = javaCompiler.getClassWriter().toByteArray();
             try
             {
-                assert fstreamByteCode != null;
                 fstreamByteCode.write(b);
             }
             catch (IOException e)
             {
                 e.printStackTrace();
             }
+        } else {
+            addComment("start main program");
+            prog.codeGenProgram(this);
+
+            addComment("end main program");
+            LOG.debug("Generated assembly code:" + nl + program.display());
+            LOG.info("Output file assembly file is: " + destName);
+
+            FileOutputStream fstream = null;
+            try {
+                fstream = new FileOutputStream(destName);
+            } catch (FileNotFoundException e) {
+                throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
+            }
+            LOG.info("Writing assembler file ...");
+
+            program.display(new PrintStream(fstream));
         }
         LOG.info("Compilation of " + sourceName + " successful.");
         return false;
