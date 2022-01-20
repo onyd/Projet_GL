@@ -55,7 +55,10 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
 
         //for the other class
         for(AbstractDeclClass declClass : getList()) {
-            declClass.codeGenDeclClass(compiler);
+            declClass.codeGenDeclClassVTable(compiler);
+        }
+        for(AbstractDeclClass declClass : getList()) {
+            declClass.codeGenDeclClassMethod(compiler);
         }
     }
 }
