@@ -1,7 +1,6 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tree.AbstractExpr;
@@ -9,7 +8,7 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 public class Utils {
-    public static DVal ImmediateFromType(Type type) {
+    public static DVal immediateFromType(Type type) {
         if(type.isInt() || type.isString() || type.isBoolean()) {
             return new ImmediateInteger(0);
         }

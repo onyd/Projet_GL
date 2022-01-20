@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -60,7 +61,7 @@ public class MethodCall extends AbstractExpr {
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         compiler.addInstruction(new ADDSP(arguments.size() + 1));
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
         int offset = -1;
         for(AbstractExpr expr : arguments.getList()) {
@@ -77,6 +78,16 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
         compiler.addInstruction(new SUBSP(arguments.size() + 1));
         compiler.addInstruction(new LOAD(Register.R0, register));
+    }
+
+    @Override
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        codeGenExprOnR1(compiler);
+        compiler.addInstruction(new CMP(0, Register.R1));
+        if (negation)
+            compiler.addInstruction(new BNE(label));
+        else
+            compiler.addInstruction(new BEQ(label));
     }
 
     @Override

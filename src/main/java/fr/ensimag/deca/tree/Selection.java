@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -22,6 +23,11 @@ public class Selection extends AbstractLValue {
         Validate.notNull(fieldIdent);
         this.expr = expr;
         this.fieldIdent = fieldIdent;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return fieldIdent.getDVal();
     }
 
     @Override
@@ -48,7 +54,7 @@ public class Selection extends AbstractLValue {
      * @param compiler
      */
     protected void codeGenAssignFromR1(DecacCompiler compiler) {
-        compiler.addInstruction(new LOAD(expr.getDVal(), Register.R0));
+        Utils.loadExpr(compiler, expr, Register.R0);
         compiler.addInstruction(new CMP(new NullOperand(), Register.R0));
         if(compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
@@ -58,7 +64,7 @@ public class Selection extends AbstractLValue {
 
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new CMP(new NullOperand(), register));
         if(compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
