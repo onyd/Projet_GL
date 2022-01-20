@@ -1,6 +1,15 @@
 \documentclass[12pt, a4paper, one side]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
+\usepackage{biblatex}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \title{Documentation de Conception}
 \author{}
@@ -8,12 +17,27 @@
 
 \begin{document}
 
-\maketitle
+    \maketitle
 
-\begin{center}
-    Valentin Laclautre, Anthony Dard, Damien Trouche, Martin Gangand, Basel Darwish Jzaerly
-\end{center}
+    \begin{center}
+        Valentin Laclautre, Anthony Dard, Damien Trouche, Martin Gangand, Basel Darwish Jzaerly
+    \end{center}
 
-\tableofcontents
+    \tableofcontents
+    \section{Architecture logicielle}
+    \subsection{Compilation de programmes Deca en executable pour la JVM}
+    \section{Chemin de l'exécution du compilateur}
+    \subsection{Compiler de programmes Deca en executable pour IMA}
+
+    \subsubsection{DecacMain}
+    Le point d'entrée du compilateur est la méthode main de la classe \textbf {DecacMain}. Le main commence par récupérer les options de la commande decac. La classe résponsable de ce traitement est \textbf{CompilerOptions}. Les arguments de la commande decac sont parsés et les variables booléennes correspondantes aux options seront à mises à true. Nous pouvons avoir les états de ces Booléens en appenalnt la méthode getX de la classe CompilerOptions avec X est le nom du booléan.
+    \\
+    Si l'option de compilation en parallel est activée \textbf {\textcolor{red}{AAAA REMPLIR PLUS TARD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA}} \\
+    Sinon, une instance du compilateur \textbf{DecacCompiler} sera initialisée de façon séquentielle pour chaque fichier deca avec en paramètres les options et un fichier source.
+
+    \subsubsection{DecacCompiler} C'est la classe coeur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée .
+
+    \subsection{Compiler de programmes Deca en executable pour la JVM}
+    \section{La biblothèque ASM}
 
 \end{document}
