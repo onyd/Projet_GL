@@ -64,4 +64,7 @@ public class Utils {
             compiler.addInstruction(new BEQ(label));
         }
     }
+
+    //for java bytecode
+    //public static void loadVariableOnStack(int index)
 }

@@ -54,8 +54,11 @@ public class DeclVar extends AbstractDeclVar {
         compiler.getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
     }
 
-    protected void codeGenDeclVarByte(DecacCompiler compiler, JavaCompiler javaCompiler){
-        //FieldVisitor fieldVisitor = javaCompiler.getClassWriter().visitField(javaCompiler.ACC_PRIVATE, this.varName, "()V", null, this.initialization);
+    protected void codeGenDeclVarByte(DecacCompiler compiler, JavaCompiler javaCompiler, int currentIndexVar){
+        varName.getExpDefinition().setIndexOnStack(currentIndexVar);
+        if(initialization.noInitialization()) {
+
+        }
     }
 
     @Override

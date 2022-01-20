@@ -22,6 +22,16 @@ public abstract class ExpDefinition extends Definition {
 
     private int sizeOnStack = 1;
 
+    private int indexOnStack;
+
+    public void setIndexOnStack(int indexOnStack) {
+        this.indexOnStack = indexOnStack;
+    }
+
+    public int getIndexOnStack() {
+        return indexOnStack;
+    }
+
     public void setSizeOnStack(int sizeOnStack) {
         this.sizeOnStack = sizeOnStack;
     }
