@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -9,6 +10,7 @@ import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
 
@@ -46,6 +48,12 @@ public class IntLiteral extends AbstractExpr {
     @Override
     public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(new ImmediateInteger(this.value), register));
+    }
+
+    @Override
+    public void codeGenLDCInst(DecacCompiler compiler, JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        methodVisitor.visitLdcInsn(value);
     }
 
     @Override
