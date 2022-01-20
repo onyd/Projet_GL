@@ -53,7 +53,6 @@ public class DeclMethod extends AbstractDeclMethod {
         Signature sig = params.verifyListClassMembers(compiler);
         currentClass.incNumberOfMethods();
         MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
-
         ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
         if (def != null) {
             MethodDefinition superMethodDef = (MethodDefinition) def;

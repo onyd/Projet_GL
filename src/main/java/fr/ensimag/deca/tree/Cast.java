@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
@@ -48,8 +49,13 @@ public class Cast extends AbstractExpr {
                 if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
                     codeGenVerifyCast(compiler, expr, register);
                 }
-                compiler.addInstruction(new LOAD(expr.getDVal(), register));
-                compiler.addInstruction(new CMP( new NullOperand(), register));
+                DVal val = expr.getDVal();
+                if (val != null) {
+                    compiler.addInstruction(new LOAD(val, register));
+                } else {
+                    expr.codeGenExprOnRegister(compiler, register);
+                }
+                compiler.addInstruction(new CMP(new NullOperand(), register));
                 if(compiler.getCompilerOptions().getNoCheck()) {
                     compiler.addInstruction(new BEQ(new Label("seg_fault")));
                 }
@@ -58,26 +64,8 @@ public class Cast extends AbstractExpr {
     }
 
     private void codeGenVerifyCast(DecacCompiler compiler, AbstractExpr expr, GPRegister register) {
-        // Load the expr method table adress
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
-        compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
-        Label endLabel = compiler.getLabelManager().getNextLabel("cast", "end");
-        ClassType currentType = (ClassType) type.getType();
-        boolean first = true;
-        while (currentType != (ClassType) expr.getType()) {
-            compiler.addInstruction(new LEA(currentType.getDefinition().getdAddrVTable(), Register.R0));
-            compiler.addInstruction(new CMP(register, Register.R0));
-            //if it's the first, if it's a possible cast we need to go to the end label
-            if(first) {
-                compiler.addInstruction(new BEQ(endLabel));
-                first = false;
-            } else {
-                // if the real type of the expr is after it can't be cast
-                compiler.addInstruction(new BEQ(new Label("cast_error")));
-            }
-            currentType = currentType.getDefinition().getSuperClass().getType();
-        }
-        compiler.addLabel(endLabel);
+        Label castErrorLabel = new Label("cast_error");
+        Utils.instanceOf(compiler, expr, (ClassType) type.getType(), false, castErrorLabel, register);
     }
 
     @Override

@@ -10,6 +10,7 @@ class Animal {
     void crier() {
         println("Le cri dépend de l'animal !!!");
     }
+
 }
 class Canard extends Animal {
     int nbPlumes = 50;
@@ -21,16 +22,16 @@ class Canard extends Animal {
         println("coin coin!");
     }
 }
+
 {
-    Canard c = new Canard();
-    Animal a = (Animal) (c);
-    c.setPoids(3);
-    println("Poids du canard: ", c.getPoids());
-    //println("Nombre de plumes: ", c.getNbPlumes());
-    c.crier();
+    Animal a = new Canard();
+    Canard c = (Canard) (a);
+    a.setPoids(3);
+    println("Poids du canard: ", a.getPoids());
+    println("Nombre de plumes: ", c.getNbPlumes());
     a.crier();
 
-    if (c instanceof Animal) {
+    if (a instanceof Femelle) {
         println("Je suis un animal");
     }
 }
