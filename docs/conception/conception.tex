@@ -27,6 +27,8 @@
     \section{Architecture logicielle}
     \subsection{Compilation de programmes Deca en executable pour la JVM}
     \section{Chemin de l'exécution du compilateur}
+    \section{Conception Architectural Etape A}
+
     \subsection{Compiler de programmes Deca en executable pour IMA}
 
     \subsubsection{DecacMain}
@@ -35,62 +37,70 @@
     Si l'option de compilation en parallel est activée \textbf {\textcolor{red}{AAAA REMPLIR PLUS TARD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA}} \\
     Sinon, une instance du compilateur \textbf{DecacCompiler} sera initialisée de façon séquentielle pour chaque fichier deca avec en paramètres les options et un fichier source.
 
-    \subsubsection{DecacCompiler} C'est la classe coeur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram.
+    \subsubsection{DecacCompiler} C'est la classe coeur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram. Cette méthode utilise une instance de la classe \textbf{DecaLexer} qui est presentée par la suite et qui a pour rôle de faire l'analyseur lexicale qui consiste à reconnaître les mots du langage (dits aussi Jetons ou Tokens) . Cette méthode utilise aussi une instance de \textbf{CommonTokenStream} pour stocker les
+    jetons. Cette classe appartient au framework \textbf{ANTLR}. Ensuite une instance de la classe \textbf{DecaParser} est déclarée pour faire l'analyse syntaxique. A la fin de cette méthode, l'\textbf{Etap A} est terminé et l'arbre abstrait (une instance de \textbf{AbstractProgram}) est obtenue.
+
+    \subsubsection{DecaLexer} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de transformer le programme deca en mots (jetons). Pour configurer ANTLER à accepter le code lexicalement valid, on spécifie les règles lexicales dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaLexer.g4}.
+
+    \subsubsection{DecaParser} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de déterminer si une suite de mots est une phrase du langage, c'est à dire correspondant à un programme deca syntaxiquement correct. Pour ANTLER il faut définir les grammaires du langage dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaParser.g4}.
+    \subsubsection{AbstractProgram} Cette classe est dérivée de la classe \textbf{Tree}.
+
+    \subsubsection{Tree} represente le point d'entrée pour la vérification contextuelle et la génération du code.
+
+    \section{Conception Architectural Etape B}
+    Le but de l'étape B est de réaliser des vérifications contextuelles et modifier et décorer l'arbre abstrait du programme pour préparer l'étape C.
+    \\
+    La vérification déclanchée par la méthode verifyProgram se propage dans tout l'arbre en passant par la classe \textbf{Main}. Dans cette classe les vérifications se passent pour une instance de la classe \textbf{EnvironmentExp} et les listes de \textbf{ListDeclVar} (les déclarations de variables) et \textbf{ListInst} (les déclarations des instructions)
+
+    \section{Conception Architectural Etape C}
+
+    Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
+    permettant de gérer la génération de code. Toutes les classes nécessaires sont instanciées dans DecacCompiler
+    pour pouvoir être appelées lors de l'execution dans l'arbre.
+
+    \subsection{Politique de gestion de pile et de registre}
+
+    A chaque variable créée, on la place dans la pile et dans sa définition, on lui donne son adresse dans la pile.
+    Lors de l'initialisation ou de l'affectation d'une variable, ou de n'importe quelle instruction nécessitant le
+    calcul d'une expression, celui-ci est enregistré sur le registre R1. Bien sur lors du calcul, si c'est nécessaire,
+    d'autres registres sont utilisé mais le résultat final est sur R1.
+
+    \subsection{RegisterManager}
+
+    Cette classe permet de gérer les registres. Elle prends en attributs le nombres de registres utilisés
+    (ceux données en paramètres par la commande -r ou 16 sinon). Elle possède aussi un tableau de boolean
+    en attributs. Chaque indice de ce tableau correspond à la valeur d'un registre. La valeur du tableau
+    à cette indice est à vrai si le registre est utilisé et faux sinon. Cette classe possède aussi des
+    méthodes permettant de renvoyer un registre inutilisé ou d'en libérer un.
+
+    \subsection{Stack}
+
+    Cette classe possède un attributs donnant la hauteur de la pile (par rapport à GB). Elle possède aussi
+    de nombreuses méthodes permettant de mettre la valeur d'un registre au sommet de la pile, ou à un
+    endroit précis de la pile. Elle possède aussi d'autres méthodes permettant de récupérer une variable
+    se situant à une adresse précise dans la pile.
+
+    \subsection{LabelManager}
+
+    Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle utilise pour cela un HasMap
+    qui a un nom de label associe un compteur correspondant au nombre de fois que ce nom de label est utilisé. Cela
+    permet de s'assurer que tout les labels sont uniques
+
+    \subsection{Utils}
+
+    Cette classe regroupe des méthodes statiques utilisées à de nombreux endroits permettant la génération
+    de code. Elle permet entre autre de renvoyer un Immediat d'après son type. Elle permet aussi de renvoyer tout
+    le code correspondant à la gestion d'erreur qui appelé à la fin du codeGen du programme.
+
+    \subsection{Propagation du code - Les fonctions codeGen}
+
+    A chaque action devant être réalisé, il existe une fonction codeGen spécifique appelant récursivement dans l'arbre
+    d'autres fonction codeGen. La première fonction appelé est codeGenProgram qui se propage à la génération de classe
+    et du programme principale. Il est interressant de revenir sur quelque fonction codeGen importantes qui sont réutilisés
+    de nombreuses fois.
+
+    \subsubsection{codeGenPrint}
 
     \subsection{Compiler de programmes Deca en executable pour la JVM}
     \section{La biblothèque ASM}
-
-\newpage
-
-\section{Conception Architectural Etape B}
-
-\section{Conception Architectural Etape C}
-
-Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
-permettant de gérer la génération de code. Toutes les classes nécessaires sont instanciées dans DecacCompiler
-pour pouvoir être appelées lors de l'execution dans l'arbre.
-
-\subsection{Politique de gestion de pile et de registre}
-
-A chaque variable créée, on la place dans la pile et dans sa définition, on lui donne son adresse dans la pile.
-Lors de l'initialisation ou de l'affectation d'une variable, ou de n'importe quelle instruction nécessitant le
-calcul d'une expression, celui-ci est enregistré sur le registre R1. Bien sur lors du calcul, si c'est nécessaire,
-d'autres registres sont utilisé mais le résultat final est sur R1.
-
-\subsection{RegisterManager}
-
-Cette classe permet de gérer les registres. Elle prends en attributs le nombres de registres utilisés
-(ceux données en paramètres par la commande -r ou 16 sinon). Elle possède aussi un tableau de boolean
-en attributs. Chaque indice de ce tableau correspond à la valeur d'un registre. La valeur du tableau
-à cette indice est à vrai si le registre est utilisé et faux sinon. Cette classe possède aussi des
-méthodes permettant de renvoyer un registre inutilisé ou d'en libérer un.
-
-\subsection{Stack}
-
-Cette classe possède un attributs donnant la hauteur de la pile (par rapport à GB). Elle possède aussi
-de nombreuses méthodes permettant de mettre la valeur d'un registre au sommet de la pile, ou à un
-endroit précis de la pile. Elle possède aussi d'autres méthodes permettant de récupérer une variable
-se situant à une adresse précise dans la pile.
-
-\subsection{LabelManager}
-
-Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle utilise pour cela un HasMap
-qui a un nom de label associe un compteur correspondant au nombre de fois que ce nom de label est utilisé. Cela
-permet de s'assurer que tout les labels sont uniques
-
-\subsection{Utils}
-
-Cette classe regroupe des méthodes statiques utilisées à de nombreux endroits permettant la génération
-de code. Elle permet entre autre de renvoyer un Immediat d'après son type. Elle permet aussi de renvoyer tout
-le code correspondant à la gestion d'erreur qui appelé à la fin du codeGen du programme.
-
-\subsection{Propagation du code - Les fonctions codeGen}
-
-A chaque action devant être réalisé, il existe une fonction codeGen spécifique appelant récursivement dans l'arbre
-d'autres fonction codeGen. La première fonction appelé est codeGenProgram qui se propage à la génération de classe
-et du programme principale. Il est interressant de revenir sur quelque fonction codeGen importantes qui sont réutilisés
-de nombreuses fois.
-    
-\subsubsection{codeGenPrint}
-
 \end{document}
