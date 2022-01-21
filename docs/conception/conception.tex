@@ -25,16 +25,13 @@
 
     \tableofcontents
     \section{Architecture logicielle}
-    \subsection{Compilation de programmes Deca en executable pour la JVM}
     \section{Chemin de l'exécution du compilateur}
-    \section{Conception Architectural Etape A}
-
-    \subsection{Compiler de programmes Deca en executable pour IMA}
+    \subsection{Etape A}
 
     \subsubsection{DecacMain}
     Le point d'entrée du compilateur est la méthode main de la classe \textbf {DecacMain}. Le main commence par récupérer les options de la commande decac. La classe résponsable de ce traitement est \textbf{CompilerOptions}. Les arguments de la commande decac sont parsés et les variables booléennes correspondantes aux options seront à mises à true. Nous pouvons avoir les états de ces Booléens en appenalnt la méthode getX de la classe CompilerOptions avec X est le nom du booléan.
     \\
-    Si l'option de compilation en parallel est activée \textbf {\textcolor{red}{AAAA REMPLIR PLUS TARD AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA}} \\
+    Si l'option de compilation {\textcolor{red}{ en parallel est activée, plusieurs instances de \textbf{DecacCompiler} seront initialisées en parallèle et chaque instance traite un fichier deca source.}}
     Sinon, une instance du compilateur \textbf{DecacCompiler} sera initialisée de façon séquentielle pour chaque fichier deca avec en paramètres les options et un fichier source.
 
     \subsubsection{DecacCompiler} C'est la classe coeur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram. Cette méthode utilise une instance de la classe \textbf{DecaLexer} qui est presentée par la suite et qui a pour rôle de faire l'analyseur lexicale qui consiste à reconnaître les mots du langage (dits aussi Jetons ou Tokens) . Cette méthode utilise aussi une instance de \textbf{CommonTokenStream} pour stocker les
