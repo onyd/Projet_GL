@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -36,6 +37,10 @@ public class Not extends AbstractUnaryExpr {
 
     protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
         getOperand().codeGenBool(compiler, !negation, label);
+    }
+
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        getOperand().codeGenBoolByte(javaCompiler, !negation, label);
     }
 
     @Override

@@ -41,8 +41,17 @@ public abstract class AbstractInst extends Tree {
      *
      * @param javaCompiler
      */
-    protected  void codeGenInstByte(JavaCompiler javaCompiler){
+    protected  void codeGenInstByte(JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException();
+    }
 
+    /**
+     * Generate bytecode for the instruction and give the endLabel of the enclosing IfThenElse branch to the deeper IfThenElse.
+     *
+     * @param javaCompiler
+     */
+    protected  void codeGenInstByte(JavaCompiler javaCompiler, org.objectweb.asm.Label endLabel){
+        codeGenInstByte(javaCompiler);
     }
 
     /**

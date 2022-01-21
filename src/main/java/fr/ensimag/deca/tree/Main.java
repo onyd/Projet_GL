@@ -4,7 +4,6 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
@@ -74,7 +73,7 @@ public class Main extends AbstractMain {
         declVariables.codeGenListDeclVariableByte(javaCompiler);
 
         //decl inst
-        insts.codeGenListInstByteCode(javaCompiler);
+        insts.codeGenListInstByte(javaCompiler);
 
         methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);

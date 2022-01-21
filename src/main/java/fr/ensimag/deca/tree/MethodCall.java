@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -74,9 +75,28 @@ public class MethodCall extends AbstractExpr {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
         }
         compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
-        compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
+        compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getIndex(), register)));
         compiler.addInstruction(new SUBSP(arguments.size() + 1));
         compiler.addInstruction(new LOAD(Register.R0, register));
+    }
+
+    @Override
+    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+        codeGenExprOnR1(compiler);
+        compiler.addInstruction(new CMP(0, Register.R1));
+        if (negation)
+            compiler.addInstruction(new BNE(label));
+        else
+            compiler.addInstruction(new BEQ(label));
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        codeGenExprByteOnStack(javaCompiler);
+        if (negation)
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPNE, label);
+        else
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPEQ, label);
     }
 
     @Override

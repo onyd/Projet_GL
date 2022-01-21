@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -35,7 +36,5 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         }
         return getType();
     }
-
-
 
 }
