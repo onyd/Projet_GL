@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.tree.*;
@@ -15,9 +16,9 @@ import java.util.Objects;
 public class VTable {
     private HashMap<String, List<Label>> VTables;
     private List<Label> currentLabelList;
-    private DecacCompiler compiler;
+    private IMACompiler compiler;
 
-    public VTable(DecacCompiler compiler) {
+    public VTable(IMACompiler compiler) {
         this.compiler = compiler;
         this.VTables = new HashMap<>();
     }
@@ -34,13 +35,11 @@ public class VTable {
             if(currentLabelList.get(i).toString().contains(methodName)) {
                 currentLabelList.set(i, label);
                 declMethod.getMethodIdent().getMethodDefinition().setOperand(new RegisterOffset(reg.getOffset() + i + 1, Register.GB));
-                declMethod.getMethodIdent().getMethodDefinition().setOffset(i + 1);
                 return;
             }
         }
         declMethod.getMethodIdent().getMethodDefinition().setOperand(
                 new RegisterOffset(reg.getOffset() + currentLabelList.size() + 1, Register.GB));
-        declMethod.getMethodIdent().getMethodDefinition().setOffset(currentLabelList.size() + 1);
         currentLabelList.add(label);
     }
 

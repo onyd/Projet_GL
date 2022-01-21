@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ContextualError;
 
@@ -37,7 +38,13 @@ public abstract class AbstractDeclClass extends Tree {
      * generate the code to create the virtual methods table for this class
      * @param compiler
      */
-    protected abstract void codeGenDeclClass(DecacCompiler compiler);
+    protected abstract void codeGenDeclClassVTable(IMACompiler compiler);
+
+    /**
+     * generate the code to create the constructor and the method for this class
+     * @param compiler
+     */
+    protected abstract void codeGenDeclClassMethod(IMACompiler compiler);
 
     protected abstract void codeGenDeclClassByte(JavaCompiler javaCompiler, String path);
 

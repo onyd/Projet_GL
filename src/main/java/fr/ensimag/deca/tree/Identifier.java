@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -166,11 +167,11 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-        ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
         if(expDef == null && currentClass == null) {
-            throw new ContextualError("(0.1) ", getLocation());
+            throw new ContextualError("(0.1) The identifier is not declared", getLocation());
         } else if (expDef == null) {
             // Try to find variable as class field
             expDef = currentClass.getMembers().get(getName());
@@ -203,7 +204,10 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
-        FieldDefinition fieldDef = localEnv.get(getName()).asFieldDefinition("(3.70) Identifier must be a field", getLocation());
+        ExpDefinition def = localEnv.get(getName());
+        if (def == null)
+            throw new ContextualError("(3.70) Invalid field identifier", getLocation());
+        FieldDefinition fieldDef = def.asFieldDefinition("(3.70) Identifier must be a field", getLocation());
         setType(fieldDef.getType());
         setDefinition(fieldDef);
         return getType();
@@ -222,7 +226,7 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
@@ -240,7 +244,7 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         if(this.definition.isField()) {
             // implicit selection of a field in a class
             compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), register));
@@ -250,7 +254,7 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.R0));
         compiler.addInstruction(new CMP(0, Register.R0));
         if (negation) {
@@ -262,12 +266,26 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        if(this.getType().isInt()) {
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+        if (this.getType().isInt()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
         } else if(this.getType().isFloat()) {
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+        } else if (this.getType().isBoolean()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
         } else if(this.getType().isClass()) {
             javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, this.getExpDefinition().getIndexOnStack());
+        }
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        System.out.println(getName());
+        codeGenExprByteOnStack(javaCompiler);
+        if (negation) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);
+        } else {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFEQ, label);
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
         }
     }
 

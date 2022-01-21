@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -55,7 +56,6 @@ public class DeclMethod extends AbstractDeclMethod {
         Signature sig = params.verifyListClassMembers(compiler);
         currentClass.incNumberOfMethods();
         MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
-
         ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
         if (def != null) {
             MethodDefinition superMethodDef = (MethodDefinition) def;
@@ -79,7 +79,7 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    public void codeGenDeclMethod(DecacCompiler compiler, String className) {
+    public void codeGenDeclMethod(IMACompiler compiler, String className) {
         compiler.addLabel(compiler.getLabelManager().getMethodLabel(className, methodIdent.getName().getName()));
         //save the registers
         compiler.addComment("Save All used registers");

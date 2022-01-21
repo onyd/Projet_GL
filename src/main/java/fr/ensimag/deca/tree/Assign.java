@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -32,7 +33,7 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()).getType();
         setType(type);
@@ -41,7 +42,7 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         this.getRightOperand().codeGenExprOnR1(compiler);
         if(this.getLeftOperand().isIdentifier()) {
             compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
@@ -65,14 +66,20 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         this.codeGenInst(compiler);
     }
 
     @Override
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         this.codeGenInst(compiler);
         getLeftOperand().codeGenBool(compiler, negation, label);
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        this.codeGenInstByte(javaCompiler);
+        getLeftOperand().codeGenBoolByte(javaCompiler, negation, label);
     }
 
     @Override

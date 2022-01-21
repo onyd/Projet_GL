@@ -1,11 +1,14 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
 
@@ -28,20 +31,37 @@ public class BooleanLiteral extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType();
         this.setType(type);
         return type;
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(getDVal(), register));
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        if (value) {
+            methodVisitor.visitLdcInsn(1);
+        } else {
+            methodVisitor.visitLdcInsn(0);
+        }
+    }
+
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         if ((value && negation) || (!value && !negation)) {
                 compiler.addInstruction(new BRA(label));
+        }
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        if ((value && negation) || (!value && !negation)) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, label);
         }
     }
 

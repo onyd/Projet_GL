@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.Type;
@@ -28,7 +29,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type leftType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
 
@@ -53,7 +54,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -63,12 +64,12 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
 
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
@@ -110,10 +111,4 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         }
     }
 
-    @Override
-    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        getLeftOperand().codeGenExprByteOnStack(javaCompiler);
-        getRightOperand().codeGenExprByteOnStack(javaCompiler);
-        javaCompiler.getMethodVisitor().visitInsn(this.codeMnemoByte(javaCompiler));
-    }
 }

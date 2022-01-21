@@ -1,13 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.commons.lang.Validate;
-import org.objectweb.asm.Attribute;
 import org.objectweb.asm.FieldVisitor;
 
 import java.io.PrintStream;
@@ -91,7 +91,7 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    protected void codeGenDeclField(DecacCompiler compiler) {
+    protected void codeGenDeclField(IMACompiler compiler) {
         compiler.getStack().declareVariableOnAddressStoreOnHeap((Identifier) fieldIdent,
                 initialization, new RegisterOffset(-2, Register.LB));
     }

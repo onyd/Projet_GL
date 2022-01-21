@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -53,7 +54,7 @@ public class MethodBody extends AbstractMethodBody {
     }
 
     @Override
-    protected void codeGenMethodBody(DecacCompiler compiler) {
+    protected void codeGenMethodBody(IMACompiler compiler) {
         declVars.codeGenListDeclVariable(compiler);
         instructions.codeGenListInst(compiler);
     }

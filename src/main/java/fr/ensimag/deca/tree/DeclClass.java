@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -120,8 +121,12 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenDeclClass(DecacCompiler compiler) {
+    protected void codeGenDeclClassVTable(IMACompiler compiler) {
         compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
+    }
+
+    @Override
+    protected void codeGenDeclClassMethod(IMACompiler compiler) {
         compiler.setDeclareMethod(true);
         compiler.getvTable().constructor(fields, this.name.getName().getName(), (Identifier) this.superClassName);
         compiler.getvTable().createMethods(methods, this.name.getName().getName());
@@ -131,39 +136,32 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenDeclClassByte(JavaCompiler javaCompiler, String path) {
         // The javaCompiler specific to this class
-        JavaCompiler classJavaCompiler = new JavaCompiler();
-        javaCompiler.getDeclClass().put(name.getName().getName(), classJavaCompiler);
+        javaCompiler.getDeclClass().put(name.getName().getName(), javaCompiler);
 
-        ClassWriter classWriter = classJavaCompiler.getClassWriter();
-        classWriter.visit(classJavaCompiler.V1_8,
-                classJavaCompiler.ACC_PUBLIC + classJavaCompiler.ACC_SUPER,
+        ClassWriter classWriter = javaCompiler.getClassWriter();
+        classWriter.visit(javaCompiler.V1_8,
+                javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 name.getName().getName(),
                 null,
                 "java/lang/Object",
                 null);
 
         classWriter.visitSource(path + name.getName().getName() + ".java", null);
-        classJavaCompiler.setClassName(name.getName().getName());
 
         // default constructor
         MethodVisitor methodVisitor = null;
-        methodVisitor = classWriter.visitMethod(classJavaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
-        classJavaCompiler.setMethodVisitor(methodVisitor);
-        methodVisitor.visitVarInsn(classJavaCompiler.ALOAD, 0);
-        methodVisitor.visitMethodInsn(classJavaCompiler.INVOKESPECIAL,
+        methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
+        methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
                 "java/lang/Object",
                 "<init>",
                 "()V",false);
-
-        //creation and initialization of the field in the constructor
-        fields.codeGenListDeclFieldByte(classJavaCompiler);
-
-        methodVisitor.visitInsn(classJavaCompiler.RETURN);
+        methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
 
         //create the methods
-        methods.codeGenListDeclMethodByte(classJavaCompiler);
+        methods.codeGenListDeclMethodByte(javaCompiler);
 
         classWriter.visitEnd();
     }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -36,7 +37,7 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         for(AbstractExpr expr: getArguments().getList()) {
             Type type = expr.verifyExpr(compiler, localEnv, currentClass);
@@ -47,7 +48,7 @@ public abstract class AbstractPrint extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         for (AbstractExpr a : getArguments().getList()) {
             a.codeGenPrint(compiler);
         }

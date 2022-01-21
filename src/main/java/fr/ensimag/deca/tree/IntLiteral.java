@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -33,20 +34,20 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = compiler.getEnvironmentType().get(compiler.INT_SYMBOL).getType();
         this.setType(type);
         return getType();
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         compiler.addInstruction(new LOAD(this.value, Register.R1));
         compiler.addInstruction(new WINT());
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(new ImmediateInteger(this.value), register));
     }
 

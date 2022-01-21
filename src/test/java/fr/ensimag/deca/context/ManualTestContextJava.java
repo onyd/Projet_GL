@@ -1,7 +1,8 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.CompilerOptions;
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.syntax.AbstractDecaLexer;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -26,7 +27,7 @@ public class ManualTestContextJava {
         DecaParser parser = new DecaParser(tokens);
         CompilerOptions compilerOptions = new CompilerOptions();
         compilerOptions.setJavaCompilation(true);
-        DecacCompiler compiler = new DecacCompiler(compilerOptions, null);
+        IMACompiler compiler= new IMACompiler(compilerOptions, null);
         parser.setDecacCompiler(compiler);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {
