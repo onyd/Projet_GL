@@ -1,1 +1,9 @@
-\babel@toc {french}{}\relax 
+\babel@toc {nil}{}
+\contentsline {section}{\numberline {1}Introduction}{2}% 
+\contentsline {section}{\numberline {2}Consommation d'\IeC {\'e}nergie durant l'impl\IeC {\'e}mentation}{2}% 
+\contentsline {subsection}{\numberline {2.1}Consommation d\IeC {\^u} \IeC {\`a} l'utilisation des ordinateurs}{2}% 
+\contentsline {subsection}{\numberline {2.2}Consommation d\IeC {\^u} aux tests}{2}% 
+\contentsline {section}{\numberline {3}Consommation d'\IeC {\'e}nergie d\IeC {\^u} \IeC {\`a} la compilation}{3}% 
+\contentsline {section}{\numberline {4}Consommation d'\IeC {\'e}nergie d\IeC {\^u} \IeC {\`a} l'ex\IeC {\'e}cution dans ima}{3}% 
+\contentsline {subsection}{\numberline {4.1}Cas d'usage 1 : T\IeC {\'e}l\IeC {\'e}chargement d'un fichier deca sur internet}{3}% 
+\contentsline {subsection}{\numberline {4.2}Cas d'usage 2 : Ex\IeC {\'e}cution d'un fichier gourmand en calcul}{3}% 
