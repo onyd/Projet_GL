@@ -64,18 +64,7 @@ public class InstanceOf extends AbstractExpr {
         }
     }
 
-    @Override
     protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
-        if (negation) {
-            if (expr.getType().isSubType(type.getType())) {
-                compiler.addInstruction(new BRA(label));
-            }
-        } else {
-            if (!expr.getType().isSubType(type.getType())) {
-                compiler.addInstruction(new BRA(label));
-            }
-        }
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
         Utils.instanceOf(compiler, expr, (ClassType) type.getType(), negation, label, Register.R1);
     }
 }

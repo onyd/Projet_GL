@@ -69,7 +69,7 @@ public class Utils {
         }
     }
 
-    public static void instanceOf(DecacCompiler compiler, AbstractExpr expr, ClassType type, boolean negation, Label label, GPRegister tmpRegister) {
+    public static void instanceOf(IMACompiler compiler, AbstractExpr expr, ClassType type, boolean negation, Label label, GPRegister tmpRegister) {
         loadExpr(compiler, expr, tmpRegister);
         compiler.addInstruction(new LOAD(new RegisterOffset(0, tmpRegister), tmpRegister));
         Label endLabel = compiler.getLabelManager().getNextLabel("cast", "end");
@@ -93,7 +93,7 @@ public class Utils {
         }
     }
 
-    private static void instanceOfComputation(DecacCompiler compiler, ClassType type, Label trueLabel, Label falseLabel, GPRegister tmpRegister) {
+    private static void instanceOfComputation(IMACompiler compiler, ClassType type, Label trueLabel, Label falseLabel, GPRegister tmpRegister) {
         boolean first = true;
         while (type.getDefinition().getSuperClass() != null) {
             compiler.addInstruction(new LEA(type.getDefinition().getdAddrVTable(), Register.R0));

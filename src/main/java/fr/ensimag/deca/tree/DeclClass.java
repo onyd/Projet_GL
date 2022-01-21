@@ -121,7 +121,7 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenDeclClass(IMACompiler compiler) {
+    protected void codeGenDeclClassVTable(IMACompiler compiler) {
         compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
     }
 
