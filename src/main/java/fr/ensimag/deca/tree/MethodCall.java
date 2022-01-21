@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -77,6 +78,24 @@ public class MethodCall extends AbstractExpr {
         compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
         compiler.addInstruction(new SUBSP(arguments.size() + 1));
         compiler.addInstruction(new LOAD(Register.R0, register));
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                expr.getType().getName().getName(),
+                methodIdent.getName().getName(),
+                "(" + this.getJavaArgType() + ")" + methodIdent.getJavaType(),
+                false);
+    }
+
+    private String getJavaArgType() {
+        StringBuilder res = new StringBuilder();
+        for(AbstractExpr expr : arguments.getList()) {
+            res.append(expr.getJavaType());
+        }
+        return res.toString();
     }
 
     @Override

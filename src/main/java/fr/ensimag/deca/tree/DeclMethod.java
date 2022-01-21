@@ -122,9 +122,7 @@ public class DeclMethod extends AbstractDeclMethod {
     private String getDescSigAndInitParam() {
         StringBuilder res = new StringBuilder();
         res.append("(");
-        if(getParams().getList().isEmpty()) {
-            res.append("V");
-        } else {
+        if(!getParams().getList().isEmpty()) {
             int index = 1;
             for(AbstractDeclParam param : getParams().getList()) {
                 ((DeclParam) param).setIndexInLocals(index);

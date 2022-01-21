@@ -309,6 +309,7 @@ public class DecacCompiler {
             System.exit(0);
         }
         assert(prog.checkAllDecorations());
+        System.out.println(prog.prettyPrint());
 
 
 

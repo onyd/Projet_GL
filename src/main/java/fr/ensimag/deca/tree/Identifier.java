@@ -266,6 +266,8 @@ public class Identifier extends AbstractIdentifier {
             javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
         } else if(this.getType().isFloat()) {
             javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+        } else if(this.getType().isClass()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, this.getExpDefinition().getIndexOnStack());
         }
     }
 
