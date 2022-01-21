@@ -37,6 +37,9 @@ public class DeclVar extends AbstractDeclVar {
     protected void verifyDeclVar(DecacCompiler compiler,
                                  EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
+        // Verify initialization first to prevent auto-assign statement
+        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
+
         type.verifyType(compiler);
         if (type.getType().isVoid()) {
             throw new ContextualError("(3.17) Variable declaration with type void is forbidden", getLocation());
@@ -48,7 +51,6 @@ public class DeclVar extends AbstractDeclVar {
             throw new ContextualError("(3.17) The identifier is already declared", this.getLocation());
         }
         varName.verifyExpr(compiler, localEnv, currentClass);
-        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
     }
 
     @Override
