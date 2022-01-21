@@ -154,7 +154,7 @@ public class IMACompiler extends DecacCompiler {
     }
 
     @Override
-    public void doGenCode(AbstractProgram prog, String destName) throws DecacFatalError {
+    public void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError {
         addComment("start main program");
         prog.codeGenProgram(this);
         addComment("end main program");

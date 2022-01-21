@@ -1,9 +1,5 @@
 package fr.ensimag.deca;
 
-import fr.ensimag.deca.codegen.LabelManager;
-import fr.ensimag.deca.codegen.RegisterManager;
-import fr.ensimag.deca.codegen.Stack;
-import fr.ensimag.deca.codegen.VTable;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -12,19 +8,13 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.deca.tree.Program;
-import fr.ensimag.ima.pseudocode.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Path;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -174,7 +164,7 @@ public abstract class DecacCompiler {
         assert(prog.checkAllDecorations());
 
         // STEP C
-        doGenCode(prog, destName);
+        doCodeGen(prog, destName);
 
         LOG.info("Compilation of " + sourceName + " successful.");
         return false;
@@ -188,7 +178,7 @@ public abstract class DecacCompiler {
         return compilerOptions;
     }
 
-    public abstract void doGenCode(AbstractProgram prog, String destName) throws DecacFatalError;
+    public abstract void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError;
 
     public abstract String getDestFileName(String sourceFileName);
 

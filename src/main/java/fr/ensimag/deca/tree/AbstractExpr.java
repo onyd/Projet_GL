@@ -152,7 +152,6 @@ public abstract class AbstractExpr extends AbstractInst {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
@@ -201,7 +200,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param register
      */
     public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("No code mnemo");
     }
 
     /**
@@ -210,7 +209,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return
      */
     public int codeMnemoByte(JavaCompiler javaCompiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("No code mnemo");
     }
     /**
      * return the DVal of the expression (if it is possible), else return null

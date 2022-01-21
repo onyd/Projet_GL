@@ -27,7 +27,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     }
 
     @Override
-    public void doGenCode(AbstractProgram prog, String destName) throws DecacFatalError {
+    public void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError {
         String path = source.getAbsolutePath().substring(0, source.getAbsolutePath().length() - source.getName().length());
         FileOutputStream fstreamByteCode = null;
         try {
