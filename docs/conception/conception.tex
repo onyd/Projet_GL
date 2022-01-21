@@ -4,7 +4,7 @@
 \usepackage{biblatex}
 \usepackage{listings}
 \usepackage{xcolor}
-
+\usepackage{hyperref}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -25,7 +25,11 @@
 
     \tableofcontents
     \section{Architecture logicielle}
-
+    \subsection{Conception Architectural Etape A}
+    Tout le code specifique se situe dans le package deca. Il est constitué de plusieurs fichiers
+    permettant de gérer l'analyse lexicale, l'analyse syntaxique et la construction de l'arbre abstrait. Toutes les classes nécessaires sont instanciées dans DecacMain
+    pour pouvoir être appelées lors de l'execution dans du programme avec ses options.
+    \subsection{Conception Architectural Etape B}
     \subsection{Conception Architectural Etape C}
 
     Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
@@ -106,7 +110,6 @@
     Dans le cas où l'option \textbf{JavaCompilation} est activée. Nous utilisons la classe \textbf{JavaCompiler} pour préparer le fichier .class en sortie.
 
     \subsubsection{JavaCompiler}
-    Cette une classe qui a pour rôle de gérer la structure du fichier .class généré. Elle encapsule des attributs de l'API \textbf{ASM} que l'on utilise pour manipuler les fichier .class de façon haut niveau.
+    Cette une classe qui a pour rôle de gérer la structure du fichier .class généré. Elle encapsule des attributs de l'API \textbf{ASM} que l'on utilise pour manipuler les fichier .class de façon haut niveau. \url{https://asm.ow2.io/documentation.html}
 
-    \section{La biblothèque ASM}
 \end{document}
