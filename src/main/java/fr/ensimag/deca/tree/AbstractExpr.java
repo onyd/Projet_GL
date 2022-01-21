@@ -205,7 +205,6 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * return the opcode of the operation
-     * @param compiler
      * @param javaCompiler
      * @return
      */
@@ -256,19 +255,14 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * load the expression on the top of the operand stack
-     * @param compiler
      * @param javaCompiler
      */
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    /**
-     * load the expression on the top of the stack
-     * @param compiler
-     * @param javaCompiler
-     */
-    public void codeGenByteOnStack(DecacCompiler compiler, JavaCompiler javaCompiler) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
+
 }

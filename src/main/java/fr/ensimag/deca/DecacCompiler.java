@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Path;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.commons.lang.StringUtils;
@@ -314,6 +316,7 @@ public class DecacCompiler {
         //case compilation in java bytecode
         if(this.compilerOptions.getJavaCompilation())
         {
+            String path = source.getAbsolutePath().substring(0, source.getAbsolutePath().length() - source.getName().length());
             FileOutputStream fstreamByteCode = null;
             try {
                 fstreamByteCode = new FileOutputStream(destByteName);
@@ -321,16 +324,29 @@ public class DecacCompiler {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }
             String className = source.getName().substring(0, source.getName().length() - 5);
-            prog.codeGenProgramByte(this.javaCompiler, destByteName, className);
+            prog.codeGenProgramByte(this.javaCompiler, path, className);
             LOG.info("Writing .class file ...");
             byte[] b = javaCompiler.getClassWriter().toByteArray();
-            try
-            {
+            try {
                 fstreamByteCode.write(b);
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
+            }
+
+            //for all the declared classes
+            for(String declClassName : javaCompiler.getDeclClass().keySet()) {
+                String destDeclClassName = path + declClassName + ".class";
+                try {
+                    fstreamByteCode = new FileOutputStream(destDeclClassName);
+                } catch (FileNotFoundException e) {
+                    throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
+                }
+                b = javaCompiler.getDeclClass().get(declClassName).getClassWriter().toByteArray();
+                try {
+                    fstreamByteCode.write(b);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             addComment("start main program");

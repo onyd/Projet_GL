@@ -1,15 +1,20 @@
 package fr.ensimag.deca;
 
-import fr.ensimag.ima.pseudocode.Instruction;
 import org.objectweb.asm.*;
+
+import java.util.HashMap;
 
 public class JavaCompiler implements Opcodes
 {
+    //for the main class
     private ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
     private FieldVisitor fieldVisitor;
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;
     private String className;
+
+    //for all the declared class
+    private HashMap<String, JavaCompiler> declClass = new HashMap<>();
 
     public void setMethodVisitor(MethodVisitor methodVisitor)
     {
@@ -46,12 +51,7 @@ public class JavaCompiler implements Opcodes
         return annotationVisitor;
     }
 
-    /**
-     * Il faut faire une structure similaire à Ima pour suivre sa logique.
-     * Cette méthode a pour role de faire WNL et non pas toutes les instructions ima.
-     */
-    public void addInstruction(int opCode)
-    {
-
+    public HashMap<String, JavaCompiler> getDeclClass() {
+        return declClass;
     }
 }

@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
@@ -35,4 +36,22 @@ public class Or extends AbstractOpBool {
         compiler.addLabel(endLabel);
     }
 
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
+
+        if (negation) {
+            getLeftOperand().codeGenBoolByte(javaCompiler, true, endLabel);
+            getRightOperand().codeGenBoolByte(javaCompiler, false, label);
+        } else {
+            getLeftOperand().codeGenBoolByte(javaCompiler, true, label);
+            getRightOperand().codeGenBoolByte(javaCompiler, true, label);
+        }
+        javaCompiler.getMethodVisitor().visitLabel(endLabel);
+    }
+
+    @Override
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
+        return javaCompiler.IOR;
+    }
 }

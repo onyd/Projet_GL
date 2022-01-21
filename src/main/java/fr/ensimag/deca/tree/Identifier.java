@@ -262,10 +262,23 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        if(this.getType().isInt()) {
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+        if (this.getType().isInt()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
         } else if(this.getType().isFloat()) {
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+        } else if (this.getType().isBoolean()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+        }
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        System.out.println(getName());
+        codeGenExprByteOnStack(javaCompiler);
+        if (negation) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);
+        } else {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFEQ, label);
         }
     }
 

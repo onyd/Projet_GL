@@ -74,6 +74,12 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        this.codeGenInstByte(javaCompiler);
+        getLeftOperand().codeGenBoolByte(javaCompiler, negation, label);
+    }
+
+    @Override
     protected String getOperatorName() {
         return "=";
     }

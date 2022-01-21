@@ -40,9 +40,15 @@ public class ListInst extends TreeList<AbstractInst> {
         }
     }
 
-    public void codeGenListInstByteCode(JavaCompiler javaCompiler) {
+    public void codeGenListInstByte(JavaCompiler javaCompiler) {
         for (AbstractInst i : getList()) {
             i.codeGenInstByte(javaCompiler);
+        }
+    }
+
+    public void codeGenListInstByte(JavaCompiler javaCompiler, org.objectweb.asm.Label endLabel) {
+        for (AbstractInst i : getList()) {
+            i.codeGenInstByte(javaCompiler, endLabel);
         }
     }
 

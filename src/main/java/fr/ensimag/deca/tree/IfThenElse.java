@@ -1,6 +1,6 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.codegen.Utils;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -10,7 +10,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import org.apache.commons.lang.Validate;
 
@@ -54,6 +53,15 @@ public class IfThenElse extends AbstractInst {
     }
 
     @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
+
+        codeGenInstByte(javaCompiler, endLabel);
+
+        javaCompiler.getMethodVisitor().visitLabel(endLabel);
+    }
+
+    @Override
     protected void codeGenInst(DecacCompiler compiler, Label endLabel) {
         if (!elseBranch.isEmpty()) {
             Label elseLabel = compiler.getLabelManager().getNextLabel("ELSE");
@@ -69,6 +77,21 @@ public class IfThenElse extends AbstractInst {
         }
     }
 
+    @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler, org.objectweb.asm.Label endLabel) {
+        if (!elseBranch.isEmpty()) {
+            org.objectweb.asm.Label elseLabel = new org.objectweb.asm.Label();
+
+            condition.codeGenBoolByte(javaCompiler, false, elseLabel);
+            thenBranch.codeGenListInstByte(javaCompiler, endLabel);
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, endLabel);
+            javaCompiler.getMethodVisitor().visitLabel(elseLabel);
+            elseBranch.codeGenListInstByte(javaCompiler, endLabel);
+        } else {
+            condition.codeGenBoolByte(javaCompiler, false, endLabel);
+            thenBranch.codeGenListInstByte(javaCompiler, endLabel);
+        }
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
