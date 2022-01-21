@@ -44,10 +44,19 @@
 
     \subsubsection{Tree} represente le point d'entrée pour la vérification contextuelle et la génération du code.
 
-    \section{Conception Architectural Etape B}
+    \subsection{Etape B}
     Le but de l'étape B est de réaliser des vérifications contextuelles et modifier et décorer l'arbre abstrait du programme pour préparer l'étape C.
     \\
     La vérification déclanchée par la méthode verifyProgram se propage dans tout l'arbre en passant par la classe \textbf{Main}. Dans cette classe les vérifications se passent pour une instance de la classe \textbf{EnvironmentExp} et les listes de \textbf{ListDeclVar} (les déclarations de variables) et \textbf{ListInst} (les déclarations des instructions)
+
+    \subsection{Etape C}
+    Cette étape consiste à générer le code exécutable et le stocker dans un fichier de sortie. Selon les options de la compilation, le code généré est .ass pour la machine virtuelle IMA ou bien .class pour la machine virtuelle Java JVM.
+    \\
+    Nous avons utilisé une instance de la classe \textbf{FileOutputStream} pour stocker le resultat de la compilation dans un fichier de sortie.\\
+    Dans le cas où l'option \textbf{JavaCompilation} est activée. Nous utilisons la classe \textbf{JavaCompiler} pour préparer le fichier .class en sortie.
+
+    \subsubsection{JavaCompiler}
+    Cette une classe qui a pour rôle de gérer la structure du fichier .class généré. Elle encapsule des attributs de l'API \textbf{ASM} que l'on utilise pour manipuler les fichier .class de façon haut niveau.
 
     \section{Conception Architectural Etape C}
 
