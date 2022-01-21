@@ -49,9 +49,9 @@ public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
         }
     }
 
-    void codeGenListDeclVariableByte(JavaCompiler javaCompiler)
+    void codeGenListDeclVariableByte(JavaCompiler javaCompiler, int beginIndex)
     {
-        int currentIndexVar = 1;
+        int currentIndexVar = beginIndex;
         for (AbstractDeclVar declVar : this.getList()){
             declVar.codeGenDeclVarByte(javaCompiler, currentIndexVar);
             currentIndexVar++;

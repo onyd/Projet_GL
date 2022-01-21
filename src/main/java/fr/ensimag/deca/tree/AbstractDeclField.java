@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -21,4 +22,6 @@ public abstract class AbstractDeclField extends Tree {
             throws ContextualError;
 
     protected abstract void codeGenDeclField(DecacCompiler compiler);
+
+    protected abstract void codeGenDeclFieldByte(JavaCompiler javaCompiler);
 }

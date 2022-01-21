@@ -71,7 +71,7 @@ public class Main extends AbstractMain {
         javaCompiler.setMethodVisitor(methodVisitor);
 
         //declVariables
-        declVariables.codeGenListDeclVariableByte(javaCompiler);
+        declVariables.codeGenListDeclVariableByte(javaCompiler, 1);
 
         //decl inst
         insts.codeGenListInstByteCode(javaCompiler);

@@ -13,6 +13,14 @@ public class DeclParam extends AbstractDeclParam {
     private final AbstractIdentifier typeName;
     private final  AbstractIdentifier paramIdent;
 
+    public void setIndexInLocals(int indexInLocals) {
+        ((Identifier) this.paramIdent).getExpDefinition().setIndexOnStack(indexInLocals);
+    }
+
+    public AbstractIdentifier getParamIdent() {
+        return paramIdent;
+    }
+
     public DeclParam(AbstractIdentifier typeName, AbstractIdentifier paramIdent) {
         Validate.notNull(typeName);
         Validate.notNull(paramIdent);

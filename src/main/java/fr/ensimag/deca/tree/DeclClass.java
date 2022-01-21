@@ -143,21 +143,28 @@ public class DeclClass extends AbstractDeclClass {
                 null);
 
         classWriter.visitSource(path + name.getName().getName() + ".java", null);
-
-        //creation of the fields
-
+        classJavaCompiler.setClassName(name.getName().getName());
 
         // default constructor
         MethodVisitor methodVisitor = null;
         methodVisitor = classWriter.visitMethod(classJavaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        classJavaCompiler.setMethodVisitor(methodVisitor);
         methodVisitor.visitVarInsn(classJavaCompiler.ALOAD, 0);
         methodVisitor.visitMethodInsn(classJavaCompiler.INVOKESPECIAL,
                 "java/lang/Object",
                 "<init>",
                 "()V",false);
+
+        //creation and initialization of the field in the constructor
+        fields.codeGenListDeclFieldByte(classJavaCompiler);
+
         methodVisitor.visitInsn(classJavaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
+
+        //create the methods
+        methods.codeGenListDeclMethodByte(classJavaCompiler);
+
         classWriter.visitEnd();
     }
 

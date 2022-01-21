@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -9,6 +10,7 @@ import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -100,6 +102,39 @@ public class DeclMethod extends AbstractDeclMethod {
             compiler.addInstruction(new POP(Register.getR(i)));
         }
         compiler.addInstruction(new RTS());
+    }
+
+    @Override
+    public void codeGenDeclMethodByte(JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getClassWriter().visitMethod(javaCompiler.ACC_PUBLIC,
+                                                    methodIdent.getName().getName(),
+                                                    getDescSigAndInitParam(), null, null);
+        javaCompiler.setMethodVisitor(methodVisitor);
+
+        body.codeGenMethodBodyByte(javaCompiler, params.size() + 1);
+
+        methodVisitor.visitInsn(javaCompiler.RETURN);
+        methodVisitor.visitMaxs(-1, -1);
+
+        methodVisitor.visitEnd();
+    }
+
+    private String getDescSigAndInitParam() {
+        StringBuilder res = new StringBuilder();
+        res.append("(");
+        if(getParams().getList().isEmpty()) {
+            res.append("V");
+        } else {
+            int index = 1;
+            for(AbstractDeclParam param : getParams().getList()) {
+                ((DeclParam) param).setIndexInLocals(index);
+                res.append(((DeclParam) param).getParamIdent().getJavaType());
+                index++;
+            }
+        }
+        res.append(")");
+        res.append(this.returnType.getJavaType());
+        return res.toString();
     }
 
     @Override

@@ -1,11 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.JavaCompiler;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
@@ -205,7 +202,6 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * return the opcode of the operation
-     * @param compiler
      * @param javaCompiler
      * @return
      */
@@ -234,6 +230,15 @@ public abstract class AbstractExpr extends AbstractInst {
         else if(this.getType().isString()) {
             return "Ljava/lang/String;";
         }
+        else if(this.getType().isBoolean()) {
+            return "Z";
+        }
+        else if(this.getType().isClass()) {
+            return "L" + ((Identifier) this).getName().getName() + ";";
+        }
+        else if(this.getType().isVoid()) {
+            return "V";
+        }
         return null;
     }
 
@@ -256,7 +261,6 @@ public abstract class AbstractExpr extends AbstractInst {
 
     /**
      * load the expression on the top of the operand stack
-     * @param compiler
      * @param javaCompiler
      */
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {

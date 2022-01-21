@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -37,6 +38,12 @@ public class ListDeclField extends AbstractListTree<AbstractDeclField> {
     public void codeGenListDeclField(DecacCompiler compiler) {
         for(AbstractDeclField declField : this.getList()) {
             declField.codeGenDeclField(compiler);
+        }
+    }
+
+    public void codeGenListDeclFieldByte(JavaCompiler javaCompiler) {
+        for(AbstractDeclField declField : getList()) {
+            declField.codeGenDeclFieldByte(javaCompiler);
         }
     }
 }

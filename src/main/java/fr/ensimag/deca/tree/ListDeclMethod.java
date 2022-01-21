@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -29,5 +30,11 @@ public class ListDeclMethod extends AbstractListTree<AbstractDeclMethod> {
             m.verifyMethodBody(compiler, currentClass);
         }
         LOG.debug("[Pass 3] verify listDeclMethod: end");
+    }
+
+    public void codeGenListDeclMethodByte(JavaCompiler javaCompiler) {
+        for(AbstractDeclMethod declMethod : getList()) {
+            declMethod.codeGenDeclMethodByte(javaCompiler);
+        }
     }
 }
