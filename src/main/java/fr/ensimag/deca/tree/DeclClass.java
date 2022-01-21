@@ -136,9 +136,10 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenDeclClassByte(JavaCompiler javaCompiler, String path) {
         // The javaCompiler specific to this class
-        javaCompiler.getDeclClass().put(name.getName().getName(), javaCompiler);
-
         ClassWriter classWriter = javaCompiler.getClassWriter();
+        javaCompiler.getDeclClass().put(name.getName().getName(), classWriter);
+        javaCompiler.setClassWriter(classWriter);
+
         classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 name.getName().getName(),

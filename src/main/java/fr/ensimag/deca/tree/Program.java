@@ -78,7 +78,9 @@ public class Program extends AbstractProgram {
     public void codeGenProgramByte(JavaCompiler javaCompiler, String path, String className)
     {
         classes.codeGenListDeclClassByte(javaCompiler, path);
-        ClassWriter classWriter = javaCompiler.getClassWriter();
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        javaCompiler.setClassWriter(classWriter);
+
         classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 className,

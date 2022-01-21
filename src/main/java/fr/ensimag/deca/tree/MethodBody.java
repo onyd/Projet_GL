@@ -62,6 +62,6 @@ public class MethodBody extends AbstractMethodBody {
     @Override
     protected void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex) {
         declVars.codeGenListDeclVariableByte(javaCompiler, beginIndex);
-        instructions.codeGenListInstByteCode(javaCompiler);
+        instructions.codeGenListInstByte(javaCompiler);
     }
 }

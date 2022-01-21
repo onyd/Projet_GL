@@ -20,7 +20,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     private String className;
 
     //for all the declared class
-    private HashMap<String, JavaCompiler> declClass = new HashMap<>();
+    private HashMap<String, ClassWriter> declClass = new HashMap<>();
 
     public JavaCompiler(CompilerOptions compilerOptions, File source) {
         super(compilerOptions, source);
@@ -53,7 +53,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
             } catch (FileNotFoundException e) {
                 throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
             }
-            b = getDeclClass().get(declClassName).getClassWriter().toByteArray();
+            b = getDeclClass().get(declClassName).toByteArray();
             try {
                 fstreamByteCode.write(b);
             } catch (IOException e) {
@@ -89,6 +89,10 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
         return classWriter;
     }
 
+    public void setClassWriter(ClassWriter classWriter) {
+        this.classWriter = classWriter;
+    }
+
     public FieldVisitor getFieldVisitor()
     {
         return fieldVisitor;
@@ -104,7 +108,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
         return annotationVisitor;
     }
 
-    public HashMap<String, JavaCompiler> getDeclClass() {
+    public HashMap<String, ClassWriter> getDeclClass() {
         return declClass;
     }
 }
