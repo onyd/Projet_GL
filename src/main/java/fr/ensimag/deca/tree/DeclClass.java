@@ -1,9 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
 
@@ -123,6 +126,39 @@ public class DeclClass extends AbstractDeclClass {
         compiler.getvTable().constructor(fields, this.name.getName().getName(), (Identifier) this.superClassName);
         compiler.getvTable().createMethods(methods, this.name.getName().getName());
         compiler.setDeclareMethod(false);
+    }
+
+    @Override
+    protected void codeGenDeclClassByte(JavaCompiler javaCompiler, String path) {
+        // The javaCompiler specific to this class
+        JavaCompiler classJavaCompiler = new JavaCompiler();
+        javaCompiler.getDeclClass().put(name.getName().getName(), classJavaCompiler);
+
+        ClassWriter classWriter = classJavaCompiler.getClassWriter();
+        classWriter.visit(classJavaCompiler.V1_8,
+                classJavaCompiler.ACC_PUBLIC + classJavaCompiler.ACC_SUPER,
+                name.getName().getName(),
+                null,
+                "java/lang/Object",
+                null);
+
+        classWriter.visitSource(path + name.getName().getName() + ".java", null);
+
+        //creation of the fields
+
+
+        // default constructor
+        MethodVisitor methodVisitor = null;
+        methodVisitor = classWriter.visitMethod(classJavaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        methodVisitor.visitVarInsn(classJavaCompiler.ALOAD, 0);
+        methodVisitor.visitMethodInsn(classJavaCompiler.INVOKESPECIAL,
+                "java/lang/Object",
+                "<init>",
+                "()V",false);
+        methodVisitor.visitInsn(classJavaCompiler.RETURN);
+        methodVisitor.visitMaxs(-1, -1);
+        methodVisitor.visitEnd();
+        classWriter.visitEnd();
     }
 
     @Override

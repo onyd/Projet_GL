@@ -34,7 +34,7 @@ public class Plus extends AbstractOpArith {
         Type leftType = getLeftOperand().getType();
         Type rightType = getRightOperand().getType();
 
-        if (leftType.isInt() && rightType.isInt()) {
+        if (this.getType().isInt()) {
             return javaCompiler.IADD;
         } else {
             return javaCompiler.FADD;
