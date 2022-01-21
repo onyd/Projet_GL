@@ -1,0 +1,27 @@
+0
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:39) - verify program: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:20) - [Pass 1] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:24) - [Pass 1] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:31) - [Pass 2] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:19) - [Pass 2] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:23) - [Pass 2] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:16) - [Pass 2] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:20) - [Pass 2] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:35) - [Pass 2] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:42) - [Pass 3] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:30) - [Pass 3] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:34) - [Pass 3] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:27) - [Pass 3] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:31) - [Pass 3] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:46) - [Pass 3] verify listClass: end
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:51) - verify program: end
+`> [1, 0] Program
+   +> ListDeclClass [List with 1 elements]
+   |  []> [1, 0] DeclClass
+   |      +> [1, 6] Identifier (Empty)
+   |      |  definition: type defined at [1, 0], type=Empty
+   |      +> [builtin] Identifier (Object)
+   |      |  definition: type (builtin), type=Object
+   |      +> ListDeclField [List with 0 elements]
+   |      `> ListDeclMethod [List with 0 elements]
+   `> EmptyMain
