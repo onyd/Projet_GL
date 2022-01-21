@@ -1,90 +1,27 @@
-DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:44) - verify program: start
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:22) - [Pass 1] verify listClass: start
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:26) - [Pass 1] verify listClass: end
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:33) - [Pass 2] verify listClass: start
-DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:20) - [Pass 2] verify listDeclField: start
-DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:24) - [Pass 2] verify listDeclField: end
-DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:17) - [Pass 2] verify listDeclMethod: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:17) - [Pass 2] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:22) - [Pass 2] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:17) - [Pass 2] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:22) - [Pass 2] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:17) - [Pass 2] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:22) - [Pass 2] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:21) - [Pass 2] verify listDeclMethod: end
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:37) - [Pass 2] verify listClass: end
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:44) - [Pass 3] verify listClass: start
-DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:31) - [Pass 3] verify listDeclField: start
-DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:35) - [Pass 3] verify listDeclField: end
-DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:28) - [Pass 3] verify listDeclMethod: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30) - [Pass 3] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30) - [Pass 3] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30) - [Pass 3] verify listDeclParam: start
-DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
-DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:32) - [Pass 3] verify listDeclMethod: end
-DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:48) - [Pass 3] verify listClass: end
-DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:56) - verify program: end
+0
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:39) - verify program: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:20) - [Pass 1] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:24) - [Pass 1] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:31) - [Pass 2] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:19) - [Pass 2] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:23) - [Pass 2] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:16) - [Pass 2] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:20) - [Pass 2] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:35) - [Pass 2] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:42) - [Pass 3] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:30) - [Pass 3] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:34) - [Pass 3] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:27) - [Pass 3] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:31) - [Pass 3] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:46) - [Pass 3] verify listClass: end
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:51) - verify program: end
 `> [1, 0] Program
    +> ListDeclClass [List with 1 elements]
    |  []> [1, 0] DeclClass
-   |      +> [1, 6] Identifier (Car)
-   |      |  definition: type defined at [1, 0], type=Car
+   |      +> [1, 6] Identifier (Empty)
+   |      |  definition: type defined at [1, 0], type=Empty
    |      +> [builtin] Identifier (Object)
    |      |  definition: type (builtin), type=Object
-   |      +> ListDeclField [List with 1 elements]
-   |      |  []> [2, 18] [visibility=PROTECTED] DeclField
-   |      |      +> [2, 14] Identifier (int)
-   |      |      |  definition: type (builtin), type=int
-   |      |      +> [2, 18] Identifier (maxSpeed)
-   |      |      |  definition: field defined at [2, 18], type=int
-   |      |      `> NoInitialization
-   |      `> ListDeclMethod [List with 3 elements]
-   |         []> [4, 4] DeclMethod
-   |         ||  +> [4, 4] Identifier (void)
-   |         ||  |  definition: type (builtin), type=void
-   |         ||  +> [4, 9] Identifier (setMaxSpeed)
-   |         ||  |  definition: method defined at [4, 4], type=void
-   |         ||  +> ListDeclParam [List with 1 elements]
-   |         ||  |  []> [4, 21] DeclParam
-   |         ||  |      +> [4, 21] Identifier (int)
-   |         ||  |      |  definition: type (builtin), type=int
-   |         ||  |      `> [4, 25] Identifier (newSpeed)
-   |         ||  |         definition: parameter defined at [4, 21], type=int
-   |         ||  `> [4, 35] MethodBody
-   |         ||     +> ListDeclVar [List with 0 elements]
-   |         ||     `> ListInst [List with 1 elements]
-   |         ||        []> [5, 8] Assign
-   |         ||            type: int
-   |         ||            +> [5, 8] Identifier (maxSpeed)
-   |         ||            |  definition: field defined at [2, 18], type=int
-   |         ||            `> [5, 19] Identifier (newSpeed)
-   |         ||               definition: parameter defined at [4, 21], type=int
-   |         []> [8, 4] DeclMethod
-   |         ||  +> [8, 4] Identifier (int)
-   |         ||  |  definition: type (builtin), type=int
-   |         ||  +> [8, 8] Identifier (getMaxSpeed)
-   |         ||  |  definition: method defined at [8, 4], type=int
-   |         ||  +> ListDeclParam [List with 1 elements]
-   |         ||  |  []> [8, 20] DeclParam
-   |         ||  |      +> [8, 20] Identifier (int)
-   |         ||  |      |  definition: type (builtin), type=int
-   |         ||  |      `> [8, 24] Identifier (newSpeed)
-   |         ||  |         definition: parameter defined at [8, 20], type=int
-   |         ||  `> [8, 34] MethodBody
-   |         ||     +> ListDeclVar [List with 0 elements]
-   |         ||     `> ListInst [List with 1 elements]
-   |         ||        []> [9, 12] Return
-   |         ||            `> [9, 19] Identifier (maxSpeed)
-   |         ||               definition: field defined at [2, 18], type=int
-   |         []> [12, 4] DeclMethod
-   |             +> [12, 4] Identifier (void)
-   |             |  definition: type (builtin), type=void
-   |             +> [12, 9] Identifier (methodAsm)
-   |             |  definition: method defined at [12, 4], type=void
-   |             +> ListDeclParam [List with 0 elements]
-   |             `> [12, 21] MethodAsmBody
-   |                `> [12, 21] StringLiteral (Test)
-   |                   type: string
+   |      +> ListDeclField [List with 0 elements]
+   |      `> ListDeclMethod [List with 0 elements]
    `> EmptyMain

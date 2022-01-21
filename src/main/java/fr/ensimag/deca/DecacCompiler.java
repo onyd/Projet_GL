@@ -59,6 +59,12 @@ public abstract class DecacCompiler {
             ClassType objectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
             envTypes.declare(OBJECT_SYMBOL, objectType.getDefinition());
 
+            Signature signature = new Signature();
+            signature.add(getEnvironmentType().get(OBJECT_SYMBOL).getType());
+            EQUALS_DEF = new MethodDefinition(getEnvironmentType().get(BOOLEAN_SYMBOL).getType(), Location.BUILTIN, signature, 1);
+            objectType.getDefinition().getMembers().declare(EQUALS_SYMBOL, EQUALS_DEF);
+            objectType.getDefinition().incNumberOfMethods();
+
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }

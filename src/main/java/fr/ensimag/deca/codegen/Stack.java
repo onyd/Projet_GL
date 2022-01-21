@@ -30,7 +30,7 @@ public class Stack {
     public void loadVariableOnR1FromIdentAndInit(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a not initialized declared variable on the stack");
-            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R1));
+            this.decacCompiler.addInstruction(new LOAD(Utils.immediateFromType(identifier.getDefinition().getType()), Register.R1));
         } else {
             Initialization init = (Initialization) initialization;
             if(init.getExpression().getType().isString()) {

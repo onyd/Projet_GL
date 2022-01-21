@@ -3,12 +3,14 @@ package fr.ensimag.deca.codegen;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 public class Utils {
-    public static DVal ImmediateFromType(Type type) {
+    public static DVal immediateFromType(Type type) {
         if(type.isInt() || type.isString() || type.isBoolean()) {
             return new ImmediateInteger(0);
         }
@@ -58,13 +60,26 @@ public class Utils {
         compiler.addInstruction(new ERROR());
     }
 
-    public static void codeGenBool(IMACompiler compiler, GPRegister register, boolean negation, Label label) {
-        compiler.addInstruction(new CMP(0, register));
-        if (negation) {
-            compiler.addInstruction(new BNE(label));
+    public static void loadExpr(IMACompiler compiler, AbstractExpr expr, GPRegister register) {
+        DVal val = expr.getDVal();
+        if (val != null) {
+            compiler.addInstruction(new LOAD(val, register));
         } else {
-            compiler.addInstruction(new BEQ(label));
+            expr.codeGenExprOnRegister(compiler, register);
         }
+    }
+
+    public static void instanceOf(DecacCompiler compiler, AbstractExpr expr, ClassType type, boolean negation, Label label, GPRegister tmpRegister) {
+        loadExpr(compiler, expr, tmpRegister);
+        compiler.addInstruction(new LOAD(new RegisterOffset(0, tmpRegister), tmpRegister));
+        Label endLabel = compiler.getLabelManager().getNextLabel("cast", "end");
+
+        if (negation) {
+            instanceOfComputation(compiler, type, label, endLabel, tmpRegister);
+        } else {
+            instanceOfComputation(compiler, type, endLabel, label, tmpRegister);
+        }
+        compiler.addLabel(endLabel);
     }
 
     //for java bytecode
@@ -77,4 +92,21 @@ public class Utils {
             javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, index);
         }
     }
+
+    private static void instanceOfComputation(DecacCompiler compiler, ClassType type, Label trueLabel, Label falseLabel, GPRegister tmpRegister) {
+        boolean first = true;
+        while (type.getDefinition().getSuperClass() != null) {
+            compiler.addInstruction(new LEA(type.getDefinition().getdAddrVTable(), Register.R0));
+            compiler.addInstruction(new CMP(tmpRegister, Register.R0));
+            if (first) {
+                compiler.addInstruction(new BEQ(trueLabel));
+                first = false;
+            } else {
+                compiler.addInstruction(new BEQ(falseLabel));
+            }
+            type = type.getDefinition().getSuperClass().getType();
+        }
+        compiler.addInstruction(new BRA(trueLabel));
+    }
+
 }

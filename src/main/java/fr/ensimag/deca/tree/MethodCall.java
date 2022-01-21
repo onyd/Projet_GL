@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -62,7 +63,7 @@ public class MethodCall extends AbstractExpr {
     @Override
     public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new ADDSP(arguments.size() + 1));
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
         int offset = -1;
         for(AbstractExpr expr : arguments.getList()) {

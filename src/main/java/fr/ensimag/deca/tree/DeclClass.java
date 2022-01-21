@@ -123,6 +123,10 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenDeclClass(IMACompiler compiler) {
         compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
+    }
+
+    @Override
+    protected void codeGenDeclClassMethod(IMACompiler compiler) {
         compiler.setDeclareMethod(true);
         compiler.getvTable().constructor(fields, this.name.getName().getName(), (Identifier) this.superClassName);
         compiler.getvTable().createMethods(methods, this.name.getName().getName());

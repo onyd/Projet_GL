@@ -171,7 +171,7 @@ public class Identifier extends AbstractIdentifier {
         // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
         if(expDef == null && currentClass == null) {
-            throw new ContextualError("(0.1) ", getLocation());
+            throw new ContextualError("(0.1) The identifier is not declared", getLocation());
         } else if (expDef == null) {
             // Try to find variable as class field
             expDef = currentClass.getMembers().get(getName());

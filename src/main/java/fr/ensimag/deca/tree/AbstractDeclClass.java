@@ -38,6 +38,14 @@ public abstract class AbstractDeclClass extends Tree {
      * generate the code to create the virtual methods table for this class
      * @param compiler
      */
+    protected abstract void codeGenDeclClassVTable(DecacCompiler compiler);
+
+    /**
+     * generate the code to create the constructor and the method for this class
+     * @param compiler
+     */
+    protected abstract void codeGenDeclClassMethod(DecacCompiler compiler);
+
     protected abstract void codeGenDeclClass(IMACompiler compiler);
 
     protected abstract void codeGenDeclClassByte(JavaCompiler javaCompiler, String path);
