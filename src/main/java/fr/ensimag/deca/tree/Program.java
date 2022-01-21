@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
@@ -56,7 +57,7 @@ public class Program extends AbstractProgram {
     }
 
     @Override
-    public void codeGenProgram(DecacCompiler compiler) {
+    public void codeGenProgram(IMACompiler compiler) {
         //create the vtable
         compiler.addComment("Creation of the virtual methods table");
         classes.codeGenListDeclClass(compiler);

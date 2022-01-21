@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -28,14 +29,14 @@ public abstract class AbstractDeclVar extends Tree {
      *          corresponds to the "class" attribute (null in the main bloc).
      */    
     protected abstract void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                          EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
      * generate the code to declare the variable
      * @param compiler contains addInstructions method
      */
-    protected abstract void codeGenDeclVar(DecacCompiler compiler);
+    protected abstract void codeGenDeclVar(IMACompiler compiler);
 
     protected abstract void codeGenDeclVarByte(JavaCompiler javaCompiler, int currentIndexVar);
 }

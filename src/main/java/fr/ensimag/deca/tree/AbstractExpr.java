@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -76,7 +77,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *            (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                    EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
@@ -140,7 +141,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -150,7 +151,7 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -164,7 +165,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * Generate code to load the expression on the register R1
      * @param compiler
      */
-    public void codeGenExprOnR1(DecacCompiler compiler) {
+    public void codeGenExprOnR1(IMACompiler compiler) {
         this.codeGenExprOnRegister(compiler, Register.R1);
     }
 
@@ -173,7 +174,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      * @param register
      */
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         Label label = compiler.getLabelManager().getNextLabel("E");
         Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
@@ -190,7 +191,7 @@ public abstract class AbstractExpr extends AbstractInst {
 
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
@@ -199,7 +200,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param dVal
      * @param register
      */
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
+    public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

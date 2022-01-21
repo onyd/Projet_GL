@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.*;
@@ -20,7 +21,7 @@ public class Utils {
         }
     }
 
-    public static void handleError(DecacCompiler compiler) {
+    public static void handleError(IMACompiler compiler) {
         compiler.addLabel(new Label("stack_overflow_error"));
         compiler.addInstruction(new WSTR("Error: StackOverflow"));
         compiler.addInstruction(new WNL());
@@ -57,7 +58,7 @@ public class Utils {
         compiler.addInstruction(new ERROR());
     }
 
-    public static void codeGenBool(DecacCompiler compiler, GPRegister register, boolean negation, Label label) {
+    public static void codeGenBool(IMACompiler compiler, GPRegister register, boolean negation, Label label) {
         compiler.addInstruction(new CMP(0, register));
         if (negation) {
             compiler.addInstruction(new BNE(label));

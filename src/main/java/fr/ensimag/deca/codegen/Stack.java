@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -8,9 +9,9 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 public class Stack {
     private int currentStackPosition = 1;
     private int nbOfDecl = 0;
-    private DecacCompiler decacCompiler;
+    private IMACompiler decacCompiler;
 
-    public Stack(DecacCompiler decacCompiler) {
+    public Stack(IMACompiler decacCompiler) {
         this.decacCompiler = decacCompiler;
     }
 

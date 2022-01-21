@@ -12,6 +12,7 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
+import fr.ensimag.deca.tree.Program;
 import fr.ensimag.ima.pseudocode.*;
 
 import java.io.File;
@@ -41,22 +42,12 @@ import org.apache.log4j.Logger;
  * @author gl28
  * @date 01/01/2022
  */
-public class DecacCompiler {
-    private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
+public abstract class DecacCompiler {
+    protected static final Logger LOG = Logger.getLogger(DecacCompiler.class);
     
-    /**
-     * Portable newline character.
-     */
-    private static final String nl = System.getProperty("line.separator", "\n");
-
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
-        super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.stack = new Stack(this);
-        this.registerManager = new RegisterManager(compilerOptions.getRegisterNumber());
-        this.labelManager = new LabelManager();
-        this.vTable = new VTable(this);
 
         // Initialization of env_types
         try {
@@ -73,126 +64,11 @@ public class DecacCompiler {
         }
     }
 
-    /**
-     * Source file associated with this compiler instance.
-     */
-    public File getSource() {
-        return source;
-    }
+    protected final CompilerOptions compilerOptions;
+    protected final File source;
+    protected SymbolTable symbolTable = new SymbolTable();
+    protected EnvironmentType envTypes = new EnvironmentType(null);
 
-    /**
-     * Compilation options (e.g. when to stop compilation, number of registers
-     * to use, ...).
-     */
-    public CompilerOptions getCompilerOptions() {
-        return compilerOptions;
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#add(fr.ensimag.ima.pseudocode.AbstractLine)
-     */
-    public void add(AbstractLine line) {
-        if(declareMethod) {
-            declMethodProg.add(line);
-        } else {
-            program.add(line);
-        }
-    }
-
-    /**
-     * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
-     */
-    public void addComment(String comment) {
-        if(declareMethod) {
-            declMethodProg.addComment(comment);
-        } else {
-            program.addComment(comment);
-        }
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
-     */
-    public void addLabel(Label label) {
-        if(declareMethod) {
-            declMethodProg.addLabel(label);
-        } else {
-            program.addLabel(label);
-        }
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
-     */
-    public void addInstruction(Instruction instruction) {
-        if(declareMethod) {
-            declMethodProg.addInstruction(instruction);
-        } else {
-            program.addInstruction(instruction);
-        }
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction,
-     * java.lang.String)
-     */
-    public void addInstruction(Instruction instruction, String comment) {
-        if(declareMethod) {
-            declMethodProg.addInstruction(instruction, comment);
-        } else {
-            program.addInstruction(instruction, comment);
-        }
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#append(fr.ensimag.ima.pseudocode.IMAProgram)
-     */
-    public void append(IMAProgram p) {
-        program.append(p);
-    }
-
-    public void appendMethodProg() {
-        program.append(declMethodProg);
-    }
-
-    /**
-     * @see 
-     * fr.ensimag.ima.pseudocode.IMAProgram#display()
-     */
-    public String displayIMAProgram() {
-        return program.display();
-    }
-    
-    private final CompilerOptions compilerOptions;
-    private final File source;
-    private SymbolTable symbolTable = new SymbolTable();
-    private EnvironmentType envTypes = new EnvironmentType(null);
-
-    private Stack stack;
-    private RegisterManager registerManager;
-    private LabelManager labelManager;
-    private VTable vTable;
-
-    public Stack getStack() {
-        return stack;
-    }
-
-    public RegisterManager getRegisterManager() {
-        return registerManager;
-    }
-
-    public LabelManager getLabelManager() {
-        return labelManager;
-    }
-
-    public VTable getvTable() {
-        return vTable;
-    }
 
     public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
             BOOLEAN_SYMBOL = symbolTable.create("boolean"),
@@ -211,25 +87,11 @@ public class DecacCompiler {
         return envTypes;
     }
 
-
     /**
-     * The main program. Every instruction generated will eventually end up here.
+     * Source file associated with this compiler instance.
      */
-    private final IMAProgram program = new IMAProgram();
-
-    /**
-     * The program that create the constructor and the method for all the classes
-     */
-    private final IMAProgram declMethodProg = new IMAProgram();
-    private boolean declareMethod = false;
-
-    /**
-     * Contient les classes pour générer les fichiers .class
-     */
-    private JavaCompiler javaCompiler = new JavaCompiler();
-
-    public void setDeclareMethod(boolean declareMethod) {
-        this.declareMethod = declareMethod;
+    public File getSource() {
+        return source;
     }
 
     /**
@@ -239,17 +101,13 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = sourceFile;
-        String destByteFile = sourceFile;
-        destFile = destFile.substring(0, destFile.length() - 4);
-        destByteFile = destByteFile.substring(0, destByteFile.length() - 4);
-        destFile = destFile + "ass";
-        destByteFile = destByteFile + "class";
+        String destFile = getDestFileName(sourceFile);
+
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
         try {
-            return doCompile(sourceFile, destFile,destByteFile,out, err);
+            return doCompile(sourceFile, destFile, out, err);
         } catch (LocationException e) {
             e.display(err);
             return true;
@@ -279,13 +137,12 @@ public class DecacCompiler {
      *
      * @param sourceName name of the source (deca) file
      * @param destName name of the destination (assembly) file
-     * @param destByteName name of the bytecode destination (assembly) file
      * @param out stream to use for standard output (output of decac -p)
      * @param err stream to use to display compilation errors
      *
      * @return true on error
      */
-    private boolean doCompile(String sourceName, String destName, String destByteName,
+    private boolean doCompile(String sourceName, String destName,
             PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
 
@@ -310,65 +167,24 @@ public class DecacCompiler {
         }
         assert(prog.checkAllDecorations());
 
-
-
         // STEP C
-        //case compilation in java bytecode
-        if(this.compilerOptions.getJavaCompilation())
-        {
-            String path = source.getAbsolutePath().substring(0, source.getAbsolutePath().length() - source.getName().length());
-            FileOutputStream fstreamByteCode = null;
-            try {
-                fstreamByteCode = new FileOutputStream(destByteName);
-            } catch (FileNotFoundException e) {
-                throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
-            }
-            String className = source.getName().substring(0, source.getName().length() - 5);
-            prog.codeGenProgramByte(this.javaCompiler, path, className);
-            LOG.info("Writing .class file ...");
-            byte[] b = javaCompiler.getClassWriter().toByteArray();
-            try {
-                fstreamByteCode.write(b);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        doGenCode(prog, destName);
 
-            //for all the declared classes
-            for(String declClassName : javaCompiler.getDeclClass().keySet()) {
-                String destDeclClassName = path + declClassName + ".class";
-                try {
-                    fstreamByteCode = new FileOutputStream(destDeclClassName);
-                } catch (FileNotFoundException e) {
-                    throw new DecacFatalError("Failed to open output bytecode file.class: " + e.getLocalizedMessage());
-                }
-                b = javaCompiler.getDeclClass().get(declClassName).getClassWriter().toByteArray();
-                try {
-                    fstreamByteCode.write(b);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-            addComment("start main program");
-            prog.codeGenProgram(this);
-
-            addComment("end main program");
-            LOG.debug("Generated assembly code:" + nl + program.display());
-            LOG.info("Output file assembly file is: " + destName);
-
-            FileOutputStream fstream = null;
-            try {
-                fstream = new FileOutputStream(destName);
-            } catch (FileNotFoundException e) {
-                throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
-            }
-            LOG.info("Writing assembler file ...");
-
-            program.display(new PrintStream(fstream));
-        }
         LOG.info("Compilation of " + sourceName + " successful.");
         return false;
     }
+
+    /**
+     * Compilation options (e.g. when to stop compilation, number of registers
+     * to use, ...).
+     */
+    public CompilerOptions getCompilerOptions() {
+        return compilerOptions;
+    }
+
+    public abstract void doGenCode(AbstractProgram prog, String destName) throws DecacFatalError;
+
+    public abstract String getDestFileName(String sourceFileName);
 
     /**
      * Build and call the lexer and parser to build the primitive abstract

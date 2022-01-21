@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.tree.*;
@@ -15,9 +16,9 @@ import java.util.Objects;
 public class VTable {
     private HashMap<String, List<Label>> VTables;
     private List<Label> currentLabelList;
-    private DecacCompiler compiler;
+    private IMACompiler compiler;
 
-    public VTable(DecacCompiler compiler) {
+    public VTable(IMACompiler compiler) {
         this.compiler = compiler;
         this.VTables = new HashMap<>();
     }

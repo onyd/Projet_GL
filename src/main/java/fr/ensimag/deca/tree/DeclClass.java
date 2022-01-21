@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -120,7 +121,7 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    protected void codeGenDeclClass(DecacCompiler compiler) {
+    protected void codeGenDeclClass(IMACompiler compiler) {
         compiler.getvTable().VTableFromIdent((Identifier) name, (Identifier) superClassName, methods);
         compiler.setDeclareMethod(true);
         compiler.getvTable().constructor(fields, this.name.getName().getName(), (Identifier) this.superClassName);
@@ -131,12 +132,11 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenDeclClassByte(JavaCompiler javaCompiler, String path) {
         // The javaCompiler specific to this class
-        JavaCompiler classJavaCompiler = new JavaCompiler();
-        javaCompiler.getDeclClass().put(name.getName().getName(), classJavaCompiler);
+        javaCompiler.getDeclClass().put(name.getName().getName(), javaCompiler);
 
-        ClassWriter classWriter = classJavaCompiler.getClassWriter();
-        classWriter.visit(classJavaCompiler.V1_8,
-                classJavaCompiler.ACC_PUBLIC + classJavaCompiler.ACC_SUPER,
+        ClassWriter classWriter = javaCompiler.getClassWriter();
+        classWriter.visit(javaCompiler.V1_8,
+                javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
                 name.getName().getName(),
                 null,
                 "java/lang/Object",
@@ -149,13 +149,13 @@ public class DeclClass extends AbstractDeclClass {
 
         // default constructor
         MethodVisitor methodVisitor = null;
-        methodVisitor = classWriter.visitMethod(classJavaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
-        methodVisitor.visitVarInsn(classJavaCompiler.ALOAD, 0);
-        methodVisitor.visitMethodInsn(classJavaCompiler.INVOKESPECIAL,
+        methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
+        methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
                 "java/lang/Object",
                 "<init>",
                 "()V",false);
-        methodVisitor.visitInsn(classJavaCompiler.RETURN);
+        methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
         classWriter.visitEnd();

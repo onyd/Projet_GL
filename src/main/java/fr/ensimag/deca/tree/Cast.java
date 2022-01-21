@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
@@ -36,7 +37,7 @@ public class Cast extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         if(type.getType().isInt()) {
             expr.codeGenExprOnRegister(compiler, register);
             compiler.addInstruction(new INT(register, register));
@@ -57,7 +58,7 @@ public class Cast extends AbstractExpr {
         }
     }
 
-    private void codeGenVerifyCast(DecacCompiler compiler, AbstractExpr expr, GPRegister register) {
+    private void codeGenVerifyCast(IMACompiler compiler, AbstractExpr expr, GPRegister register) {
         // Load the expr method table adress
         compiler.addInstruction(new LOAD(expr.getDVal(), register));
         compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -25,14 +26,14 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = compiler.getEnvironmentType().get(compiler.INT_SYMBOL).getType();
         setType(type);
         return getType();
     }
 
     @Override
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
+    public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
         compiler.addInstruction(new RINT());
     }
 

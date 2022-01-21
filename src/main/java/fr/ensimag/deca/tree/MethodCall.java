@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -44,12 +45,12 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         codeGenExprOnR1(compiler);
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         codeGenExprOnR1(compiler);
         if(methodIdent.getMethodDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -59,7 +60,7 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new ADDSP(arguments.size() + 1));
         compiler.addInstruction(new LOAD(expr.getDVal(), register));
         compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
@@ -81,7 +82,7 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         codeGenExprOnR1(compiler);
         compiler.addInstruction(new CMP(0, Register.R1));
         if (negation)

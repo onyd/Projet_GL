@@ -1,6 +1,6 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.ConvFloat;
 import fr.ensimag.deca.tree.Plus;
@@ -31,12 +31,12 @@ public class TestPlusAdvanced {
     @Mock
     AbstractExpr floatexpr2;
 
-    DecacCompiler compiler;
+    IMACompiler compiler;
     
     @BeforeEach
     public void setup() throws ContextualError {
         MockitoAnnotations.initMocks(this);
-        compiler = new DecacCompiler(null, null);
+        compiler = new IMACompiler(null, null);
         when(intexpr1.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(intexpr2.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(floatexpr1.verifyExpr(compiler, null, null)).thenReturn(FLOAT);

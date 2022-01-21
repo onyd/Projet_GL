@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
@@ -34,7 +35,7 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         type.verifyType(compiler);
         if (type.getType().isVoid()) {
@@ -51,7 +52,7 @@ public class DeclVar extends AbstractDeclVar {
     }
 
     @Override
-    protected void codeGenDeclVar(DecacCompiler compiler) {
+    protected void codeGenDeclVar(IMACompiler compiler) {
         compiler.getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
     }
 

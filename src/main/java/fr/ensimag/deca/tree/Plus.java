@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -25,7 +26,7 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
+    public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
         compiler.addInstruction(new ADD(dVal, register));
     }
 

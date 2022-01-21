@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -166,7 +167,7 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-        ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
         if(expDef == null && currentClass == null) {
@@ -222,7 +223,7 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler) {
         if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
@@ -240,7 +241,7 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         if(this.definition.isField()) {
             // implicit selection of a field in a class
             compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), register));
@@ -250,7 +251,7 @@ public class Identifier extends AbstractIdentifier {
         }
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.R0));
         compiler.addInstruction(new CMP(0, Register.R0));
         if (negation) {

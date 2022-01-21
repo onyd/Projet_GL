@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -90,7 +91,7 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    protected void codeGenDeclField(DecacCompiler compiler) {
+    protected void codeGenDeclField(IMACompiler compiler) {
         compiler.getStack().declareVariableOnAddressStoreOnHeap((Identifier) fieldIdent,
                 initialization, new RegisterOffset(-2, Register.LB));
     }

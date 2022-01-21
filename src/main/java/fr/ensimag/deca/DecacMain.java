@@ -57,7 +57,12 @@ public class DecacMain {
          else{
 
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source);
+                DecacCompiler compiler;
+                if (options.getJavaCompilation())
+                    compiler = new JavaCompiler(options, source);
+                else
+                    compiler= new IMACompiler(options, source);
+
                 if (compiler.compile()) {
                     error = true;
                 }
