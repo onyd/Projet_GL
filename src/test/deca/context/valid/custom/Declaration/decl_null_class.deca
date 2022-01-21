@@ -1,0 +1,6 @@
+class Test{
+    int i = 0;
+}
+{
+    Test test = null;
+}

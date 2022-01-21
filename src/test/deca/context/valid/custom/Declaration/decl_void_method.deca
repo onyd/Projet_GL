@@ -1,0 +1,10 @@
+class Risitas{
+    void issou(){
+        println("issou");
+    }
+}
+
+{
+    Risitas risitas = new Risitas();
+    risitas.issou();
+}

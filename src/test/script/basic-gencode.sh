@@ -15,6 +15,8 @@ echo "${RED}\e[1mLets test the custom tests for the codegen part\e[0m"
 
 
 
+
+
 echo "${GREEN}  This part is about the declarations\n${NC}"
 for fich in ./src/test/deca/codegen/valid/custom/declaration/*.deca
 do
@@ -205,4 +207,5 @@ do
   fi
 
 done
+
 

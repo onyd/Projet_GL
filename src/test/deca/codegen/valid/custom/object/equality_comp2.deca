@@ -1,0 +1,18 @@
+class Montagne{
+    int hauteur = 0;
+}
+
+{
+    Montagne moucherotte1 = new Montagne();
+    Montagne chamechaude = new Montagne();
+    Montagne moucherotte2 = moucherotte1;
+
+    if (moucherotte1 == moucherotte2){
+        println("perfect");
+    }
+    if (moucherotte1 == chamechaude){
+        println("not perfect");
+    }
+
+
+}
