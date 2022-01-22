@@ -36,11 +36,6 @@ public class Assign extends AbstractBinaryExpr {
                            ClassDefinition currentClass) throws ContextualError {
         Type expectedType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
 
-        // The left side is an identifier => it is no longer a constant
-        if (getLeftOperand().isIdentifier()) {
-            Identifier ident = (Identifier) getLeftOperand();
-            ident.getVariableDefinition().setConstant(false);
-        }
         Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, expectedType).getType();
         setType(type);
         setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()));
