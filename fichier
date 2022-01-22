@@ -1,4 +1,3 @@
-0
 DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:39) - verify program: start
 DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:20) - [Pass 1] verify listClass: start
 DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:24) - [Pass 1] verify listClass: end
@@ -14,14 +13,80 @@ DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:
 DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:27) - [Pass 3] verify listDeclMethod: start
 DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:31) - [Pass 3] verify listDeclMethod: end
 DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:46) - [Pass 3] verify listClass: end
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:30) - verify Main: start
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:40) - verify Main: end
 DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:51) - verify program: end
 `> [1, 0] Program
    +> ListDeclClass [List with 1 elements]
    |  []> [1, 0] DeclClass
-   |      +> [1, 6] Identifier (Empty)
-   |      |  definition: type defined at [1, 0], type=Empty
+   |      +> [1, 6] Identifier (Montagne)
+   |      |  definition: type defined at [1, 0], type=Montagne
    |      +> [builtin] Identifier (Object)
    |      |  definition: type (builtin), type=Object
-   |      +> ListDeclField [List with 0 elements]
+   |      +> ListDeclField [List with 1 elements]
+   |      |  []> [2, 8] [visibility=PUBLIC] DeclField
+   |      |      +> [2, 4] Identifier (int)
+   |      |      |  definition: type (builtin), type=int
+   |      |      +> [2, 8] Identifier (hauteur)
+   |      |      |  definition: field defined at [2, 8], type=int
+   |      |      `> [2, 8] Initialization
+   |      |         `> [2, 18] Int (0)
+   |      |            type: int
    |      `> ListDeclMethod [List with 0 elements]
-   `> EmptyMain
+   `> [5, 0] Main
+      +> ListDeclVar [List with 3 elements]
+      |  []> [6, 13] DeclVar
+      |  ||  +> [6, 4] Identifier (Montagne)
+      |  ||  |  definition: type defined at [1, 0], type=Montagne
+      |  ||  +> [6, 13] Identifier (moucherotte1)
+      |  ||  |  definition: variable defined at [6, 13], type=Montagne
+      |  ||  `> [6, 26] Initialization
+      |  ||     `> [6, 28] New
+      |  ||        type: Montagne
+      |  ||        `> [6, 32] Identifier (Montagne)
+      |  ||           definition: type defined at [1, 0], type=Montagne
+      |  []> [7, 13] DeclVar
+      |  ||  +> [7, 4] Identifier (Montagne)
+      |  ||  |  definition: type defined at [1, 0], type=Montagne
+      |  ||  +> [7, 13] Identifier (chamechaude)
+      |  ||  |  definition: variable defined at [7, 13], type=Montagne
+      |  ||  `> [7, 25] Initialization
+      |  ||     `> [7, 27] New
+      |  ||        type: Montagne
+      |  ||        `> [7, 31] Identifier (Montagne)
+      |  ||           definition: type defined at [1, 0], type=Montagne
+      |  []> [8, 13] DeclVar
+      |      +> [8, 4] Identifier (Montagne)
+      |      |  definition: type defined at [1, 0], type=Montagne
+      |      +> [8, 13] Identifier (moucherotte2)
+      |      |  definition: variable defined at [8, 13], type=Montagne
+      |      `> [8, 26] Initialization
+      |         `> [8, 28] Identifier (moucherotte2)
+      |            definition: variable defined at [8, 13], type=Montagne
+      `> ListInst [List with 2 elements]
+         []> [10, 4] IfThenElse
+         ||  +> [10, 8] Equals
+         ||  |  type: boolean
+         ||  |  +> [10, 8] Identifier (moucherotte1)
+         ||  |  |  definition: variable defined at [6, 13], type=Montagne
+         ||  |  `> [10, 24] Identifier (moucherotte2)
+         ||  |     definition: variable defined at [8, 13], type=Montagne
+         ||  +> ListInst [List with 1 elements]
+         ||  |  []> [11, 8] Println
+         ||  |      `> ListExpr [List with 1 elements]
+         ||  |         []> [11, 16] StringLiteral (perfect)
+         ||  |             type: string
+         ||  `> ListInst [List with 0 elements]
+         []> [13, 4] IfThenElse
+             +> [13, 8] Equals
+             |  type: boolean
+             |  +> [13, 8] Identifier (moucherotte1)
+             |  |  definition: variable defined at [6, 13], type=Montagne
+             |  `> [13, 24] Identifier (chamechaude)
+             |     definition: variable defined at [7, 13], type=Montagne
+             +> ListInst [List with 1 elements]
+             |  []> [14, 8] Println
+             |      `> ListExpr [List with 1 elements]
+             |         []> [14, 16] StringLiteral (not perfect)
+             |             type: string
+             `> ListInst [List with 0 elements]

@@ -1,0 +1,7 @@
+class Velo{
+    int prix;
+
+    int getPrix(){
+        return prix;
+    }
+}
