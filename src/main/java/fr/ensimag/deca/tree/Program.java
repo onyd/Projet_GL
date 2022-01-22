@@ -110,15 +110,15 @@ public class Program extends AbstractProgram {
         main.codeGenMainByte(javaCompiler);
 
         classWriter.visitEnd();
-        System.out.println("Prog:" + javaCompiler.getMethods());
-        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        String program = "class MethodJavaBodies {" + javaCompiler.getMethods() + "}";
-        Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
-        compiler.getTask(null, null, null, null, null, fileObjects).call();
-        Class<?> clazz = Class.forName("MethodJavaBodies");
-        Method m = clazz.getMethod("main", new Class[] { String[].class });
-        Object[] _args = new Object[] { new String[0] };
-        m.invoke(null, _args);
+        //System.out.println("Prog:" + javaCompiler.getMethods());
+        //javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        //String program = "class MethodJavaBodies {" + javaCompiler.getMethods() + "}";
+        //Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
+        //compiler.getTask(null, null, null, null, null, fileObjects).call();
+        //Class<?> clazz = Class.forName("MethodJavaBodies");
+        //Method m = clazz.getMethod("main", new Class[] { String[].class });
+        //Object[] _args = new Object[] { new String[0] };
+        //m.invoke(null, _args);
     }
 
     static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {

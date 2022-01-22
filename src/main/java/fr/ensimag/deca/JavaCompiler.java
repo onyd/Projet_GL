@@ -19,7 +19,6 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;
     private String className;
-    private String methods;
     private String methods = "";
 
     public String getMethods() {

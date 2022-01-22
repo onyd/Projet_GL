@@ -33,8 +33,6 @@ class Canard extends Animal {
 {
     Animal a = new Canard();
     Canard c = a.asCanard();
-	Animal a2 = new Animal();
-	Canard c2 = a2.asCanard();
     a.setPoids(3);
     println("Poids du canard: ", a.getPoids());
     println("Nombre de plumes: ", c.getNbPlumes());
