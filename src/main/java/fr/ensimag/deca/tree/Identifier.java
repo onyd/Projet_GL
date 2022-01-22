@@ -222,13 +222,17 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
         if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
         } else if(this.getExpDefinition().getType().isFloat()) {
             compiler.getStack().getVariableFromStackOnR1(this);
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         } else if(this.getExpDefinition().getType().isString()) {
             int position = ((RegisterOffset) this.getExpDefinition().getOperand()).getOffset();
             for(int i = 0; i < this.getExpDefinition().getSizeOnStack(); i++) {

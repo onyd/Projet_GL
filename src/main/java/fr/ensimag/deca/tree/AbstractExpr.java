@@ -140,12 +140,16 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 

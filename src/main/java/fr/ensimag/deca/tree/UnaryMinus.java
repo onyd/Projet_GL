@@ -10,6 +10,7 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.OPP;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 /**
@@ -45,12 +46,16 @@ public class UnaryMinus extends AbstractUnaryExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 
