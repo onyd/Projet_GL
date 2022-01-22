@@ -162,6 +162,7 @@ public abstract class DecacCompiler {
             System.exit(0);
         }
         assert(prog.checkAllDecorations());
+        System.out.println(prog.prettyPrint());
 
         // STEP C
         doCodeGen(prog, destName);

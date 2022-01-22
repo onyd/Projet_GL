@@ -19,6 +19,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     private AnnotationVisitor annotationVisitor;
     private String className;
     private String methods;
+    private boolean inMain = false;
 
     public String getMethods() {
         return methods;
@@ -119,5 +120,13 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
 
     public HashMap<String, ClassWriter> getDeclClass() {
         return declClass;
+    }
+
+    public void setInMain(boolean inMain) {
+        this.inMain = inMain;
+    }
+
+    public boolean isInMain() {
+        return inMain;
     }
 }

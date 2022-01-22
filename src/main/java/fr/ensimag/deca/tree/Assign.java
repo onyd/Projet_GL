@@ -54,23 +54,28 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInstByte(JavaCompiler javaCompiler) {
-        getRightOperand().codeGenExprByteOnStack(javaCompiler);
         if(this.getLeftOperand().isIdentifier()) {
-            if(this.getType().isFloat()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
-            } else if(this.getType().isInt()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
-            } else if(this.getType().isClass()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ASTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
-            } if(((Identifier) this.getLeftOperand()).getExpDefinition().isField()) {
+            if(((Identifier) this.getLeftOperand()).getExpDefinition().isField()) {
                 javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
-                javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.GETFIELD,
+                getRightOperand().codeGenExprByteOnStack(javaCompiler);
+                javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.PUTFIELD,
                         ((Identifier) getLeftOperand()).getFieldDefinition().getClassName(),
                         ((Identifier) getLeftOperand()).getName().getName(),
                         this.getJavaType());
+            } else if(this.getType().isFloat()) {
+                getRightOperand().codeGenExprByteOnStack(javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isInt()) {
+                getRightOperand().codeGenExprByteOnStack(javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isClass()) {
+                getRightOperand().codeGenExprByteOnStack(javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ASTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
             }
         } else {
-
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
+            getRightOperand().codeGenExprByteOnStack(javaCompiler);
+            ((Selection) getLeftOperand()).codeGenStoreExpr(javaCompiler);
         }
     }
 
