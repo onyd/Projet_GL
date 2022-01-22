@@ -26,6 +26,8 @@ public class IntLiteral extends AbstractExpr {
         return value;
     }
 
+    public boolean isIntLiteral() {return true; };
+
     private int value;
 
     public IntLiteral(int value) {

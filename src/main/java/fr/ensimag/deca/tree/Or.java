@@ -41,7 +41,7 @@ public class Or extends AbstractOpBool {
     protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
         org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
 
-        if (negation) {
+        if (!negation) {
             getLeftOperand().codeGenBoolByte(javaCompiler, true, endLabel);
             getRightOperand().codeGenBoolByte(javaCompiler, false, label);
         } else {

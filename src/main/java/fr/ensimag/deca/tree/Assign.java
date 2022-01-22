@@ -34,8 +34,14 @@ public class Assign extends AbstractBinaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
-        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()).getType();
+        Type expectedType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        // The left side is an identifier => it is no longer a constant
+        if (getLeftOperand().isIdentifier()) {
+            Identifier ident = (Identifier) getLeftOperand();
+            ident.getVariableDefinition().setConstant(false);
+        }
+        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, expectedType).getType();
         setType(type);
         setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()));
         return getType();
@@ -43,7 +49,12 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
-        this.codeGenExprOnR1(compiler);
+        this.getRightOperand().codeGenExprOnR1(compiler);
+        if (this.getLeftOperand().isIdentifier()) {
+            compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
+        } else if (this.getLeftOperand().isSelection()) {
+            ((Selection) this.getLeftOperand()).codeGenAssignFromReg(compiler, Register.R1);
+        }
     }
 
     @Override

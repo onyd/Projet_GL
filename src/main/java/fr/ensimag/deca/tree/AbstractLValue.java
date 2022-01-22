@@ -13,11 +13,5 @@ import fr.ensimag.deca.context.EnvironmentExp;
  * @date 01/01/2022
  */
 public abstract class AbstractLValue extends AbstractExpr {
-    public boolean isIdentifier() {
-        return false;
-    }
 
-    public boolean isSelection() {
-        return false;
-    }
 }

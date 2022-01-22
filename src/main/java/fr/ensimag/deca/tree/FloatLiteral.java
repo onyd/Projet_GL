@@ -29,6 +29,8 @@ public class FloatLiteral extends AbstractExpr {
         return value;
     }
 
+    public boolean isFloatLiteral() {return true; }
+
     private float value;
 
     public FloatLiteral(float value) {

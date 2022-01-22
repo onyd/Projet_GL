@@ -54,6 +54,8 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         Type type = returnType.verifyType(compiler);
         Signature sig = params.verifyListClassMembers(compiler);
+
+        // Check for redefinition
         ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
         if (def != null) {
             MethodDefinition superMethodDef = (MethodDefinition) def;
@@ -63,6 +65,7 @@ public class DeclMethod extends AbstractDeclMethod {
         } else {
             currentClass.incNumberOfMethods();
         }
+
         MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
         try {
             currentClass.getMembers().declare(methodIdent.getName(), methodDef);
@@ -81,7 +84,12 @@ public class DeclMethod extends AbstractDeclMethod {
 
     @Override
     public void codeGenDeclMethod(IMACompiler compiler, String className) {
-        compiler.addLabel(compiler.getLabelManager().getMethodLabel(className, methodIdent.getName().getName()));
+        Label methodLabel = compiler.getLabelManager().getMethodLabel(className, methodIdent.getName().getName());
+        Label endLabel = compiler.getLabelManager().getEndMethodLabel(className, methodIdent.getName().getName());
+        compiler.setCurrentMethod(methodIdent.getMethodDefinition());
+        methodIdent.getMethodDefinition().setEndLabel(endLabel);
+
+        compiler.addLabel(methodLabel);
         //save the registers
         compiler.addComment("Save All used registers");
         ArrayList<Integer> usedRegisters = compiler.getRegisterManager().allUsedRegisters();
@@ -96,8 +104,15 @@ public class DeclMethod extends AbstractDeclMethod {
         params.codeGenListDeclParam(compiler);
         body.codeGenMethodBody(compiler);
 
+        // No return error
+        if (!returnType.getType().isVoid()) {
+            compiler.addInstruction(new WSTR("Erreur : sortie de la methode" + className + "." + methodIdent.getName() + " sans return"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
+
         //restore the registers
-        compiler.addLabel(compiler.getLabelManager().getEndMethodLabel(className, methodIdent.getName().getName()));
+        compiler.addLabel(endLabel);
         compiler.addComment("restore Registers");
         for(int i = usedRegisters.size() - 1; i >= 0; i--) {
             compiler.addInstruction(new POP(Register.getR(i)));

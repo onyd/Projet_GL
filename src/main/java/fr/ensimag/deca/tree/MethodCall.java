@@ -21,6 +21,11 @@ public class MethodCall extends AbstractExpr {
     private AbstractIdentifier methodIdent;
     private ListExpr arguments;
 
+    @Override
+    public boolean isMethodCall() {
+        return true;
+    }
+
     public MethodCall(AbstractExpr expr, AbstractIdentifier methodIdent, ListExpr arguments) {
         super();
         Validate.notNull(expr);

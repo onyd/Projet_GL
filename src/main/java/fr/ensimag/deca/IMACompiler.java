@@ -117,6 +117,15 @@ public class IMACompiler extends DecacCompiler {
     private RegisterManager registerManager;
     private LabelManager labelManager;
     private VTable vTable;
+    private MethodDefinition currentMethod = null;
+
+    public MethodDefinition getCurrentMethod() {
+        return currentMethod;
+    }
+
+    public void setCurrentMethod(MethodDefinition currentMethod) {
+        this.currentMethod = currentMethod;
+    }
 
     public Stack getStack() {
         return stack;

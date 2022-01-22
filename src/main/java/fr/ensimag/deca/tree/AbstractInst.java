@@ -17,7 +17,7 @@ import fr.ensimag.ima.pseudocode.Label;
  * @date 01/01/2022
  */
 public abstract class AbstractInst extends Tree {
-    
+
     /**
      * Implements non-terminal "inst" of [SyntaxeContextuelle] in pass 3
      * @param compiler contains the "env_types" attribute
@@ -38,6 +38,17 @@ public abstract class AbstractInst extends Tree {
     protected abstract void codeGenInst(IMACompiler compiler);
 
     /**
+     * Generate assembly code for the instruction and give the endLabel of
+     * the enclosing IfThenElse branch to the deeper IfThenElse
+     *
+     * @param compiler
+     */
+    protected void codeGenInst(IMACompiler compiler, Label ifEndLabel) {
+        codeGenInst(compiler);
+    };
+
+
+    /**
      * Generate bytecode for the instruction.
      *
      * @param javaCompiler
@@ -54,17 +65,6 @@ public abstract class AbstractInst extends Tree {
     protected  void codeGenInstByte(JavaCompiler javaCompiler, org.objectweb.asm.Label endLabel){
         codeGenInstByte(javaCompiler);
     }
-
-    /**
-     * Generate assembly code for the instruction and give the endLabel of the enclosing IfThenElse branch to the deeper IfThenElse.
-     *
-     * @param compiler
-     */
-    protected void codeGenInst(IMACompiler compiler, Label endLabel) {
-        codeGenInst(compiler);
-    };
-
-
 
     /**
      * Decompile the tree, considering it as an instruction.
