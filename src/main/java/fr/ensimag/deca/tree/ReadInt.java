@@ -38,6 +38,16 @@ public class ReadInt extends AbstractReadExpr {
     }
 
     @Override
+    public String readFunc() {
+        return "nextInt";
+    }
+
+    @Override
+    public String readType() {
+        return "I";
+    }
+
+    @Override
     public void decompile(IndentPrintStream s) {
         s.print("readInt()");
     }
