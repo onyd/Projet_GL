@@ -226,7 +226,7 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());

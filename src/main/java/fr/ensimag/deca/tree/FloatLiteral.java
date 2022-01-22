@@ -48,7 +48,7 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), Register.R1));
         if (printHex) {
             compiler.addInstruction(new WFLOATX());

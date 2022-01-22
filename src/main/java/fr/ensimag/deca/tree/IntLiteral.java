@@ -41,7 +41,7 @@ public class IntLiteral extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new LOAD(this.value, Register.R1));
         compiler.addInstruction(new WINT());
     }

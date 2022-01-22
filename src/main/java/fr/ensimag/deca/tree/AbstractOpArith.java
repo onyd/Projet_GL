@@ -54,12 +54,16 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 

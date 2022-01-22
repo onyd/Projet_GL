@@ -138,7 +138,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
