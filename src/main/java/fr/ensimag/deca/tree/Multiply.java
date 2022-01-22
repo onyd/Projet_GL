@@ -40,24 +40,38 @@ public class Multiply extends AbstractOpArith {
         return 0;
     }
 
-    private void intMultPowerOfTwo(IMACompiler compiler, GPRegister register, AbstractExpr e1, AbstractExpr e2) {
-        IMAProgram shifts = new IMAProgram();
+    private boolean intMultPowerOfTwo(IMACompiler compiler, GPRegister register, AbstractExpr e1, AbstractExpr e2) {
         e2.codeGenExprOnRegister(compiler, register);
         int value = ((IntLiteral) e1).getValue();
-        while (value % 2 == 0 && value != 1) {
+
+        // Trivial cases
+        if (value == 1) {
+            e2.codeGenExprOnRegister(compiler, register);
+            return true;
+        }
+        if (value == 0) {
+            compiler.addInstruction(new LOAD(0, register));
+        }
+
+        // Shifts
+        IMAProgram shifts = new IMAProgram();
+        while (value % 2 == 0) {
             shifts.addInstruction(new SHL(register));
             value /= 2;
         }
-
+        if (value == 1) {
+            compiler.append(shifts);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
         if (getLeftOperand().isIntLiteral()) {
-            intMultPowerOfTwo(compiler, register, getLeftOperand(), getRightOperand());
-            return true;
+            return intMultPowerOfTwo(compiler, register, getLeftOperand(), getRightOperand());
         } else if (getRightOperand().isIntLiteral()) {
-            intMultPowerOfTwo(compiler, register, getRightOperand(), getLeftOperand());
-            return true;
+            return intMultPowerOfTwo(compiler, register, getRightOperand(), getLeftOperand());
         }
         return false;
     }

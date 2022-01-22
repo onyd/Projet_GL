@@ -4,10 +4,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
@@ -49,11 +46,29 @@ public class Divide extends AbstractOpArith {
         if (getRightOperand().isIntLiteral()) {
             getLeftOperand().codeGenExprOnRegister(compiler, register);
             int value = ((IntLiteral) getRightOperand()).getValue();
-            while (value != 1) {
-                compiler.addInstruction(new SHR(register));
+
+            // Trivial cases
+            if (value == 0) {
+                return false;
+            }
+            if (value == 1) {
+                getLeftOperand().codeGenExprOnRegister(compiler, register);
+                return true;
+            }
+
+            // Shifts
+            IMAProgram shifts = new IMAProgram();
+            while (value % 2 == 1) {
+                shifts.addInstruction(new SHR(register));
                 value /= 2;
             }
-            return true;
+
+            if (value == 1) {
+                compiler.append(shifts);
+                return true;
+            } else {
+                return false;
+            }
         }
         return false;
     }

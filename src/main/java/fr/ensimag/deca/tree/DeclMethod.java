@@ -105,10 +105,12 @@ public class DeclMethod extends AbstractDeclMethod {
         body.codeGenMethodBody(compiler);
 
         // No return error
-        if (!returnType.getType().isVoid()) {
-            compiler.addInstruction(new WSTR("Erreur : sortie de la methode" + className + "." + methodIdent.getName() + " sans return"));
-            compiler.addInstruction(new WNL());
-            compiler.addInstruction(new ERROR());
+        if (!compiler.getCompilerOptions().getNoCheck()) {
+            if (!returnType.getType().isVoid()) {
+                compiler.addInstruction(new WSTR("Erreur : sortie de la methode" + className + "." + methodIdent.getName() + " sans return"));
+                compiler.addInstruction(new WNL());
+                compiler.addInstruction(new ERROR());
+            }
         }
 
         //restore the registers

@@ -131,6 +131,8 @@ public class CompilerOptions {
                 case "-p":
                     if (this.verifyFiles) {
                         throw new UnsupportedOperationException("You can't make the options -v and -p at the same time");
+                    } else if (this.javaCompilation) {
+                        throw new UnsupportedOperationException("You can't use -p with -java");
                     } else {
                         this.parseFiles = true;
                     }
@@ -138,19 +140,28 @@ public class CompilerOptions {
                 case "-v":
                     if (this.parseFiles) {
                         throw new UnsupportedOperationException("You can't make the options -v and -p at the same time");
+                    } else if (this.javaCompilation) {
+                        throw new UnsupportedOperationException("You can't use -v with -java");
                     } else {
                         this.verifyFiles = true;
                     }
                     break;
                 case "-n":
+                    if (this.javaCompilation) {
+                        throw new UnsupportedOperationException("You can't use -p with -java");
+                    }
                     this.noCheck = true;
                     break;
                 case "-java":
+                    if (this.parseFiles || this.verifyFiles || this.noCheck || this.registerLimit)
+                        throw new UnsupportedOperationException(usage());
                     this.javaCompilation = true;
                     break;
                 case "-r":
                     if (this.registerLimit) {
                         throw new UnsupportedOperationException("option -r already typed");
+                    } else if (this.javaCompilation) {
+                        throw new UnsupportedOperationException("You can't use -r with -java");
                     }
                     this.registerLimit = true;
                     try {
@@ -180,8 +191,13 @@ public class CompilerOptions {
         }
     }
 
+    protected String usage() {
+        return "Usage: \n decac [[-p | -v] [-n] [-r X] [-d]* [-P] <fichier deca>...] | [-b] " +
+                "\n decac -java [-d]* [-P] <fichier deca>...] | [-b]";
+    }
+
     protected void displayUsage() {
-        System.out.println("Usage: decac [[[-p | -v] | -java | -r X] [-n] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
+        System.out.println(usage());
     }
 
     @Override
