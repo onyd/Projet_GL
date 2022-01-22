@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Type;
@@ -24,18 +26,24 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError{
+                           ClassDefinition currentClass) throws ContextualError{
         setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
         return getType();
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         this.getOperand().codeGenExprOnRegister(compiler, register);
         compiler.addInstruction(new FLOAT(register, register));
         if(!compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BOV(LabelManager.CAST_ERROR));
         }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        this.getOperand().codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.I2F);
     }
 
     @Override

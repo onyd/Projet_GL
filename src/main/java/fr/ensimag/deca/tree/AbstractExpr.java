@@ -1,11 +1,9 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
@@ -29,6 +27,20 @@ public abstract class AbstractExpr extends AbstractInst {
     boolean isImplicit() {
         return false;
     }
+
+    public boolean isIdentifier() {
+        return false;
+    }
+
+    public boolean isSelection() {
+        return false;
+    }
+
+    public boolean isMethodCall() { return false; }
+
+    public boolean isIntLiteral() { return false; };
+
+    public boolean isFloatLiteral() { return false; }
 
     public boolean isReadFloat() {
         return false;
@@ -76,7 +88,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *            (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                    EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
@@ -140,33 +152,35 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
-    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)//Je pense qu'il faut la rendre
-    {
-        throw new UnsupportedOperationException("codeGenPrintByte implemented mais pas dans AbstractExpr");
-    }
+
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+    protected void codeGenInst(IMACompiler compiler) {
+        this.codeGenExprOnR1(compiler);
     }
+
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler,JavaCompiler javaCompiler)
+    protected void codeGenInstByte(JavaCompiler javaCompiler)
     {
-        throw new UnsupportedOperationException("not yet implemented");//override dans stringliteral.
+        this.codeGenExprByteOnStack(javaCompiler);
     }
 
     /**
      * Generate code to load the expression on the register R1
      * @param compiler
      */
-    public void codeGenExprOnR1(DecacCompiler compiler) {
+    public void codeGenExprOnR1(IMACompiler compiler) {
         this.codeGenExprOnRegister(compiler, Register.R1);
     }
 
@@ -175,7 +189,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      * @param register
      */
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         Label label = compiler.getLabelManager().getNextLabel("E");
         Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
@@ -192,7 +206,32 @@ public abstract class AbstractExpr extends AbstractInst {
 
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
+    }
+
+    /**
+     * load the expression on the top of the operand stack
+     * @param javaCompiler
+     */
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        org.objectweb.asm.Label label = new org.objectweb.asm.Label();
+        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
+        javaCompiler.getMethodVisitor().visitLdcInsn(0); // Default expr is evaluated to false
+
+        codeGenBoolByte(javaCompiler, true, label);
+        javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, endLabel);
+
+        // True result label
+        javaCompiler.getMethodVisitor().visitLabel(label);
+        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.POP);
+        javaCompiler.getMethodVisitor().visitLdcInsn(1);
+
+        // False result label
+        javaCompiler.getMethodVisitor().visitLabel(endLabel);
+    }
+
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
         throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
@@ -201,15 +240,49 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param dVal
      * @param register
      */
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
+        throw new UnsupportedOperationException("No code mnemo");
     }
 
+    /**
+     * return the opcode of the operation
+     * @param javaCompiler
+     * @return
+     */
+    public int codeMnemoByte(JavaCompiler javaCompiler) {
+        throw new UnsupportedOperationException("No code mnemo");
+    }
     /**
      * return the DVal of the expression (if it is possible), else return null
      * @return
      */
     public DVal getDVal() {
+        return null;
+    }
+
+    /**
+     * return the type used by the asm library
+     * @return
+     */
+    public String getJavaType() {
+        if(this.getType().isFloat()) {
+            return "F";
+        }
+        else if(this.getType().isInt()) {
+            return "I";
+        }
+        else if(this.getType().isString()) {
+            return "Ljava/lang/String;";
+        }
+        else if(this.getType().isBoolean()) {
+            return "Z";
+        }
+        else if(this.getType().isClass()) {
+            return "L" + ((Identifier) this).getName().getName() + ";";
+        }
+        else if(this.getType().isVoid()) {
+            return "V";
+        }
         return null;
     }
 
@@ -229,4 +302,7 @@ public abstract class AbstractExpr extends AbstractInst {
             s.println();
         }
     }
+
+
+
 }

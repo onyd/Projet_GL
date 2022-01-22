@@ -1,6 +1,7 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ public class TestPlusPlain {
 
     //@Test
     public void testType() throws ContextualError {
-        DecacCompiler compiler = new DecacCompiler(null, null);
+        IMACompiler compiler= new IMACompiler(null, null);
         AbstractExpr left = Mockito.mock(AbstractExpr.class);
         when(left.verifyExpr(compiler, null, null)).thenReturn(INT);
         AbstractExpr right = Mockito.mock(AbstractExpr.class);

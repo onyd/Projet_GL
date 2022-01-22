@@ -1,6 +1,7 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
@@ -33,7 +34,7 @@ public class TestPlusWithoutMock {
 
         @Override
         public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-                ClassDefinition currentClass) throws ContextualError {
+                               ClassDefinition currentClass) throws ContextualError {
             hasBeenVerified = true;
             return INT;
         }
@@ -63,7 +64,7 @@ public class TestPlusWithoutMock {
 
     //@Test
     public void testType() throws ContextualError {
-        DecacCompiler compiler = new DecacCompiler(null, null);
+        IMACompiler compiler= new IMACompiler(null, null);
         DummyIntExpression left = new DummyIntExpression();
         DummyIntExpression right = new DummyIntExpression();
         Plus t = new Plus(left, right);

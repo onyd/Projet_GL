@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -31,33 +33,69 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
-        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()).getType();
+                           ClassDefinition currentClass) throws ContextualError {
+        Type expectedType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        // The left side is an identifier => it is no longer a constant
+        if (getLeftOperand().isIdentifier()) {
+            Identifier ident = (Identifier) getLeftOperand();
+            ident.getVariableDefinition().setConstant(false);
+        }
+        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, expectedType).getType();
         setType(type);
         setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()));
         return getType();
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         this.getRightOperand().codeGenExprOnR1(compiler);
-        if(this.getLeftOperand().isIdentifier()) {
+        if (this.getLeftOperand().isIdentifier()) {
             compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
-        } else if(this.getLeftOperand().isSelection()) {
-            ((Selection) this.getLeftOperand()).codeGenAssignFromR1(compiler);
+        } else if (this.getLeftOperand().isSelection()) {
+            ((Selection) this.getLeftOperand()).codeGenAssignFromReg(compiler, Register.R1);
         }
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        this.codeGenInst(compiler);
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        getRightOperand().codeGenExprByteOnStack(javaCompiler);
+        if(this.getLeftOperand().isIdentifier()) {
+            if(this.getType().isFloat()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isInt()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isClass()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ASTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            }
+        }
     }
 
     @Override
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        codeGenInstByte(javaCompiler);
+    }
+
+    @Override
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        this.getRightOperand().codeGenExprOnRegister(compiler, register);
+        if(this.getLeftOperand().isIdentifier()) {
+            compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), register);
+        } else if(this.getLeftOperand().isSelection()) {
+            ((Selection) this.getLeftOperand()).codeGenAssignFromReg(compiler, register);
+        }
+    }
+
+    @Override
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         this.codeGenInst(compiler);
         getLeftOperand().codeGenBool(compiler, negation, label);
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        this.codeGenInstByte(javaCompiler);
+        getLeftOperand().codeGenBoolByte(javaCompiler, negation, label);
     }
 
     @Override

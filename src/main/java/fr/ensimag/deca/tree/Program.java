@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
@@ -56,7 +57,7 @@ public class Program extends AbstractProgram {
     }
 
     @Override
-    public void codeGenProgram(DecacCompiler compiler) {
+    public void codeGenProgram(IMACompiler compiler) {
         //create the vtable
         compiler.addComment("Creation of the virtual methods table");
         classes.codeGenListDeclClass(compiler);
@@ -74,20 +75,23 @@ public class Program extends AbstractProgram {
     }
 
     @Override
-    public void codeGenProgramByte(DecacCompiler compiler, JavaCompiler javaCompiler, String destByteName, String className)
+    public void codeGenProgramByte(JavaCompiler javaCompiler, String path, String className)
     {
-        ClassWriter classWriter = javaCompiler.getClassWriter();
-        classWriter.visit(javaCompiler.V1_5,
+        classes.codeGenListDeclClassByte(javaCompiler, path);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        javaCompiler.setClassWriter(classWriter);
+
+        classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
-                destByteName.substring(0, destByteName.length()-6),
+                className,
                 null,
                 "java/lang/Object",
                 null);
 
-        classWriter.visitSource(destByteName.substring(0, destByteName.length()-4) + "java", null);
+        classWriter.visitSource(path + className + ".java", null);
         MethodVisitor methodVisitor = null;
 
-        // Création du constructeur par défaut.
+        // default constructor
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
         methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
         methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
@@ -95,12 +99,49 @@ public class Program extends AbstractProgram {
                 "<init>",
                 "()V",false);
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(1, 1);
+        methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
 
-        main.codeGenMainByte(compiler,javaCompiler);// similaire à main.codeGenMain(compiler); de la méthode codeGenProgram.
+        main.codeGenMainByte(javaCompiler);
+
         classWriter.visitEnd();
+
+//        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+//        String program = "class MethodJavaBody {" + javaCompiler.getMethods() + "}";
+//        Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
+//        compiler.getTask(null, null, null, null, null, fileObjects).call();
+//        Class<?> clazz = Class.forName("MethodJavaBody");
+//        Method m = clazz.getMethod("main", new Class[] { String[].class });
+//        Object[] _args = new Object[] { new String[0] };
+//        m.invoke(null, _args);
     }
+
+//    static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {
+//        final JavaSourceFromString jsfs;
+//        jsfs = new JavaSourceFromString("code", code);
+//        return new Iterable<JavaSourceFromString>() {
+//            public Iterator<JavaSourceFromString> iterator() {
+//                return new Iterator<JavaSourceFromString>() {
+//                    boolean isNext = true;
+//
+//                    public boolean hasNext() {
+//                        return isNext;
+//                    }
+//
+//                    public JavaSourceFromString next() {
+//                        if (!isNext)
+//                            throw new NoSuchElementException();
+//                        isNext = false;
+//                        return jsfs;
+//                    }
+//
+//                    public void remove() {
+//                        throw new UnsupportedOperationException();
+//                    }
+//                };
+//            }
+//        };
+//    }
 
     @Override
     public void decompile(IndentPrintStream s) {

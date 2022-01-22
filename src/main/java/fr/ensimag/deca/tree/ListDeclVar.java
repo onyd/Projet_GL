@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -31,13 +32,13 @@ public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
      *          corresponds to "class" attribute (null in the main bloc).
      */    
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                                ClassDefinition currentClass) throws ContextualError {
         for (AbstractDeclVar i: getList()) {
             i.verifyDeclVar(compiler, localEnv, currentClass);
         }
     }
 
-    void codeGenListDeclVariable(DecacCompiler compiler) {
+    void codeGenListDeclVariable(IMACompiler compiler) {
         compiler.addComment("Verify if we can add all the variable in the stack");
         compiler.addInstruction(new TSTO(this.getList().size()));
         if(!compiler.getCompilerOptions().getNoCheck()) {
@@ -48,10 +49,13 @@ public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
             declVar.codeGenDeclVar(compiler);
         }
     }
-    void codeGenListDeclVariableByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+
+    void codeGenListDeclVariableByte(JavaCompiler javaCompiler, int beginIndex)
     {
+        int currentIndexVar = beginIndex;
         for (AbstractDeclVar declVar : this.getList()){
-            declVar.codeGenDeclVarByte(compiler, javaCompiler);
+            declVar.codeGenDeclVarByte(javaCompiler, currentIndexVar);
+            currentIndexVar++;
         }
     }
 }

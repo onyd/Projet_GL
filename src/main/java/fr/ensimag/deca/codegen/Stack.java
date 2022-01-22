@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -8,9 +9,9 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 public class Stack {
     private int currentStackPosition = 1;
     private int nbOfDecl = 0;
-    private DecacCompiler decacCompiler;
+    private IMACompiler decacCompiler;
 
-    public Stack(DecacCompiler decacCompiler) {
+    public Stack(IMACompiler decacCompiler) {
         this.decacCompiler = decacCompiler;
     }
 
@@ -29,7 +30,7 @@ public class Stack {
     public void loadVariableOnR1FromIdentAndInit(Identifier identifier, AbstractInitialization initialization) {
         if(initialization.noInitialization()) {
             this.decacCompiler.addComment("Push a not initialized declared variable on the stack");
-            this.decacCompiler.addInstruction(new LOAD(Utils.ImmediateFromType(identifier.getDefinition().getType()), Register.R1));
+            this.decacCompiler.addInstruction(new LOAD(Utils.immediateFromType(identifier.getDefinition().getType()), Register.R1));
         } else {
             Initialization init = (Initialization) initialization;
             if(init.getExpression().getType().isString()) {
@@ -88,8 +89,14 @@ public class Stack {
     }
 
     public void getVariableFromStackOnR1(Identifier identifier) {
-        RegisterOffset addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
+        RegisterOffset addr;
+        if (identifier.getDefinition().isParam()) {
+            addr = (RegisterOffset) identifier.getParamDefinition().getOperand();
+        } else {
+            addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
+        }
         this.decacCompiler.addInstruction(new LOAD(addr, Register.R1));
+
     }
 
     public void getVariableFromStackOnR1(Identifier identifier, int position) {

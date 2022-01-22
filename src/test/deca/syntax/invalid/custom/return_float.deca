@@ -1,0 +1,12 @@
+// Description:
+//   Return float.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   float i = 1.56;
+   return i;
+}

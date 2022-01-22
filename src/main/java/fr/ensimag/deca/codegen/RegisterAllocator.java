@@ -1,6 +1,7 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
@@ -27,7 +28,7 @@ public class RegisterAllocator {
     }
 
 
-    public void allocateRegisters(DecacCompiler compiler) {
+    public void allocateRegisters(IMACompiler compiler) {
         int i = 2;
         for (VirtualRegister register : virtualRegisters) {
             // Try to find a register
@@ -53,7 +54,7 @@ public class RegisterAllocator {
         }
     }
 
-    public void restoreFromStack(DecacCompiler compiler) {
+    public void restoreFromStack(IMACompiler compiler) {
         for (GPRegister register : toRestore) {
             compiler.addInstruction(new POP(register));
         }

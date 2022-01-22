@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
@@ -49,42 +50,23 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = new StringType(compiler.getSymbolTable().create("string"));
         this.setType(type);
         this.value = this.value.substring(1, this.value.length() - 1);
         return type;
     }
 
-    /*
     @Override
-    protected void codeGenInstByte(DecacCompiler compiler, JavaCompiler javaCompiler)
-    {
-
-    }*/
-
-    @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
     }
 
     @Override
-    protected void codeGenPrintByte(DecacCompiler compiler, JavaCompiler javaCompiler)
-    {
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
-        // L'instruction System.out.PrintStream.println
-        methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
-                "java/lang/System",
-                "out",
-                "Ljava/io/PrintStream;");
         methodVisitor.visitLdcInsn(value);
-        methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
-                "java/io/PrintStream",
-                "println",
-                "(Ljava/lang/String;)V",
-                false);
     }
-
 
     @Override
     public void decompile(IndentPrintStream s) {

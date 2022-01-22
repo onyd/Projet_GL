@@ -1,6 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.Utils;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -16,6 +20,11 @@ public class MethodCall extends AbstractExpr {
     private AbstractExpr expr;
     private AbstractIdentifier methodIdent;
     private ListExpr arguments;
+
+    @Override
+    public boolean isMethodCall() {
+        return true;
+    }
 
     public MethodCall(AbstractExpr expr, AbstractIdentifier methodIdent, ListExpr arguments) {
         super();
@@ -43,28 +52,32 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         codeGenExprOnR1(compiler);
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(methodIdent.getMethodDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(methodIdent.getMethodDefinition().getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new ADDSP(arguments.size() + 1));
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
         int offset = -1;
         for(AbstractExpr expr : arguments.getList()) {
-            expr.codeGenExprOnR1(compiler);
+            expr.codeGenExprOnRegister(compiler, register);
             compiler.addInstruction(new STORE(register, new RegisterOffset(offset, Register.SP)));
             offset--;
         }
@@ -74,9 +87,46 @@ public class MethodCall extends AbstractExpr {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
         }
         compiler.addInstruction(new LOAD(new RegisterOffset(0, register), register));
-        compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getOffset(), register)));
+        compiler.addInstruction(new BSR(new RegisterOffset(methodIdent.getMethodDefinition().getIndex(), register)));
         compiler.addInstruction(new SUBSP(arguments.size() + 1));
         compiler.addInstruction(new LOAD(Register.R0, register));
+    }
+
+    @Override
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
+        codeGenExprOnR1(compiler);
+        compiler.addInstruction(new CMP(0, Register.R1));
+        if (negation)
+            compiler.addInstruction(new BNE(label));
+        else
+            compiler.addInstruction(new BEQ(label));
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        codeGenExprByteOnStack(javaCompiler);
+        if (negation)
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPNE, label);
+        else
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPEQ, label);
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                expr.getType().getName().getName(),
+                methodIdent.getName().getName(),
+                "(" + this.getJavaArgType() + ")" + methodIdent.getJavaType(),
+                false);
+    }
+
+    private String getJavaArgType() {
+        StringBuilder res = new StringBuilder();
+        for(AbstractExpr expr : arguments.getList()) {
+            res.append(expr.getJavaType());
+        }
+        return res.toString();
     }
 
     @Override

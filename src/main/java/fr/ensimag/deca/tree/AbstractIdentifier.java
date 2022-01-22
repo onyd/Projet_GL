@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -61,6 +62,18 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      *             if the definition is not a field definition.
      */
     public abstract ExpDefinition getExpDefinition();
+
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not a param definition.
+     */
+    public abstract ParamDefinition getParamDefinition();
 
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a

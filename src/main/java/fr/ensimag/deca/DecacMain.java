@@ -37,7 +37,7 @@ public class DecacMain {
             System.exit(0);
         }
         if (options.getSourceFiles().isEmpty()) {
-            showUsage();
+            options.displayUsage();
         }
         if (options.getParallel()) {
             ArrayList<Thread> threads = new ArrayList<>();
@@ -57,7 +57,12 @@ public class DecacMain {
          else{
 
             for (File source : options.getSourceFiles()) {
-                DecacCompiler compiler = new DecacCompiler(options, source);
+                DecacCompiler compiler;
+                if (options.getJavaCompilation())
+                    compiler = new JavaCompiler(options, source);
+                else
+                    compiler= new IMACompiler(options, source);
+
                 if (compiler.compile()) {
                     error = true;
                 }
@@ -66,7 +71,4 @@ public class DecacMain {
         System.exit(error ? 1 : 0);
     }
 
-    private static void showUsage() {
-        System.out.println("Usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
-    }
 }

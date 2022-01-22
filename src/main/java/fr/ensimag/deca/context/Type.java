@@ -81,6 +81,8 @@ public abstract class Type {
     }
 
     public boolean isSubType(Type otherType) {
+        if (this.isNull() && otherType.isClass())
+            return true;
         if (this.isClass() && otherType.isClass()) {
             return ((ClassType) this).isSubClassOf((ClassType) otherType);
         } else {
@@ -89,8 +91,6 @@ public abstract class Type {
     }
 
     public boolean isAssignCompatible(Type otherType) {
-        if (this.sameType(otherType))
-            return true;
         if (this.isFloat() && otherType.isInt())
             return true;
         if (otherType.isSubType(this))

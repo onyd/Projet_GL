@@ -32,15 +32,6 @@ public class MethodDefinition extends ExpDefinition {
     }
 
     private int index;
-    private int offset;
-
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
 
     @Override
     public MethodDefinition asMethodDefinition(String errorMessage, Location l)
@@ -50,6 +41,7 @@ public class MethodDefinition extends ExpDefinition {
 
     private final Signature signature;
     private Label label;
+    private Label endLabel;
     
     /**
      * 
@@ -76,6 +68,16 @@ public class MethodDefinition extends ExpDefinition {
     @Override
     public boolean isExpression() {
         return false;
+    }
+
+    public Label getEndLabel() {
+        Validate.isTrue(endLabel != null,
+                "setEndLabel() should have been called before");
+        return endLabel;
+    }
+
+    public void setEndLabel(Label endLabel) {
+        this.endLabel = endLabel;
     }
 
     //Ici il faut créer des frames pour les variables locales.

@@ -19,12 +19,12 @@
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
-            <version>6.0</version>
+            <version>9.2</version>
         </dependency>
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm-util</artifactId>
-            <version>6.0</version>
+            <version>9.2</version>
         </dependency>
         <dependency>
             <!-- ANTLR needs a runtime library -->
@@ -243,6 +243,16 @@
                         <id>basic-context</id>
                         <configuration>
                             <executable>./src/test/script/basic-context.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>basic-context-java</id>
+                        <configuration>
+                            <executable>./src/test/script/basic-context-java.sh</executable>
                         </configuration>
                         <phase>test</phase>
                         <goals>

@@ -1,7 +1,7 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.CompilerOptions;
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.syntax.AbstractDecaLexer;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -34,7 +34,7 @@ public class SumFloatTestContext {
 
         CommonTokenStream tokens = new CommonTokenStream(lex);
         DecaParser parser = new DecaParser(tokens);
-        DecacCompiler compiler = new DecacCompiler(new CompilerOptions(), null);
+        IMACompiler compiler= new IMACompiler(new CompilerOptions(), null);
         parser.setDecacCompiler(compiler);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {

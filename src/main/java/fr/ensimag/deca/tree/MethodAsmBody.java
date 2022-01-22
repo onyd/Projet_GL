@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -40,10 +41,13 @@ public class MethodAsmBody extends AbstractMethodBody {
     @Override
     protected void verifyBody(DecacCompiler compiler, ClassDefinition currentClass, EnvironmentExp envExpParams, Type returnType) throws ContextualError {
         assembly.verifyExpr(compiler, envExpParams, currentClass);
+        if (compiler.getCompilerOptions().getJavaCompilation()) {
+            throw new ContextualError("The -java option can't be used with ima compiler", getLocation());
+        }
     }
 
     @Override
-    protected void codeGenMethodBody(DecacCompiler compiler) {
+    protected void codeGenMethodBody(IMACompiler compiler) {
         compiler.add(new InlinePortion(assembly.getValue()));
     }
 }

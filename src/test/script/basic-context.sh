@@ -82,6 +82,17 @@ echo "Le taux de reussite dans cette partie est" $interSucc/$interTotal
 interSucc=0
 interTotal=0
 
+echo "\nTest invalides personnalisés sur les options :"
+for cas_de_test in src/test/deca/context/invalid/custom/option/asm/*.deca
+do
+    test_context_invalide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
 echo "\nTest valides personnalisés de fonctions de bases :"
 for cas_de_test in src/test/deca/context/valid/custom/builtin_function/*.deca
 do
@@ -139,6 +150,17 @@ interTotal=0
 
 echo "\nTest valides personnalisés sur les objects :"
 for cas_de_test in src/test/deca/context/valid/custom/object/*.deca
+do
+    test_context_valide "$cas_de_test"
+    total=$((total+1))
+    interTotal=$((interTotal+1))
+done
+echo "Le taux de reussite dans cette partie est" $interSucc/$interTotal
+interSucc=0
+interTotal=0
+
+echo "\nTest valides personnalisés sur les options :"
+for cas_de_test in src/test/deca/context/valid/custom/option/asm/*.deca
 do
     test_context_valide "$cas_de_test"
     total=$((total+1))

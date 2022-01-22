@@ -1,10 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.VoidType;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
@@ -35,9 +35,7 @@ public class Main extends AbstractMain {
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
         EnvironmentExp envExp = new EnvironmentExp(null);
-        Signature signature = new Signature();
-        signature.add(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
-        compiler.EQUALS_DEF = new MethodDefinition(compiler.getEnvironmentType().get(compiler.VOID_SYMBOL).getType(), getLocation(), signature, 0);
+
         try {
             envExp.declare(compiler.EQUALS_SYMBOL, compiler.EQUALS_DEF);
         } catch (Environment.DoubleDefException e) {
@@ -50,18 +48,19 @@ public class Main extends AbstractMain {
     }
 
     @Override
-    protected void codeGenMain(DecacCompiler compiler) {
+    protected void codeGenMain(IMACompiler compiler) {
         compiler.addComment("Beginning of main instructions:");
+        compiler.setCurrentMethod(null);
         declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
     @Override
-    protected void codeGenMainByte(DecacCompiler compiler, JavaCompiler javaCompiler)
+    protected void codeGenMainByte(JavaCompiler javaCompiler)
     {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         MethodVisitor methodVisitor = null;
 
-        // Ajout du main.
+        // main function
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC + javaCompiler.ACC_STATIC,
                 "main",
                 "([Ljava/lang/String;)V",
@@ -71,12 +70,13 @@ public class Main extends AbstractMain {
         javaCompiler.setMethodVisitor(methodVisitor);
 
         //declVariables
-        insts.codeGenListInstByteCode(compiler,javaCompiler);
+        declVariables.codeGenListDeclVariableByte(javaCompiler, 1);
+
+        //decl inst
+        insts.codeGenListInstByte(javaCompiler);
 
         methodVisitor.visitInsn(javaCompiler.RETURN);
-        methodVisitor.visitMaxs(2, 1);
-
-
+        methodVisitor.visitMaxs(-1, -1);
 
         methodVisitor.visitEnd();
     }

@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
@@ -52,7 +55,7 @@ public class InstanceOf extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         System.out.println(expr.getType().isSubType(type.getType()));
         if (expr.getType().isSubType(type.getType())) {
             compiler.addInstruction(new LOAD(1, register));
@@ -61,16 +64,7 @@ public class InstanceOf extends AbstractExpr {
         }
     }
 
-    @Override
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
-        if (negation) {
-            if (expr.getType().isSubType(type.getType())) {
-                compiler.addInstruction(new BRA(label));
-            }
-        } else {
-            if (!expr.getType().isSubType(type.getType())) {
-                compiler.addInstruction(new BRA(label));
-            }
-        }
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
+        Utils.instanceOf(compiler, expr, (ClassType) type.getType(), negation, label, Register.R1);
     }
 }

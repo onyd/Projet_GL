@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -11,7 +13,9 @@ import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * Single precision, floating-point literal
@@ -25,6 +29,8 @@ public class FloatLiteral extends AbstractExpr {
         return value;
     }
 
+    public boolean isFloatLiteral() {return true; }
+
     private float value;
 
     public FloatLiteral(float value) {
@@ -37,21 +43,31 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType();
         this.setType(type);
         return type;
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), Register.R1));
-        compiler.addInstruction(new WFLOAT());
+        if (printHex) {
+            compiler.addInstruction(new WFLOATX());
+        } else {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), register));
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        methodVisitor.visitLdcInsn(value);
     }
 
     @Override
