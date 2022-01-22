@@ -1,7 +1,6 @@
 package fr.ensimag.deca;
 
 import fr.ensimag.deca.tree.AbstractProgram;
-import fr.ensimag.deca.tree.Program;
 import org.objectweb.asm.*;
 
 import java.io.File;

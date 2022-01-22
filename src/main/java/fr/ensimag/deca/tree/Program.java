@@ -11,7 +11,9 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.Validate;
@@ -19,8 +21,7 @@ import org.apache.log4j.Logger;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
-import javax.tools.JavaFileObject;
-import javax.tools.ToolProvider;
+import javax.tools.*;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -110,11 +111,26 @@ public class Program extends AbstractProgram {
         main.codeGenMainByte(javaCompiler);
 
         classWriter.visitEnd();
-        System.out.println("Prog:" + javaCompiler.getMethods());
-        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        //System.out.println("Prog:" + javaCompiler.getMethods());
+
         String program = "class MethodJavaBodies {" + javaCompiler.getMethods() + "}";
         Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
-        compiler.getTask(null, null, null, null, null, fileObjects).call();
+
+        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, null, null);
+
+        String[] separated = javaCompiler.getSource().toString().split("\\/");
+        String filePath = "";
+        for (int i = 0; i < separated.length - 1; i++) {
+            filePath += separated[i] + "/";
+        }
+
+        String[] compileOptions = new String[]{"-d", filePath};
+        Iterable<String> compilationOptions = Arrays.asList(compileOptions);
+
+
+        compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
+
         Class<?> clazz = Class.forName("MethodJavaBodies");
         Method m = clazz.getMethod("main", new Class[] { String[].class });
         Object[] _args = new Object[] { new String[0] };

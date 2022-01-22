@@ -9,6 +9,7 @@ class JavaSourceFromString extends SimpleJavaFileObject {
     JavaSourceFromString(String name, String code) {
         super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
         this.code = code;
+        //System.out.println("|||" + super.toString());
     }
 
     public CharSequence getCharContent(boolean ignoreEncodingErrors) {
