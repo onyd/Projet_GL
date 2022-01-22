@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Register;
@@ -12,6 +13,14 @@ import java.io.PrintStream;
 public class DeclParam extends AbstractDeclParam {
     private final AbstractIdentifier typeName;
     private final  AbstractIdentifier paramIdent;
+
+    public void setIndexInLocals(int indexInLocals) {
+        ((Identifier) this.paramIdent).getExpDefinition().setIndexOnStack(indexInLocals);
+    }
+
+    public AbstractIdentifier getParamIdent() {
+        return paramIdent;
+    }
 
     public DeclParam(AbstractIdentifier typeName, AbstractIdentifier paramIdent) {
         Validate.notNull(typeName);
@@ -42,7 +51,7 @@ public class DeclParam extends AbstractDeclParam {
     }
 
     @Override
-    protected void codeGenDeclParam(DecacCompiler compiler, int offset) {
+    protected void codeGenDeclParam(IMACompiler compiler, int offset) {
         paramIdent.getExpDefinition().setOperand(new RegisterOffset(offset, Register.LB));
     }
 

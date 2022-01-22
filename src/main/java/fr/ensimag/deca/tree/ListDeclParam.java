@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Signature;
@@ -33,7 +34,7 @@ public class ListDeclParam extends AbstractCommaSeparatedListTree<AbstractDeclPa
         LOG.debug("[Pass 3] verify listDeclParam: end");
     }
 
-    public void codeGenListDeclParam(DecacCompiler compiler) {
+    public void codeGenListDeclParam(IMACompiler compiler) {
         int paramOffset = -3;
         for(AbstractDeclParam param : getList()) {
             param.codeGenDeclParam(compiler, paramOffset);

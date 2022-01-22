@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.ByteArrayOutputStream;
@@ -287,7 +288,7 @@ public abstract class Tree {
      * @param compiler
      * @return Decompilation, or the empty string.
      */
-    protected String decompileIfDebug(DecacCompiler compiler) {
+    protected String decompileIfDebug(IMACompiler compiler) {
         if (compiler.getCompilerOptions().getDebug() > 1) {
             return decompile();
         } else {

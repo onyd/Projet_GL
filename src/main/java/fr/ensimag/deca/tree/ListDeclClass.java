@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -47,7 +48,7 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
         LOG.debug("[Pass 3] verify listClass: end");
     }
 
-    protected void codeGenListDeclClass(DecacCompiler compiler) {
+    protected void codeGenListDeclClass(IMACompiler compiler) {
         //for the Object class
         compiler.getvTable().VTableForObject();
         compiler.setDeclareMethod(true);
@@ -56,7 +57,10 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
 
         //for the other class
         for(AbstractDeclClass declClass : getList()) {
-            declClass.codeGenDeclClass(compiler);
+            declClass.codeGenDeclClassVTable(compiler);
+        }
+        for(AbstractDeclClass declClass : getList()) {
+            declClass.codeGenDeclClassMethod(compiler);
         }
     }
 

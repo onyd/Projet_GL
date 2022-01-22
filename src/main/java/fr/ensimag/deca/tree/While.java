@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
@@ -40,7 +41,7 @@ public class While extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         Label condLabel = compiler.getLabelManager().getNextLabel("WHILE", "COND");
         Label beginLabel = compiler.getLabelManager().getNextLabel("WHILE", "BEGIN");
         compiler.addInstruction(new BRA(condLabel));

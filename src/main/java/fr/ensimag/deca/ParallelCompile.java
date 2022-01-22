@@ -13,7 +13,12 @@ public class ParallelCompile implements Runnable {
 
     @Override
     public void run() {
-        DecacCompiler compiler = new DecacCompiler(options, source);
+        DecacCompiler compiler;
+        if (options.getJavaCompilation())
+            compiler =new JavaCompiler(options, source);
+        else
+            compiler = new IMACompiler(options, source);
+
         boolean error = compiler.compile();
         if(error) {
             System.exit(1);

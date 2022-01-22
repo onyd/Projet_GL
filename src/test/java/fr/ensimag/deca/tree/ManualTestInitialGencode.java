@@ -5,7 +5,8 @@
  */
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.IMACompiler;
 
 /**
  *
@@ -29,7 +30,7 @@ public class ManualTestInitialGencode {
     }
     
     public static String gencodeSource(AbstractProgram source) {
-        DecacCompiler compiler = new DecacCompiler(null,null);
+        IMACompiler compiler= new IMACompiler(null,null);
         source.codeGenProgram(compiler);
         return compiler.displayIMAProgram();
     }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -44,7 +45,7 @@ public class IfThenElse extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         Label endLabel = compiler.getLabelManager().getNextLabel("END", "IF");
 
         codeGenInst(compiler, endLabel);
@@ -62,7 +63,7 @@ public class IfThenElse extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler, Label endLabel) {
+    protected void codeGenInst(IMACompiler compiler, Label endLabel) {
         if (!elseBranch.isEmpty()) {
             Label elseLabel = compiler.getLabelManager().getNextLabel("ELSE");
 

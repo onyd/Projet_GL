@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
@@ -9,6 +11,7 @@ import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -51,16 +54,16 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyMethod(DecacCompiler compiler, ClassDefinition currentClass) throws ContextualError {
         Type type = returnType.verifyType(compiler);
         Signature sig = params.verifyListClassMembers(compiler);
-        currentClass.incNumberOfMethods();
-        MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
-
         ExpDefinition def = currentClass.getSuperClass().getMembers().get(methodIdent.getName());
         if (def != null) {
             MethodDefinition superMethodDef = (MethodDefinition) def;
             if (!sig.equals(superMethodDef.getSignature()) || !type.isSubType(superMethodDef.getType())) {
                 throw new ContextualError("(2.7) Redefinition of a method must match the signature and return a subtype of the super definition", getLocation());
             }
+        } else {
+            currentClass.incNumberOfMethods();
         }
+        MethodDefinition methodDef = new MethodDefinition(type, getLocation(), sig, currentClass.getNumberOfMethods());
         try {
             currentClass.getMembers().declare(methodIdent.getName(), methodDef);
         } catch (Environment.DoubleDefException e) {
@@ -77,7 +80,7 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    public void codeGenDeclMethod(DecacCompiler compiler, String className) {
+    public void codeGenDeclMethod(IMACompiler compiler, String className) {
         compiler.addLabel(compiler.getLabelManager().getMethodLabel(className, methodIdent.getName().getName()));
         //save the registers
         compiler.addComment("Save All used registers");
@@ -100,6 +103,37 @@ public class DeclMethod extends AbstractDeclMethod {
             compiler.addInstruction(new POP(Register.getR(i)));
         }
         compiler.addInstruction(new RTS());
+    }
+
+    @Override
+    public void codeGenDeclMethodByte(JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getClassWriter().visitMethod(javaCompiler.ACC_PUBLIC,
+                                                    methodIdent.getName().getName(),
+                                                    getDescSigAndInitParam(), null, null);
+        javaCompiler.setMethodVisitor(methodVisitor);
+
+        body.codeGenMethodBodyByte(javaCompiler, params.size() + 1);
+
+        methodVisitor.visitInsn(javaCompiler.RETURN);
+        methodVisitor.visitMaxs(-1, -1);
+
+        methodVisitor.visitEnd();
+    }
+
+    private String getDescSigAndInitParam() {
+        StringBuilder res = new StringBuilder();
+        res.append("(");
+        if(!getParams().getList().isEmpty()) {
+            int index = 1;
+            for(AbstractDeclParam param : getParams().getList()) {
+                ((DeclParam) param).setIndexInLocals(index);
+                res.append(((DeclParam) param).getParamIdent().getJavaType());
+                index++;
+            }
+        }
+        res.append(")");
+        res.append(this.returnType.getJavaType());
+        return res.toString();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
@@ -34,9 +35,13 @@ public class DeclVar extends AbstractDeclVar {
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         type.verifyType(compiler);
+
+        // Verify initialization first to prevent auto-assign statement
+        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
+
         if (type.getType().isVoid()) {
             throw new ContextualError("(3.17) Variable declaration with type void is forbidden", getLocation());
         }
@@ -47,11 +52,10 @@ public class DeclVar extends AbstractDeclVar {
             throw new ContextualError("(3.17) The identifier is already declared", this.getLocation());
         }
         varName.verifyExpr(compiler, localEnv, currentClass);
-        initialization.verifyInitialization(compiler, type.getType(), localEnv, currentClass);
     }
 
     @Override
-    protected void codeGenDeclVar(DecacCompiler compiler) {
+    protected void codeGenDeclVar(IMACompiler compiler) {
         compiler.getStack().declareVariableOnStack((Identifier) this.varName, this.initialization);
     }
 
@@ -67,6 +71,9 @@ public class DeclVar extends AbstractDeclVar {
             } else if(init.getExpression().getType().isFloat()) {
                 init.getExpression().codeGenExprByteOnStack(javaCompiler);
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, varName.getExpDefinition().getIndexOnStack());
+            } else if(init.getExpression().getType().isClass()) {
+                init.getExpression().codeGenExprByteOnStack(javaCompiler);
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ASTORE, varName.getExpDefinition().getIndexOnStack());
             }
         }
     }

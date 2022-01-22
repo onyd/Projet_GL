@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -27,14 +28,14 @@ public abstract class AbstractInst extends Tree {
      *          corresponds to the "return" attribute (void in the main bloc).
      */    
     protected abstract void verifyInst(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError;
+                                       EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError;
 
     /**
      * Generate assembly code for the instruction.
      * 
      * @param compiler
      */
-    protected abstract void codeGenInst(DecacCompiler compiler);
+    protected abstract void codeGenInst(IMACompiler compiler);
 
     /**
      * Generate bytecode for the instruction.
@@ -59,7 +60,7 @@ public abstract class AbstractInst extends Tree {
      *
      * @param compiler
      */
-    protected void codeGenInst(DecacCompiler compiler, Label endLabel) {
+    protected void codeGenInst(IMACompiler compiler, Label endLabel) {
         codeGenInst(compiler);
     };
 

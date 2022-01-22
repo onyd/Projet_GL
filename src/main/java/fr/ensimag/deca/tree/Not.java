@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
@@ -26,7 +27,7 @@ public class Not extends AbstractUnaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = getOperand().verifyExpr(compiler, localEnv, currentClass);
         if (!type.isBoolean()) {
             throw new ContextualError("(3.37) Not operator only accept boolean operand", getLocation());
@@ -35,7 +36,7 @@ public class Not extends AbstractUnaryExpr {
         return getType();
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         getOperand().codeGenBool(compiler, !negation, label);
     }
 

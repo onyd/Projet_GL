@@ -2,6 +2,7 @@ package fr.ensimag.deca.syntax;
 
 import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.AbstractProgram;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ManualTestSynt {
         if (lex.getSourceName() != null) {
             file = new File(lex.getSourceName());
         }
-        final DecacCompiler decacCompiler = new DecacCompiler(new CompilerOptions(), file);
+        final IMACompiler decacCompiler = new IMACompiler(new CompilerOptions(), file);
         parser.setDecacCompiler(decacCompiler);
         AbstractProgram prog = parser.parseProgramAndManageErrors(System.err);
         if (prog == null) {

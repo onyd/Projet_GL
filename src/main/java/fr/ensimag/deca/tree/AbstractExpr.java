@@ -1,11 +1,9 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
@@ -76,7 +74,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *            (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                    EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
@@ -140,7 +138,7 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(IMACompiler compiler) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -154,8 +152,8 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+    protected void codeGenInst(IMACompiler compiler) {
+        this.codeGenExprOnR1(compiler);
     }
 
     @Override
@@ -168,7 +166,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * Generate code to load the expression on the register R1
      * @param compiler
      */
-    public void codeGenExprOnR1(DecacCompiler compiler) {
+    public void codeGenExprOnR1(IMACompiler compiler) {
         this.codeGenExprOnRegister(compiler, Register.R1);
     }
 
@@ -177,7 +175,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param compiler
      * @param register
      */
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         Label label = compiler.getLabelManager().getNextLabel("E");
         Label endLabel = compiler.getLabelManager().getNextLabel("E", "END");
         compiler.addInstruction(new LOAD(0, register)); // Default expr is evaluated to false
@@ -194,7 +192,7 @@ public abstract class AbstractExpr extends AbstractInst {
 
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
@@ -203,8 +201,8 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param dVal
      * @param register
      */
-    public void codeMnemo(DecacCompiler compiler, DVal dVal, GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public void codeMnemo(IMACompiler compiler, DVal dVal, GPRegister register) {
+        throw new UnsupportedOperationException("No code mnemo");
     }
 
     /**
@@ -213,7 +211,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return
      */
     public int codeMnemoByte(JavaCompiler javaCompiler) {
-        throw new UnsupportedOperationException("not yet implemented");
+        throw new UnsupportedOperationException("No code mnemo");
     }
     /**
      * return the DVal of the expression (if it is possible), else return null
@@ -236,6 +234,15 @@ public abstract class AbstractExpr extends AbstractInst {
         }
         else if(this.getType().isString()) {
             return "Ljava/lang/String;";
+        }
+        else if(this.getType().isBoolean()) {
+            return "Z";
+        }
+        else if(this.getType().isClass()) {
+            return "L" + ((Identifier) this).getName().getName() + ";";
+        }
+        else if(this.getType().isVoid()) {
+            return "V";
         }
         return null;
     }

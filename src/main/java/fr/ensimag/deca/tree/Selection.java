@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.codegen.Utils;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -22,6 +25,11 @@ public class Selection extends AbstractLValue {
         Validate.notNull(fieldIdent);
         this.expr = expr;
         this.fieldIdent = fieldIdent;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return fieldIdent.getDVal();
     }
 
     @Override
@@ -47,18 +55,18 @@ public class Selection extends AbstractLValue {
      * Assign the selection with the value stored on R1
      * @param compiler
      */
-    protected void codeGenAssignFromR1(DecacCompiler compiler) {
-        compiler.addInstruction(new LOAD(expr.getDVal(), Register.R0));
+    protected void codeGenAssignFromReg(IMACompiler compiler, Register register) {
+        Utils.loadExpr(compiler, expr, Register.R0);
         compiler.addInstruction(new CMP(new NullOperand(), Register.R0));
         if(compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
         }
-        compiler.addInstruction(new STORE(Register.R1, new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), Register.R0)));
+        compiler.addInstruction(new STORE(register, new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), Register.R0)));
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new CMP(new NullOperand(), register));
         if(compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
@@ -67,7 +75,7 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(fieldIdent.getFieldDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -78,6 +86,11 @@ public class Selection extends AbstractLValue {
                 compiler.addInstruction(new WFLOAT());
             }
         }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+
     }
 
     @Override

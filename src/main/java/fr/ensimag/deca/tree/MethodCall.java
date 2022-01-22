@@ -1,6 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -44,12 +47,12 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         codeGenExprOnR1(compiler);
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler, boolean printHex) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(methodIdent.getMethodDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
@@ -63,13 +66,13 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new ADDSP(arguments.size() + 1));
-        compiler.addInstruction(new LOAD(expr.getDVal(), register));
+        Utils.loadExpr(compiler, expr, register);
         compiler.addInstruction(new STORE(register, new RegisterOffset(0, Register.SP)));
         int offset = -1;
         for(AbstractExpr expr : arguments.getList()) {
-            expr.codeGenExprOnR1(compiler);
+            expr.codeGenExprOnRegister(compiler, register);
             compiler.addInstruction(new STORE(register, new RegisterOffset(offset, Register.SP)));
             offset--;
         }
@@ -85,7 +88,7 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         codeGenExprOnR1(compiler);
         compiler.addInstruction(new CMP(0, Register.R1));
         if (negation)
@@ -101,6 +104,24 @@ public class MethodCall extends AbstractExpr {
             javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPNE, label);
         else
             javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPEQ, label);
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                expr.getType().getName().getName(),
+                methodIdent.getName().getName(),
+                "(" + this.getJavaArgType() + ")" + methodIdent.getJavaType(),
+                false);
+    }
+
+    private String getJavaArgType() {
+        StringBuilder res = new StringBuilder();
+        for(AbstractExpr expr : arguments.getList()) {
+            res.append(expr.getJavaType());
+        }
+        return res.toString();
     }
 
     @Override
