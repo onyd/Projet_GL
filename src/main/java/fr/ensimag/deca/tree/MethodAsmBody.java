@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -49,5 +50,10 @@ public class MethodAsmBody extends AbstractMethodBody {
     @Override
     protected void codeGenMethodBody(IMACompiler compiler) {
         compiler.add(new InlinePortion(assembly.getValue()));
+    }
+
+    @Override
+    protected void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -15,7 +15,7 @@ interSucc=0
 interTotal=0
 
 test_context_java_valide () {
-    if test_context_java "$1">fichier 2>&1
+    if test_context_java "$1">standardOutput 2>&1
     then
         echo "Succès attendu pour test_context_java sur $1."
         succ=$((succ+1))
@@ -27,7 +27,7 @@ test_context_java_valide () {
 }
 
 test_context_java_invalide () {
-    if test_context_java "$1">fichier 2>&1
+    if test_context_java "$1">standardOutput 2>&1
     then
         echo "Succès inattendu pour test_context_java sur $1."
         #exit 1
