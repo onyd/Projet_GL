@@ -34,33 +34,48 @@ avec la machine virtuelle java.
 
 \subsection{Commandes decac}
 
-\textbf{decac [-p \textbar -v] [-n] [-r X] [-d]* [-P] fichiers.java... \textbar [-b]}
+\textbf{decac [-p \textbar -v] [-n] [-r X] [-d]* [-P] fichiers.deca... \textbar [-b]}
 
 \subsection{option -b}
 
 Cette option n'est executé que de la manière suivante: \textbf{decac -b}. Elle permet
 d'afficher le numéro du groupe ainsi que les noms des différents membres de l'équipe
-ayant développé ce compilateur.
+ayant développé ce compilateur. 
 
 \subsection{option -p}
 
 L'option \textbf{-p} permet de parser le (ou les) fichier(s) deca donnés en paramètres.
 Après cette étape, si aucune erreur n'est survenu, le programme est décompilé et est
 affiché. Il doit être syntaxiquement correct après la décompilation. Cette option ne peut
-pas être utilisé avec l'option \textbf{-p}
+pas être utilisé avec l'option \textbf{-v}
 
 \subsection{option -v}
 
 Cette option permet d'effectuer l'étape de vérification de l'arbre. Rien n'est affiché s'il
 n'y a pas d'erreur. Cette option ne peut pas être utilisé avec l'option \textbf{-p}
 
-\subsection{A finir }
+\subsection{option -r X}
+Cette option permet d'effectuer une compilation générant un code source qui n'utilise que X registres banalisés pour s’exécuter. Attention : X doit être compris entre 4 et 16. Dans le cas contraire, une "UnsupportedOperationException" est levée lors de la compilation. Elle indique le message suivant : "You have to use a number between 4 and 16 after -r".
+Cette option ne peut pas être utilisée avec l'option -java.
+
+\subsection{option -d}
+
+Cette option permet d'obtenir des traces de debug: il s'agit de messages s'affichant sur la sortie standard permettant d'en savoir plus ce qu'il s'est passé au cours de la compilation. On peut répéter plusieurs fois l'option (par exemple: decac -d -d -d), et ce jusqu'à trois fois, pour avoir de plus amples informations.
+
+\subsection{option -n}
+
+Cette option permet de compiler un programme deca sans faire les tests à l’exécution suivants : division entière (et reste de la division entière) par 0, débordement arithmétique sur les flottants (inclut la division flottante par 0.0), absence de return lors de l’exécution d’une méthode, conversion de type impossible, déréférencement de null, débordement mémoire (pile ou tas).
+
+
+\subsection{option -java}
+
+Cette option correspond à l'extension byte du compilateur decac. Elle permet de compiler le fichier deca passé en paramètre en bytecode java. Les fichiers créés en sortie sont au format ".class". Pour chaque classe implémentée dans le fichier deca passé en paramètre, un fichier .class est créé. Il peut donc y avoir plusieurs fichiers .class pour un seul fichier deca.
 
 \section{Messages d'erreurs}
 
 Lors de la vérification de l'arbre, un grand nombre d'erreurs peut survenir lors de la vérification
 contextuelle du programme deca. Cette section est consacrée à la description de toutes ces erreurs,
-afin que vous puissiez les résoudres plus facilement.
+afin que vous puissiez les résoudre plus facilement.
 
 \subsection{IncludeFileNotFound}
 \subsubsection{(...) include file not found}
