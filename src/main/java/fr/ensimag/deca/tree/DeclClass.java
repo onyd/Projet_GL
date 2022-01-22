@@ -139,6 +139,7 @@ public class DeclClass extends AbstractDeclClass {
         ClassWriter classWriter = javaCompiler.getClassWriter();
         javaCompiler.getDeclClass().put(name.getName().getName(), classWriter);
         javaCompiler.setClassWriter(classWriter);
+        javaCompiler.setClassName(name.getName().getName());
 
         classWriter.visit(javaCompiler.V1_8,
                 javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
@@ -152,11 +153,16 @@ public class DeclClass extends AbstractDeclClass {
         // default constructor
         MethodVisitor methodVisitor = null;
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        javaCompiler.setMethodVisitor(methodVisitor);
         methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
         methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
                 "java/lang/Object",
                 "<init>",
                 "()V",false);
+
+        //creation and initialization of the field in the constructor
+        fields.codeGenListDeclFieldByte(javaCompiler);
+
         methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
@@ -167,7 +173,7 @@ public class DeclClass extends AbstractDeclClass {
         classWriter.visitEnd();
     }
 
-    @Override
+        @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         name.prettyPrint(s, prefix, false);
         superClassName.prettyPrint(s, prefix, false);

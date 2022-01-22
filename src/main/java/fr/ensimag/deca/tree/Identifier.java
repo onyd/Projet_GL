@@ -267,7 +267,11 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         if(this.getExpDefinition().isField()) {
-
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
+            javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.GETFIELD,
+                    this.getFieldDefinition().getClassName(),
+                    name.getName(),
+                    this.getJavaType());
         } else {
             if (this.getType().isInt()) {
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());

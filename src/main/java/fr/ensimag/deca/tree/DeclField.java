@@ -99,17 +99,18 @@ public class DeclField extends AbstractDeclField {
     @Override
     protected void codeGenDeclFieldByte(JavaCompiler javaCompiler) {
         Object initialValue = null;
+        fieldIdent.getFieldDefinition().setClassName(javaCompiler.getClassName());
         if(typeName.getType().isInt() || typeName.getType().isBoolean()) {
             initialValue = 0;
         } else if(typeName.getType().isFloat()) {
             initialValue = 0.0;
         }
         FieldVisitor fv = javaCompiler.getClassWriter().visitField(
-                            javaCompiler.ACC_PUBLIC,
-                            fieldIdent.getName().getName(),
-                            typeName.getJavaType(),
-                            null,
-                            initialValue);
+                javaCompiler.ACC_PUBLIC,
+                fieldIdent.getName().getName(),
+                typeName.getJavaType(),
+                null,
+                initialValue);
         fv.visitEnd();
         if(!initialization.noInitialization()) {
             Initialization init = (Initialization) initialization;
@@ -121,4 +122,5 @@ public class DeclField extends AbstractDeclField {
                     typeName.getJavaType());
         }
     }
+
 }

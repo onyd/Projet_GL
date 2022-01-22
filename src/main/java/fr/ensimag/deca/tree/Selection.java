@@ -86,7 +86,7 @@ public class Selection extends AbstractLValue {
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-
+        fieldIdent.codeGenExprByteOnStack(javaCompiler);
     }
 
     @Override

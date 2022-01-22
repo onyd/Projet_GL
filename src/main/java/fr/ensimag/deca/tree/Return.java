@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -39,6 +40,18 @@ public class Return extends  AbstractInst {
     @Override
     protected void codeGenInst(IMACompiler compiler) {
         expr.codeGenExprOnRegister(compiler, Register.R0);
+    }
+
+    @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        if(expr.getType().isInt() || expr.getType().isBoolean()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.IRETURN);
+        } else if(expr.getType().isFloat()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FRETURN);
+        } else if(expr.getType().isClass()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ARETURN);
+        }
     }
 
     @Override

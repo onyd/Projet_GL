@@ -56,7 +56,15 @@ public class Assign extends AbstractBinaryExpr {
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ISTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
             } else if(this.getType().isClass()) {
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ASTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
+            } if(((Identifier) this.getLeftOperand()).getExpDefinition().isField()) {
+                javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
+                javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.GETFIELD,
+                        ((Identifier) getLeftOperand()).getFieldDefinition().getClassName(),
+                        ((Identifier) getLeftOperand()).getName().getName(),
+                        this.getJavaType());
             }
+        } else {
+
         }
     }
 
