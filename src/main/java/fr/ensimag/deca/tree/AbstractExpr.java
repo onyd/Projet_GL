@@ -149,6 +149,7 @@ public abstract class AbstractExpr extends AbstractInst {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
+        this.codeGenExprOnR1(compiler);
     }
 
     @Override

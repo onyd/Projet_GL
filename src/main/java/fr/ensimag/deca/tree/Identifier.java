@@ -266,14 +266,18 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        if (this.getType().isInt()) {
-            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
-        } else if(this.getType().isFloat()) {
-            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
-        } else if (this.getType().isBoolean()) {
-            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
-        } else if(this.getType().isClass()) {
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, this.getExpDefinition().getIndexOnStack());
+        if(this.getExpDefinition().isField()) {
+
+        } else {
+            if (this.getType().isInt()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isFloat()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
+            } else if (this.getType().isBoolean()) {
+                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
+            } else if(this.getType().isClass()) {
+                javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, this.getExpDefinition().getIndexOnStack());
+            }
         }
     }
 

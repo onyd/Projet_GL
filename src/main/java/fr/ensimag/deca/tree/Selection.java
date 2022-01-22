@@ -55,13 +55,13 @@ public class Selection extends AbstractLValue {
      * Assign the selection with the value stored on R1
      * @param compiler
      */
-    protected void codeGenAssignFromR1(IMACompiler compiler) {
+    protected void codeGenAssignFromReg(IMACompiler compiler, Register register) {
         Utils.loadExpr(compiler, expr, Register.R0);
         compiler.addInstruction(new CMP(new NullOperand(), Register.R0));
         if(compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BEQ(new Label("seg_fault")));
         }
-        compiler.addInstruction(new STORE(Register.R1, new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), Register.R0)));
+        compiler.addInstruction(new STORE(register, new RegisterOffset(fieldIdent.getFieldDefinition().getIndex(), Register.R0)));
     }
 
     @Override
