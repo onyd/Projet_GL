@@ -39,6 +39,16 @@ public class ReadFloat extends AbstractReadExpr {
     }
 
     @Override
+    public String readFunc() {
+        return "nextFloat";
+    }
+
+    @Override
+    public String readType() {
+        return "F";
+    }
+
+    @Override
     public void decompile(IndentPrintStream s) {
         s.print("readFloat()");
     }

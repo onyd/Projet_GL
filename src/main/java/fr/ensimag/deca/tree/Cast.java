@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -54,6 +55,24 @@ public class Cast extends AbstractExpr {
                 compiler.addInstruction(new CMP(new NullOperand(), register));
                 if(compiler.getCompilerOptions().getNoCheck()) {
                     compiler.addInstruction(new BEQ(new Label("seg_fault")));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        if(type.getType().isInt()) {
+            expr.codeGenExprByteOnStack(javaCompiler);
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.F2I);
+        } else if(type.getType().isFloat()) {
+            expr.codeGenExprByteOnStack(javaCompiler);
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.I2F);
+        } else if(type.getType().isClass()) {
+            if(expr.getType().isClass()) {
+                if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
+                    expr.codeGenExprByteOnStack(javaCompiler);
+                    javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.CHECKCAST, type.getName().getName());
                 }
             }
         }

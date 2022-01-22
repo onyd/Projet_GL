@@ -278,7 +278,7 @@ public abstract class AbstractExpr extends AbstractInst {
             return "Z";
         }
         else if(this.getType().isClass()) {
-            return "L" + ((Identifier) this).getName().getName() + ";";
+            return "L" + ((Identifier) this).getType().getName().getName() + ";";
         }
         else if(this.getType().isVoid()) {
             return "V";

@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -44,6 +45,11 @@ public class This extends AbstractExpr {
     @Override
     public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         compiler.addInstruction(new LOAD(getDVal(), register));
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ALOAD, 0);
     }
 
     @Override

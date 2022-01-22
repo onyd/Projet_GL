@@ -114,6 +114,9 @@ public class MethodCall extends AbstractExpr {
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
         expr.codeGenExprByteOnStack(javaCompiler);
+        for(AbstractExpr arg : arguments.getList()) {
+            arg.codeGenExprByteOnStack(javaCompiler);
+        }
         javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
                 expr.getType().getName().getName(),
                 methodIdent.getName().getName(),
