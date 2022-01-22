@@ -12,6 +12,7 @@ public class VariableDefinition extends ExpDefinition {
     public VariableDefinition(Type type, Location location) {
         super(type, location);
     }
+    private boolean isConstant = true;
 
     @Override
     public String getNature() {
@@ -21,5 +22,11 @@ public class VariableDefinition extends ExpDefinition {
     @Override
     public boolean isExpression() {
         return true;
+    }
+
+    public boolean isConstant() { return isConstant; }
+
+    public void setConstant(boolean isConstant) {
+        this.isConstant = isConstant;
     }
 }

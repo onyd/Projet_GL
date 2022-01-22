@@ -67,10 +67,5 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
-    @Override
-    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        getLeftOperand().codeGenExprByteOnStack(javaCompiler);
-        getRightOperand().codeGenExprByteOnStack(javaCompiler);
-        javaCompiler.getMethodVisitor().visitInsn(codeMnemoByte(javaCompiler));
-    }
+
 }

@@ -6,6 +6,7 @@ import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -42,5 +43,32 @@ public class Divide extends AbstractOpArith {
             return javaCompiler.IDIV;
         }
         return 0;
+    }
+
+    public boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
+        if (getRightOperand().isIntLiteral()) {
+            getLeftOperand().codeGenExprOnRegister(compiler, register);
+            int value = ((IntLiteral) getRightOperand()).getValue();
+            while (value != 1) {
+                compiler.addInstruction(new SHR(register));
+                value /= 2;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            int value = ((IntLiteral) getLeftOperand()).getValue() / ((IntLiteral) getRightOperand()).getValue();
+            compiler.addInstruction(new LOAD(value, register));
+            return true;
+        } else if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            float value = ((FloatLiteral) getLeftOperand()).getValue() / ((FloatLiteral) getRightOperand()).getValue();
+            compiler.addInstruction(new LOAD(new ImmediateFloat(value), register));
+            return true;
+        }
+        return false;
     }
 }

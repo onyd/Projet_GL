@@ -65,6 +65,18 @@ public abstract class AbstractIdentifier extends AbstractLValue {
 
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not a param definition.
+     */
+    public abstract ParamDefinition getParamDefinition();
+
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
      * VariableDefinition.
      *
      * This method essentially performs a cast, but throws an explicit exception

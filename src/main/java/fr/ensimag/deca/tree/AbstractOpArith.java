@@ -10,6 +10,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -54,22 +55,34 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
-
     }
 
     @Override
     public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        // Constant optimization
+        if (this.codeGenConstants(compiler, register))
+            return;
+
+        // If power of 2 => shifts are faster for * and /
+        if (this.codeGenPowerOfTwo(compiler, register))
+            return;
+
+        // Classic code generation
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
@@ -109,6 +122,21 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 }
             }
         }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        getLeftOperand().codeGenExprByteOnStack(javaCompiler);
+        getRightOperand().codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitInsn(codeMnemoByte(javaCompiler));
+    }
+
+    protected boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
+        return false;
+    }
+
+    protected boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
+        return false;
     }
 
 }

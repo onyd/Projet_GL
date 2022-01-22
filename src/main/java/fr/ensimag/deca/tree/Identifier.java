@@ -123,6 +123,28 @@ public class Identifier extends AbstractIdentifier {
     }
 
     /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not a field definition.
+     */
+    @Override
+    public ParamDefinition getParamDefinition() {
+        try {
+            return (ParamDefinition) definition;
+        } catch (ClassCastException e) {
+            throw new DecacInternalError(
+                    "Identifier "
+                            + getName()
+                            + " is not a param identifier, you can't call getParamDefinition on it");
+        }
+    }
+
+    /**
      * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
      * 
      * This method essentially performs a cast, but throws an explicit exception
@@ -226,13 +248,17 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
         } else if(this.getExpDefinition().getType().isFloat()) {
             compiler.getStack().getVariableFromStackOnR1(this);
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         } else if(this.getExpDefinition().getType().isString()) {
             int position = ((RegisterOffset) this.getExpDefinition().getOperand()).getOffset();
             for(int i = 0; i < this.getExpDefinition().getSizeOnStack(); i++) {
@@ -287,7 +313,6 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
-        System.out.println(getName());
         codeGenExprByteOnStack(javaCompiler);
         if (negation) {
             javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);

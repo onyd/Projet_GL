@@ -1,0 +1,12 @@
+// Description:
+//   Print a float.
+// Results:
+//
+//
+// History:
+//    created on 22/01/2022
+
+{
+   float i = 1.56;
+   println(i);
+}

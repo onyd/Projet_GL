@@ -181,7 +181,7 @@ public class CompilerOptions {
     }
 
     protected void displayUsage() {
-        System.out.println("Usage: decac [[-p | -v] [-n] [-r X] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
+        System.out.println("Usage: decac [[[-p | -v] | -java | -r X] [-n] [-d]* [-P] [-w] <fichier deca>...] | [-b]");
     }
 
     @Override

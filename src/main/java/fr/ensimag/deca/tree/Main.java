@@ -50,6 +50,7 @@ public class Main extends AbstractMain {
     @Override
     protected void codeGenMain(IMACompiler compiler) {
         compiler.addComment("Beginning of main instructions:");
+        compiler.setCurrentMethod(null);
         declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }

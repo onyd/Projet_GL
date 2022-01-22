@@ -21,6 +21,11 @@ public class MethodCall extends AbstractExpr {
     private AbstractIdentifier methodIdent;
     private ListExpr arguments;
 
+    @Override
+    public boolean isMethodCall() {
+        return true;
+    }
+
     public MethodCall(AbstractExpr expr, AbstractIdentifier methodIdent, ListExpr arguments) {
         super();
         Validate.notNull(expr);
@@ -52,12 +57,16 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(methodIdent.getMethodDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(methodIdent.getMethodDefinition().getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 

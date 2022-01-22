@@ -13,6 +13,7 @@ import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import org.apache.commons.lang.Validate;
 import org.objectweb.asm.MethodVisitor;
 
@@ -27,6 +28,8 @@ public class FloatLiteral extends AbstractExpr {
     public float getValue() {
         return value;
     }
+
+    public boolean isFloatLiteral() {return true; }
 
     private float value;
 
@@ -47,9 +50,13 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new LOAD(new ImmediateFloat(this.value), Register.R1));
-        compiler.addInstruction(new WFLOAT());
+        if (printHex) {
+            compiler.addInstruction(new WFLOATX());
+        } else {
+            compiler.addInstruction(new WFLOAT());
+        }
     }
 
     @Override

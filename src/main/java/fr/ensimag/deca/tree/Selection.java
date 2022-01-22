@@ -75,12 +75,16 @@ public class Selection extends AbstractLValue {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(fieldIdent.getFieldDefinition().getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(fieldIdent.getFieldDefinition().getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 

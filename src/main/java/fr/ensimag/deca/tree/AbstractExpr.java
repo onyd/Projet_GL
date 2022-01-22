@@ -28,6 +28,20 @@ public abstract class AbstractExpr extends AbstractInst {
         return false;
     }
 
+    public boolean isIdentifier() {
+        return false;
+    }
+
+    public boolean isSelection() {
+        return false;
+    }
+
+    public boolean isMethodCall() { return false; }
+
+    public boolean isIntLiteral() { return false; };
+
+    public boolean isFloatLiteral() { return false; }
+
     public boolean isReadFloat() {
         return false;
     }
@@ -138,12 +152,16 @@ public abstract class AbstractExpr extends AbstractInst {
      *
      * @param compiler
      */
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         this.codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 
@@ -189,6 +207,31 @@ public abstract class AbstractExpr extends AbstractInst {
     }
 
     protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
+        throw new UnsupportedOperationException("Cannot perform the boolean computation");
+    }
+
+    /**
+     * load the expression on the top of the operand stack
+     * @param javaCompiler
+     */
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        org.objectweb.asm.Label label = new org.objectweb.asm.Label();
+        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
+        javaCompiler.getMethodVisitor().visitLdcInsn(0); // Default expr is evaluated to false
+
+        codeGenBoolByte(javaCompiler, true, label);
+        javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, endLabel);
+
+        // True result label
+        javaCompiler.getMethodVisitor().visitLabel(label);
+        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.POP);
+        javaCompiler.getMethodVisitor().visitLdcInsn(1);
+
+        // False result label
+        javaCompiler.getMethodVisitor().visitLabel(endLabel);
+    }
+
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
         throw new UnsupportedOperationException("Cannot perform the boolean computation");
     }
 
@@ -260,16 +303,6 @@ public abstract class AbstractExpr extends AbstractInst {
         }
     }
 
-    /**
-     * load the expression on the top of the operand stack
-     * @param javaCompiler
-     */
-    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 
-    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
-        throw new UnsupportedOperationException("Cannot perform the boolean computation");
-    }
 
 }

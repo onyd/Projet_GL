@@ -7,6 +7,7 @@ import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -40,5 +41,19 @@ public class Plus extends AbstractOpArith {
         } else {
             return javaCompiler.FADD;
         }
+    }
+
+    @Override
+    public boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            int value = ((IntLiteral) getLeftOperand()).getValue() + ((IntLiteral) getRightOperand()).getValue();
+            compiler.addInstruction(new LOAD(value, register));
+            return true;
+        } else if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            float value = ((FloatLiteral) getLeftOperand()).getValue() + ((FloatLiteral) getRightOperand()).getValue();
+            compiler.addInstruction(new LOAD(new ImmediateFloat(value), register));
+            return true;
+        }
+        return false;
     }
 }

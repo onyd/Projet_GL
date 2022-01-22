@@ -26,6 +26,8 @@ public class IntLiteral extends AbstractExpr {
         return value;
     }
 
+    public boolean isIntLiteral() {return true; };
+
     private int value;
 
     public IntLiteral(int value) {
@@ -41,7 +43,7 @@ public class IntLiteral extends AbstractExpr {
     }
 
     @Override
-    protected void codeGenPrint(IMACompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new LOAD(this.value, Register.R1));
         compiler.addInstruction(new WINT());
     }

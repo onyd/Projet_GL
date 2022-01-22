@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -56,5 +57,15 @@ public class Modulo extends AbstractOpArith {
             return javaCompiler.IREM;
         }
         return 0;
+    }
+
+    @Override
+    public boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            int value = ((IntLiteral) getLeftOperand()).getValue() % ((IntLiteral) getRightOperand()).getValue();
+            compiler.addInstruction(new LOAD(value, register));
+            return true;
+        }
+        return false;
     }
 }

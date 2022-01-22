@@ -105,7 +105,43 @@ public class Program extends AbstractProgram {
         main.codeGenMainByte(javaCompiler);
 
         classWriter.visitEnd();
+
+//        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+//        String program = "class MethodJavaBody {" + javaCompiler.getMethods() + "}";
+//        Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
+//        compiler.getTask(null, null, null, null, null, fileObjects).call();
+//        Class<?> clazz = Class.forName("MethodJavaBody");
+//        Method m = clazz.getMethod("main", new Class[] { String[].class });
+//        Object[] _args = new Object[] { new String[0] };
+//        m.invoke(null, _args);
     }
+
+//    static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {
+//        final JavaSourceFromString jsfs;
+//        jsfs = new JavaSourceFromString("code", code);
+//        return new Iterable<JavaSourceFromString>() {
+//            public Iterator<JavaSourceFromString> iterator() {
+//                return new Iterator<JavaSourceFromString>() {
+//                    boolean isNext = true;
+//
+//                    public boolean hasNext() {
+//                        return isNext;
+//                    }
+//
+//                    public JavaSourceFromString next() {
+//                        if (!isNext)
+//                            throw new NoSuchElementException();
+//                        isNext = false;
+//                        return jsfs;
+//                    }
+//
+//                    public void remove() {
+//                        throw new UnsupportedOperationException();
+//                    }
+//                };
+//            }
+//        };
+//    }
 
     @Override
     public void decompile(IndentPrintStream s) {

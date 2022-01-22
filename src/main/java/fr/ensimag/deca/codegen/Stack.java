@@ -89,8 +89,14 @@ public class Stack {
     }
 
     public void getVariableFromStackOnR1(Identifier identifier) {
-        RegisterOffset addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
+        RegisterOffset addr;
+        if (identifier.getDefinition().isParam()) {
+            addr = (RegisterOffset) identifier.getParamDefinition().getOperand();
+        } else {
+            addr = (RegisterOffset) identifier.getVariableDefinition().getOperand();
+        }
         this.decacCompiler.addInstruction(new LOAD(addr, Register.R1));
+
     }
 
     public void getVariableFromStackOnR1(Identifier identifier, int position) {
