@@ -231,6 +231,8 @@ do
   resultat=$(ima $assFile) || exit 1
   rm -f $assFile
 
+  echo "test"
+
 
   attendu=$(cat $resultFile)
 
