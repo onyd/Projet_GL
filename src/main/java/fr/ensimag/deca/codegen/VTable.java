@@ -1,6 +1,8 @@
 package fr.ensimag.deca.codegen;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.tree.*;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
@@ -48,7 +50,8 @@ public class VTable {
     public void VTableForObject() {
         compiler.addComment("For Oject:");
         this.currentLabelList = new ArrayList<>();
-        compiler.getStack().declareImmediateOnStackAndReturnDAddr(new NullOperand());
+        DAddr dAddr = compiler.getStack().declareImmediateOnStackAndReturnDAddr(new NullOperand());
+        ((ClassDefinition) compiler.getEnvironmentType().get(compiler.OBJECT_SYMBOL)).setdAddrVTable(dAddr);
         Label equals = compiler.getLabelManager().getMethodLabel("Object", "equals");
         compiler.getStack().declareLabelOnStackAndReturnDAddr(equals);
         currentLabelList.add(equals);

@@ -1,0 +1,17 @@
+class Car {
+    protected int maxSpeed;
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+
+    int getMaxSpeed(int newSpeed) {
+            return maxSpeed;
+    }
+
+    void methodAsm() asm("  WSTR \"toto\"");
+}
+{
+    Car c = new Car();
+    c.methodAsm();
+}
