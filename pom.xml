@@ -250,6 +250,16 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>basic-context-java</id>
+                        <configuration>
+                            <executable>./src/test/script/basic-context-java.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>basic-gencode</id>
                         <configuration>
                             <executable>./src/test/script/basic-gencode.sh</executable>
