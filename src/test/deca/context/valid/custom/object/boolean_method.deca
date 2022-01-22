@@ -1,0 +1,21 @@
+class Humain{
+    boolean estUneFille;
+
+    boolean getEstUneFille(){
+        return this.estUneFille;
+    }
+}
+
+{
+    Humain laure = new Humain();
+    Humain aurelien = new Humain();
+    laure.estUneFille = true;
+    aurelien.estUneFille = false;
+
+    if(aurelien.getEstUneFille()){
+        println("pas normal");
+    }
+    if(laure.getEstUneFille()){
+        println("normal");
+    }
+}

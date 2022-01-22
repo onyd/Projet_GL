@@ -1,0 +1,13 @@
+// Description:
+//   initialization of a int and a float to null.
+// Results:
+//    Line 11:
+//
+// History:
+//    created on 21/01/2022
+
+{
+int b = null;
+float c = null;
+}
+

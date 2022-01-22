@@ -15,6 +15,8 @@ echo "${RED}\e[1mLets test the custom tests for the codegen part\e[0m"
 
 
 
+
+
 echo "${GREEN}  This part is about the declarations\n${NC}"
 for fich in ./src/test/deca/codegen/valid/custom/declaration/*.deca
 do
@@ -175,6 +177,7 @@ do
 
 done
 
+
 echo "${GREEN}  This part is for the operations on class\n${NC}"
 for fich in ./src/test/deca/codegen/valid/demo/class/*.deca
 do
@@ -190,6 +193,106 @@ do
   fi
 
   resultat=$(ima $assFile) || exit 1
+  rm -f $assFile
+
+
+  #echo $resultat | sed -e 's/\(.\)/\1\n/g'
+  attendu=$(cat $resultFile)
+
+
+
+  echo "    Test for" $fich
+
+  if [ "$resultat" = "$attendu" ]; then
+      echo "    The result corresponds to the expected result"
+  else
+      echo "    The result doesn't correspond to the expected result. Indeed, the result is:"
+      echo $resultat
+  fi
+
+done
+
+
+
+echo "${GREEN}  This part is for the operations on objects\n${NC}"
+for fich in ./src/test/deca/codegen/valid/custom/object/*.deca
+do
+
+  resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
+  assFile=$(echo "$fich" | sed "s/deca/ass/g" | sed "s/ass/deca/")
+
+  rm -f $assFile 2>/dev/null
+  decac $fich || exit 1
+  if [ ! -f $assFile ]; then
+      echo "Fichier .ass non généré."
+      exit 1
+  fi
+
+  resultat=$(ima $assFile) || exit 1
+  rm -f $assFile
+
+
+  attendu=$(cat $resultFile)
+
+  echo "    Test for" $fich
+
+  if [ "$resultat" = "$attendu" ]; then
+      echo "    The result corresponds to the expected result"
+  else
+      echo "    The result doesn't correspond to the expected result. Indeed, the result is:"
+      echo $resultat
+  fi
+
+done
+
+
+echo "${GREEN}  This part is for the include files\n${NC}"
+for fich in ./src/test/deca/codegen/valid/custom/include/*.deca
+do
+
+  resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
+  assFile=$(echo "$fich" | sed "s/deca/ass/g" | sed "s/ass/deca/")
+
+  rm -f $assFile 2>/dev/null
+  decac $fich || exit 1
+  if [ ! -f $assFile ]; then
+      echo "Fichier .ass non généré."
+      exit 1
+  fi
+
+  resultat=$(ima $assFile) || exit 1
+  rm -f $assFile
+
+
+  attendu=$(cat $resultFile)
+
+  echo "    Test for" $fich
+
+  if [ "$resultat" = "$attendu" ]; then
+      echo "    The result corresponds to the expected result"
+  else
+      echo "    The result doesn't correspond to the expected result. Indeed, the result is:"
+      echo $resultat
+  fi
+
+done
+
+
+echo "${GREEN}  This part is for the invalid files\n${NC}"
+for fich in ./src/test/deca/codegen/invalid/custom/*.deca
+do
+
+  resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
+  assFile=$(echo "$fich" | sed "s/deca/ass/g" | sed "s/ass/deca/")
+
+  rm -f $assFile 2>/dev/null
+  decac $fich || exit 1
+  if [ ! -f $assFile ]; then
+      echo "Fichier .ass non généré."
+      exit 1
+  fi
+
+  resultat=$(ima $assFile)
   rm -f $assFile
 
 
@@ -235,5 +338,6 @@ do
   fi
 
 done
+
 
 

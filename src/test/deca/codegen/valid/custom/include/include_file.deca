@@ -1,0 +1,8 @@
+#include "included_file.decah"
+
+{
+    Velo v = new Velo();
+    v.prix = 220;
+    println(v.getPrix());
+
+}

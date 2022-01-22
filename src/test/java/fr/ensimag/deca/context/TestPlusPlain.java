@@ -1,12 +1,16 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.IMACompiler;
-import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.CompilerOptions;
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
+
+import java.io.File;
+
 import static org.mockito.Mockito.*;
 
 /**
@@ -22,9 +26,11 @@ public class TestPlusPlain {
     final Type INT = new IntType(null);
     final Type FLOAT = new FloatType(null);
 
-    //@Test
+    @Test
     public void testType() throws ContextualError {
-        IMACompiler compiler= new IMACompiler(null, null);
+        File source = new File("src/test/deca/codegen/valid/custom/declaration/bool_declare.deca");
+        CompilerOptions compilerOptions = new CompilerOptions();
+        DecacCompiler compiler = new IMACompiler(compilerOptions, source);
         AbstractExpr left = Mockito.mock(AbstractExpr.class);
         when(left.verifyExpr(compiler, null, null)).thenReturn(INT);
         AbstractExpr right = Mockito.mock(AbstractExpr.class);

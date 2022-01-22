@@ -4,6 +4,6 @@ class Chien {
 
 {
 	Chien c = new Chien();
-	println("le son du \"chien\" est : ");
-	c.crier();
+	//println("le son du \"chien\" est : ");
+	//c.crier();
 }

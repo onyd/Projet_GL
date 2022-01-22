@@ -1,0 +1,7 @@
+class Bonjour{
+    void i;
+}
+{
+    Bonjour bonjour = new Bonjour();
+    bonjour.i;
+}

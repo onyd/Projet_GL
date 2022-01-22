@@ -104,4 +104,4 @@ SEPARATOR: (SPACE | '\t' | EOL | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 SPACE : (' ' | '\t') { skip(); };
 
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"' { doInclude(getText()); };
+INCLUDE: '#include' (' ')* '"' FILENAME '"' {  skip();doInclude(getText()); };
