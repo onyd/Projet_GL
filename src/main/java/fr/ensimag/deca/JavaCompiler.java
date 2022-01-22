@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 public class JavaCompiler extends DecacCompiler implements Opcodes
@@ -18,7 +19,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;
     private String className;
-    private String methods;
+    private String methods = "";
 
     public String getMethods() {
         return methods;
@@ -36,7 +37,7 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     }
 
     @Override
-    public void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError {
+    public void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         String path = source.getAbsolutePath().substring(0, source.getAbsolutePath().length() - source.getName().length());
         FileOutputStream fstreamByteCode = null;
         try {

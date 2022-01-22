@@ -23,7 +23,7 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 test_synt_valide () {
-    if test_synt "$1">fichier 2>&1
+    if test_synt "$1">standardOutput 2>&1
     then
         echo "    Succès attendu pour test_synt sur $1."
         succ=$((succ+1))
@@ -35,7 +35,7 @@ test_synt_valide () {
 }
 
 test_synt_invalide () {
-    if test_synt "$1">fichier 2>&1
+    if test_synt "$1">standardOutput 2>&1
     then
         echo "    Succès inattendu pour test_synt sur $1."
         #exit 1

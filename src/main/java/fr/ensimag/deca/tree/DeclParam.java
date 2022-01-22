@@ -18,6 +18,10 @@ public class DeclParam extends AbstractDeclParam {
         ((Identifier) this.paramIdent).getExpDefinition().setIndexOnStack(indexInLocals);
     }
 
+    public AbstractIdentifier getTypeName() {
+        return typeName;
+    }
+
     public AbstractIdentifier getParamIdent() {
         return paramIdent;
     }

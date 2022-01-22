@@ -18,5 +18,5 @@ public abstract class AbstractMethodBody extends  Tree {
 
     protected abstract void codeGenMethodBody(IMACompiler compiler);
 
-    protected void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex) {}
+    protected abstract void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex);
 }

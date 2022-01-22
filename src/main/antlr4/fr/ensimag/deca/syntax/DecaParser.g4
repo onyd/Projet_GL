@@ -611,7 +611,7 @@ decl_method returns[AbstractDeclMethod tree]
         }
       | JAVA OPARENT code=multi_line_string CPARENT SEMI {
             StringLiteral java = new StringLiteral($code.text);
-            body = new MethodJavaBody(java);
+            body = new MethodJavaBody(java, $type.tree, $ident.tree, $params.tree);
             setLocation(body, $JAVA);
             setLocation(java, $JAVA);
         }
