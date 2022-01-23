@@ -10,6 +10,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -136,27 +137,52 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void codeGenDeclClassByte(JavaCompiler javaCompiler, String path) {
         // The javaCompiler specific to this class
-        ClassWriter classWriter = javaCompiler.getClassWriter();
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         javaCompiler.getDeclClass().put(name.getName().getName(), classWriter);
         javaCompiler.setClassWriter(classWriter);
+        javaCompiler.setClassName(name.getName().getName());
 
-        classWriter.visit(javaCompiler.V1_8,
-                javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
-                name.getName().getName(),
-                null,
-                "java/lang/Object",
-                null);
+        if(Objects.equals(superClassName.getName().getName(), "Object")) {
+            classWriter.visit(javaCompiler.V1_8,
+                    javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
+                    name.getName().getName(),
+                    null,
+                    "java/lang/Object",
+                    null);
+        } else {
+            classWriter.visit(javaCompiler.V1_8,
+                    javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
+                    name.getName().getName(),
+                    null,
+                    superClassName.getName().getName(),
+                    null);
+        }
+
 
         classWriter.visitSource(path + name.getName().getName() + ".java", null);
 
         // default constructor
         MethodVisitor methodVisitor = null;
         methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        javaCompiler.setMethodVisitor(methodVisitor);
         methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
-        methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
-                "java/lang/Object",
-                "<init>",
-                "()V",false);
+
+        if(Objects.equals(superClassName.getName().getName(), "Object")) {
+            methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
+                    "java/lang/Object",
+                    "<init>",
+                    "()V",false);
+        } else {
+            methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
+                    superClassName.getName().getName(),
+                    "<init>",
+                    "()V",false);
+        }
+
+
+        //creation and initialization of the field in the constructor
+        fields.codeGenListDeclFieldByte(javaCompiler);
+
         methodVisitor.visitInsn(javaCompiler.RETURN);
         methodVisitor.visitMaxs(-1, -1);
         methodVisitor.visitEnd();
@@ -167,7 +193,7 @@ public class DeclClass extends AbstractDeclClass {
         classWriter.visitEnd();
     }
 
-    @Override
+        @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         name.prettyPrint(s, prefix, false);
         superClassName.prettyPrint(s, prefix, false);

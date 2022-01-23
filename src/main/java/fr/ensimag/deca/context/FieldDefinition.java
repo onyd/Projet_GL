@@ -10,12 +10,22 @@ import fr.ensimag.deca.tree.Visibility;
  * @date 01/01/2022
  */
 public class FieldDefinition extends LValueDefinition {
+
+    private int index;
+    private String className;
+
     public int getIndex() {
         return index;
     }
 
-    private int index;
-    
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
     @Override
     public boolean isField() {
         return true;

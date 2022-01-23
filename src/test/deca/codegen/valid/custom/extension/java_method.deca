@@ -1,0 +1,8 @@
+class Test {
+    void printOk() java ("System.out.println(\"Ok\");");
+}
+
+{
+    Test t = new Test();
+    t.printOk();
+}

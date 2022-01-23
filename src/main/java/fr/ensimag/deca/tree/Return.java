@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
@@ -41,6 +42,18 @@ public class Return extends  AbstractInst {
         MethodDefinition methDef = compiler.getCurrentMethod();
         if (methDef != null)
             compiler.addInstruction(new BRA(methDef.getEndLabel()));
+    }
+
+    @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        if(expr.getType().isInt() || expr.getType().isBoolean()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.IRETURN);
+        } else if(expr.getType().isFloat()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FRETURN);
+        } else if(expr.getType().isClass()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ARETURN);
+        }
     }
 
     @Override

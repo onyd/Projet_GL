@@ -8,17 +8,36 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.InlinePortion;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.util.Iterator;
 
 public class MethodJavaBody extends AbstractMethodBody {
     private final StringLiteral java;
+    private final String methodHeader;
 
-    public MethodJavaBody(StringLiteral assembly) {
-        Validate.notNull(assembly);
-        this.java = assembly;
+    public MethodJavaBody(StringLiteral java, AbstractIdentifier type, AbstractIdentifier ident, ListDeclParam listParam) {
+        Validate.notNull(java);
+        this.java = java;
+        String methodHeader =  type.getName().getName() + " " + ident.getName().getName() + "(";
+        Iterator<AbstractDeclParam> it = listParam.getList().iterator();
+
+        DeclParam param;
+        if (it.hasNext()) {
+            param = (DeclParam) it.next();
+            methodHeader += param.getTypeName().getName().getName() + " " + param.getParamIdent().getName().getName();
+        }
+
+        while (it.hasNext()) {
+            param = (DeclParam) it.next();
+            methodHeader += ", " + param.getTypeName().getName().getName() + " " + param.getParamIdent().getName().getName();
+        }
+        methodHeader += ")";
+
+        this.methodHeader = methodHeader;
     }
 
     @Override
@@ -49,11 +68,13 @@ public class MethodJavaBody extends AbstractMethodBody {
 
     @Override
     protected void codeGenMethodBody(IMACompiler compiler) {
-        compiler.add(new InlinePortion(java.getValue()));
+        throw new UnsupportedOperationException();
     }
 
-    public void codeGenByte(JavaCompiler javaCompiler) {
+    public void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex) {
+        javaCompiler.addJavaMethod(this.methodHeader + "{");
         javaCompiler.addJavaMethod(this.java.getValue());
+        javaCompiler.addJavaMethod("}");
     }
 
 }

@@ -12,6 +12,7 @@ import fr.ensimag.deca.tree.LocationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -140,7 +141,7 @@ public abstract class DecacCompiler {
      */
     private boolean doCompile(String sourceName, String destName,
             PrintStream out, PrintStream err)
-            throws DecacFatalError, LocationException {
+            throws DecacFatalError, LocationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 
         // STEP A
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
@@ -178,7 +179,7 @@ public abstract class DecacCompiler {
         return compilerOptions;
     }
 
-    public abstract void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError;
+    public abstract void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
     public abstract String getDestFileName(String sourceFileName);
 
