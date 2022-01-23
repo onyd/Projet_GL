@@ -30,7 +30,7 @@ public class Utils {
         compiler.addInstruction(new ERROR());
 
         compiler.addLabel(new Label("overflow_error"));
-        compiler.addInstruction(new WSTR("Error: StackOverflow"));
+        compiler.addInstruction(new WSTR("Error: Overflow during an operation"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
 
