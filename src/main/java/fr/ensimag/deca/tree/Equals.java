@@ -49,6 +49,14 @@ public class Equals extends AbstractOpExactCmp {
     }
 
     @Override
+    public int getClassJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IF_ACMPEQ;
+        else
+            return javaCompiler.IF_ACMPNE;
+    }
+
+    @Override
     public int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
         if (negation)
             return javaCompiler.IFEQ;

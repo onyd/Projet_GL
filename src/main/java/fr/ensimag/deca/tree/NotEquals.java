@@ -53,6 +53,14 @@ public class NotEquals extends AbstractOpExactCmp {
     }
 
     @Override
+    public int getClassJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IF_ACMPNE;
+        else
+            return javaCompiler.IF_ACMPEQ;
+    }
+
+    @Override
     protected String getOperatorName() {
         return "!=";
     }

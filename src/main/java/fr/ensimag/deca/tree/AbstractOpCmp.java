@@ -86,6 +86,8 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         // True result label
         if (getLeftOperand().getType().isInt()) {
             javaCompiler.getMethodVisitor().visitJumpInsn(getIntJumpInstrByte(javaCompiler, negation), label);
+        } else if (getLeftOperand().getType().isClass()) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(getClassJumpInstrByte(javaCompiler, negation), label);
         } else {
             javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FCMPL);
             javaCompiler.getMethodVisitor().visitJumpInsn(getFloatJumpInstrByte(javaCompiler, negation), label);
@@ -102,6 +104,8 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     public abstract int getIntJumpInstrByte(JavaCompiler javaCompiler, boolean negation);
 
     public abstract int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation);
+
+    public int getClassJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {throw new UnsupportedOperationException(); };
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
