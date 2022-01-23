@@ -111,14 +111,13 @@ public class Program extends AbstractProgram {
         main.codeGenMainByte(javaCompiler);
 
         classWriter.visitEnd();
-        //System.out.println("Prog:" + javaCompiler.getMethods());
 
         String program = "class MethodJavaBodies {" + javaCompiler.getMethods() + "}";
         Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
 
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager stdFileManager = compiler.getStandardFileManager(null, null, null);
 
+        // Get the destination path
         String[] separated = javaCompiler.getSource().toString().split("\\/");
         String filePath = "";
         for (int i = 0; i < separated.length - 1; i++) {
@@ -128,13 +127,8 @@ public class Program extends AbstractProgram {
         String[] compileOptions = new String[]{"-d", filePath};
         Iterable<String> compilationOptions = Arrays.asList(compileOptions);
 
-
         compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
 
-        Class<?> clazz = Class.forName("MethodJavaBodies");
-        Method m = clazz.getMethod("main", new Class[] { String[].class });
-        Object[] _args = new Object[] { new String[0] };
-        m.invoke(null, _args);
     }
 
     static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {

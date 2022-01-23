@@ -22,7 +22,7 @@ public class MethodJavaBody extends AbstractMethodBody {
     public MethodJavaBody(StringLiteral java, AbstractIdentifier type, AbstractIdentifier ident, ListDeclParam listParam) {
         Validate.notNull(java);
         this.java = java;
-        String methodHeader =  type.getName().getName() + " " + ident.getName().getName() + "(";
+        String methodHeader =  "static " + type.getName().getName() + " " + ident.getName().getName() + "(";
         Iterator<AbstractDeclParam> it = listParam.getList().iterator();
 
         DeclParam param;
