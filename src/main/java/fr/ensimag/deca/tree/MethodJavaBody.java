@@ -20,6 +20,7 @@ public class MethodJavaBody extends AbstractMethodBody {
     private final StringLiteral java;
 
     private final String methodHeader;
+    private AbstractIdentifier returnType;
     private final AbstractIdentifier methodIdent;
     private final ListDeclParam listParam;
 
@@ -29,6 +30,7 @@ public class MethodJavaBody extends AbstractMethodBody {
         Validate.notNull(ident);
         Validate.notNull(listParam);
         this.java = java;
+        this.returnType = type;
         this.methodIdent = ident;
         this.listParam = listParam;
 
@@ -90,6 +92,13 @@ public class MethodJavaBody extends AbstractMethodBody {
         }
 
         javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKESTATIC, javaCompiler.getSourceName() + "MethodJavaBodies$" + javaCompiler.getClassName(), methodIdent.getName().getName(), "(" + paramsJavaType + ")" + methodIdent.getJavaType(), false);
+        if(returnType.getType().isInt() || returnType.getType().isBoolean()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.IRETURN);
+        } else if(returnType.getType().isFloat()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FRETURN);
+        } else if(returnType.getType().isClass()) {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ARETURN);
+        }
     }
 
 }
