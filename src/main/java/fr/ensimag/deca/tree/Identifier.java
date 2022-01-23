@@ -336,7 +336,6 @@ public class Identifier extends AbstractIdentifier {
             javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);
         } else {
             javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFEQ, label);
-            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
         }
     }
 
