@@ -18,14 +18,19 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
     private MethodVisitor methodVisitor;
     private AnnotationVisitor annotationVisitor;
     private String className;
-    private String methods = "";
+    private String javaMethodBodies = "%s";
 
     public String getMethods() {
-        return methods;
+        return javaMethodBodies;
     }
 
     public void addJavaMethod(String newJavaMethod) {
-        this.methods += newJavaMethod;
+        this.javaMethodBodies = String.format(javaMethodBodies, newJavaMethod);
+    }
+
+    public void addJavaJavaMethodClass(String className) {
+        this.javaMethodBodies = String.format(javaMethodBodies, ""); // Close the last inserting point
+        this.javaMethodBodies += "public static class " + className + "{ %s }"; // Begin new java method insertion
     }
 
     //for all the declared class

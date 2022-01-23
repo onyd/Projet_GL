@@ -84,6 +84,15 @@ public abstract class DecacCompiler {
         return envTypes;
     }
 
+    public String getSourceName() {
+        String name = source.getName();
+        return name.substring(0, name.length() - 5);
+    }
+
+    public String getSourceDir() {
+        return source.getParent();
+    }
+
     /**
      * Source file associated with this compiler instance.
      */

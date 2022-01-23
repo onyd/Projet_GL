@@ -8,6 +8,10 @@ import fr.ensimag.deca.context.Type;
 
 public abstract class AbstractDeclParam extends Tree {
 
+    public abstract AbstractIdentifier getTypeName() ;
+
+    public abstract AbstractIdentifier getParamIdent();
+
     /**
      * Pass 2 of [SyntaxeContextuelle]. Verify that the param
      * is OK

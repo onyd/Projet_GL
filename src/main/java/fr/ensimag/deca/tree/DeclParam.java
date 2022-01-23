@@ -15,7 +15,7 @@ public class DeclParam extends AbstractDeclParam {
     private final  AbstractIdentifier paramIdent;
 
     public void setIndexInLocals(int indexInLocals) {
-        ((Identifier) this.paramIdent).getExpDefinition().setIndexOnStack(indexInLocals);
+        this.paramIdent.getExpDefinition().setIndexOnStack(indexInLocals);
     }
 
     public AbstractIdentifier getTypeName() {

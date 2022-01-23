@@ -30,7 +30,7 @@ public class Utils {
         compiler.addInstruction(new ERROR());
 
         compiler.addLabel(new Label("overflow_error"));
-        compiler.addInstruction(new WSTR("Error: StackOverflow"));
+        compiler.addInstruction(new WSTR("Error: Overflow during an operation"));
         compiler.addInstruction(new WNL());
         compiler.addInstruction(new ERROR());
 
@@ -107,6 +107,28 @@ public class Utils {
             type = type.getDefinition().getSuperClass().getType();
         }
         compiler.addInstruction(new BRA(trueLabel));
+    }
+
+    public static String getJavaType(Type type) {
+        if (type.isFloat()) {
+            return "F";
+        }
+        else if (type.isInt()) {
+            return "I";
+        }
+        else if (type.isString()) {
+            return "Ljava/lang/String;";
+        }
+        else if (type.isBoolean()) {
+            return "Z";
+        }
+        else if (type.isClass()) {
+            return "L" + type.getName().getName() + ";";
+        }
+        else if (type.isVoid()) {
+            return "V";
+        }
+        return null;
     }
 
 }

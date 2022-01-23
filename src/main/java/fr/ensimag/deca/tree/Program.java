@@ -6,14 +6,11 @@ import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.Validate;
@@ -112,19 +109,12 @@ public class Program extends AbstractProgram {
 
         classWriter.visitEnd();
 
-        String program = "class MethodJavaBodies {" + javaCompiler.getMethods() + "}";
+        String program = "class " + javaCompiler.getSourceName() + "MethodJavaBodies {" + String.format(javaCompiler.getMethods(), "") + "}";
         Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
 
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
-        // Get the destination path
-        String[] separated = javaCompiler.getSource().toString().split("\\/");
-        String filePath = "";
-        for (int i = 0; i < separated.length - 1; i++) {
-            filePath += separated[i] + "/";
-        }
-
-        String[] compileOptions = new String[]{"-d", filePath};
+        String[] compileOptions = new String[]{"-d", javaCompiler.getSourceDir()};
         Iterable<String> compilationOptions = Arrays.asList(compileOptions);
 
         compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
