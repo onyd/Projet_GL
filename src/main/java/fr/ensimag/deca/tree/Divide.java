@@ -78,7 +78,7 @@ public class Divide extends AbstractOpArith {
         if (getType().isInt()) {
             Integer leftValue = getLeftOperand().getDirectInt();
             Integer rightValue = getRightOperand().getDirectInt();
-            if (leftValue != null && rightValue != null)
+            if (leftValue != null && rightValue != null && rightValue != 0)
                 return leftValue / rightValue;
         }
         return null;
@@ -89,7 +89,7 @@ public class Divide extends AbstractOpArith {
         if (getType().isFloat()) {
             Float leftValue = getLeftOperand().getDirectFloat();
             Float rightValue = getRightOperand().getDirectFloat();
-            if (leftValue != null && rightValue != null)
+            if (leftValue != null && rightValue != null && rightValue != 0.0)
                 return leftValue / rightValue;
         }
         return null;

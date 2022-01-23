@@ -19,7 +19,7 @@ public class DecaRunner {
         this.decaResults = null;
     }
 
-    public DecaResults getResult() throws NoResultException {
+    public DecaResults getResults() throws NoResultException {
         if (decaResults != null) {
             return decaResults;
         } else {

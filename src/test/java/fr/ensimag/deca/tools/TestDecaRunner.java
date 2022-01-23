@@ -20,11 +20,10 @@ public class TestDecaRunner {
         TestDecaRunner test = new TestDecaRunner("src/test/deca/codegen/valid/demo/class/", "for_deca_runner");
         File file = new File(test.fileName);
         DecaRunner decaProgram = new DecaRunner(test.path, file);
-        System.out.println(file);
         decaProgram.run();
 
-        DecaResults res = decaProgram.getResult();
-        System.out.println(res.getResults());
+        DecaResults res = decaProgram.getResults();
+        System.out.println(res.getResults().get("x"));
     }
 
 
