@@ -58,7 +58,7 @@ public class Assign extends AbstractBinaryExpr {
         }
     }
 
-    public void codeGenAssign(JavaCompiler javaCompiler, boolean onStack) {
+    public void codeGenAssignByte(JavaCompiler javaCompiler, boolean onStack) {
         if(this.getLeftOperand().isIdentifier()) {
             if(((Identifier) this.getLeftOperand()).getExpDefinition().isField()) {
                 javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
@@ -95,18 +95,18 @@ public class Assign extends AbstractBinaryExpr {
             if(onStack) {
                 javaCompiler.getMethodVisitor().visitInsn(javaCompiler.DUP);
             }
-            ((Selection) getLeftOperand()).codeGenStoreExpr(javaCompiler);
+            ((Selection) getLeftOperand()).codeGenStoreExpr(javaCompiler, getRightOperand());
         }
     }
 
     @Override
     protected void codeGenInstByte(JavaCompiler javaCompiler) {
-        codeGenAssign(javaCompiler, false);
+        codeGenAssignByte(javaCompiler, false);
     }
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        codeGenAssign(javaCompiler, true);
+        codeGenAssignByte(javaCompiler, true);
     }
 
     @Override

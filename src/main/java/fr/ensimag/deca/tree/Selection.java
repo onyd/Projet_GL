@@ -97,7 +97,9 @@ public class Selection extends AbstractLValue {
                 this.getJavaType());
     }
 
-    public void codeGenStoreExpr(JavaCompiler javaCompiler) {
+    public void codeGenStoreExpr(JavaCompiler javaCompiler, AbstractExpr exprToLoad) {
+        expr.codeGenExprByteOnStack(javaCompiler);
+        exprToLoad.codeGenExprByteOnStack(javaCompiler);
         javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.PUTFIELD,
                 fieldIdent.getFieldDefinition().getClassName(),
                 fieldIdent.getName().getName(),
