@@ -62,6 +62,6 @@ public class InstanceOf extends AbstractExpr {
     @Override
     protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
         expr.codeGenExprByteOnStack(javaCompiler);
-        javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.INSTANCEOF, type.getJavaType());
+        javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.INSTANCEOF, type.getName().getName());
     }
 }

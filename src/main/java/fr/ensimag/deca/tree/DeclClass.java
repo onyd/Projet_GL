@@ -141,6 +141,7 @@ public class DeclClass extends AbstractDeclClass {
         javaCompiler.getDeclClass().put(name.getName().getName(), classWriter);
         javaCompiler.setClassWriter(classWriter);
         javaCompiler.setClassName(name.getName().getName());
+        javaCompiler.addJavaJavaMethodClass(name.getName().getName());
 
         if(Objects.equals(superClassName.getName().getName(), "Object")) {
             classWriter.visit(javaCompiler.V1_8,

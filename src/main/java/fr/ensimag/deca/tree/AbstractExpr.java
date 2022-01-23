@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -265,25 +266,7 @@ public abstract class AbstractExpr extends AbstractInst {
      * @return
      */
     public String getJavaType() {
-        if(this.getType().isFloat()) {
-            return "F";
-        }
-        else if(this.getType().isInt()) {
-            return "I";
-        }
-        else if(this.getType().isString()) {
-            return "Ljava/lang/String;";
-        }
-        else if(this.getType().isBoolean()) {
-            return "Z";
-        }
-        else if(this.getType().isClass()) {
-            return "L" + ((Identifier) this).getType().getName().getName() + ";";
-        }
-        else if(this.getType().isVoid()) {
-            return "V";
-        }
-        return null;
+        return Utils.getJavaType(getType());
     }
 
     @Override
