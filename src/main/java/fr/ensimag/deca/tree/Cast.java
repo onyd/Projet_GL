@@ -70,8 +70,8 @@ public class Cast extends AbstractExpr {
             javaCompiler.getMethodVisitor().visitInsn(javaCompiler.I2F);
         } else if(type.getType().isClass()) {
             if(expr.getType().isClass()) {
+                expr.codeGenExprByteOnStack(javaCompiler);
                 if(!((ClassType) expr.getType()).isSubClassOf((ClassType) type.getType())) {
-                    expr.codeGenExprByteOnStack(javaCompiler);
                     javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.CHECKCAST, type.getName().getName());
                 }
             }
