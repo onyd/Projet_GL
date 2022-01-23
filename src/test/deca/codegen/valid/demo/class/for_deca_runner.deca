@@ -1,0 +1,13 @@
+class A{
+    int x;
+    float y;
+}
+
+{
+    A a = new A();
+    a.x = 1;
+    a.y = 2.1;
+    print("int a.x");
+    print(a.x);
+
+}
