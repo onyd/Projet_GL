@@ -76,7 +76,7 @@ public class Assign extends AbstractBinaryExpr {
                     javaCompiler.getMethodVisitor().visitInsn(javaCompiler.DUP);
                 }
                 javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FSTORE, ((Identifier) this.getLeftOperand()).getExpDefinition().getIndexOnStack());
-            } else if(this.getType().isInt()) {
+            } else if(this.getType().isInt() || this.getType().isBoolean()) {
                 getRightOperand().codeGenExprByteOnStack(javaCompiler);
                 if(onStack) {
                     javaCompiler.getMethodVisitor().visitInsn(javaCompiler.DUP);
