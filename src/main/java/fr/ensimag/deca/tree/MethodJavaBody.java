@@ -2,6 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -17,11 +18,20 @@ import java.util.Iterator;
 
 public class MethodJavaBody extends AbstractMethodBody {
     private final StringLiteral java;
+
     private final String methodHeader;
+    private final AbstractIdentifier methodIdent;
+    private final ListDeclParam listParam;
 
     public MethodJavaBody(StringLiteral java, AbstractIdentifier type, AbstractIdentifier ident, ListDeclParam listParam) {
         Validate.notNull(java);
+        Validate.notNull(type);
+        Validate.notNull(ident);
+        Validate.notNull(listParam);
         this.java = java;
+        this.methodIdent = ident;
+        this.listParam = listParam;
+
         String methodHeader =  "static " + type.getName().getName() + " " + ident.getName().getName() + "(";
         Iterator<AbstractDeclParam> it = listParam.getList().iterator();
 
@@ -72,9 +82,14 @@ public class MethodJavaBody extends AbstractMethodBody {
     }
 
     public void codeGenMethodBodyByte(JavaCompiler javaCompiler, int beginIndex) {
-        javaCompiler.addJavaMethod(this.methodHeader + "{");
-        javaCompiler.addJavaMethod(this.java.getValue());
-        javaCompiler.addJavaMethod("}");
+        javaCompiler.addJavaMethod(this.methodHeader + "{" + this.java.getValue() + "} %s");
+
+        StringBuilder paramsJavaType = new StringBuilder();
+        for (AbstractDeclParam param : listParam.getList()) {
+            paramsJavaType.append(Utils.getJavaType(param.getParamIdent().getType()));
+        }
+
+        javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKESTATIC, javaCompiler.getSourceName() + "MethodJavaBodies$" + javaCompiler.getClassName(), methodIdent.getName().getName(), "(" + paramsJavaType + ")" + methodIdent.getJavaType(), false);
     }
 
 }

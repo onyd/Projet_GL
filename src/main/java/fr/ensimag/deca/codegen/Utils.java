@@ -109,4 +109,26 @@ public class Utils {
         compiler.addInstruction(new BRA(trueLabel));
     }
 
+    public static String getJavaType(Type type) {
+        if (type.isFloat()) {
+            return "F";
+        }
+        else if (type.isInt()) {
+            return "I";
+        }
+        else if (type.isString()) {
+            return "Ljava/lang/String;";
+        }
+        else if (type.isBoolean()) {
+            return "Z";
+        }
+        else if (type.isClass()) {
+            return "L" + type.getName().getName() + ";";
+        }
+        else if (type.isVoid()) {
+            return "V";
+        }
+        return null;
+    }
+
 }
