@@ -23,12 +23,17 @@ class Car {
         return this.calculateFuel() * height;
     }
 
-    boolean equals(Car carToCompare) {
-        if (this.maxSpeed == carToCompare.maxSpeed && this.height == carToCompare.height) {
-            return true;
-        } else {
-            return false;
+    boolean equals(Object other) {
+        Car carToCompare;
+        if (other instanceof Car) {
+            carToCompare = (Car) (other);
+            if (this.maxSpeed == carToCompare.maxSpeed && this.height == carToCompare.height) {
+                return true;
+            } else {
+                return false;
+            }
         }
+        return false;
     }
 }
 

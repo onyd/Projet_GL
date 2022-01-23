@@ -8,5 +8,5 @@
 
 {
    int i = 1;
-   return;
+   return i;
 }
