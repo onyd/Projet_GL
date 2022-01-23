@@ -75,8 +75,12 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     @Override
     public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
         // Constant optimization
-        if (this.codeGenConstants(compiler, register))
+        if (codeGenConstInt(compiler, register)) {
             return;
+        }
+        if (codeGenConstFloat(compiler, register)) {
+            return;
+        }
 
         // If power of 2 => shifts are faster for * and /
         if (this.codeGenPowerOfTwo(compiler, register))
@@ -131,11 +135,27 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         javaCompiler.getMethodVisitor().visitInsn(codeMnemoByte(javaCompiler));
     }
 
-    protected boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
+    protected boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
         return false;
     }
 
-    protected boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
+    protected boolean codeGenConstFloat(IMACompiler compiler, GPRegister register) {
+        Float fValue = getDirectFloat();
+        if (fValue != null) {
+            compiler.addInstruction(new LOAD(new ImmediateFloat(fValue), register));
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean codeGenConstInt(IMACompiler compiler, GPRegister register) {
+        Integer iValue = getDirectInt();
+        if (iValue != null) {
+            compiler.addInstruction(new LOAD(iValue, register));
+            return true;
+        }
+
         return false;
     }
 

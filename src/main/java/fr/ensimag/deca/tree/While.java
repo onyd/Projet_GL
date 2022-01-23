@@ -42,6 +42,9 @@ public class While extends AbstractInst {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
+        if (condition.isTriviallyFalse()) {
+            return;
+        }
         Label condLabel = compiler.getLabelManager().getNextLabel("WHILE", "COND");
         Label beginLabel = compiler.getLabelManager().getNextLabel("WHILE", "BEGIN");
         compiler.addInstruction(new BRA(condLabel));

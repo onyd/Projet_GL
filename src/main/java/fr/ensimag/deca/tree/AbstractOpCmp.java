@@ -36,6 +36,11 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     public Type verifyExpr(DecacCompiler compiler, Type type1, Type type2) throws ContextualError {
         if ((type1.isInt() || type1.isFloat()) && (type2.isInt() || type2.isFloat())) {
             setType(compiler.getEnvironmentType().get(compiler.BOOLEAN_SYMBOL).getType());
+            if (type1.isInt() && type2.isFloat()) {
+                setLeftOperand(new ConvFloat(getLeftOperand()));
+            } else if (type1.isFloat() && type2.isInt()) {
+                setRightOperand(new ConvFloat(getRightOperand()));
+            }
         } else {
             throw new ContextualError("(3.33) Comparison operation: " + getOperatorName() + " only accept ([int|float], [int|float]) or objects for == and !=, as operands type", getLocation());
         }
@@ -79,7 +84,12 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         getRightOperand().codeGenExprByteOnStack(javaCompiler);
 
         // True result label
-        javaCompiler.getMethodVisitor().visitJumpInsn(getJumpInstrByte(javaCompiler, negation), label);
+        if (getLeftOperand().getType().isInt()) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(getIntJumpInstrByte(javaCompiler, negation), label);
+        } else {
+            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FCMPL);
+            javaCompiler.getMethodVisitor().visitJumpInsn(getFloatJumpInstrByte(javaCompiler, negation), label);
+        }
 
         // False result label
         javaCompiler.getMethodVisitor().visitLabel(endLabel);
@@ -89,7 +99,9 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
     protected abstract Instruction getJumpInstr(Label label, boolean negation);
 
-    public abstract int getJumpInstrByte(JavaCompiler javaCompiler, boolean negation);
+    public abstract int getIntJumpInstrByte(JavaCompiler javaCompiler, boolean negation);
+
+    public abstract int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation);
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {

@@ -34,7 +34,7 @@ public class Lower extends AbstractOpIneq {
     }
 
     @Override
-    public int getJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+    public int getIntJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
         if (negation)
             return javaCompiler.IF_ICMPLT;
         else
@@ -42,8 +42,38 @@ public class Lower extends AbstractOpIneq {
     }
 
     @Override
+    public int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IFLT;
+        else
+            return javaCompiler.IFGE;
+    }
+
+    @Override
     protected String getOperatorName() {
         return "<";
+    }
+
+    @Override
+    public boolean isTriviallyTrue() {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            return ((IntLiteral) getLeftOperand()).getValue() < ((IntLiteral) getRightOperand()).getValue();
+        }
+        if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            return ((FloatLiteral) getLeftOperand()).getValue() < ((FloatLiteral) getRightOperand()).getValue();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isTriviallyFalse() {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            return ((IntLiteral) getLeftOperand()).getValue() >= ((IntLiteral) getRightOperand()).getValue();
+        }
+        if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            return ((FloatLiteral) getLeftOperand()).getValue() >= ((FloatLiteral) getRightOperand()).getValue();
+        }
+        return false;
     }
 
 }

@@ -33,9 +33,6 @@ public class Plus extends AbstractOpArith {
 
     @Override
     public int codeMnemoByte(JavaCompiler javaCompiler) {
-        Type leftType = getLeftOperand().getType();
-        Type rightType = getRightOperand().getType();
-
         if (this.getType().isInt()) {
             return javaCompiler.IADD;
         } else {
@@ -44,16 +41,24 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
-        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
-            int value = ((IntLiteral) getLeftOperand()).getValue() + ((IntLiteral) getRightOperand()).getValue();
-            compiler.addInstruction(new LOAD(value, register));
-            return true;
-        } else if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
-            float value = ((FloatLiteral) getLeftOperand()).getValue() + ((FloatLiteral) getRightOperand()).getValue();
-            compiler.addInstruction(new LOAD(new ImmediateFloat(value), register));
-            return true;
+    public Integer getDirectInt() {
+        if (getType().isInt()) {
+            Integer leftValue = getLeftOperand().getDirectInt();
+            Integer rightValue = getRightOperand().getDirectInt();
+            if (leftValue != null && rightValue != null)
+                return leftValue + rightValue;
         }
-        return false;
+        return null;
+    }
+
+    @Override
+    public Float getDirectFloat() {
+        if (getType().isFloat()) {
+            Float leftValue = getLeftOperand().getDirectFloat();
+            Float rightValue = getRightOperand().getDirectFloat();
+            if (leftValue != null && rightValue != null)
+                return leftValue + rightValue;
+        }
+        return null;
     }
 }

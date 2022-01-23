@@ -9,7 +9,7 @@ import fr.ensimag.deca.tree.Visibility;
  * @author gl28
  * @date 01/01/2022
  */
-public class FieldDefinition extends ExpDefinition {
+public class FieldDefinition extends LValueDefinition {
     public int getIndex() {
         return index;
     }

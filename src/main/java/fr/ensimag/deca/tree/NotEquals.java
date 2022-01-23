@@ -37,11 +37,19 @@ public class NotEquals extends AbstractOpExactCmp {
     }
 
     @Override
-    public int getJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+    public int getIntJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
         if (negation)
             return javaCompiler.IF_ICMPNE;
         else
             return javaCompiler.IF_ICMPEQ;
+    }
+
+    @Override
+    public int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IFNE;
+        else
+            return javaCompiler.IFEQ;
     }
 
     @Override

@@ -80,6 +80,28 @@ public class Identifier extends AbstractIdentifier {
 
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
+     * LValueDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not an lvalue definition.
+     */
+    @Override
+    public LValueDefinition getLValueDefinition() {
+        try {
+            return (LValueDefinition) definition;
+        } catch (ClassCastException e) {
+            throw new DecacInternalError(
+                    "Identifier "
+                            + getName()
+                            + " is not a method identifier, you can't call getLValueDefinition on it");
+        }
+    }
+
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
      * FieldDefinition.
      * 
      * This method essentially performs a cast, but throws an explicit exception

@@ -84,4 +84,8 @@ public class IntLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    public Integer getDirectInt() {
+        return value;
+    }
 }

@@ -95,4 +95,8 @@ public class FloatLiteral extends AbstractExpr {
         // leaf node => nothing to do
     }
 
+    @Override
+    public Float getDirectFloat() {
+        return value;
+    }
 }

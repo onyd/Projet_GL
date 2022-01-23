@@ -69,4 +69,24 @@ public class UnaryMinus extends AbstractUnaryExpr {
             javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FNEG);
         }
     }
+
+    @Override
+    public Integer getDirectInt() {
+        if (getType().isInt()) {
+            Integer value = getOperand().getDirectInt();
+            if (value != null)
+                return value;
+        }
+        return null;
+    }
+
+    @Override
+    public Float getDirectFloat() {
+        if (getType().isInt()) {
+            Float value = getOperand().getDirectFloat();
+            if (value != null)
+                return -value;
+        }
+        return null;
+    }
 }

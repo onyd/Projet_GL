@@ -25,6 +25,16 @@ public class And extends AbstractOpBool {
     }
 
     @Override
+    public boolean isTriviallyTrue() {
+        return getLeftOperand().isTriviallyTrue() && getRightOperand().isTriviallyTrue();
+    }
+
+    @Override
+    public boolean isTriviallyFalse() {
+        return getLeftOperand().isTriviallyFalse() || getRightOperand().isTriviallyFalse();
+    }
+
+    @Override
     protected String getOperatorName() {
         return "&&";
     }

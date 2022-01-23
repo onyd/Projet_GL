@@ -46,10 +46,17 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
+        if (condition.isTriviallyTrue()) {
+            thenBranch.codeGenListInst(compiler);
+            return;
+        }
+        if (condition.isTriviallyFalse()) {
+            elseBranch.codeGenListInst(compiler);
+            return;
+        }
+
         Label endLabel = compiler.getLabelManager().getNextLabel("END", "IF");
-
         codeGenInst(compiler, endLabel);
-
         compiler.addLabel(endLabel);
     }
 

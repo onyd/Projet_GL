@@ -51,21 +51,18 @@ public class Modulo extends AbstractOpArith {
 
     @Override
     public int codeMnemoByte(JavaCompiler javaCompiler) {
-        if(this.getType().isFloat()) {
-            return javaCompiler.FREM;
-        } else if(this.getType().isInt()) {
-            return javaCompiler.IREM;
-        }
-        return 0;
+        return javaCompiler.IREM;
     }
 
     @Override
-    public boolean codeGenConstants(IMACompiler compiler, GPRegister register) {
-        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
-            int value = ((IntLiteral) getLeftOperand()).getValue() % ((IntLiteral) getRightOperand()).getValue();
-            compiler.addInstruction(new LOAD(value, register));
-            return true;
+    public Integer getDirectInt() {
+        if (getType().isInt()) {
+            Integer leftValue = getLeftOperand().getDirectInt();
+            Integer rightValue = getRightOperand().getDirectInt();
+            if (leftValue != null && rightValue != null)
+                return leftValue % rightValue;
         }
-        return false;
+        return null;
     }
+
 }

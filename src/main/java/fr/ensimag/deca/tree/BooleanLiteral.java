@@ -74,6 +74,16 @@ public class BooleanLiteral extends AbstractExpr {
     }
 
     @Override
+    public boolean isTriviallyTrue() {
+        return value;
+    }
+
+    @Override
+    public boolean isTriviallyFalse() {
+        return !value;
+    }
+
+    @Override
     public void decompile(IndentPrintStream s) {
         s.print(Boolean.toString(value));
     }

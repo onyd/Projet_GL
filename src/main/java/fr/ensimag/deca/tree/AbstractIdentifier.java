@@ -50,6 +50,18 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract MethodDefinition getMethodDefinition();
 
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * LValueDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not an lvalue definition.
+     */
+    public abstract LValueDefinition getLValueDefinition();
+
     public abstract SymbolTable.Symbol getName();
 
     /**
