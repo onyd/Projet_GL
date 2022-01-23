@@ -216,19 +216,23 @@ public abstract class AbstractExpr extends AbstractInst {
      * @param javaCompiler
      */
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        org.objectweb.asm.Label label = new org.objectweb.asm.Label();
-        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
-        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ICONST_0); // Default expr is evaluated to false
+        org.objectweb.asm.Label trueLabel = new org.objectweb.asm.Label();
+        org.objectweb.asm.Label falseLabel = new org.objectweb.asm.Label();
 
-        codeGenBoolByte(javaCompiler, true, label);
-        javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, endLabel);
+        org.objectweb.asm.Label endLabel = new org.objectweb.asm.Label();
+
+        codeGenBoolByte(javaCompiler, true, trueLabel);
+        javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, falseLabel);
 
         // True result label
-        javaCompiler.getMethodVisitor().visitLabel(label);
-        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.POP);
+        javaCompiler.getMethodVisitor().visitLabel(trueLabel);
         javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ICONST_1);
+        javaCompiler.getMethodVisitor().visitLabel(endLabel);
 
         // False result label
+        javaCompiler.getMethodVisitor().visitLabel(falseLabel);
+        javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ICONST_0);
+
         javaCompiler.getMethodVisitor().visitLabel(endLabel);
     }
 
