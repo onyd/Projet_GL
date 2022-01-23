@@ -92,13 +92,7 @@ public class MethodJavaBody extends AbstractMethodBody {
         }
 
         javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKESTATIC, javaCompiler.getSourceName() + "MethodJavaBodies$" + javaCompiler.getClassName(), methodIdent.getName().getName(), "(" + paramsJavaType + ")" + methodIdent.getJavaType(), false);
-        if(returnType.getType().isInt() || returnType.getType().isBoolean()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.IRETURN);
-        } else if(returnType.getType().isFloat()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FRETURN);
-        } else if(returnType.getType().isClass()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ARETURN);
-        }
+        javaCompiler.getMethodVisitor().visitInsn(Return.getReturnCode(javaCompiler, returnType.getType()));
     }
 
 }

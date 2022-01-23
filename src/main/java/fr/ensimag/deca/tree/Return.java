@@ -47,13 +47,18 @@ public class Return extends  AbstractInst {
     @Override
     protected void codeGenInstByte(JavaCompiler javaCompiler) {
         expr.codeGenExprByteOnStack(javaCompiler);
-        if(expr.getType().isInt() || expr.getType().isBoolean()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.IRETURN);
-        } else if(expr.getType().isFloat()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.FRETURN);
-        } else if(expr.getType().isClass()) {
-            javaCompiler.getMethodVisitor().visitInsn(javaCompiler.ARETURN);
+        javaCompiler.getMethodVisitor().visitInsn(getReturnCode(javaCompiler, expr.getType()));
+    }
+
+    public static int getReturnCode(JavaCompiler javaCompiler, Type returnType) {
+        if(returnType.isInt() || returnType.isBoolean()) {
+            return javaCompiler.IRETURN;
+        } else if(returnType.isFloat()) {
+            return javaCompiler.FRETURN;
+        } else if(returnType.isClass()) {
+            return javaCompiler.ARETURN;
         }
+        return 0;
     }
 
     @Override
