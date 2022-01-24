@@ -29,6 +29,15 @@
     Tout le code specifique se situe dans le package deca. Il est constitué de plusieurs fichiers
     permettant de gérer l'analyse lexicale, l'analyse syntaxique et la construction de l'arbre abstrait. Toutes les classes nécessaires sont instanciées dans DecacMain
     pour pouvoir être appelées lors de l'execution dans du programme avec ses options.
+    \subsubsection{DecacCompiler}
+    On instancie un DecacCompiler pour chaque fichier .deca. La classe contient un attribut \textbf{SymbolTable}, \textbf{EnvironmentType} et \textbf{CompilerOptions}. On spécifie dans cette classe les types primitifs autorisés de façon statique et les nouveaux types seront ajoutés dynamiquement pendant l'exécution.
+
+    \subsubsection{SymbolTable}
+    Permet d'assurer l'unicité d'un symbol dans son environement.
+
+    \subsubsection{EnvironmentType}
+    C'est un dictionnaire associatif permettant de stocker les \textbf{TypeDefinition} avec leurs noms.
+
     \subsection{Conception Architectural Etape B}
     \subsection{Conception Architectural Etape C}
 
