@@ -224,4 +224,4 @@ done
 echo "  ${GREEN}Le taux de reussite dans cette partie est" $interSucc/$interTotal
 interSucc=0
 interTotal=0
-echo "${RED}Le taux de reussite sur l'ensemble de la partie syntax est"$succ/$total
+echo "${RED}Le taux de reussite sur l'ensemble de la partie syntax est "$succ/$total
