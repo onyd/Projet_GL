@@ -53,7 +53,7 @@ public class Cast extends AbstractExpr {
                 }
                 Utils.loadExpr(compiler, expr, register);
                 compiler.addInstruction(new CMP(new NullOperand(), register));
-                if(compiler.getCompilerOptions().getNoCheck()) {
+                if(!compiler.getCompilerOptions().getNoCheck()) {
                     compiler.addInstruction(new BEQ(new Label("seg_fault")));
                 }
             }

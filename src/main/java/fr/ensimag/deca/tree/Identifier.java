@@ -321,15 +321,19 @@ public class Identifier extends AbstractIdentifier {
                     name.getName(),
                     this.getJavaType());
         } else {
-            if (this.getType().isInt()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
-            } else if(this.getType().isFloat()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, this.getExpDefinition().getIndexOnStack());
-            } else if (this.getType().isBoolean()) {
-                javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, this.getExpDefinition().getIndexOnStack());
-            } else if(this.getType().isClass()) {
-                javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, this.getExpDefinition().getIndexOnStack());
-            }
+            loadFromType(javaCompiler, getType(), getExpDefinition().getIndexOnStack());
+        }
+    }
+
+    public static void loadFromType(JavaCompiler javaCompiler, Type type, int index) {
+        if (type.isInt()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, index);
+        } else if(type.isFloat()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, index);
+        } else if (type.isBoolean()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, index);
+        } else if(type.isClass()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, index);
         }
     }
 

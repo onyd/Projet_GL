@@ -101,6 +101,11 @@ public class VTable {
         return null;
     }
 
+    public void createConstructorObject() {
+        compiler.addLabel(new Label("init.object"));
+        compiler.addInstruction(new RTS());
+    }
+
     public void createEqualsMethod() {
         compiler.addLabel(compiler.getLabelManager().getMethodLabel("Object", "equals"));
         compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
