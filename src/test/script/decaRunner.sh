@@ -1,7 +1,8 @@
 #! /bin/sh
 cd "$(dirname "$0")"/../../.. || exit 1
 
-PATH=./src/test/script/launchers:"$PATH"
+PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+
 
 decac src/test/deca/codegen/valid/demo/class/for_deca_runner.deca
 
