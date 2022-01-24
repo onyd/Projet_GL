@@ -13,7 +13,7 @@ import java.io.PrintStream;
 import java.util.Objects;
 
 /**
- * Declaration of a class (<code>class name extends superClass {members}<code>).
+ * Declaration of a class.
  * 
  * @author gl28
  * @date 01/01/2022
