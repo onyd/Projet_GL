@@ -68,6 +68,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/declaration_byte/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/declaration_byte/*.class
 
 
   attendu=$(cat $resultFile)
@@ -101,6 +102,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/if_while/ $name) || exit 1
   rm -f $classFile 2>/dev/null
+  rm -f ./src/test/deca/codegen/valid/custom/if_while/*.class
 
 
   attendu=$(cat $resultFile)
@@ -137,6 +139,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/operation_affectation/boolean/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/operation_affectation/boolean/*.class
 
 
   attendu=$(cat $resultFile)
@@ -171,6 +174,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/operation_affectation/float_byte/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/operation_affectation/float_byte/*.class
 
 
   attendu=$(cat $resultFile)
@@ -203,6 +207,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/operation_affectation/int/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/operation_affectation/int/*.class
 
 
   attendu=$(cat $resultFile)
@@ -237,9 +242,8 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/demo/clazz/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/demo/clazz/*.class
 
-
-  #echo $resultat | sed -e 's/\(.\)/\1\n/g'
   attendu=$(cat $resultFile)
 
 
@@ -274,8 +278,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/object_byte/ $name) || exit 1
   rm -f $classFile
-
-
+  rm -f ./src/test/deca/codegen/valid/custom/object_byte/*.class
 
   attendu=$(cat $resultFile)
 
@@ -310,6 +313,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/include/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/include/*.class
 
 
   attendu=$(cat $resultFile)
@@ -345,6 +349,7 @@ do
 
   resultat=$(java -cp ./src/test/deca/codegen/valid/custom/print_byte/ $name) || exit 1
   rm -f $classFile
+  rm -f ./src/test/deca/codegen/valid/custom/print_byte/*.class
 
 
   attendu=$(cat $resultFile)

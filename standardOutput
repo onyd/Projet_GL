@@ -21,8 +21,8 @@ DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30)
 DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
 DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:33) - [Pass 3] verify listDeclMethod: end
 DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:48) - [Pass 3] verify listClass: end
-DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:36) - verify Main: start
-DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:46) - verify Main: end
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:42) - verify Main: start
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:52) - verify Main: end
 DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:61) - verify program: end
 `> [1, 0] Program
    +> ListDeclClass [List with 1 elements]
