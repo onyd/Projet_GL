@@ -58,9 +58,11 @@ public class Divide extends AbstractOpArith {
 
             // Shifts
             IMAProgram shifts = new IMAProgram();
-            while (value % 2 == 1) {
+            int count = 0; // We limit to 20 shift because optimization is no longer better
+            while (count < 20 && value % 2 == 1) {
                 shifts.addInstruction(new SHR(register));
                 value /= 2;
+                count++;
             }
 
             if (value == 1) {

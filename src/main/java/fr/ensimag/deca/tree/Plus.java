@@ -4,11 +4,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
+import fr.ensimag.deca.codegen.RegisterAllocator;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
@@ -45,25 +43,26 @@ public class Plus extends AbstractOpArith {
         /*if (getType().isFloat()) {
             if (getLeftOperand().isMultiply()) {
                 Multiply multiplication = (Multiply) getLeftOperand();
-                doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getRightOperand());
-                return;
+                if (doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getRightOperand()))
+                    return;
             }
             if (getRightOperand().isMultiply()) {
                 Multiply multiplication = (Multiply) getRightOperand();
-                doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getLeftOperand());
-                return;
+                if (doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getLeftOperand()))
+                    return;
             }
         }*/
         super.codeGenExprOnRegister(compiler, register);
     }
 
-    private void doFMAOptimization(IMACompiler compiler, GPRegister register, AbstractExpr e1, AbstractExpr e2, AbstractExpr toAdd) {
+    /*
+    private boolean doFMAOptimization(IMACompiler compiler, GPRegister register, AbstractExpr e1, AbstractExpr e2, AbstractExpr toAdd) {
         DVal e1DVal = e1.getDVal();
         if (e1DVal != null) {
             e2.codeGenExprOnRegister(compiler, register);
             toAdd.codeGenExprOnRegister(compiler, Register.R1);
             compiler.addInstruction(new FMA(e1DVal, register));
-            return;
+            return true;
         }
 
         DVal e2DVal = e2.getDVal();
@@ -71,9 +70,11 @@ public class Plus extends AbstractOpArith {
             e1.codeGenExprOnRegister(compiler, register);
             toAdd.codeGenExprOnRegister(compiler, Register.R1);
             compiler.addInstruction(new FMA(e2DVal, register));
-            return;
+            return true;
         }
+        return false;
     }
+    */
 
     @Override
     public Integer getDirectInt() {

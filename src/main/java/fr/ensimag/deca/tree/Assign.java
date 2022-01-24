@@ -50,12 +50,13 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     protected void codeGenInst(IMACompiler compiler) {
-        this.getRightOperand().codeGenExprOnR1(compiler);
+        this.getRightOperand().codeGenExprOnRegister(compiler, Register.R0);
         if (this.getLeftOperand().isIdentifier()) {
-            compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R1);
+            compiler.getStack().setVariableOnStack((Identifier) this.getLeftOperand(), Register.R0);
         } else if (this.getLeftOperand().isSelection()) {
-            ((Selection) this.getLeftOperand()).codeGenAssignFromReg(compiler, Register.R1);
+            ((Selection) this.getLeftOperand()).codeGenAssignFromReg(compiler, Register.R0);
         }
+        // TODO verify that R0 is valid for assign
     }
 
     public void codeGenAssignByte(JavaCompiler javaCompiler, boolean onStack) {
