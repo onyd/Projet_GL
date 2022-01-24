@@ -32,9 +32,9 @@
     \subsection{Conception Architectural Etape B}
     \subsection{Conception Architectural Etape C}
 
-    Tout le code specifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
+    Tout le code spécifique se situe dans le package codegen. Il est constitué de plusieurs fichiers
     permettant de gérer la génération de code. Toutes les classes nécessaires sont instanciées dans DecacCompiler
-    pour pouvoir être appelées lors de l'execution dans l'arbre.
+    pour pouvoir être appelées lors de l'exécution  dans l'arbre.
 
     \subsubsection{Politique de gestion de pile et de registre}
 
@@ -83,25 +83,25 @@
     \subsection{Etape A}
 
     \subsubsection{DecacMain}
-    Le point d'entrée du compilateur est la méthode main de la classe \textbf {DecacMain}. Le main commence par récupérer les options de la commande decac. La classe résponsable de ce traitement est \textbf{CompilerOptions}. Les arguments de la commande decac sont parsés et les variables booléennes correspondantes aux options seront à mises à true. Nous pouvons avoir les états de ces Booléens en appenalnt la méthode getX de la classe CompilerOptions avec X est le nom du booléan.
+    Le point d'entrée du compilateur est la méthode main de la classe \textbf {DecacMain}. Le main commence par récupérer les options de la commande decac. La classe responsable de ce traitement est \textbf{CompilerOptions}. Les arguments de la commande decac sont parsés et les variables booléennes correspondantes aux options seront à mises à true. Nous pouvons avoir les états de ces Booléens en appelant la méthode getX de la classe CompilerOptions avec X est le nom du booléen.
     \\
-    Si l'option de compilation {\textcolor{red}{ en parallel est activée, plusieurs instances de \textbf{DecacCompiler} seront initialisées en parallèle et chaque instance traite un fichier deca source.}}
+    Si l'option de compilation {\textcolor{red}{ en parallèle est activée, plusieurs instances de \textbf{DecacCompiler} seront initialisées en parallèle et chaque instance traite un fichier deca source.}}
     Sinon, une instance du compilateur \textbf{DecacCompiler} sera initialisée de façon séquentielle pour chaque fichier deca avec en paramètres les options et un fichier source.
 
-    \subsubsection{DecacCompiler} C'est la classe coeur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram. Cette méthode utilise une instance de la classe \textbf{DecaLexer} qui est presentée par la suite et qui a pour rôle de faire l'analyseur lexicale qui consiste à reconnaître les mots du langage (dits aussi Jetons ou Tokens) . Cette méthode utilise aussi une instance de \textbf{CommonTokenStream} pour stocker les
+    \subsubsection{DecacCompiler} C'est la classe cœur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram. Cette méthode utilise une instance de la classe \textbf{DecaLexer} qui est présentée par la suite et qui a pour rôle de faire l'analyseur lexicale qui consiste à reconnaître les mots du langage (dits aussi Jetons ou Tokens) . Cette méthode utilise aussi une instance de \textbf{CommonTokenStream} pour stocker les
     jetons. Cette classe appartient au framework \textbf{ANTLR}. Ensuite une instance de la classe \textbf{DecaParser} est déclarée pour faire l'analyse syntaxique. A la fin de cette méthode, l'\textbf{Etap A} est terminé et l'arbre abstrait (une instance de \textbf{AbstractProgram}) est obtenue.
 
-    \subsubsection{DecaLexer} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de transformer le programme deca en mots (jetons). Pour configurer ANTLER à accepter le code lexicalement valid, on spécifie les règles lexicales dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaLexer.g4}.
+    \subsubsection{DecaLexer} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de transformer le programme deca en mots (jetons). Pour configurer ANTLER à accepter le code lexicalement valide, on spécifie les règles lexicales dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaLexer.g4}.
 
     \subsubsection{DecaParser} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de déterminer si une suite de mots est une phrase du langage, c'est à dire correspondant à un programme deca syntaxiquement correct. Pour ANTLER il faut définir les grammaires du langage dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaParser.g4}.
     \subsubsection{AbstractProgram} Cette classe est dérivée de la classe \textbf{Tree}.
 
-    \subsubsection{Tree} represente le point d'entrée pour la vérification contextuelle et la génération du code.
+    \subsubsection{Tree} représente le point d'entrée pour la vérification contextuelle et la génération du code.
 
     \subsection{Etape B}
     Le but de l'étape B est de réaliser des vérifications contextuelles et modifier et décorer l'arbre abstrait du programme pour préparer l'étape C.
     \\
-    La vérification déclanchée par la méthode verifyProgram se propage dans tout l'arbre en passant par la classe \textbf{Main}. Dans cette classe les vérifications se passent pour une instance de la classe \textbf{EnvironmentExp} et les listes de \textbf{ListDeclVar} (les déclarations de variables) et \textbf{ListInst} (les déclarations des instructions)
+    La vérification déclenchée par la méthode verifyProgram se propage dans tout l'arbre en passant par la classe \textbf{Main}. Dans cette classe les vérifications se passent pour une instance de la classe \textbf{EnvironmentExp} et les listes de \textbf{ListDeclVar} (les déclarations de variables) et \textbf{ListInst} (les déclarations des instructions)
 
     \subsection{Etape C}
     Cette étape consiste à générer le code exécutable et le stocker dans un fichier de sortie. Selon les options de la compilation, le code généré est .ass pour la machine virtuelle IMA ou bien .class pour la machine virtuelle Java JVM.
@@ -110,6 +110,6 @@
     Dans le cas où l'option \textbf{JavaCompilation} est activée. Nous utilisons la classe \textbf{JavaCompiler} pour préparer le fichier .class en sortie.
 
     \subsubsection{JavaCompiler}
-    Cette une classe qui a pour rôle de gérer la structure du fichier .class généré. Elle encapsule des attributs de l'API \textbf{ASM} que l'on utilise pour manipuler les fichier .class de façon haut niveau. \url{https://asm.ow2.io/documentation.html}
+    C'est une classe qui a pour rôle de gérer la structure du fichier .class généré. Elle encapsule des attributs de l'API \textbf{ASM} que l'on utilise pour manipuler les fichiers .class de façon haut niveau. \url{https://asm.ow2.io/documentation.html}
 
 \end{document}
