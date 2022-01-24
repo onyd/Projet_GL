@@ -14,6 +14,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 
 /**
+ * Represents the main method in a deca program.
  * @author gl28
  * @date 01/01/2022
  */
@@ -31,6 +32,11 @@ public class Main extends AbstractMain {
         this.insts = insts;
     }
 
+    /**
+     * Apply contextual verifications.
+     * @param compiler
+     * @throws ContextualError
+     */
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
@@ -47,6 +53,10 @@ public class Main extends AbstractMain {
 
     }
 
+    /**
+     * Generate the IMA instructions for the entire program.
+     * @param compiler
+     */
     @Override
     protected void codeGenMain(IMACompiler compiler) {
         compiler.addComment("Beginning of main instructions:");
@@ -54,6 +64,11 @@ public class Main extends AbstractMain {
         declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
+
+    /**
+     * Generate bytecode for the program when the option -java is given.
+     * @param javaCompiler Buffer to which the result will be written.
+     */
     @Override
     protected void codeGenMainByte(JavaCompiler javaCompiler)
     {
@@ -81,6 +96,10 @@ public class Main extends AbstractMain {
         methodVisitor.visitEnd();
     }
 
+    /**
+     * Apply the Tree decompilation.
+     * @param s Buffer to which the result will be written.
+     */
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");
@@ -91,12 +110,21 @@ public class Main extends AbstractMain {
         s.println("}");
     }
 
+    /**
+     * Apply the tree function on all the variables and instructions.
+     * @param f
+     */
     @Override
     protected void iterChildren(TreeFunction f) {
         declVariables.iter(f);
         insts.iter(f);
     }
- 
+
+    /**
+     *
+     * @param s
+     * @param prefix
+     */
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         declVariables.prettyPrint(s, prefix, false);

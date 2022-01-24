@@ -83,6 +83,14 @@
     </dependencies>
     <build>
         <plugins>
+              <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.10.0</version>
+        <configuration>
+          <locales>en,fr</locales>
+        </configuration>
+      </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -263,6 +271,16 @@
                         <id>basic-gencode</id>
                         <configuration>
                             <executable>./src/test/script/basic-gencode.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>basic-gencode-java</id>
+                        <configuration>
+                            <executable>./src/test/script/basic-gencode-java.sh</executable>
                         </configuration>
                         <phase>test</phase>
                         <goals>
