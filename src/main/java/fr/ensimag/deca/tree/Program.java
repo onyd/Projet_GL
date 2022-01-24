@@ -123,9 +123,7 @@ public class Program extends AbstractProgram {
         }
         Iterable<String> compilationOptions = Arrays.asList(compileOptions);
 
-
         compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
-
     }
 
     static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {
