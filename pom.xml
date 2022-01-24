@@ -83,14 +83,14 @@
     </dependencies>
     <build>
         <plugins>
-              <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.10.0</version>
-        <configuration>
-          <locales>en,fr</locales>
-        </configuration>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.10.0</version>
+                <configuration>
+                    <locales>en,fr</locales>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -493,6 +493,9 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
+                    <!-- Commentter les lignes suivantes pour activer la vérification de tous les commentaires sur toutes les méthodes -->
+                    <additionalJOption>-Xdoclint:all</additionalJOption>
+                    <additionalJOption>-Xdoclint:-missing</additionalJOption>
                     <source>8</source>
                     <minmemory>128m</minmemory>
                     <maxmemory>1g</maxmemory>

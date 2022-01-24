@@ -103,45 +103,81 @@ public class JavaCompiler extends DecacCompiler implements Opcodes
         return sourceFileName;
     }
 
+    /**
+     * methodVisitor setter.
+     * @param methodVisitor methodVisitor setter.
+     */
     public void setMethodVisitor(MethodVisitor methodVisitor)
     {
         this.methodVisitor = methodVisitor;
     }
 
+    /**
+     * Get class name.
+     * @return Get class name.
+     */
     public String getClassName()
     {
         return className;
     }
 
+    /**
+     * Setter for class name.
+     * @param className
+     */
     public void setClassName(String className)
     {
         this.className = className;
     }
 
+    /**
+     * getter for the ClassWriter.
+     * @return getter for the ClassWriter.
+     */
     public ClassWriter getClassWriter()
     {
         return classWriter;
     }
 
+    /**
+     * setter for the ClassWriter.
+     * @param classWriter setter for the ClassWriter.
+     */
     public void setClassWriter(ClassWriter classWriter) {
         this.classWriter = classWriter;
     }
 
+    /**
+     * setter for the FieldVisitor.
+     * @return setter for the FieldVisitor.
+     */
     public FieldVisitor getFieldVisitor()
     {
         return fieldVisitor;
     }
 
+    /**
+     * getter for MethodVisitor.
+     * @return getter for MethodVisitor.
+     */
     public MethodVisitor getMethodVisitor()
     {
         return methodVisitor;
     }
 
+    /**
+     * getter for the AnnotationVisitor.
+     * @return getter for the AnnotationVisitor.
+     */
     public AnnotationVisitor getAnnotationVisitor()
     {
         return annotationVisitor;
     }
 
+    /**
+     * getter for getDeclClass.
+     * @return getter for getDeclClass.
+     */
     public HashMap<String, ClassWriter> getDeclClass() {
         return declClass;
     }
