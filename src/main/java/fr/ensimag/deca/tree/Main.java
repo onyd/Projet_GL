@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 /**
+ * Represents the main method in a deca program.
  * @author gl28
  * @date 01/01/2022
  */
@@ -26,6 +27,11 @@ public class Main extends AbstractMain {
         this.insts = insts;
     }
 
+    /**
+     * Apply contextual verifications.
+     * @param compiler
+     * @throws ContextualError
+     */
     @Override
     protected void verifyMain(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify Main: start");
@@ -36,13 +42,21 @@ public class Main extends AbstractMain {
 
     }
 
+    /**
+     * Generate the IMA instructions for the entire program.
+     * @param compiler
+     */
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
         compiler.addComment("Beginning of main instructions:");
         declVariables.codeGenListDeclVariable(compiler);
         insts.codeGenListInst(compiler);
     }
-    
+
+    /**
+     * Apply the Tree decoration for the entire program.
+     * @param s Buffer to which the result will be written.
+     */
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");
