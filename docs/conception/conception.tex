@@ -60,6 +60,20 @@
     à cette indice est à vrai si le registre est utilisé et faux sinon. Cette classe possède aussi des
     méthodes permettant de renvoyer un registre inutilisé ou d'en libérer un.
 
+    \subsubsection{RegisterAllocator}
+
+    Cette classe permet d'allouer des registres créés de manière virtuelle.
+    Cette classe est utilisé lors des opérations arithmétiques et peut être
+    très utiles et améliorables pour les développeurs souhaitant travailler
+    sur ce projet. En effet dans le programme, lorsque l'on veut utiliser
+    des registres, il suffira de créer un registre virtuel avec la classe
+    \textit{VirtualRegister}, puis de l'ajouter dans le Set de registres
+    virtuelles de \textit{RegisterAllocator}. Ensuite à l'aide d'une méthode
+    de cette classe, tout les registres virtuelles créés vont être alloué
+    dans de vrai registres. S'il n'y a plus de place, les registres déjà utilisés sont sauvegardés dans la pile.
+    Lors de la désallocation, les valeurs étant éventuellement stockées dans la
+    pile suite à l'allocation sont remis à leurs registres d'origine.
+
     \subsubsection{Stack}
 
     Cette classe possède un attributs donnant la hauteur de la pile (par rapport à GB). Elle possède aussi
@@ -71,7 +85,7 @@
 
     Cette classe permet de créer et de renvoyer des label uniques à partir d'un nom. Elle utilise pour cela un HasMap
     qui a un nom de label associe un compteur correspondant au nombre de fois que ce nom de label est utilisé. Cela
-    permet de s'assurer que tout les labels sont uniques
+    permet de s'assurer que tout les labels sont uniques. Elle possède également des méthodes permettant de donner le nom d'étiquette pour pour la création de méthodes.
 
     \subsubsection{Utils}
 
@@ -86,7 +100,37 @@
     et du programme principale. Il est interressant de revenir sur quelque fonction codeGen importantes qui sont réutilisés
     de nombreuses fois.
 
-    \subsubsection{codeGenPrint}
+    \medskip
+    \textbf{\underline{codeGenExrOnRegister :}}
+
+    Cette méthode est la plus importante de l'étape C. Elle est redéfinie dans
+    toutes les classes correspondant à une expression. Elle permet de charger
+    la valeur de l'expression qui l'appel dans le registre donné en paramètre.
+    Elle est définie simplement dans les littéral ou les identifiant par
+    exemple, puisque l'on peut charger directement la valeur dans le registre.
+    Elle simplifie grandement le calcul d'expressions plus complexes comme
+    les opérations arithmétiques ou les calculs booléens par exemple. Le fonctionnement
+    des calculs de ces deux opérations seront décrites plus loin. La méthode
+    codeGenExprOnR1 est aussi définie. Elle fait directement appel à la méthode
+    codeGenExrOnRegister, mais avec en paramètre le registre R1. Cette méthode
+    est définie car il est régulièrement nécessaires de charger une expression
+    sur le registre R1.
+
+    \medskip
+    \textbf{\underline{codeGenPrint :}}
+
+    Cette méthode est permet l'affichage d'une expression. Elle est par exemple
+    utilisée dans la classe \textit{StringLitteral} afin d'appeler l'instruction d'affichage IMA pour une chaine de caractères. Elle appelé à chaque intruction de demandant l'affichage sur la sortie standart. Elle est généralisé dans \textit{AbstractExpr} et est redéfnie dans les cas particuliers.Elle est généralisée de la manière suivante : on charge l'
+    expression à afficher dans le registre R1 avec codeGenExprOnR1, puis
+    on vérifie son type (int ou float) et on appel l'instruction IMA correspondante.
+
+    \medskip
+    \textbf{\underline{codeGenInst:}}
+
+    Cette méthode est appelé pour chaque instruction. Elle est généralisé dans
+    \textit{AbstractExpr} de la manière suivante : elle fait simplement appel
+    à la méthode codeGenExprOnR1, qui est redéfinie spécifiquement pour chaque
+    tokens, comme cela a été expliqué précédemment. Pour les cas spécifiques, elle est redéfinie.
 
     \section{Chemin de l'exécution du compilateur}
     \subsection{Etape A}
@@ -98,7 +142,7 @@
     Sinon, une instance du compilateur \textbf{DecacCompiler} sera initialisée de façon séquentielle pour chaque fichier deca avec en paramètres les options et un fichier source.
 
     \subsubsection{DecacCompiler} C'est la classe cœur du compilateur. Elle contient la méthode \textbf{doCompile} qui réalise la compilation. Dans cette méthode, la racine de l'arbre abstrait du programme \textbf{AbstractProgram} est initialisée. L'initialisation est fait grâce à la méthode \textbf{doLexingAndParsing} qui retourne un AbstractProgram. Cette méthode utilise une instance de la classe \textbf{DecaLexer} qui est présentée par la suite et qui a pour rôle de faire l'analyseur lexicale qui consiste à reconnaître les mots du langage (dits aussi Jetons ou Tokens) . Cette méthode utilise aussi une instance de \textbf{CommonTokenStream} pour stocker les
-    jetons. Cette classe appartient au framework \textbf{ANTLR}. Ensuite une instance de la classe \textbf{DecaParser} est déclarée pour faire l'analyse syntaxique. A la fin de cette méthode, l'\textbf{Etap A} est terminé et l'arbre abstrait (une instance de \textbf{AbstractProgram}) est obtenue.
+    jetons. Cette classe appartient au framework \textbf{ANTLR}. Ensuite une instance de la classe \textbf{DecaParser} est déclarée pour faire l'analyse syntaxique. A la fin de cette méthode, l'\textbf{Etape A} est terminé et l'arbre abstrait (une instance de \textbf{AbstractProgram}) est obtenue.
 
     \subsubsection{DecaLexer} Cette classe est générée automatiquement par le framework ANTLR. Elle a pour role de transformer le programme deca en mots (jetons). Pour configurer ANTLER à accepter le code lexicalement valide, on spécifie les règles lexicales dans \textbf{./src/main/antlr4/fr/ensimag/deca/syntax/DecaLexer.g4}.
 
