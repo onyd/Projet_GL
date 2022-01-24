@@ -50,7 +50,6 @@ public abstract class AbstractInst extends Tree {
 
     /**
      * Generate bytecode for the instruction.
-     *
      * @param javaCompiler
      */
     protected  void codeGenInstByte(JavaCompiler javaCompiler) {
