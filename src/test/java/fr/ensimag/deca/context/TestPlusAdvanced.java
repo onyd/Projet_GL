@@ -1,15 +1,18 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.ConvFloat;
 import fr.ensimag.deca.tree.Plus;
+import fr.ensimag.deca.CompilerOptions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
+
+import java.io.File;
 
 /**
  * Test for the Plus node using mockito, using @Mock and @Before annotations.
@@ -31,21 +34,24 @@ public class TestPlusAdvanced {
     @Mock
     AbstractExpr floatexpr2;
 
-    DecacCompiler compiler;
+    IMACompiler compiler;
     
     @BeforeEach
     public void setup() throws ContextualError {
         MockitoAnnotations.initMocks(this);
-        compiler = new DecacCompiler(null, null);
+        CompilerOptions compilerOptions = new CompilerOptions();
+        File source = new File("src/test/deca/codegen/valid/custom/declaration/bool_declare.deca");
+        compiler = new IMACompiler(compilerOptions, source);
         when(intexpr1.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(intexpr2.verifyExpr(compiler, null, null)).thenReturn(INT);
         when(floatexpr1.verifyExpr(compiler, null, null)).thenReturn(FLOAT);
         when(floatexpr2.verifyExpr(compiler, null, null)).thenReturn(FLOAT);
     }
 
-    //@Test
+    @Test
     public void testIntInt() throws ContextualError {
         Plus t = new Plus(intexpr1, intexpr2);
+        EnvironmentExp localEnv = new EnvironmentExp(null);
         // check the result
         assertTrue(t.verifyExpr(compiler, null, null).isInt());
         // check that the mocks have been called properly.
@@ -53,7 +59,7 @@ public class TestPlusAdvanced {
         verify(intexpr2).verifyExpr(compiler, null, null);
     }
 
-    //@Test
+    @Test
     public void testIntFloat() throws ContextualError {
         Plus t = new Plus(intexpr1, floatexpr1);
         // check the result
@@ -66,7 +72,7 @@ public class TestPlusAdvanced {
         verify(floatexpr1).verifyExpr(compiler, null, null);
     }
 
-    //@Test
+    @Test
     public void testFloatInt() throws ContextualError {
         Plus t = new Plus(floatexpr1, intexpr1);
         // check the result

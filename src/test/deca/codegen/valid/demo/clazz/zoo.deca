@@ -1,0 +1,44 @@
+class Animal {
+    int poids;
+
+    void setPoids(int poids) {
+        this.poids = poids;
+    }
+    int getPoids() {
+        return this.poids;
+    }
+    void crier() {
+        println("Le cri dépend de l'animal !!!");
+    }
+
+    Canard asCanard() {
+        Canard c = (Canard) (this);
+        return c;
+    }
+
+}
+
+class Canard extends Animal {
+    int nbPlumes = 50;
+
+    int getNbPlumes() {
+        return nbPlumes;
+    }
+    void crier() {
+        println("coin coin!");
+    }
+
+}
+
+{
+    Animal a = new Canard();
+    Canard c = a.asCanard();
+    a.setPoids(3);
+    println("Poids du canard: ", a.getPoids());
+    println("Nombre de plumes: ", c.getNbPlumes());
+    a.crier();
+
+    if (a instanceof Animal) {
+        println("Je suis un animal");
+    }
+}

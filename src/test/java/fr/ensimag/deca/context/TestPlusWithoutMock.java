@@ -1,10 +1,14 @@
 package fr.ensimag.deca.context;
 
+import fr.ensimag.deca.CompilerOptions;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import fr.ensimag.deca.tree.TreeFunction;
+
+import java.io.File;
 import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +37,7 @@ public class TestPlusWithoutMock {
 
         @Override
         public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-                ClassDefinition currentClass) throws ContextualError {
+                               ClassDefinition currentClass) throws ContextualError {
             hasBeenVerified = true;
             return INT;
         }
@@ -61,9 +65,11 @@ public class TestPlusWithoutMock {
         }
     }
 
-    //@Test
+    @Test
     public void testType() throws ContextualError {
-        DecacCompiler compiler = new DecacCompiler(null, null);
+        CompilerOptions compilerOptions = new CompilerOptions();
+        File source = new File("src/test/deca/codegen/valid/custom/declaration/bool_declare.deca");
+        DecacCompiler compiler = new IMACompiler(compilerOptions, source);
         DummyIntExpression left = new DummyIntExpression();
         DummyIntExpression right = new DummyIntExpression();
         Plus t = new Plus(left, right);

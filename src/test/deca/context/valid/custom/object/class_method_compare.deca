@@ -1,0 +1,49 @@
+class Car {
+    protected int maxSpeed;
+    float height;
+
+    void Car(int maxSpeed, float height) {
+        this.maxSpeed = maxSpeed;
+        this.height = height;
+    }
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+
+    int getMaxSpeed(int newSpeed) {
+        return maxSpeed;
+    }
+
+    float calculateFuel() {
+        return (maxSpeed * height) / 10;
+    }
+
+    float distanceMax() {
+        return this.calculateFuel() * height;
+    }
+
+    boolean equals(Object other) {
+        Car carToCompare;
+        if (other instanceof Car) {
+            carToCompare = (Car) (other);
+            if (this.maxSpeed == carToCompare.maxSpeed && this.height == carToCompare.height) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+}
+
+{
+    Car car1 = new Car();
+    Car car2 = new Car();
+    boolean isSame;
+
+    car1.Car(230, 2.5);
+    car2.Car(250, 2.9);
+
+    isSame = car1.equals(car2);
+}

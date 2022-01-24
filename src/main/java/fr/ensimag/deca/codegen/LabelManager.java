@@ -11,7 +11,9 @@ public class LabelManager {
             OVERFLOW_ERROR = new Label("overflow_error"),
             IO_ERROR = new Label("io_error"),
             DIV_ERROR = new Label("div_error"),
-            CAST_ERROR = new Label("cast_error");
+            CAST_ERROR = new Label("cast_error"),
+            SEG_FAULT = new Label("seg_fault"),
+            HEAP_OVERFLOW = new Label("heap_overflow_error");
 
     /**
      * tells if we are already in an if else condition (used by an else)
@@ -60,5 +62,13 @@ public class LabelManager {
 
     public Label getNextLabel(String labelName, String prefix, String className) {
         return getNextLabel(prefix + "_" + labelName + "." + className);
+    }
+
+    public Label getMethodLabel(String className, String methodName) {
+        return new Label("code." + className + "." + methodName);
+    }
+
+    public Label getEndMethodLabel(String className, String methodName) {
+        return new Label("fin." + className + "." + methodName);
     }
 }

@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -7,6 +9,7 @@ import fr.ensimag.ima.pseudocode.ImmediateString;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * String literal
@@ -26,11 +29,28 @@ public class StringLiteral extends AbstractStringLiteral {
     public StringLiteral(String value) {
         Validate.notNull(value);
         this.value = value;
+        this.formatValue();
+    }
+
+    public void formatValue() {
+        StringBuilder res = new StringBuilder();
+        char[] chars = value.toCharArray();
+        int i = 0;
+        while(i < chars.length) {
+            if(i+1 != chars.length) {
+                if(((chars[i] == '\\') && (chars[i+1] == '\\')) || ((chars[i] == '\\') && (chars[i+1] == '\"'))) {
+                    i++;
+                }
+            }
+            res.append(chars[i]);
+            i++;
+        }
+        this.value = res.toString();
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type type = new StringType(compiler.getSymbolTable().create("string"));
         this.setType(type);
         this.value = this.value.substring(1, this.value.length() - 1);
@@ -38,8 +58,14 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         compiler.addInstruction(new WSTR(new ImmediateString(value)));
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+        methodVisitor.visitLdcInsn(value);
     }
 
     @Override
@@ -61,5 +87,4 @@ public class StringLiteral extends AbstractStringLiteral {
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";
     }
-
 }

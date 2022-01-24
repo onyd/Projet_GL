@@ -1,0 +1,10 @@
+class Montagne{
+    int hauteur = 0;
+}
+
+{
+    Montagne moucherotte1 = new Montagne();
+    Montagne chamechaude = new Montagne();
+    Montagne moucherotte2 = moucherotte2;
+
+}

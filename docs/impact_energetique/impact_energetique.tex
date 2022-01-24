@@ -16,4 +16,49 @@
 
 \tableofcontents
 
+\newpage
+
+\section{Introduction}
+
+Au cour de ce projet, nous avons été amené à évaluer l'impact énergétique de notre compilateur et de son implémentation. Un compilateur a pour but de produire du code en langage machine, il possède donc un impact non . On peut distinguer trois étapes lors desquels ce compilateur deca consomme de l'énergie. La première étape source de consommation est l'implémentation: le fait de coder ce compilateur demande d'utiliser des ordinateurs pendant une longue durée, de faire des tests et cela a un impact non-négligeable. La deuxième étape est celle de la compilation du code. Il s'agit de transformer le langage deca en assembleur ima, transformation qui demande des calculs et donc de l'énergie. La dernière étape est l'exécution de l'assembleur sur une machine virtuelle ima. Dans ce rapport, nous allons nous intéresser plus précisemment à ces trois étapes en essayant de quantifier cette consommation d'énergie et en proposant des pistes de solution pour la limiter. Le plan du rapport suivra donc les trois étapes décrites ci-dessus.
+
+
+
+\section{Consommation d'énergie durant l'implémentation}
+
+\subsection{Consommation dû à l'utilisation des ordinateurs}
+
+Un ordinateur à besoin d'une certaine puissance électrique pour fonctionner. On estime à 100 W la puissance d'un ordinateur portable et à 200 W la consommation d'un ordinateur fixe. Lors de ce projet, nous avons utilisé cinq ordinateurs : un ordinateur fixe et quatre ordinateurs portables. On obtient donc une puissance consommée cumulée de 600 W. En faisant l'hypothèse assez réaliste que l'on travail 8 heures par jour, on obtient une énergie consommée quotidienne de:
+
+\begin{equation}
+E_{quotidien}=0,6\times 8 = 4,8\; kWh
+\end{equation}
+
+D'autre part, on estime le nombre de jours total de développement à 20 jours, ce qui donne :
+
+\begin{equation}
+E_{total}=4,8\times 20 = 96\; kWh
+\end{equation}
+
+
+Cette énergie est comparable à celle consommée par un foyer français pendant 8 jours. Il n'y a pas vraiment de solution à notre échelle pour diminuer cette consommation 
+
+\subsection{Consommation dû aux tests}
+
+Dans le but de couvrir tous les cas de compilation possible
+
+\section{Consommation d'énergie dû à la compilation}
+
+Blabla
+
+\section{Consommation d'énergie dû à l'exécution dans ima}
+
+\subsection{Cas d'usage 1 : Téléchargement d'un fichier deca sur internet}
+
+\subsection{Cas d'usage 2 : Exécution d'un fichier gourmand en calcul}
+
+
+
+
+
 \end{document}

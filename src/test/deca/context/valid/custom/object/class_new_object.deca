@@ -1,0 +1,15 @@
+class Car {
+    protected int maxSpeed;
+
+    void setMaxSpeed(int newSpeed) {
+        maxSpeed = newSpeed;
+    }
+
+    int getMaxSpeed(int newSpeed) {
+        return maxSpeed;
+    }
+}
+
+{
+    Car car1 = new Car();
+}

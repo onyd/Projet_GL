@@ -66,6 +66,8 @@ public abstract class Definition {
      */
     public MethodDefinition asMethodDefinition(String errorMessage, Location l)
             throws ContextualError {
+        if (isMethod())
+            return (MethodDefinition) this;
         throw new ContextualError(errorMessage, l);
     }
     
@@ -75,6 +77,8 @@ public abstract class Definition {
      */
     public FieldDefinition asFieldDefinition(String errorMessage, Location l)
             throws ContextualError {
+        if (isField())
+            return (FieldDefinition) this;
         throw new ContextualError(errorMessage, l);
     }
 

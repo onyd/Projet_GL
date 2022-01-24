@@ -1,6 +1,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -15,15 +17,7 @@ import fr.ensimag.ima.pseudocode.instructions.TSTO;
  * @author gl28
  * @date 01/01/2022
  */
-public class ListDeclVar extends TreeList<AbstractDeclVar> {
-
-    @Override
-    public void decompile(IndentPrintStream s) {
-        for(AbstractDeclVar declVar: this.getList()) {
-            declVar.decompile(s);
-            s.println();
-        }
-    }
+public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
 
     /**
      * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3
@@ -38,13 +32,13 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
      *          corresponds to "class" attribute (null in the main bloc).
      */    
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                                ClassDefinition currentClass) throws ContextualError {
         for (AbstractDeclVar i: getList()) {
             i.verifyDeclVar(compiler, localEnv, currentClass);
         }
     }
 
-    void codeGenListDeclVariable(DecacCompiler compiler) {
+    void codeGenListDeclVariable(IMACompiler compiler) {
         compiler.addComment("Verify if we can add all the variable in the stack");
         compiler.addInstruction(new TSTO(this.getList().size()));
         if(!compiler.getCompilerOptions().getNoCheck()) {
@@ -53,6 +47,15 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
         compiler.addComment("Beginning of the variable declaration");
         for(AbstractDeclVar declVar : this.getList()) {
             declVar.codeGenDeclVar(compiler);
+        }
+    }
+
+    void codeGenListDeclVariableByte(JavaCompiler javaCompiler, int beginIndex)
+    {
+        int currentIndexVar = beginIndex;
+        for (AbstractDeclVar declVar : this.getList()){
+            declVar.codeGenDeclVarByte(javaCompiler, currentIndexVar);
+            currentIndexVar++;
         }
     }
 }

@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.LabelManager;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -8,6 +10,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
@@ -27,7 +30,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
         Type leftType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
 
@@ -52,27 +55,43 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
         codeGenExprOnR1(compiler);
         if(this.getType().isInt()) {
             compiler.addInstruction(new WINT());
         } else if(this.getType().isFloat()) {
-            compiler.addInstruction(new WFLOAT());
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
         }
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-
+    protected void codeGenInst(IMACompiler compiler) {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        // Constant optimization
+        if (codeGenConstInt(compiler, register)) {
+            return;
+        }
+        if (codeGenConstFloat(compiler, register)) {
+            return;
+        }
+
+        // If power of 2 => shifts are faster for * and /
+        if (this.codeGenPowerOfTwo(compiler, register))
+            return;
+
+        // Classic code generation
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
         DVal dVal = this.getRightOperand().getDVal();
         if(dVal == null) {
-            int newRegister = compiler.getRegisterManager().getFreeRegister();
-            if(newRegister == -1) {
+            GPRegister newRegister = compiler.getRegisterManager().getFreeRegister();
+            if(newRegister == null) {
                 compiler.addInstruction(new PUSH(register));
                 this.getRightOperand().codeGenExprOnRegister(compiler, register);
                 compiler.addInstruction(new LOAD(register, Register.R0));
@@ -81,17 +100,17 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
                         compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                    } else {
+                    } else if (getType().isFloat()){
                         compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                     }
                 }
             } else {
-                this.getRightOperand().codeGenExprOnRegister(compiler, Register.getR(newRegister));
-                this.codeMnemo(compiler, Register.getR(newRegister), register);
+                this.getRightOperand().codeGenExprOnRegister(compiler, newRegister);
+                this.codeMnemo(compiler, newRegister, register);
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
                         compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                    } else {
+                    } else if (getType().isFloat()){
                         compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                     }
                 }
@@ -102,10 +121,42 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             if(!compiler.getCompilerOptions().getNoCheck()) {
                 if(Objects.equals(this.getOperatorName(), "/")) {
                     compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                } else {
+                } else if (getType().isFloat()){
                     compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                 }
             }
         }
     }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        getLeftOperand().codeGenExprByteOnStack(javaCompiler);
+        getRightOperand().codeGenExprByteOnStack(javaCompiler);
+        javaCompiler.getMethodVisitor().visitInsn(codeMnemoByte(javaCompiler));
+    }
+
+    protected boolean codeGenPowerOfTwo(IMACompiler compiler, GPRegister register) {
+        return false;
+    }
+
+    protected boolean codeGenConstFloat(IMACompiler compiler, GPRegister register) {
+        Float fValue = getDirectFloat();
+        if (fValue != null) {
+            compiler.addInstruction(new LOAD(new ImmediateFloat(fValue), register));
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean codeGenConstInt(IMACompiler compiler, GPRegister register) {
+        Integer iValue = getDirectInt();
+        if (iValue != null) {
+            compiler.addInstruction(new LOAD(iValue, register));
+            return true;
+        }
+
+        return false;
+    }
+
 }

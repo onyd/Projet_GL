@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -8,6 +10,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+import org.objectweb.asm.MethodVisitor;
 
 /**
  * Print statement (print, println, ...).
@@ -34,7 +37,7 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         for(AbstractExpr expr: getArguments().getList()) {
             Type type = expr.verifyExpr(compiler, localEnv, currentClass);
@@ -45,9 +48,28 @@ public abstract class AbstractPrint extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenPrint(compiler);
+            a.codeGenPrint(compiler, printHex);
+        }
+    }
+
+    @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler)
+    {
+        for (AbstractExpr a : getArguments().getList()) {
+            MethodVisitor methodVisitor = javaCompiler.getMethodVisitor();
+            // Instruction System.out.PrintStream.println
+            methodVisitor.visitFieldInsn(javaCompiler.GETSTATIC,
+                    "java/lang/System",
+                    "out",
+                    "Ljava/io/PrintStream;");
+            a.codeGenExprByteOnStack(javaCompiler);
+            methodVisitor.visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                    "java/io/PrintStream",
+                    "print",
+                    "(" + a.getJavaType() + ")V",
+                    false);
         }
     }
 
@@ -62,15 +84,7 @@ public abstract class AbstractPrint extends AbstractInst {
         }else{
             s.print("print" + getSuffix() + "(");
         }
-        boolean first = true;
-        for (AbstractExpr expr : arguments.getList()) {
-            if(first) {
-                s.print(expr.decompile());
-                first = false;
-            } else {
-                s.print("," + expr.decompile());
-            }
-        }
+        arguments.decompile(s);
         s.print(");");
     }
 

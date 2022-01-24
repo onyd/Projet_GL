@@ -1,18 +1,18 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import java.io.PrintStream;
-import java.util.Map;
 
 
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 
 /**
  * Deca Identifier
@@ -80,6 +80,28 @@ public class Identifier extends AbstractIdentifier {
 
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
+     * LValueDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not an lvalue definition.
+     */
+    @Override
+    public LValueDefinition getLValueDefinition() {
+        try {
+            return (LValueDefinition) definition;
+        } catch (ClassCastException e) {
+            throw new DecacInternalError(
+                    "Identifier "
+                            + getName()
+                            + " is not a method identifier, you can't call getLValueDefinition on it");
+        }
+    }
+
+    /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
      * FieldDefinition.
      * 
      * This method essentially performs a cast, but throws an explicit exception
@@ -123,6 +145,28 @@ public class Identifier extends AbstractIdentifier {
     }
 
     /**
+     * Like {@link #getDefinition()}, but works only if the definition is a
+     * ParamDefinition.
+     *
+     * This method essentially performs a cast, but throws an explicit exception
+     * when the cast fails.
+     *
+     * @throws DecacInternalError
+     *             if the definition is not a field definition.
+     */
+    @Override
+    public ParamDefinition getParamDefinition() {
+        try {
+            return (ParamDefinition) definition;
+        } catch (ClassCastException e) {
+            throw new DecacInternalError(
+                    "Identifier "
+                            + getName()
+                            + " is not a param identifier, you can't call getParamDefinition on it");
+        }
+    }
+
+    /**
      * Like {@link #getDefinition()}, but works only if the definition is a ExpDefinition.
      * 
      * This method essentially performs a cast, but throws an explicit exception
@@ -155,6 +199,11 @@ public class Identifier extends AbstractIdentifier {
 
     private Symbol name;
 
+    @Override
+    public boolean isIdentifier() {
+        return true;
+    }
+
     public Identifier(Symbol name) {
         Validate.notNull(name);
         this.name = name;
@@ -162,11 +211,21 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-        ClassDefinition currentClass) throws ContextualError {
+                           ClassDefinition currentClass) throws ContextualError {
+        // Try to find the variable in local env
         ExpDefinition expDef = localEnv.get(getName());
-        if(expDef == null) {
-            throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+        if(expDef == null && currentClass == null) {
+            throw new ContextualError("(0.1) The identifier is not declared", getLocation());
+        } else if (expDef == null) {
+            // Try to find variable as class field
+            expDef = currentClass.getMembers().get(getName());
+            if (expDef == null) {
+                throw new ContextualError("(0.1) The identifier is not declared", this.getLocation());
+            }
+            if (!expDef.isField())
+                throw new ContextualError("(0.1) The field is not declared", getLocation());
         }
+
         setType(expDef.getType());
         setDefinition(expDef);
         return this.getType();
@@ -183,22 +242,48 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError("(0.2) The identifier has an invalid type", this.getLocation());
         }
         setType(typeDef.getType());
-        setDefinition(new TypeDefinition(getType(), getLocation()));
+        setDefinition(typeDef);
         return getType();
     }
 
+    @Override
+    public Type verifyField(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        ExpDefinition def = localEnv.get(getName());
+        if (def == null)
+            throw new ContextualError("(3.70) Invalid field identifier", getLocation());
+        FieldDefinition fieldDef = def.asFieldDefinition("(3.70) Identifier must be a field", getLocation());
+        setType(fieldDef.getType());
+        setDefinition(fieldDef);
+        return getType();
+    }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
-        if(this.getVariableDefinition().getType().isInt()) {
+    public Type verifyMethod(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+        ExpDefinition def = localEnv.get(getName());
+        if (def == null) {
+            throw new ContextualError("(3.72) Invalid identifier", getLocation());
+        }
+        MethodDefinition methodDef = def.asMethodDefinition("(3.72) Identifier must be a method", getLocation());
+        setType(methodDef.getType());
+        setDefinition(methodDef);
+        return getType();
+    }
+
+    @Override
+    protected void codeGenPrint(IMACompiler compiler, boolean printHex) {
+        if(this.getExpDefinition().getType().isInt()) {
             compiler.getStack().getVariableFromStackOnR1(this);
             compiler.addInstruction(new WINT());
-        } else if(this.getVariableDefinition().getType().isFloat()) {
+        } else if(this.getExpDefinition().getType().isFloat()) {
             compiler.getStack().getVariableFromStackOnR1(this);
-            compiler.addInstruction(new WFLOAT());
-        } else if(this.getVariableDefinition().getType().isString()) {
-            int position = ((RegisterOffset) this.getVariableDefinition().getOperand()).getOffset();
-            for(int i = 0; i < this.getVariableDefinition().getSizeOnStack(); i++) {
+            if (printHex) {
+                compiler.addInstruction(new WFLOATX());
+            } else {
+                compiler.addInstruction(new WFLOAT());
+            }
+        } else if(this.getExpDefinition().getType().isString()) {
+            int position = ((RegisterOffset) this.getExpDefinition().getOperand()).getOffset();
+            for(int i = 0; i < this.getExpDefinition().getSizeOnStack(); i++) {
                 compiler.getStack().getVariableFromStackOnR1(this, position);
                 compiler.addInstruction(new WUTF8());
                 position++;
@@ -207,17 +292,58 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public void codeGenExprOnRegister(DecacCompiler compiler, GPRegister register) {
-        compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        if(this.definition.isField()) {
+            // implicit selection of a field in a class
+            compiler.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), register));
+            compiler.addInstruction(new LOAD(new RegisterOffset(this.getFieldDefinition().getIndex(), register), register));
+        } else {
+            compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), register));
+        }
     }
 
-    protected void codeGenBool(DecacCompiler compiler, boolean negation, Label label) {
+    protected void codeGenBool(IMACompiler compiler, boolean negation, Label label) {
         compiler.addInstruction(new LOAD(getExpDefinition().getOperand(), Register.R0));
         compiler.addInstruction(new CMP(0, Register.R0));
         if (negation) {
             compiler.addInstruction(new BNE(label));
         } else {
             compiler.addInstruction(new BEQ(label));
+        }
+    }
+
+    @Override
+    public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
+        if(this.getExpDefinition().isField()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, 0);
+            javaCompiler.getMethodVisitor().visitFieldInsn(javaCompiler.GETFIELD,
+                    this.getFieldDefinition().getClassName(),
+                    name.getName(),
+                    this.getJavaType());
+        } else {
+            loadFromType(javaCompiler, getType(), getExpDefinition().getIndexOnStack());
+        }
+    }
+
+    public static void loadFromType(JavaCompiler javaCompiler, Type type, int index) {
+        if (type.isInt()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, index);
+        } else if(type.isFloat()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, index);
+        } else if (type.isBoolean()) {
+            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.ILOAD, index);
+        } else if(type.isClass()) {
+            javaCompiler.getMethodVisitor().visitIntInsn(javaCompiler.ALOAD, index);
+        }
+    }
+
+    @Override
+    protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
+        codeGenExprByteOnStack(javaCompiler);
+        if (negation) {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);
+        } else {
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFEQ, label);
         }
     }
 

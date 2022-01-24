@@ -1,14 +1,24 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+
+import javax.tools.*;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -37,15 +47,110 @@ public class Program extends AbstractProgram {
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
-        getMain().verifyMain(compiler);
+
+        // Pass 1
+        classes.verifyListClass(compiler);
+
+        // Pass 2
+        classes.verifyListClassMembers(compiler);
+
+        // Pass 3
+        classes.verifyListClassBody(compiler);
+        main.verifyMain(compiler);
+
+        LOG.debug("verify program: end");
     }
 
     @Override
-    public void codeGenProgram(DecacCompiler compiler) {
+    public void codeGenProgram(IMACompiler compiler) {
+        //create the vtable
+        compiler.addComment("Creation of the virtual methods table");
+        classes.codeGenListDeclClass(compiler);
+
         compiler.addComment("Main program");
         main.codeGenMain(compiler);
         compiler.addInstruction(new HALT());
+
+        //crete all the constructors and methods
+        compiler.appendMethodProg();
+
+        //add all the error
+        compiler.addComment("Handle the errors");
         Utils.handleError(compiler);
+    }
+
+    @Override
+    public void codeGenProgramByte(JavaCompiler javaCompiler, String path, String className) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        classes.codeGenListDeclClassByte(javaCompiler, path);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        javaCompiler.setClassWriter(classWriter);
+
+        classWriter.visit(javaCompiler.V1_8,
+                javaCompiler.ACC_PUBLIC + javaCompiler.ACC_SUPER,
+                className,
+                null,
+                "java/lang/Object",
+                null);
+
+        classWriter.visitSource(path + className + ".java", null);
+        MethodVisitor methodVisitor = null;
+
+        // default constructor
+        methodVisitor = classWriter.visitMethod(javaCompiler.ACC_PUBLIC, "<init>", "()V", null, null);
+        methodVisitor.visitVarInsn(javaCompiler.ALOAD, 0);
+        methodVisitor.visitMethodInsn(javaCompiler.INVOKESPECIAL,
+                "java/lang/Object",
+                "<init>",
+                "()V",false);
+        methodVisitor.visitInsn(javaCompiler.RETURN);
+        methodVisitor.visitMaxs(-1, -1);
+        methodVisitor.visitEnd();
+        main.codeGenMainByte(javaCompiler);
+
+        classWriter.visitEnd();
+
+        String program = "class " + javaCompiler.getSourceName() + "MethodJavaBodies {" + String.format(javaCompiler.getMethods(), "") + "}";
+        Iterable<? extends JavaFileObject> fileObjects = getJavaSourceFromString(program);
+
+        javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+
+        String dest = javaCompiler.getSourceDir();
+        String[] compileOptions;
+        if (dest != null) {
+            compileOptions = new String[]{"-d", javaCompiler.getSourceDir()};
+        } else {
+            compileOptions = new String[0];
+        }
+        Iterable<String> compilationOptions = Arrays.asList(compileOptions);
+
+        compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
+    }
+
+    static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {
+        final JavaSourceFromString jsfs;
+        jsfs = new JavaSourceFromString("code", code);
+        return new Iterable<JavaSourceFromString>() {
+            public Iterator<JavaSourceFromString> iterator() {
+                return new Iterator<JavaSourceFromString>() {
+                    boolean isNext = true;
+
+                    public boolean hasNext() {
+                        return isNext;
+                    }
+
+                    public JavaSourceFromString next() {
+                        if (!isNext)
+                            throw new NoSuchElementException();
+                        isNext = false;
+                        return jsfs;
+                    }
+
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
+                };
+            }
+        };
     }
 
     @Override

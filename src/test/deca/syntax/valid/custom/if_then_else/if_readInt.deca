@@ -9,7 +9,9 @@
 {
    if (readInt() == 0) {
         i = 4;
-   } else {
+   } else if {
         i = 0;
+   } else {
+        i = 2;
    }
 }

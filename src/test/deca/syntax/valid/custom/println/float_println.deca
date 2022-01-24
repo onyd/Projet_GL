@@ -1,0 +1,11 @@
+// Description:
+//   Print a float.
+// Results:
+//
+//
+// History:
+//    created on 22/01/2022
+
+{
+   println(1.56);
+}

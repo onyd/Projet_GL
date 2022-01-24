@@ -115,10 +115,6 @@ public class TestLex {
         lex.nextToken();
         assertEquals("Incr", lex.getText());
         lex.nextToken();
-        assertEquals("(", lex.getText());
-        lex.nextToken();
-        assertEquals(")", lex.getText());
-        lex.nextToken();
         assertEquals("{", lex.getText());
         lex.nextToken();
         assertEquals("int",lex.getText());
@@ -176,6 +172,8 @@ public class TestLex {
         assertEquals("(",lex.getText());
         lex.nextToken();
         assertEquals(")",lex.getText());
+        lex.nextToken();
+        assertEquals(";",lex.getText());
         lex.nextToken();
         assertEquals("incr",lex.getText());
         lex.nextToken();

@@ -8,7 +8,7 @@ import fr.ensimag.deca.tree.Location;
  * @author gl28
  * @date 01/01/2022
  */
-public class ParamDefinition extends ExpDefinition {
+public class ParamDefinition extends LValueDefinition {
 
     public ParamDefinition(Type type, Location location) {
         super(type, location);

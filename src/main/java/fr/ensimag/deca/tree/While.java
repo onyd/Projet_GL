@@ -1,5 +1,7 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.IMACompiler;
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -39,7 +41,10 @@ public class While extends AbstractInst {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    protected void codeGenInst(IMACompiler compiler) {
+        if (condition.isTriviallyFalse()) {
+            return;
+        }
         Label condLabel = compiler.getLabelManager().getNextLabel("WHILE", "COND");
         Label beginLabel = compiler.getLabelManager().getNextLabel("WHILE", "BEGIN");
         compiler.addInstruction(new BRA(condLabel));
@@ -47,6 +52,17 @@ public class While extends AbstractInst {
         body.codeGenListInst(compiler);
         compiler.addLabel(condLabel);
         condition.codeGenBool(compiler, true, beginLabel);
+    }
+
+    @Override
+    protected void codeGenInstByte(JavaCompiler javaCompiler) {
+        org.objectweb.asm.Label condLabel = new org.objectweb.asm.Label();
+        org.objectweb.asm.Label beginLabel = new org.objectweb.asm.Label();
+        javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.GOTO, condLabel);
+        javaCompiler.getMethodVisitor().visitLabel(beginLabel);
+        body.codeGenListInstByte(javaCompiler);
+        javaCompiler.getMethodVisitor().visitLabel(condLabel);
+        condition.codeGenBoolByte(javaCompiler, true, beginLabel);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.Label;
@@ -38,4 +39,41 @@ public class Greater extends AbstractOpIneq {
         return ">";
     }
 
+    @Override
+    public int getIntJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IF_ICMPGT;
+        else
+            return javaCompiler.IF_ICMPLE;
+    }
+
+    @Override
+    public int getFloatJumpInstrByte(JavaCompiler javaCompiler, boolean negation) {
+        if (negation)
+            return javaCompiler.IFGT;
+        else
+            return javaCompiler.IFLE;
+    }
+
+    @Override
+    public boolean isTriviallyTrue() {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            return ((IntLiteral) getLeftOperand()).getValue() > ((IntLiteral) getRightOperand()).getValue();
+        }
+        if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            return ((FloatLiteral) getLeftOperand()).getValue() > ((FloatLiteral) getRightOperand()).getValue();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isTriviallyFalse() {
+        if (getLeftOperand().isIntLiteral() && getRightOperand().isIntLiteral()) {
+            return ((IntLiteral) getLeftOperand()).getValue() <= ((IntLiteral) getRightOperand()).getValue();
+        }
+        if (getLeftOperand().isFloatLiteral() && getRightOperand().isFloatLiteral()) {
+            return ((FloatLiteral) getLeftOperand()).getValue() <= ((FloatLiteral) getRightOperand()).getValue();
+        }
+        return false;
+    }
 }

@@ -1,0 +1,14 @@
+class Montagne{
+
+    int altitude;
+
+    int getaltitude(){
+
+    }
+}
+
+{
+    Montagne croix = new Montagne();
+    croix.altitude = 2977;
+    println(croix.getaltitude());
+}

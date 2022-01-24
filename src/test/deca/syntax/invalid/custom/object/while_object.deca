@@ -1,0 +1,13 @@
+// Description:
+//   While with condition object.
+// Results:
+//
+//
+// History:
+//    created on 13/01/2022
+
+{
+   while (a.incr(b) == 1)
+        i = i + 1;
+   }
+}

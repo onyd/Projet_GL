@@ -28,6 +28,7 @@ ELSE: 'else';
 FALSE: 'false';
 IF: 'if';
 INSTANCEOF: 'instanceof';
+JAVA: 'java';
 NEW: 'new';
 NULL: 'null';
 READINT: 'readInt';
@@ -92,7 +93,7 @@ fragment FLOATHEX: ('0x' | '0X') NUMHEX '.' NUMHEX ('P' | 'p') SIGN NUM ('F' | '
 FLOAT: FLOATDEC|FLOATHEX;
 
 
-fragment STRING_CAR: ~('"' | '\\' | '\n' | '\t');
+fragment STRING_CAR: ~('"' | '\\' | '\n');
 STRING: '"' (STRING_CAR | '\\"' | '\\\\')* '"';
 MULTI_LINE_STRING: '"' (STRING_CAR | EOL | '\\"' | '\\\\')* '"';
 
@@ -103,4 +104,4 @@ SEPARATOR: (SPACE | '\t' | EOL | '\r' | COMMENT | SINGLE_COMMENT){ skip(); };
 SPACE : (' ' | '\t') { skip(); };
 
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
-INCLUDE: '#include' (' ')* '"' FILENAME '"' { doInclude(getText()); };
+INCLUDE: '#include' (' ')* '"' FILENAME '"' {  skip();doInclude(getText()); };

@@ -1,8 +1,5 @@
 package fr.ensimag.deca;
 
-import fr.ensimag.deca.codegen.LabelManager;
-import fr.ensimag.deca.codegen.RegisterManager;
-import fr.ensimag.deca.codegen.Stack;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -11,15 +8,12 @@ import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
@@ -39,21 +33,12 @@ import org.apache.log4j.Logger;
  * @author gl28
  * @date 01/01/2022
  */
-public class DecacCompiler {
-    private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
+public abstract class DecacCompiler {
+    protected static final Logger LOG = Logger.getLogger(DecacCompiler.class);
     
-    /**
-     * Portable newline character.
-     */
-    private static final String nl = System.getProperty("line.separator", "\n");
-
     public DecacCompiler(CompilerOptions compilerOptions, File source) {
-        super();
         this.compilerOptions = compilerOptions;
         this.source = source;
-        this.stack = new Stack(this);
-        this.registerManager = new RegisterManager(compilerOptions.getRegisterNumber());
-        this.labelManager = new LabelManager();
 
         // Initialization of env_types
         try {
@@ -61,9 +46,51 @@ public class DecacCompiler {
             envTypes.declare(BOOLEAN_SYMBOL, new TypeDefinition(new BooleanType(BOOLEAN_SYMBOL), Location.BUILTIN));
             envTypes.declare(FLOAT_SYMBOL, new TypeDefinition(new FloatType(FLOAT_SYMBOL), Location.BUILTIN));
             envTypes.declare(INT_SYMBOL, new TypeDefinition(new IntType(INT_SYMBOL), Location.BUILTIN));
+
+            ClassType objectType = new ClassType(OBJECT_SYMBOL, Location.BUILTIN, null);
+            envTypes.declare(OBJECT_SYMBOL, objectType.getDefinition());
+
+            Signature signature = new Signature();
+            signature.add(getEnvironmentType().get(OBJECT_SYMBOL).getType());
+            EQUALS_DEF = new MethodDefinition(getEnvironmentType().get(BOOLEAN_SYMBOL).getType(), Location.BUILTIN, signature, 1);
+            objectType.getDefinition().getMembers().declare(EQUALS_SYMBOL, EQUALS_DEF);
+            objectType.getDefinition().incNumberOfMethods();
+
         } catch (EnvironmentType.DoubleDefException e) {
             // Never happen
         }
+    }
+
+    protected final CompilerOptions compilerOptions;
+    protected final File source;
+    protected SymbolTable symbolTable = new SymbolTable();
+    protected EnvironmentType envTypes = new EnvironmentType(null);
+
+
+    public final SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
+            BOOLEAN_SYMBOL = symbolTable.create("boolean"),
+            FLOAT_SYMBOL = symbolTable.create("float"),
+            INT_SYMBOL = symbolTable.create("int"),
+            OBJECT_SYMBOL = symbolTable.create("Object"),
+            EQUALS_SYMBOL = symbolTable.create("equals"),
+            NULL_SYMBOL = symbolTable.create("null");
+    public MethodDefinition EQUALS_DEF;
+
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
+
+    public EnvironmentType getEnvironmentType() {
+        return envTypes;
+    }
+
+    public String getSourceName() {
+        String name = source.getName();
+        return name.substring(0, name.length() - 5);
+    }
+
+    public String getSourceDir() {
+        return source.getParent();
     }
 
     /**
@@ -74,119 +101,14 @@ public class DecacCompiler {
     }
 
     /**
-     * Compilation options (e.g. when to stop compilation, number of registers
-     * to use, ...).
-     */
-    public CompilerOptions getCompilerOptions() {
-        return compilerOptions;
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#add(fr.ensimag.ima.pseudocode.AbstractLine)
-     */
-    public void add(AbstractLine line) {
-        program.add(line);
-    }
-
-    /**
-     * @see fr.ensimag.ima.pseudocode.IMAProgram#addComment(java.lang.String)
-     */
-    public void addComment(String comment) {
-        program.addComment(comment);
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addLabel(fr.ensimag.ima.pseudocode.Label)
-     */
-    public void addLabel(Label label) {
-        program.addLabel(label);
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction)
-     */
-    public void addInstruction(Instruction instruction) {
-        program.addInstruction(instruction);
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#addInstruction(fr.ensimag.ima.pseudocode.Instruction,
-     * java.lang.String)
-     */
-    public void addInstruction(Instruction instruction, String comment) {
-        program.addInstruction(instruction, comment);
-    }
-
-    /**
-     * @see
-     * fr.ensimag.ima.pseudocode.IMAProgram#append(fr.ensimag.ima.pseudocode.IMAProgram)
-     */
-    public void append(IMAProgram p) {
-        program.append(p);
-    }
-    
-    /**
-     * @see 
-     * fr.ensimag.ima.pseudocode.IMAProgram#display()
-     */
-    public String displayIMAProgram() {
-        return program.display();
-    }
-    
-    private final CompilerOptions compilerOptions;
-    private final File source;
-    private SymbolTable symbolTable = new SymbolTable();
-    private EnvironmentType envTypes = new EnvironmentType();
-
-    private Stack stack;
-    private RegisterManager registerManager;
-    private LabelManager labelManager;
-
-    public Stack getStack() {
-        return stack;
-    }
-
-    public RegisterManager getRegisterManager() {
-        return registerManager;
-    }
-
-    public LabelManager getLabelManager() {
-        return labelManager;
-    }
-
-    public SymbolTable.Symbol VOID_SYMBOL = symbolTable.create("void"),
-            BOOLEAN_SYMBOL = symbolTable.create("boolean"),
-            FLOAT_SYMBOL = symbolTable.create("float"),
-            INT_SYMBOL = symbolTable.create("int");
-
-    public SymbolTable getSymbolTable() {
-        return symbolTable;
-    }
-
-    public EnvironmentType getEnvironmentType() {
-        return envTypes;
-    }
-
-    /**
-     * The main program. Every instruction generated will eventually end up here.
-     */
-    private final IMAProgram program = new IMAProgram();
- 
-
-    /**
      * Run the compiler (parse source file, generate code)
      *
      * @return true on error
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        String destFile = sourceFile;
-        destFile = destFile.substring(0, destFile.length() - 4);
-        destFile = destFile + "ass";
+        String destFile = getDestFileName(sourceFile);
+
         PrintStream err = System.err;
         PrintStream out = System.out;
         LOG.debug("Compiling file " + sourceFile + " to assembly file " + destFile);
@@ -228,7 +150,7 @@ public class DecacCompiler {
      */
     private boolean doCompile(String sourceName, String destName,
             PrintStream out, PrintStream err)
-            throws DecacFatalError, LocationException {
+            throws DecacFatalError, LocationException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
 
         // STEP A
         AbstractProgram prog = doLexingAndParsing(sourceName, err);
@@ -252,25 +174,23 @@ public class DecacCompiler {
         assert(prog.checkAllDecorations());
 
         // STEP C
-        addComment("start main program");
-        prog.codeGenProgram(this);
-        addComment("end main program");
-        LOG.debug("Generated assembly code:" + nl + program.display());
-        LOG.info("Output file assembly file is: " + destName);
+        doCodeGen(prog, destName);
 
-        FileOutputStream fstream = null;
-        try {
-            fstream = new FileOutputStream(destName);
-        } catch (FileNotFoundException e) {
-            throw new DecacFatalError("Failed to open output file: " + e.getLocalizedMessage());
-        }
-
-        LOG.info("Writing assembler file ...");
-
-        program.display(new PrintStream(fstream));
         LOG.info("Compilation of " + sourceName + " successful.");
         return false;
     }
+
+    /**
+     * Compilation options (e.g. when to stop compilation, number of registers
+     * to use, ...).
+     */
+    public CompilerOptions getCompilerOptions() {
+        return compilerOptions;
+    }
+
+    public abstract void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
+
+    public abstract String getDestFileName(String sourceFileName);
 
     /**
      * Build and call the lexer and parser to build the primitive abstract
@@ -300,6 +220,5 @@ public class DecacCompiler {
 
         return parser.parseProgramAndManageErrors(err);
     }
-
 
 }
