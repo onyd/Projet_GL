@@ -4,7 +4,6 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.IMACompiler;
 import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.codegen.Utils;
-import fr.ensimag.deca.JavaCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -15,6 +14,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 public class MethodCall extends AbstractExpr {
     private AbstractExpr expr;
@@ -106,9 +106,9 @@ public class MethodCall extends AbstractExpr {
     protected void codeGenBoolByte(JavaCompiler javaCompiler, boolean negation, org.objectweb.asm.Label label) {
         codeGenExprByteOnStack(javaCompiler);
         if (negation)
-            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPNE, label);
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFNE, label);
         else
-            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IF_ICMPEQ, label);
+            javaCompiler.getMethodVisitor().visitJumpInsn(javaCompiler.IFEQ, label);
     }
 
     @Override
@@ -117,11 +117,18 @@ public class MethodCall extends AbstractExpr {
         for(AbstractExpr arg : arguments.getList()) {
             arg.codeGenExprByteOnStack(javaCompiler);
         }
-        javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
-                expr.getType().getName().getName(),
-                methodIdent.getName().getName(),
-                "(" + this.getJavaArgType() + ")" + methodIdent.getJavaType(),
-                false);
+        if(Objects.equals(methodIdent.getName().getName(), "equals")) {
+            javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                    "java/lang/Object",
+                    "equals",
+                    "(Ljava/lang/Object;)Z",false);
+        } else {
+            javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKEVIRTUAL,
+                    expr.getType().getName().getName(),
+                    methodIdent.getName().getName(),
+                    "(" + this.getJavaArgType() + ")" + methodIdent.getJavaType(),
+                    false);
+        }
     }
 
     private String getJavaArgType() {
