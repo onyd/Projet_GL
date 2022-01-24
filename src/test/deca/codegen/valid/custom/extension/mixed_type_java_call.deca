@@ -1,0 +1,13 @@
+class A {
+    float compute(int x, float y, boolean doReturnX) java ("
+        if (doReturnX) {
+            return (float) x;
+        }
+        return y;
+    ");
+}
+
+{
+    A a = new A();
+    println(a.compute(2, 3.0, false));
+}

@@ -91,8 +91,8 @@ public class MethodJavaBody extends AbstractMethodBody {
             paramsJavaType.append(Utils.getJavaType(param.getParamIdent().getType()));
         }
 
-        for (AbstractDeclParam param : listParam.getList()) {
-            javaCompiler.getMethodVisitor().visitVarInsn(javaCompiler.FLOAD, param.getParamIdent().getExpDefinition().getIndexOnStack());
+        for (AbstractDeclParam p : listParam.getList()) {
+            Identifier.loadFromType(javaCompiler, p.getParamIdent().getType(), p.getParamIdent().getExpDefinition().getIndexOnStack());
         }
         javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKESTATIC, javaCompiler.getSourceName() + "MethodJavaBodies$" + javaCompiler.getClassName(), methodIdent.getName().getName(), "(" + paramsJavaType + ")" + methodIdent.getJavaType(), false);
         javaCompiler.getMethodVisitor().visitInsn(Return.getReturnCode(javaCompiler, returnType.getType()));
