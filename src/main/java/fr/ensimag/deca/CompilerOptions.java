@@ -193,7 +193,7 @@ public class CompilerOptions {
 
     protected String usage() {
         return "Usage: \n decac [[-p | -v] [-n] [-r X] [-d]* [-P] <fichier deca>...] | [-b] " +
-                "\n decac -java [[-d]* [-P] <fichier deca>...] | [-b]";
+                "\n decac -java [-d]* [-P] <fichier deca>... | [-b]";
     }
 
     protected void displayUsage() {
