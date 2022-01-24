@@ -67,10 +67,16 @@ public class New extends AbstractExpr {
 
     @Override
     public void codeGenExprByteOnStack(JavaCompiler javaCompiler) {
-        javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.NEW, className.getName().getName());
+        String classN = "";
+        if(className.getName().getName().equals("Object")) {
+            classN = "java/lang/Object";
+        } else {
+            classN = className.getName().getName();
+        }
+        javaCompiler.getMethodVisitor().visitTypeInsn(javaCompiler.NEW, classN);
         javaCompiler.getMethodVisitor().visitInsn(javaCompiler.DUP);
         javaCompiler.getMethodVisitor().visitMethodInsn(javaCompiler.INVOKESPECIAL,
-                className.getName().getName(),
+                classN,
                 "<init>",
                 "()V",false);
     }
