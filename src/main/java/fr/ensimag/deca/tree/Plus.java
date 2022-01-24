@@ -41,6 +41,41 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
+    public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
+        /*if (getType().isFloat()) {
+            if (getLeftOperand().isMultiply()) {
+                Multiply multiplication = (Multiply) getLeftOperand();
+                doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getRightOperand());
+                return;
+            }
+            if (getRightOperand().isMultiply()) {
+                Multiply multiplication = (Multiply) getRightOperand();
+                doFMAOptimization(compiler, register, multiplication.getLeftOperand(), multiplication.getRightOperand(), getLeftOperand());
+                return;
+            }
+        }*/
+        super.codeGenExprOnRegister(compiler, register);
+    }
+
+    private void doFMAOptimization(IMACompiler compiler, GPRegister register, AbstractExpr e1, AbstractExpr e2, AbstractExpr toAdd) {
+        DVal e1DVal = e1.getDVal();
+        if (e1DVal != null) {
+            e2.codeGenExprOnRegister(compiler, register);
+            toAdd.codeGenExprOnRegister(compiler, Register.R1);
+            compiler.addInstruction(new FMA(e1DVal, register));
+            return;
+        }
+
+        DVal e2DVal = e2.getDVal();
+        if (e2DVal != null) {
+            e1.codeGenExprOnRegister(compiler, register);
+            toAdd.codeGenExprOnRegister(compiler, Register.R1);
+            compiler.addInstruction(new FMA(e2DVal, register));
+            return;
+        }
+    }
+
+    @Override
     public Integer getDirectInt() {
         if (getType().isInt()) {
             Integer leftValue = getLeftOperand().getDirectInt();

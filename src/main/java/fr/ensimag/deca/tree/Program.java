@@ -114,10 +114,17 @@ public class Program extends AbstractProgram {
 
         javax.tools.JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 
-        String[] compileOptions = new String[]{"-d", javaCompiler.getSourceDir()};
+        String dest = javaCompiler.getSourceDir();
+        String[] compileOptions;
+        if (dest != null) {
+            compileOptions = new String[]{"-d", javaCompiler.getSourceDir()};
+        } else {
+            compileOptions = new String[0];
+        }
         Iterable<String> compilationOptions = Arrays.asList(compileOptions);
 
-        //compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
+
+        compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
 
     }
 

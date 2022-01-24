@@ -1,0 +1,10 @@
+class Math {
+    float cos(float x, float y) java ("
+        return (float) java.lang.Math.cos(x + y);
+    ");
+}
+
+{
+    Math m = new Math();
+    println(m.cos(3.14, 0.4));
+}

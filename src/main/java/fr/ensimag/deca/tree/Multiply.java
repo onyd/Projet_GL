@@ -19,6 +19,10 @@ public class Multiply extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
+    @Override
+    public boolean isMultiply() {
+        return true;
+    }
 
     @Override
     protected String getOperatorName() {
