@@ -66,8 +66,8 @@ public class Main extends AbstractMain {
     }
 
     /**
-     * Apply the Tree decoration for the entire program.
-     * @param s Buffer to which the result will be written.
+     * Generate bytecode for the program when the option -java is given.
+     * @param javaCompiler Buffer to which the result will be written.
      */
     @Override
     protected void codeGenMainByte(JavaCompiler javaCompiler)
@@ -96,6 +96,10 @@ public class Main extends AbstractMain {
         methodVisitor.visitEnd();
     }
 
+    /**
+     * Apply the Tree decompilation.
+     * @param s Buffer to which the result will be written.
+     */
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");
@@ -106,12 +110,21 @@ public class Main extends AbstractMain {
         s.println("}");
     }
 
+    /**
+     * Apply the tree function on all the variables and instructions.
+     * @param f
+     */
     @Override
     protected void iterChildren(TreeFunction f) {
         declVariables.iter(f);
         insts.iter(f);
     }
- 
+
+    /**
+     *
+     * @param s
+     * @param prefix
+     */
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         declVariables.prettyPrint(s, prefix, false);
