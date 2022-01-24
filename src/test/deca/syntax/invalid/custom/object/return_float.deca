@@ -8,5 +8,5 @@
 
 {
    float i = 1.56;
-   return i;
+   return;
 }
