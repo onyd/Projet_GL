@@ -52,6 +52,7 @@ public class ListDeclClass extends AbstractListTree<AbstractDeclClass> {
         //for the Object class
         compiler.getvTable().VTableForObject();
         compiler.setDeclareMethod(true);
+        compiler.getvTable().createConstructorObject();
         compiler.getvTable().createEqualsMethod();
         compiler.setDeclareMethod(false);
 

@@ -97,7 +97,7 @@ public class DeclMethod extends AbstractDeclMethod {
         compiler.addComment("Save All used registers");
         ArrayList<Integer> usedRegisters = compiler.getRegisterManager().allUsedRegisters();
         compiler.addInstruction(new TSTO(new ImmediateInteger(usedRegisters.size())));
-        if(compiler.getCompilerOptions().getNoCheck()) {
+        if(!compiler.getCompilerOptions().getNoCheck()) {
             compiler.addInstruction(new BOV(new Label("stack_overflow_error")));
         }
         for(int registerNb : usedRegisters) {

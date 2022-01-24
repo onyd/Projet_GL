@@ -24,40 +24,42 @@ public class Utils {
     }
 
     public static void handleError(IMACompiler compiler) {
-        compiler.addLabel(new Label("stack_overflow_error"));
-        compiler.addInstruction(new WSTR("Error: StackOverflow"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+        if (!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addLabel(compiler.getLabelManager().STACK_OVERFLOW_ERROR);
+            compiler.addInstruction(new WSTR("Error: StackOverflow"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("overflow_error"));
-        compiler.addInstruction(new WSTR("Error: Overflow during an operation"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().OVERFLOW_ERROR);
+            compiler.addInstruction(new WSTR("Error: Overflow during an operation"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("io_error"));
-        compiler.addInstruction(new WSTR("Error: Input / Output error"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().IO_ERROR);
+            compiler.addInstruction(new WSTR("Error: Input / Output error"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("div_error"));
-        compiler.addInstruction(new WSTR("Error: Division by zero"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().DIV_ERROR);
+            compiler.addInstruction(new WSTR("Error: Division by zero"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("seg_fault"));
-        compiler.addInstruction(new WSTR("Error: Segmentation Fault"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().SEG_FAULT);
+            compiler.addInstruction(new WSTR("Error: Segmentation Fault"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("heap_overflow_error"));
-        compiler.addInstruction(new WSTR("Error: the heap is full"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().HEAP_OVERFLOW);
+            compiler.addInstruction(new WSTR("Error: the heap is full"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
 
-        compiler.addLabel(new Label("cast_error"));
-        compiler.addInstruction(new WSTR("Error: Impossible Cast"));
-        compiler.addInstruction(new WNL());
-        compiler.addInstruction(new ERROR());
+            compiler.addLabel(compiler.getLabelManager().CAST_ERROR);
+            compiler.addInstruction(new WSTR("Error: Impossible Cast"));
+            compiler.addInstruction(new WNL());
+            compiler.addInstruction(new ERROR());
+        }
     }
 
     public static void loadExpr(IMACompiler compiler, AbstractExpr expr, GPRegister register) {
