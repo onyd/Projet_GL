@@ -52,7 +52,7 @@ do
 done
 
 echo "${GREEN}  This part is about the declarations\n${NC}"
-for fich in ./src/test/deca/codegen/valid/custom/declaration/*.deca
+for fich in ./src/test/deca/codegen/valid/custom/declaration_byte/*.deca
 do
 
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
@@ -66,7 +66,7 @@ do
       exit 1
   fi
 
-  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/declaration/ $name) || exit 1
+  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/declaration_byte/ $name) || exit 1
   rm -f $classFile
 
 
@@ -349,6 +349,7 @@ do
 
   attendu=$(cat $resultFile)
 
+  echo "    Test for" $fich
   echo "    Test for" $fich
 
   if [ "$resultat" = "$attendu" ]; then
