@@ -100,7 +100,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
                         compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                    } else {
+                    } else if (getType().isFloat()){
                         compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                     }
                 }
@@ -110,7 +110,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 if(!compiler.getCompilerOptions().getNoCheck()) {
                     if(Objects.equals(this.getOperatorName(), "/")) {
                         compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                    } else {
+                    } else if (getType().isFloat()){
                         compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                     }
                 }
@@ -121,7 +121,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             if(!compiler.getCompilerOptions().getNoCheck()) {
                 if(Objects.equals(this.getOperatorName(), "/")) {
                     compiler.addInstruction(new BOV(LabelManager.DIV_ERROR));
-                } else {
+                } else if (getType().isFloat()){
                     compiler.addInstruction(new BOV(LabelManager.OVERFLOW_ERROR));
                 }
             }

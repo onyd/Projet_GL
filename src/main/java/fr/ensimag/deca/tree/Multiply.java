@@ -59,9 +59,11 @@ public class Multiply extends AbstractOpArith {
 
         // Shifts
         IMAProgram shifts = new IMAProgram();
-        while (value % 2 == 0) {
+        int count = 0; // We limit to 20 shift because optimization is no longer better
+        while (count < 20 && value % 2 == 0) {
             shifts.addInstruction(new SHL(register));
             value /= 2;
+            count++;
         }
         if (value == 1) {
             compiler.append(shifts);

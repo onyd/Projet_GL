@@ -1,26 +1,90 @@
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:49) - verify program: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:22) - [Pass 1] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:26) - [Pass 1] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:33) - [Pass 2] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:21) - [Pass 2] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassMembers(ListDeclField.java:25) - [Pass 2] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:18) - [Pass 2] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:17) - [Pass 2] verify listDeclParam: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:22) - [Pass 2] verify listDeclParam: end
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:17) - [Pass 2] verify listDeclParam: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListClassMembers(ListDeclParam.java:22) - [Pass 2] verify listDeclParam: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassMembers(ListDeclMethod.java:22) - [Pass 2] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassMembers(ListDeclClass.java:37) - [Pass 2] verify listClass: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:44) - [Pass 3] verify listClass: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:32) - [Pass 3] verify listDeclField: start
+DEBUG fr.ensimag.deca.tree.ListDeclField.verifyListClassBody(ListDeclField.java:36) - [Pass 3] verify listDeclField: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:29) - [Pass 3] verify listDeclMethod: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30) - [Pass 3] verify listDeclParam: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:30) - [Pass 3] verify listDeclParam: start
+DEBUG fr.ensimag.deca.tree.ListDeclParam.verifyListParams(ListDeclParam.java:34) - [Pass 3] verify listDeclParam: end
+DEBUG fr.ensimag.deca.tree.ListDeclMethod.verifyListClassBody(ListDeclMethod.java:33) - [Pass 3] verify listDeclMethod: end
+DEBUG fr.ensimag.deca.tree.ListDeclClass.verifyListClassBody(ListDeclClass.java:48) - [Pass 3] verify listClass: end
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:36) - verify Main: start
+DEBUG fr.ensimag.deca.tree.Main.verifyMain(Main.java:46) - verify Main: end
+DEBUG fr.ensimag.deca.tree.Program.verifyProgram(Program.java:61) - verify program: end
 `> [1, 0] Program
    +> ListDeclClass [List with 1 elements]
    |  []> [1, 0] DeclClass
    |      +> [1, 6] Identifier (TestJava)
+   |      |  definition: type defined at [1, 0], type=TestJava
    |      +> [builtin] Identifier (Object)
+   |      |  definition: type (builtin), type=Object
    |      +> ListDeclField [List with 0 elements]
-   |      `> ListDeclMethod [List with 1 elements]
+   |      `> ListDeclMethod [List with 2 elements]
    |         []> [2, 4] DeclMethod
-   |             +> [2, 4] Identifier (void)
-   |             +> [2, 9] Identifier (methodJava)
+   |         ||  +> [2, 4] Identifier (void)
+   |         ||  |  definition: type (builtin), type=void
+   |         ||  +> [2, 9] Identifier (methodJava)
+   |         ||  |  definition: method defined at [2, 4], type=void
+   |         ||  +> ListDeclParam [List with 0 elements]
+   |         ||  `> [2, 22] MethodJavaBody
+   |         ||     `> [2, 22] StringLiteral (  WSTR "toto")
+   |         ||        type: string
+   |         []> [4, 4] DeclMethod
+   |             +> [4, 4] Identifier (void)
+   |             |  definition: type (builtin), type=void
+   |             +> [4, 9] Identifier (methodJava2)
+   |             |  definition: method defined at [4, 4], type=void
    |             +> ListDeclParam [List with 0 elements]
-   |             `> [2, 22] MethodJavaBody
-   |                `> [2, 22] StringLiteral ("  WSTR "toto"")
-   `> [4, 0] Main
-      +> ListDeclVar [List with 1 elements]
-      |  []> [5, 13] DeclVar
-      |      +> [5, 4] Identifier (TestJava)
-      |      +> [5, 13] Identifier (test)
-      |      `> [5, 18] Initialization
-      |         `> [5, 20] New
-      |            `> [5, 24] Identifier (TestJava)
-      `> ListInst [List with 1 elements]
-         []> [6, 4] MethodCall
-             +> [6, 4] Identifier (test)
-             +> [6, 9] Identifier (methodJava)
+   |             `> [4, 23] MethodJavaBody
+   |                `> [4, 23] StringLiteral (  WSTR "toto")
+   |                   type: string
+   `> [6, 0] Main
+      +> ListDeclVar [List with 2 elements]
+      |  []> [7, 13] DeclVar
+      |  ||  +> [7, 4] Identifier (TestJava)
+      |  ||  |  definition: type defined at [1, 0], type=TestJava
+      |  ||  +> [7, 13] Identifier (test)
+      |  ||  |  definition: variable defined at [7, 13], type=TestJava
+      |  ||  `> [7, 18] Initialization
+      |  ||     `> [7, 20] New
+      |  ||        type: TestJava
+      |  ||        `> [7, 24] Identifier (TestJava)
+      |  ||           definition: type defined at [1, 0], type=TestJava
+      |  []> [8, 13] DeclVar
+      |      +> [8, 4] Identifier (TestJava)
+      |      |  definition: type defined at [1, 0], type=TestJava
+      |      +> [8, 13] Identifier (test2)
+      |      |  definition: variable defined at [8, 13], type=TestJava
+      |      `> [8, 19] Initialization
+      |         `> [8, 21] New
+      |            type: TestJava
+      |            `> [8, 25] Identifier (TestJava)
+      |               definition: type defined at [1, 0], type=TestJava
+      `> ListInst [List with 2 elements]
+         []> [9, 4] MethodCall
+         ||  type: void
+         ||  +> [9, 4] Identifier (test)
+         ||  |  definition: variable defined at [7, 13], type=TestJava
+         ||  +> [9, 9] Identifier (methodJava)
+         ||  |  definition: method defined at [2, 4], type=void
+         ||  `> ListExpr [List with 0 elements]
+         []> [10, 4] MethodCall
+             type: void
+             +> [10, 4] Identifier (test2)
+             |  definition: variable defined at [8, 13], type=TestJava
+             +> [10, 10] Identifier (methodJava2)
+             |  definition: method defined at [4, 4], type=void
              `> ListExpr [List with 0 elements]
