@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 echo "${RED}\e[1mThis is the codegen tests for the byte part\e[0m"
 
 
-: <<'END_COMMENT'
+
 
 for fich in ./src/test/deca/codegen/valid/custom/byte/*.deca
 do
@@ -25,7 +25,6 @@ do
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
   classFile=$(echo "$fich" | sed "s/deca/class/g" | sed "s/class/deca/")
   name=$(basename "$fich" ".deca")
-  echo "$name"
 
 
   rm -f $classFile 2>/dev/null
@@ -156,7 +155,7 @@ done
 
 
 echo "${GREEN}  This part is for the operations on float\n${NC}"
-for fich in ./src/test/deca/codegen/valid/custom/operation_affectation/float/*.deca
+for fich in ./src/test/deca/codegen/valid/custom/operation_affectation/float_byte/*.deca
 do
 
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
@@ -170,7 +169,7 @@ do
       exit 1
   fi
 
-  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/operation_affectation/float/ $name) || exit 1
+  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/operation_affectation/float_byte/ $name) || exit 1
   rm -f $classFile
 
 
@@ -259,7 +258,7 @@ done
 
 
 echo "${GREEN}  This part is for the operations on objects\n${NC}"
-for fich in ./src/test/deca/codegen/valid/custom/object/*.deca
+for fich in ./src/test/deca/codegen/valid/custom/object_byte/*.deca
 do
 
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
@@ -273,7 +272,7 @@ do
       exit 1
   fi
 
-  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/object/ $name) || exit 1
+  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/object_byte/ $name) || exit 1
   rm -f $classFile
 
 
@@ -291,7 +290,6 @@ do
 
 done
 
-END_COMMENT
 
 
 
@@ -330,9 +328,8 @@ done
 
 
 
-done
 echo "${GREEN}  This part is for the print instructions\n${NC}"
-for fich in ./src/test/deca/codegen/valid/custom/print/*.deca
+for fich in ./src/test/deca/codegen/valid/custom/print_byte/*.deca
 do
 
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
@@ -346,7 +343,7 @@ do
       exit 1
   fi
 
-  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/include/ $name) || exit 1
+  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/print_byte/ $name) || exit 1
   rm -f $classFile
 
 

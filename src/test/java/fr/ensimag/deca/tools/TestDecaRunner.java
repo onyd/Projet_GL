@@ -8,22 +8,15 @@ import java.io.File;
 import java.io.IOException;
 
 public class TestDecaRunner {
-    String path;
-    String fileName;
-
-    public TestDecaRunner(String path, String fileName) {
-        this.fileName = fileName;
-        this.path = path;
-    }
-
     public static void main(String[] args) throws IOException, NoResultException {
-        TestDecaRunner test = new TestDecaRunner("src/test/deca/codegen/valid/demo/class/", "for_deca_runner");
-        File file = new File(test.fileName);
-        DecaRunner decaProgram = new DecaRunner(test.path, file);
+        String path = "src/test/deca/codegen/valid/demo/clazz/";
+        String fileName = "for_runner";
+        DecaRunner decaProgram = new DecaRunner(path, fileName);
         decaProgram.run();
 
         DecaResults res = decaProgram.getResults();
-        System.out.println(res.getResults().get("x"));
+        System.out.println(res.getValue("x"));
+
     }
 
 

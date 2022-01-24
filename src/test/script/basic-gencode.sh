@@ -179,7 +179,7 @@ done
 
 
 echo "${GREEN}  This part is for the operations on class\n${NC}"
-for fich in ./src/test/deca/codegen/valid/demo/class/*.deca
+for fich in ./src/test/deca/codegen/valid/demo/clazz/*.deca
 do
 
   resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
@@ -231,7 +231,6 @@ do
   resultat=$(ima $assFile) || exit 1
   rm -f $assFile
 
-  echo "test"
 
 
   attendu=$(cat $resultFile)

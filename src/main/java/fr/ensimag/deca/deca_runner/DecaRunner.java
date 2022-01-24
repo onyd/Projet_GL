@@ -10,10 +10,10 @@ import static java.lang.Integer.parseInt;
 
 public class DecaRunner {
     private String fileDirectory;
-    private File fileName;
+    private String fileName;
     private DecaResults decaResults;
 
-    public DecaRunner(String fileDirectory, File programFile) {
+    public DecaRunner(String fileDirectory, String programFile) {
         this.fileDirectory = fileDirectory;
         this.fileName = programFile;
         this.decaResults = null;
@@ -32,12 +32,13 @@ public class DecaRunner {
             String command = "java -cp " + fileDirectory + " " + fileName;
             Process pro = Runtime.getRuntime().exec(command);
 
+
+
             decaResults = new DecaResults();
 
             String line = null;
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(pro.getInputStream()));
-
             while ((line = in.readLine()) != null) {
                 String[] splited = line.split("\\s+");
                 if (splited.length == 3) {
