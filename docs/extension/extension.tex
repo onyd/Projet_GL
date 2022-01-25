@@ -6,18 +6,9 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 
-
-
-\usepackage[utf8]{inputenc}
+\bibliography{reference}
 
 \usepackage{comment}
-
-\usepackage[
-    backend=biber,
-    style=alphabetic,
-    sorting=ynt
-]{biblatex}
-\addbibresource{bibliographie.bib}
 
 \lstset{
     basicstyle=\itshape,
@@ -54,7 +45,6 @@
 \newcommand{\paragraphln}[1]{\paragraph{#1}\mbox{}\\}
 
 
-\addbibresource{bibliography.bib}
 
 \title{Documentation de l'extension}
 \author{}
@@ -102,7 +92,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     Enfin, il est utile de rappeler qu'il est possible de compiler une classe écrite en deca et puis utiliser le bytecode généré dans un programme java. On note que le fichier deca source doit être dans le même répertoire que le fichier java afin que la compilation fonctionne. C'est une limitation de deca.
 
-    Let's cite! The Einstein's journal paper \parencite[see]{knuthwebsite}
+    Let's cite! The Einstein's journal paper  \cite{ref_DexFormatvsJavabytecode}
 
 
     \section{Conception}
@@ -117,6 +107,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     \section{Limitations}
     \subsection{Compatibilité Java-Deca}
+
 
     \printbibliography
 
