@@ -1,10 +1,34 @@
 \documentclass[12pt, a4paper, one side]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
+\usepackage{listings}
+\usepackage{color}
 
 \title{Documentation de validation}
 \author{}
 \date{}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+    language=java,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=3
+}
 
 \begin{document}
 
@@ -33,4 +57,58 @@ de commande lors de l'execution de decac est correct. Pour cela on fait appel à
 et on regarde la valeur des differents attributs donnant si une option est présente ou non. On vérifie aussi que si l'on
 donne des options incorrects, une erreur est levé.
 
+\section{Fichiers *.deca pour tester la syntaxe contextuelle du langage Deca}
+Nous trouvons dans test/deca/context/ des fichiers qui respectent la syntaxe du langage Deca et d'autres qui ne la respectent pas.
+Pour chaque programme valide (qui se trouve dans valid/custom), nous avons en commentaires une déscription du programme,
+le résultat attendu et ensuite le programme.
+La structure est la même pour les fichiers invalides (qui se trouvent dans invalid/custom). Nous voyons en commentaires pourquoi le programme ne compile pas.
+
+\begin{lstlisting}
+// affect-compatible-type-value.deca
+// Description: Affectation d'une valeur sur un type different mais compatibles.
+// Resultats:
+//    Ligne 12: affichage 1.f.
+//    Cela est permis selon la page 75 du poly.
+{
+   // Doit etre accepte.
+    float a = 1;
+    print(a);
+}
+\end{lstlisting}
+
+\begin{lstlisting}
+// affect-incompatible-type-value.deca
+// Description:
+//    Affectation et typage sur valeur
+// Resultats:
+//    Ligne 12: Affectation d'une valeur sur un type incompatibles.
+//    Cela est permis selon la page 75 du poly.
+// Remarque : la reciproque est accepte.
+{
+   // Doit etre refuse.
+    int a = 1.2f;
+}
+\end{lstlisting}
+
+\section{Test sur le Lexer et le Parser}
+\subsection{Lancer les tests pour le Lexer}
+Nous avons créé plusieurs tests pour le ficher DecaLexer.g4 sur différents fichiers deca. Pour les lancer de manière automatique, il faut aller dans le répertoire gl28/src/test/script et exécuter le fichier lex.py. Ce programme python nous permet d'exécuter le fichier test\_lex\_file pour nos différents tests.
+
+\subsection{Lancer les tests pour le Parser}
+Il est également possible de tester le fichier DecaParser.g4 sur les mêmes fichiers deca. Le fichier basic-synt.sh du répertoire gl28/src/test/script permet de lancer plusieurs tests. Pour chaque test, le programme ManualTestSynt.java est appelé et il permet d'utiliser le parseur sur le fichier passé en argument.
+
+\subsection{Les tests en détails}
+Tous les fichiers de tests pour le Lexer et le Parser se trouvent dans le répertoire gl28/src/test/deca/syntax.
+
+\subsubsection{empty.deca}
+Ce fichier ne contient qu'une accolade ouvrante et une accolade fermante. Ainsi le Lexer détecte seulement une OBRACE et une CBRACE avec les lignes et colonnes concernées.
+
+\subsubsection{float.deca}
+Dans ce fichier on affiche le résultat d'un flottant et d'un entier.
+
+\subsubsection{hello\_world.deca}
+Ce fichier affiche la chaîne de caratère "hello\_world". 
+
+\subsubsection{if.deca}
+Ici, nous utiliser un if et un else. Cela nous permet de vérifier que les lexèmes IF et ELSE sont correctement implémentés.
 \end{document}
