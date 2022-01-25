@@ -124,9 +124,6 @@ Ce répertoire de tests porte sur différentes utilisations de la condition if. 
 \subsubsection{Répertoire \textit{valid/custom/object}}
 Ce répertoire assez conséquent permet de tester le parser avec l'utilisation d'objets et l'appel de méthodes. Par exemple, nous créons des classes qui héritent d'une autre classe. Nous vérifions aussi que des mots clés comme "instanceof", "this", ou "new" ne génèrent pas d'erreurs.
 
-\subsubsection{Répertoire \textit{valid/custom/option}}
-Dans le cadre de notre extension BYTE, nous pouvons utilser du code java dans un programme deca. Nous testons donc l'utilisation d'une methodJava dans ce répertoire.
-
 \subsubsection{Répertoire \textit{invalid}}
 L'arborescence des tests qui sont syntaxiquement invalides est légèrement différente. La majorité des tests se trouvent dans le répertoire \textit{syntax/invalid/custom}. On y fait par exemple des tests dans lesquels il manque une parenthèse, une opérande, ou encore des fichiers contenant une CircularInclude.
 
@@ -141,8 +138,8 @@ Nous avons un script pour lancer tous nos tests, il se trouve dans le répertoir
 
 \subsection{Arborescence des tests contextuels}
 Le répertoire \textit{context} se trouve dans le dossier \textit{gl28/src/test/deca}.
-\begin{center} 
-    \includegraphics[scale=0.7]{treecontext.png} 
+\begin{center}
+    \includegraphics[scale=0.7]{treecontext.png}
 \end{center}
 
 \subsubsection{Répertoire \textit{valid}}
@@ -170,30 +167,20 @@ Enfin, le répertoire \textit{option} regroupe les tests sur l'option -java que 
 \subsubsection{Répertoire \textit{invalid}}
 De la même manière que pour les tests de la partie syntaxique, la plupart des tests invalides se trouvent directement le répertoire \textit{context/invalid/custom}. Nous avons ajouté un dossier pour l'option et un autre pour ce qui concerne la partie objet.
 
-\section{Tests contextuels avec l'option -java}
-Nous avons créé un autre script de test sur la partie contextuelle qui est à peu de choses près le même que celui décrit précédemment. La différence concerne le fichier de test utilisé puisque c'est ManualTestContextJava qui est lancé pour tous nos tests. En effet, nous ajoutons l'option java au compilateur. Cela est utile pour tester le bon fonctionnement d'une méthode java en deca, et ce dernier cas n'est possible qu'avec l'option -java. Ainsi, il n'est pas possible de créer un corps de méthode en assembleur en utilisant cette option -java.
-
-\subsection{Lancer les tests contextuels avec l'otpion -java}
-Pour lancer le script, il suffit de lancer le fichier \textbf{basic-context-java.sh} qui se trouve dans le répertoire \textit{gl28/src/test/script}. Ce script utilise les mêmes tests Oracle que le script précédent, à l'exception que pour tester l'option il utilise le dossier \textit{option/java}.
-
 \section{Tests de génération de code}
 Dans la continuité des tests précédents, nous avons créé des tests valides et invalides pour la génération de code pour la machine ima. Ces tests sont dans le répertoire \textit{gl28/src/test/deca/codegen}, puis on distingue les tests valides et invalides.
 
 \begin{flushleft}
-Nous avons choisi de créer des tests de type "boîte noire", ainsi pour chaque fichier deca, nous avons créé un fichier .res contenant le résultat attendu dans le même répertoire. Le script vérifie alors que le résultat obtenu par l'exécution du fichier généré par le compilateur decac est le même que le résultat qui est attendu. 
+Nous avons choisi de créer des tests de type "boîte noire", ainsi pour chaque fichier deca, nous avons créé un fichier .res contenant le résultat attendu dans le même répertoire. Le script vérifie alors que le résultat obtenu par l'exécution du fichier généré par le compilateur decac est le même que le résultat qui est attendu.
 \end{flushleft}
 
 \subsection{Lancer les tests de génération de code}
 Le script qui permet de lancer l'exécution de tous les tests est \textbf{basic-gencode.sh} qui se trouve dans le répertoire \textit{gl28/src/test/script}.
 
-\begin{flushleft}
-Le script \textbf{basic-gencode-java.sh} dans le même répertoire utilise la même base de tests. En revanche, les tests sont lancés en utilisant l'option -java, ce qui permet de généner des fichiers .class exécutables par la JVM. Ici aussi, la comparaison entre le résultat obtenu et le résultat attendu nous permet de nous assurer du bon fonctionnement de notre extension BYTE.
-\end{flushleft}
-
 \subsection{Arborescence des tests de génération de code}
 Le répertoire \textit{codegen} se trouve dans le dossier \textit{gl28/src/test/deca}.
-\begin{center} 
-    \includegraphics[scale=0.6]{treecodegen.png} 
+\begin{center}
+    \includegraphics[scale=0.6]{treecodegen.png}
 \end{center}
 \subsubsection{Répertoire valid/custom}
 Nos tests personnalisés se trouvent dans le répertoire \newline
@@ -204,7 +191,7 @@ Le répertoire déclaration contient toute sorte de déclarations. Par exemple, 
 \end{flushleft}
 
 \begin{flushleft}
-Le répertoire extension permet vérifier le bon fonctionnement de l'insertion de code java dans deca. Par exemple, il est possible d'importer une librairie java et de l'utiliser pour retourner un résultat.
+Le répertoire extension permet vérifier le bon fonctionnement de l'insertion de code java dans deca. Par exemple, il est possible d'importer une librairie java et de l'utiliser pour retourner un résultat. L'explication des tests concernant notre extension BYTE se trouve dans la documentation de l'extension.
 \end{flushleft}
 
 \begin{flushleft}
@@ -212,7 +199,7 @@ Le répertoire \textit{if\_while} utilise simplement des blocs if et while. Ces 
 \end{flushleft}
 
 \begin{flushleft}
-Le répertoire \textit{include} permet de tester l'utilisation du mot clé include. Par exemple, nous vérifions qu'il est possible de créer une classe dans un fichier decah, puis de l'importer dans un fichier deca tout en pouvant l'utiliser. 
+Le répertoire \textit{include} permet de tester l'utilisation du mot clé include. Par exemple, nous vérifions qu'il est possible de créer une classe dans un fichier decah, puis de l'importer dans un fichier deca tout en pouvant l'utiliser.
 \end{flushleft}
 
 \begin{flushleft}
@@ -226,6 +213,10 @@ Le répertoire \textit{operation\_affectation} contient les répertoires \textit
 \begin{flushleft}
 Enfin, le répertoire \textit{print} affiche sur la sortie standard différentes opérandes. Ces dernières peuvent être le résultat d'une opération arithmétique, une chaîne de caractère, ou même la concaténation des deux.
 \end{flushleft}
+
+\subsubsection{Répertoire invalid/custom}
+Nos tests personnalisés se trouvent dans le répertoire \newline
+\textit{gl28/src/test/deca/codegen/invalid/custom}. Nous y testons par exemple des casts avec des objets incompatibles, ou encore l'appel d'une fonction qui doit retourner une valeur mais ne retourne rien.
 
 \section{Objectifs de ces tests}
 Notre objectif était de réaliser des tests pour nous assurer que tout fonctionne correctement. Ainsi, nous avons construit des tests en nous servant de la grammaire. Nous comptons pas moins de 500 tests pour la vérification syntaxique et contextuelle, ce qui nous permet d'avoir une base solide concernant les étapes A et B.
