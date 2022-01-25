@@ -12,7 +12,7 @@ cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
 
-: <<'END_COMMENT'
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
@@ -368,7 +368,6 @@ do
 
 done
 
-END_COMMENT
 
 
 echo "${GREEN}  This part is for the extension\n${NC}"
