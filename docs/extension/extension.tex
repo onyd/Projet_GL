@@ -6,7 +6,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{graphicx}
-\usepackage{caption}
+\usepackage{minted}
 
 \bibliography{reference}
 
@@ -62,7 +62,13 @@
 
     \tableofcontents
 
+    \newpage
+
     \section{Spécifications}
+
+    A noter que vous devez disposez au minimum de la version 1.8 de java pour
+    pouvoir faire tourner les programmes deca compilés en bytecode java.
+
     \subsection{Compilation de programmes Deca en executable pour la JVM}
     \subsubsection{Commande decac}
     \textbf{decac [[-p $\mid$ -v $\mid$ -java] [-n] [-r X] [-d]* [-P] [-w] $<$fichier deca$>$...] $\mid$ [-b]}
@@ -71,10 +77,94 @@
     L'option -java spécifie au compilateur qu'on souhaite compiler un programme Deca en executable pour la machine virtuelle Java.
     Ainsi, on obtient avec cette obtion un fichier .class executable par la JVM au lieu d'un fichier .ass (executable IMA). Les conventions de nommage sont les mêmes, c'est-à-dire que le nom du fichier compilé est celui du programme Deca, seule l'extension du fichier change.
 
-    Cependant il y a quelques réstrictions. En effet, l'utilisation de code Java dans une méhode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ai pas de méthode en Assembleur. (cf Limitations pour plus de précisions)
+    Cependant il y a quelques restrictions. En effet, l'utilisation de code Java dans une méhode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ai pas de méthode en Assembleur. (cf Limitations pour plus de précisions)
 
     \subsubsection{Spécification de compilation}
     La compilation se fait de la même manière que pour la machine IMA au detail près qu'au lieu d'appeler nos méthodes de compilation pour la machine abstraite IMA, le compilateur utilise la bibliothèque ASM\cite{ASM} pour la génération du bytecode.
+
+    \subsubsection{Compiler un programme Deca}
+
+    Pour compiler un fichier deca, il suffit simplement de taper : \newline
+    \textbf{decac -java path/fich.deca}
+
+    \subsubsection{Fichiers créés par la compilation}
+
+    Lors de la compilation d'un fichier deca, un premier fichier correspondant
+    au programme principale portant le même nom que le fichier deca est créé (mais
+    avec l'extension .class au lieu de .deca), puis un fichier portant le nom
+    MethodBody est créé. Ce fichier permer de gérer l'insertion de java en deca
+    (pour plus de précision, veuillez regardez la section consacrée). Enfin pour
+    chaque classes deca contenue dans ce fichier, un fichier .class est créé avec
+    le même nom que le nom de la classe. Ce fichier correspond au bytecode de la
+    classe deca.
+
+    \subsubsection{Exécuter des fichiers deca}
+
+    Après avoir compilé un fichier deca (nommé pour l'exemple \textit{fich.deca})
+    on aimerai pouvoir l'exécuter. Pour cela, il faut se placer dans le répertoire
+    du fichier deca (là où les fichiers .class se sont créés) et il faut taper :
+    \newline \textbf{java fich}. On peut aussi taper \textbf{java -cp path fich} où path correspond au chemin du fichier deca.
+
+    \subsection{Appel de code Deca en Java}
+
+    Après avoir créée une classe en deca, et l'avoir compilé en un fichier .class,
+    il est possible de l'instancier dans une classe java. Malgré tout, pour pouvoir
+    faire cela, il faut placer le fichier java et le fichier deca au même endroit.
+    Après l'avoir instancié, on peut l'utilisé de la même maniere qu'une classe
+    java, et faire appel à des méthodes ou des champs de la classe deca.
+
+    \subsubsection{Exemple de Deca vers Java}
+
+    Dans cet exemple, il y a 2 fichiers: un fichier deca comportant une classe, et
+    un fichier java instanciant cette classe. \newline
+    \newpage
+    \textbf{Math.deca}
+    \begin{minted}{java}
+        class Math {
+        	int add(int a, int b) {
+        		return a + b;
+        	}
+
+        	int mult(int a, int b) {
+        		return a * b;
+        	}
+        }
+    \end{minted}
+
+    \textbf{Main.java}
+    \begin{minted}{java}
+        class Main {
+        	public static void main(String[] args) {
+        		Math m = new Math();
+        		int c = m.add(1, 2);
+        		System.out.println(c);
+        		c = m.mult(5, 3);
+        		System.out.println(c);
+        	}
+        }
+    \end{minted}
+
+    Pour compiler, il ne reste plus qu'à copier les lignes suivantes :
+    \begin{minted}{bash}
+        $ decac -java Math.deca
+        $ javac Main.java
+    \end{minted}
+
+    Ces deux commandes compilent dans un premier temps le programme deca, puis
+    dans un second temps le programme principale java. Enfin, il ne reste plus qu'à
+    exécuter le programme :
+
+    \begin{minted}{bash}
+        $ java Main
+        3
+        15
+    \end{minted}
+
+    \subsubsection{Intérêt d'avoir du code Deca vers Java}
+
+    Cela permet un portage très simple pour les développeurs ayant décidé
+    d'utiliser le langage java et ayant besoin d'utiliser une éventuelle librairie deca.
+    Le langage deca étant neuf, un portage du langage vers java serait un atout attrayant pour les développeurs.
 
     \subsection{Appel de code Java en Deca}
     Cette section précise les spécifications liées à l'appel de code Java en Deca.
@@ -103,7 +193,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
         \caption{L'architecture de fichier .class \cite{ref_DexFormatvsJavabytecode}}
         \label{fig1}
     \end{figure}
-    \\
+
 
     Les fichiers .class sont les fichiers exécutables par la machine virtuelle java. Chaque fichier .class contient les informations concernant une et une seule classe en Java. Dans ce fichier on trouve les instructions écrites en bytecode qui seront exécutées par la JVM. Nous présentons par la suite quelques détails, mais pour plus de détails il faut regarder les spécifications du java \cite{ref_specifications_java} .
 
@@ -137,7 +227,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     \section{Conception}
     \subsection{Documentation de conception}
     \subsubsection{Structure globale}
-    \subsubsection{Choix d'implantation}
+    \subsubsection{Choix d'implémentation}
     \subsection{Algorithmes utilisés}
 
     \section{Validation}
@@ -147,7 +237,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     \section{Limitations}
     \subsection{Compatibilité Java-Deca}
 
-
+    \newpage
     \printbibliography
 
 \end{document}
