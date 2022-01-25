@@ -1,5 +1,5 @@
 class Math {
-    float cos(float x java ("
+    float cos(float x) java ("
         return (float) java.lang.Math.cos(x);
     ");
 }

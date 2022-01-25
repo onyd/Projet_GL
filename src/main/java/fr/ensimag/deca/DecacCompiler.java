@@ -188,8 +188,22 @@ public abstract class DecacCompiler {
         return compilerOptions;
     }
 
+    /**
+     * Generate the assembly code for IMA and the bytecode for JVM when the option -java is up.
+     * @param prog the program.
+     * @param destName file destination path.
+     * @throws DecacFatalError
+     * @throws ClassNotFoundException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     */
     public abstract void doCodeGen(AbstractProgram prog, String destName) throws DecacFatalError, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException;
 
+    /**
+     * @param sourceFileName file destination path.
+     * @return file destination path.
+     */
     public abstract String getDestFileName(String sourceFileName);
 
     /**

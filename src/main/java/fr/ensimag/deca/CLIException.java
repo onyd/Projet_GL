@@ -9,6 +9,10 @@ package fr.ensimag.deca;
 public class CLIException extends Exception {
     private static final long serialVersionUID = 6144682285316920966L;
 
+    /**
+     * High level exception thrown when an issue in the command line processing occurs.
+     * @param message the message.
+     */
     public CLIException(final String message) {
         super(message);
     }
