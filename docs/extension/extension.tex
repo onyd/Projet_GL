@@ -6,6 +6,7 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage{caption}
 
 \bibliography{reference}
 
@@ -94,17 +95,49 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     Enfin, il est utile de rappeler qu'il est possible de compiler une classe écrite en deca et puis utiliser le bytecode généré dans un programme java. On note que le fichier deca source doit être dans le même répertoire que le fichier java afin que la compilation fonctionne. C'est une limitation de deca.
 
     \section{Analyse bibliographique}
-    Dans cette section nous allons donner des détaills techniques sur la  \textbf{Java virtual machine JVM}.
+    Dans cette section nous allons donner des détails techniques sur la  \textbf{Java virtual machine JVM}.
 
-    \includegraphics{JavaInternal}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.80]{JavaInternal.png}
+        \caption{L'architecture de fichier .class \cite{ref_DexFormatvsJavabytecode}}
+        \label{fig1}
+    \end{figure}
     \\
 
-    Let's cite! The Einstein's journal paper  \cite{ref_DexFormatvsJavabytecode}
+    Les fichiers .class sont les fichiers exécutables par la machine virtuelle java. Chaque fichier .class contient les informations concernant une et une seule classe en Java. Dans ce fichier on trouve les instructions écrites en bytecode qui seront exécutées par la JVM. Nous présentons par la suite quelques détails, mais pour plus de détails il faut regarder les spécifications du java \cite{ref_specifications_java} .
+
+    \subsection{Magic number}
+    Il s'agit d'un attribut identifiant les fichiers d'execution Java \cite{ref_DexFormatvsJavabytecode}.
+
+    \subsection{Class file version}
+    Permet de déterminer la version minimum de la machine virtuelle de java qui pourra exécuter ce fichier. Donc si la version du fichier est supérieure à celle de la JVM, la machine virtuelle ne pourra pas l'exécuter.
+
+    \subsection{Constant Pool}
+    C'est une table qui contient toutes les constantes de la classe. Ces constantes peuvent être de types différents tels que \textbf{String},\textbf{Integer}, \textbf{Float}... etc. Par exemple, lorsque le fichier .java contient une variable qui a pour valeur 123456, cette table contiendra une case référencée par un indice et cette case stocke la valeur. De façon similaire, une chaîne de caractères telle que "ma belle chaîne de caractère" sera stockée dans une autre case dans la table.
+
+    \subsection{Access Flags}
+    Contient les informations sur l'accessibilité de la classe.
+
+    \subsection{Class Name}
+    On y trouve le nom de la classe.
+    \subsection{Super Class Name}
+    On y trouve le nom de la classe mère.
+
+    \subsection{Interface}
+    Si la classe implémente une interface, alors le nom de l'interface sera mentionné ici.
+
+    \subsection{Champs}
+    Les champs de la classe sont présentés ici avec leur niveau d'accessibilité private,protected ou public avec son nom et son type.
+
+    \subsection{Methods}
+    De façon similaire aux champs, chaque méthode est décrite par son niveau d'accessibilité, son nom, les types de ses paramètres et le type de retour.
+
 
     \section{Conception}
     \subsection{Documentation de conception}
     \subsubsection{Structure globale}
-    \subsubsection{Choix d'implémentation}
+    \subsubsection{Choix d'implantation}
     \subsection{Algorithmes utilisés}
 
     \section{Validation}
