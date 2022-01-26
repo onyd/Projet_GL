@@ -97,17 +97,19 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
      */
     @Override
     public void codeGenExprOnRegister(IMACompiler compiler, GPRegister register) {
-        // Constant optimization
-        if (codeGenConstInt(compiler, register)) {
-            return;
-        }
-        if (codeGenConstFloat(compiler, register)) {
-            return;
-        }
+        if (compiler.getCompilerOptions().getDoOptimizations()) {
+            // Constant optimization
+            if (codeGenConstInt(compiler, register)) {
+                return;
+            }
+            if (codeGenConstFloat(compiler, register)) {
+                return;
+            }
 
-        // If power of 2 => shifts are faster for * and /
-        if (this.codeGenPowerOfTwo(compiler, register))
-            return;
+            // If power of 2 => shifts are faster for * and /
+            if (this.codeGenPowerOfTwo(compiler, register))
+                return;
+        }
 
         // Classic code generation
         this.getLeftOperand().codeGenExprOnRegister(compiler, register);
