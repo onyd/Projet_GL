@@ -1,9 +1,9 @@
 \babel@toc {nil}{}
 \contentsline {section}{\numberline {1}Introduction}{2}% 
 \contentsline {section}{\numberline {2}Consommation d'\IeC {\'e}nergie durant l'impl\IeC {\'e}mentation}{2}% 
-\contentsline {subsection}{\numberline {2.1}Consommation d\IeC {\^u} \IeC {\`a} l'utilisation des ordinateurs}{2}% 
-\contentsline {subsection}{\numberline {2.2}Consommation d\IeC {\^u} aux tests}{3}% 
-\contentsline {section}{\numberline {3}Consommation d'\IeC {\'e}nergie d\IeC {\^u} \IeC {\`a} l'ex\IeC {\'e}cution dans ima}{5}% 
+\contentsline {subsection}{\numberline {2.1}Consommation due \IeC {\`a} l'utilisation des ordinateurs}{2}% 
+\contentsline {subsection}{\numberline {2.2}Consommation due aux tests}{3}% 
+\contentsline {section}{\numberline {3}Consommation d'\IeC {\'e}nergie due \IeC {\`a} l'ex\IeC {\'e}cution dans ima}{5}% 
 \contentsline {subsection}{\numberline {3.1}Cas d'usage 1 : T\IeC {\'e}l\IeC {\'e}chargement d'un fichier deca sur internet}{5}% 
 \contentsline {subsection}{\numberline {3.2}Cas d'usage 2 : Ex\IeC {\'e}cution d'un fichier gourmand en ressources}{5}% 
 \contentsline {section}{\numberline {4}Conclusion}{6}% 
