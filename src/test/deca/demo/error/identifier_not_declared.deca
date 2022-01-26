@@ -1,8 +1,8 @@
 // Programme dans lequel on utilise une variable non déclarée
 {
     // Utilisation de la variable i qui n'est pas déclarée
-    while(undeclared_var <= 10) {
-        undeclared_var = undeclared_var + 1;
-        println(undeclared_var);
+    while(i <= 10) {
+        i = i + 1;
+        println(i);
     }
 }
