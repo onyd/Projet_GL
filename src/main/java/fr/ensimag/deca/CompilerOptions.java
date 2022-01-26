@@ -66,6 +66,12 @@ public class CompilerOptions {
     private int registerNumber = 16;
     private boolean registerLimit = false;
 
+    public boolean getDoOptimizations() {
+        return doOptimizations;
+    }
+
+    private boolean doOptimizations = false;
+
     private boolean javaCompilation = false;
 
     public void setJavaCompilation(boolean javaCompilation) {
@@ -136,6 +142,9 @@ public class CompilerOptions {
                     } else {
                         this.parseFiles = true;
                     }
+                    break;
+                case "-opti":
+                    this.doOptimizations = true;
                     break;
                 case "-v":
                     if (this.parseFiles) {
