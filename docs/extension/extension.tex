@@ -69,15 +69,15 @@
     A noter que vous devez disposez au minimum de la version 1.8 de java pour
     pouvoir faire tourner les programmes deca compilés en bytecode java.
 
-    \subsection{Compilation de programmes Deca en exécutable pour la JVM}
+    \subsection{Compilation de programmes deca en exécutable pour la JVM}
     \subsubsection{Commande decac}
     \textbf{decac -java [-n] [-d]* [-P] [-w] $<$fichier deca$>$...}
     \\
 
-    L'option -java spécifie au compilateur qu'on souhaite compiler un programme Deca en executable pour la machine virtuelle Java.
-    Ainsi, on obtient avec cette option un fichier .class exécutable par la JVM au lieu d'un fichier .ass (executable IMA). Les conventions de nommage sont les mêmes, c'est-à-dire que le nom du fichier compilé est celui du programme Deca, seule l'extension du fichier change.
+    L'option -java spécifie au compilateur qu'on souhaite compiler un programme deca en exécutable pour la machine virtuelle Java.
+    Ainsi, on obtient avec cette option un fichier .class exécutable par la JVM au lieu d'un fichier .ass (exécutable IMA). Les conventions de nommage sont les mêmes, c'est-à-dire que le nom du fichier compilé est celui du programme deca, seule l'extension du fichier change.
 
-    Cependant il y a quelques restrictions. En effet, l'utilisation de code Java dans une méthode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ai pas de méthode en Assembleur. (cf Limitations pour plus de précisions)
+    Cependant il y a quelques restrictions. En effet, l'utilisation de code Java dans une méthode Deca impose une compilation vers la JVM (une erreur est renvoyée sinon). De plus la compilation vers la JVM impose qu'il n'y ait pas de méthode en assembleur. (cf Limitations pour plus de précisions)
 
     \subsubsection{Spécification de compilation}
     La compilation se fait de la même manière que pour la machine IMA au détail près qu'au lieu d'appeler nos méthodes de compilation pour la machine abstraite IMA, le compilateur utilise la bibliothèque ASM\cite{ASM} pour la génération du bytecode.
@@ -85,7 +85,7 @@
     \subsubsection{Compiler un programme Deca}
 
     Pour compiler un fichier deca, il suffit simplement de taper : \newline
-    \textbf{decac -java path/fich.deca}
+    \textbf{decac -java <path>/<fich>.deca}
 
     \subsubsection{Fichiers créés par la compilation}
 
@@ -276,11 +276,13 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     \subsubsection{Les variables locales :}
     Chaque frame contient un tableau de variables locales. Une variable locale   simple en terme de taille peut contenir un type boolean, byte, char, short, int, float, reference, ou returnAddress. Pour stocker des variables locales de type double ou long, il faut la place de deux variables locales simples.
-    Chaque variable est indexé par un indice. Comme dans une pile, l'indice de la première variable est 0. Les valeur des long ou double sont rangées dans deux cases consécutives.
+    Chaque variable est indexée par un indice. Comme dans une pile, l'indice de la première variable est 0. Les valeur des long ou double sont rangées dans deux cases consécutives.
     Lorsque une méthode statique est appelée, tous les paramètres sont passés dans des variables locales consécutives à partir de la variable locale d'adresse 0.
     Lorsque une méthode non statique est appelée, la référence sur l'objet à qui  est appelée a 0 pour indice de variable. Cette variable correspond à \textbf{this} en java. Les autres paramètres de la méthode seront rangés dans les cases qui suivent.
 
-    \subsubsection{La pile des opérandes :} Chaque frame a une pile des opérandes. La JVM fournit des instructions pour charger des constantes ou des valeurs, depuis les variables locales dans la pile des opérandes. D'autres instructions récupèrent des opérandes de la pile des opérandes, réalisent une opération sur ces opérandes, puis stockent le résultat dans la pile d'opérandes de cette frame.
+    \subsubsection{La pile des opérandes :} Chaque frame a une pile des opérandes.
+    La JVM fournit des instructions pour charger des constantes ou des valeurs, depuis les variables locales dans la pile des opérandes.
+    D'autres instructions récupèrent des opérandes provenant de la pile, réalisent une opération sur celles-ci, puis stockent le résultat dans la pile d'opérandes de cette frame.
 
     \newpage
     \section{Conception}
@@ -291,7 +293,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     va donc être de redéfinir l'étape C.
     Cette section détail également les fonctionnalités d'utilisation de code Java en Deca et inversement.
 
-    \subsection{Compilation Deca pour la JVM}
+    \subsection{Compilation deca pour la JVM}
     \subsubsection{Structure Globale}
 
     Pour écrire un fichier contenant du bytecode java, il faut utiliser les classes
@@ -335,10 +337,10 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     La tables des variables locales est très importante dans une méthode, car c'est
     elle qui stocke toutes les variables de celle-ci. Dans la fonction main, qui
     est une fonction statique, le premier élément stocké dans cette table est la
-    liste d'arguments données en paramètres. Lors de la création de variables,
+    liste d'arguments donnés en paramètres. Lors de la création de variables,
     un compteur est initialisé à 1 dans le main et est incrémenté à chaque
-    déclaration de variable. Ce compteur correspond à l'index dans la table de variable locales de la variable courante. Il est mis à jour dans la définition
-    de la variable qui possède un attributs sauvegardant cette index.
+    déclaration de variable. Ce compteur correspond à l'index dans la table de variables locales de la variable courante. Il est mis à jour dans la définition
+    de la variable qui possède un attribut sauvegardant cet index.
 
     Dans le cas où l'on se situe dans une méthode autre que main, la table des
     variables locales contient en premier lieu l'adresse de notre classe (ce qui
@@ -353,8 +355,7 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     \subsubsection{Méthodes de génération de code}
 
-    Pour la génération de code, on reprend le même principe qu'à l'étape C. Pour
-    afficher des résultat, on fait appel à la méthode. Pour générer des
+    Pour la génération de code, on reprend le même principe qu'à l'étape C. Pour générer des
     instructions, on fait appel à la méthode \textbf{codeGenInstByte}.
     Pour effectuer des opérations, il faut charger l'expression dans la pile
     des opérandes. C'est la méthode \textbf{codeGenExprByteOnStack} qui s'en
@@ -365,21 +366,27 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     dans la table des variables locales dans la pile.
 
     Pour créer des nouvelle classes, on intancie la classe \textbf{ClassWritter}
-    d'asm, pour créer de nouveau champs, on fait appels à \textbf{visitField} et
+    d'asm, pour créer de nouveau champs, on fait appel à \textbf{visitField} et
     pour créer des méthodes, on fait appel à \textbf{visitMethod}.
 
-    Pour effectuer des opérations, on fait appels à des méthodes d'asm qui
+    Pour effectuer des opérations, on fait appel à des méthodes d'asm qui
     génèrent le bytecode pour nous, et on donne en paramètres de ces méthodes
     l'instruction voulue. Pour connaître les instructions, il faut se référer
-    à la documentation d'oracle sur la liste d'instruction \cite{ref_inst_java}
+    à la documentation d'Oracle sur la liste d'instruction \cite{ref_inst_java}
 
-    \subsection{Insertion de code Java en Deca}
-    Une fois les étapes de lexing/parsing et vérifications contextuelles, le programme est donc Deca correcte. Dans le cas où ce programme contient des méthodes écrite en Java, elles ne sont pas traduite directement dans les classes générées via asm dont la procédure est décrite plutôt.
+    \subsection{Insertion de code Java en deca}
+    Une fois les étapes de lexing/parsing et vérifications contextuelles, le programme est
+    donc deca-correct. Dans le cas où ce programme contient des méthodes écrites en Java, elles ne sont pas traduites
+    directement dans les classes générées via asm dont la procédure est décrite plutôt.
 
-    En effet, une classe supplémentaire est généré à la compilation du type \textbf{$<$nom du fichier deca$>$MethodJavaBodies.class} qui contient l'ensemble du code des méthodes Java.
+    En effet, une classe supplémentaire est générée à la compilation du type \textbf{$<$nom du fichier deca$>$MethodJavaBodies.class} q
+    ui contient l'ensemble du code des méthodes Java.
 
     \subsubsection{Gestion des corps des méthodes Java}
-    Le coeur du traitement des méthodes Java se trouve dans la classe \textbf{MethodJavaBody} qui se charge de construire la chaîne de caractère contenant le code Java à générer via les méthode \textbf{addJavaMethod} appelée à chque déclaration de méthode Java afin d'insérer la portion de code dans la chaîne de caractère et \textbf{addJavaJavaMethodClass} appelé à chaque déclaration de classe afin d'assurer que chaque méthode Java soit isolée dans un classe static du même nom que la classe à laquelle elle appartient.
+    Le coeur du traitement des méthodes Java se trouve dans la classe \textbf{MethodJavaBody} qui se charge de construire
+    la chaîne de caractère contenant le code Java à générer via les méthodes \textbf{addJavaMethod} appelées à chaque déclaration de méthode
+    Java afin d'insérer la portion de code dans la chaîne de caractère et \textbf{addJavaJavaMethodClass} appelée à chaque déclaration de classe a
+    fin d'assurer que chaque méthode Java soit isolée dans un classe static du même nom que la classe à laquelle elle appartient.
 
     La structure de ce code est donc la suivante:
 
@@ -432,18 +439,23 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     \end{minted}
 
     \subsubsection{Compilation des corps des méthodes Java}
-    Enfin, les méthodes dont le corps est écrit en Java est généré à la toute fin de l'étape C une fois que nous disposons de la chaîne de caractère complète qui stockée dans le champs \textbf{javaMethodBodies} de \textbf{JavaCompiler}.
+    Enfin, les méthodes dont le corps est écrit en Java sont générées à la toute fin de l'étape C
+    une fois que nous disposons de la chaîne de caractère complète stockée dans le champs \textbf{javaMethodBodies} de \textbf{JavaCompiler}.
 
-    Nous faisons alors appelle au compilateur Java via la classe \textbf{javax.tools.JavaCompiler}\cite{ref_javacompiler} qui s'occupe de récupérer le compilateur présent sur l'ordinateur. Le fichier .class est alors généré permettant alors le bon fonctionnement des méthode Java.
+    Nous faisons alors appelle au compilateur Java via la classe \newline \textbf{javax.tools.JavaCompiler}\cite{ref_javacompiler} qui
+    s'occupe de récupérer le compilateur présent sur l'ordinateur. Le fichier .class est alors généré permettant alors le bon fonctionnement des méthodes Java.
 
-    En effet, le corps des méthodes générées par la procédure classique ne fait en réalité qu'un appelle à la méthode statique présente dans le code ainsi généré.
+    En effet, le corps des méthodes générées par la procédure classique ne fait en réalité qu'un appelle à la méthode statique
+    présente dans le code ainsi généré.
 
     \subsection{Utilisation de programme Deca en Java}
-    L'utilisation de programme Deca en Java est plutôt simple puisqu'il suffit de compiler le programme deca dans le répertoire où on souhaite l'utilisé permettant ainsi la création de classe Deca et l'appelle de leur méthode.
+    L'utilisation de programme Deca en Java est plutôt simple puisqu'il suffit de compiler le programme deca dans le répertoire
+    où l'on souhaite l'utiliser permettant ainsi la création de classe Deca et l'appelle de leur méthode.
 
     \newpage
     \section{Validation}
-    Dans le cadre de la validation de notre extension, nous avons utilisé la même batterie de tests que celle de notre compilateur decac. La différence est l'ajout de l'option -java lors de la compilation, ce qui permet de générer un fichier exécutable par la JVM.
+    Dans le cadre de la validation de notre extension, nous avons utilisé la même batterie de tests que celle de notre
+    compilateur decac. La différence est l'ajout de l'option -java lors de la compilation, ce qui permet de générer un fichier exécutable par la JVM.
 
     \subsection{Tests contextuels avec l'option -java}
     Nous avons créé un script de test pour la partie contextuelle qui est à peu de choses près le même que celui décrit dans la documentation de validation.
@@ -451,8 +463,9 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
         La différence concerne le fichier de test utilisé, puisqu'ici c'est ManualTestContextJava qui est lancé pour tous nos tests. En effet, nous ajoutons l'option -java au compilateur. Cela est utile pour tester la génération de fichier .class, et la possibilité d'utiliser du code java dans deca avec l'utilisation d'une methodJava.
     \end{flushleft}
 
-    \subsubsection{Lancer les tests contextuels avec l'otpion -java}
-    Pour lancer le script, il suffit de lancer le fichier \textbf{basic-context-java.sh} qui se trouve dans le répertoire \textit{gl28/src/test/script}. Ce script utilise notre large batterie de tests Oracle détaillée dans la documentation de validation.
+    \subsubsection{Lancer les tests contextuels avec l'option -java}
+    Pour lancer le script, il suffit de lancer le fichier \textbf{basic-context-java.sh} qui se trouve dans le
+    répertoire \textit{gl28/src/test/script}. Ce script utilise notre large batterie de tests Oracle détaillée dans la documentation de validation.
     \begin{flushleft}
         Ces tests se trouvent dans le répertoire \textit{custom/option/java} des dossiers \textit{valid} et \textit{invalid} comme vous pouvez le voir ci-dessous.
     \end{flushleft}
@@ -465,13 +478,17 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
 
     \subsection{Tests de génération de code avec l'option -java}
-    Enfin, concernant les tests de génération de code, nous avons décidé d'utiliser des tests de type "boîte noire". Pour chaque fichier de test nous créons un fichier .res avec la sortie attendue. Ainsi, pour chaque test, le script vérifie que le résultat obtenu en exécutant le fichier .class généré avec à notre compilateur correspond bien au résultat attendu.
+    Enfin, concernant les tests de génération de code, nous avons décidé d'utiliser des tests de type "boîte noire".
+    Pour chaque fichier de test nous créons un fichier .res avec la sortie attendue. Ainsi, pour chaque test, le script vérifie
+    que le résultat obtenu en exécutant le fichier .class avec notre compilateur correspond bien au résultat attendu.
     \begin{flushleft}
         Ces tests se trouvent dans le répertoire \textit{gl28/src/test/deca/codegen}, puis on distingue les tests valides et invalides.
     \end{flushleft}
     \subsubsection{Lancer les tests de génération de code}
     Le script qui permet de lancer l'exécution de tous les tests est \textbf{basic-gencode-java.sh}, il se trouve dans le répertoire \textit{gl28/src/test/script}.
-    \begin{flushleft}Les tests sont donc lancés en utilisant l'option -java, ce qui permet de générer des fichiers .class exécutables par la JVM. La comparaison entre le résultat obtenu et le résultat attendu nous permet de nous assurer du bon fonctionnement de notre extension BYTE. Si le résultat n'est pas le bon, alors un message l'indique.
+    \begin{flushleft}Les tests sont donc lancés en utilisant l'option -java, ce qui permet de générer des fichiers .class
+    exécutables par la JVM. La comparaison entre le résultat obtenu et le résultat attendu nous permet de nous assurer du bon
+    fonctionnement de notre extension BYTE. Si le résultat n'est pas le bon, alors un message l'indique.
     \end{flushleft}
 
     \subsubsection{Arborescence des tests de génération de code}
@@ -485,14 +502,24 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     \section{Limitations}
     \subsection{Compilation Deca pour la JVM}
-    Il n'y a pas de limitation autre que celle déja présente pour la compilation IMA.
+    Il n'y a pas de limitation autre que celle déjà présente pour la compilation IMA.
 
     \subsection{Insertion de code Java dans Deca}
-    L'insertion de code Java en Deca est relativement peu limité, en effet toute portion de code Java-correct pouvant être utilisé dans une méthode sera accepté et fonctionnel. Cela comprend donc des déclarations de classes, utilisation de packages disponibles etc. Néanmoins, il y a tout de même quelques limitations lié à la syntaxe Deca.
+    L'insertion de code Java en Deca est relativement peu limitée, en effet toute portion de code
+    Java-correct pouvant être utilisée dans une méthode sera acceptée et fonctionnelle. Cela comprend donc des
+    déclarations de classes, utilisation de packages disponibles etc. Néanmoins, il y a tout de même quelques limitations lié à la syntaxe Deca.
 
-    En effet, les arguments possibles sont limités au types présent dans Deca, cela vaut également pour le type de retour qui doit en plus se limiter aux types primitifs (int, float, boolean) puisque pour avoir un type de retour avec objet, il faudrait que ce type existe dans la programme Deca car sinon la vérification contextuelle aurait bloquée avant la génération de code puis il faut que la classe soit accessible depuis \textbf{<nom du ficher deca>MethodJavaBodies} or la classe existant de manière statique, ce type n'est pas associé au "vrai objet" mais à classe stockant les corps de méthode Java.
+    En effet, les arguments possibles sont limités au types présents dans Deca. Cela vaut également
+    pour le type de retour qui doit en plus se limiter aux types primitifs (int, float, boolean). En effet
+    pour avoir un type de retour avec objet il faut que ce type existe dans la programme Deca sinon
+    la vérification contextuelle bloque avant la génération de code. Puis il faut que la classe soit accessible
+    depuis \textbf{$<$nom du ficher deca$>$MethodJavaBodies}. Or la classe existant de manière statique, ce type n'est pas
+    associé au "vrai objet" mais à la classe stockant les corps de méthode Java.
 
-    Un autre limitation est qu'il n'est pas possible d'appeler une méthode Deca depuis un corps Java. En effet, cela pourrait poser des problème de nom si deux méthodes ont le même nom dans Deca et dans Java, de plus les corps de méthode Java étant séparés des classes principales, le code n'est pas accessible directement. Par contre il est possible d'appeler une méthode Java depuis un corps de méthode Java.
+    Une autre limitation est qu'il n'est pas possible d'appeler une méthode deca depuis un corps Java. En effet, cela
+    pose un problème de nom si deux méthodes ont le même nom dans Deca et dans Java. De plus les corps de méthode Java
+    étant séparés des classes principales, le code n'est pas accessible directement. Par contre il est possible d'appeler une
+    méthode Java depuis un corps de méthode Java.
 
     \textbf{\textit{Exemple incorrect}}
     \begin{minted}{java}
@@ -527,10 +554,10 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     }
     \end{minted}
 
-    Il est également nécessaire de n'utiliser ces fonctions qu'au sein du même répertoire au risque d'avoir des problème d'importation.
+    Il est également nécessaire de n'utiliser ces fonctions qu'au sein du même répertoire au risque d'avoir des problèmes d'importation.
 
     \subsection{Utilisation de programme Deca en Java}
-    La compilation pour la JVM mettant actuellement les champs publique, décapsulation peut ne pas être conservé lors de l'appelle de programme Deca en Java.
+    La compilation pour la JVM mettant actuellement les champs publics, l'encapsulation peut ne pas être conservée lors de l'appelle de programme deca en Java.
 
     \newpage
     \printbibliography
