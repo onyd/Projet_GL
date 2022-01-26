@@ -1,0 +1,7 @@
+//Programme contenant une lvalue invalide
+{
+    //Déclaration
+    int var;
+
+    2 + 5 = var;
+}

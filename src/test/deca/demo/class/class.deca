@@ -1,21 +1,22 @@
-class Integer {
-    int value;
+class Float {
+    float value;
 
-    void Integer(int value) {
-        this.value = value
+    void Float(float value) {
+        this.value = value;
     }
 
-    int getValue() {
-        return this.value
+    float getValue() {
+        return this.value;
     }
 
-    float toFloat() {
-        return (float) (value);
+    int toInt() {
+        return (int) (value);
     }
 }
 
 {
-    Integer i = new Integer();
-    i.Integer(13);
-    println("La valeur de l'Integer créée est ", i.getValue)
+    Float i = new Float();
+    i.Float(13.47);
+    println("La valeur de l'Integer créée est ", i.getValue());
+    println("La valeur de retour de la fonction de cast est ", i.toInt());
 }

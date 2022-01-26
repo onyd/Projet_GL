@@ -1,0 +1,17 @@
+// Programme contenant 2 classes
+class A {
+    int x = 0;
+}
+
+class B extends A {
+    int y = 1;
+}
+
+
+{
+    // Déclaration d'un objet B
+    B b = new B();
+
+    // Cast de B en A en utilisant directment b : impossible (upcast)
+    b = (A) (b);
+}
