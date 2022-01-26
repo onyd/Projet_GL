@@ -1,10 +1,12 @@
+// Programme contenant une erreur de débordement de la pile
 {
-    // Déclaration des variables
+    // Déclaration d'un entier et d'un flottant
     int large_number_int;
     float large_number_float;
 
     println("Calcul d'un nombre supérieur à 2^32 avec une variable int");
     large_number_int = 70000 * 70000;
+
     println("Résultat stocké dans un entier : ", large_number_int);
     println();
 

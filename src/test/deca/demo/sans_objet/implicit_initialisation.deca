@@ -1,0 +1,10 @@
+// Programme dans lequel on utilise une variable qui n'est pas initialisée explicitement
+{
+    // Déclaration d'une variable sans l'initialiser
+    int uninitialised_var;
+
+    // Incrémentaion de cette variable
+    uninitialised_var = uninitialised_var + 1;
+
+    println("La variable qui est non initialisée vaut maintenent : ", uninitialised_var);
+}

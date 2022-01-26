@@ -1,3 +1,4 @@
+// Programme dans lequel on initialise une variable à la fin
 {
     // Déclaration d'un premier entier
     int var1 = 1;
