@@ -1,0 +1,11 @@
+class Math {
+    float pi = 3.14159265359;
+
+    float cos(float x) java ("
+        return (float) java.lang.Math.cos(x);
+    ");
+
+    float sin(float x) java ("
+        return (float) java.lang.Math.sin(x);
+    ");
+}

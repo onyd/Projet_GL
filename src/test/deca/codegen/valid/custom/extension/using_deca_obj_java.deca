@@ -1,0 +1,16 @@
+class A {
+
+    float cos(float x) java ("
+        return (float) java.lang.Math.cos(x);
+    ");
+
+    float cos2(float x) java ("
+        return (float) java.lang.Math.pow(cos(x), 2);
+    ");
+}
+
+{
+    A a = new A();
+
+    println(a.cos2(2));
+}

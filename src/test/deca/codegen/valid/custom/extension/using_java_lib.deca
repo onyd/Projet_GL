@@ -1,10 +1,11 @@
 class Math {
-    float cos(float x java ("
+    float cos(float x) java ("
         return (float) java.lang.Math.cos(x);
     ");
 }
 
 {
+    float pi = 3.14159265;
     Math m = new Math();
-    println(m.cos(3.14));
+    println(m.cos(pi));
 }

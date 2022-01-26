@@ -1,0 +1,8 @@
+#include "math.decah"
+
+{
+    Math m = new Math();
+
+    println("Cos(pi)=", m.cos(m.pi));
+    println("Sin(pi)=", m.sin(m.pi / 2));
+}
