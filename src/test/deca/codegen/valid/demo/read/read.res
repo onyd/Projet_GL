@@ -1,0 +1,1 @@
+la valeur de x est 2 la valeur de y est 2.40000e+00
