@@ -231,8 +231,46 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     \subsection{Algorithmes utilisés}
 
     \section{Validation}
-    \subsection{Protocole de validation}
-    \subsection{Résultats}
+    Dans le cadre de la validation de notre extension, nous avons utilisé la même batterie de tests que celle de notre compilateur decac. La différence est l'ajout de l'option -java lors de la compilation, ce qui permet de générer un fichier exécutable par la JVM.
+
+    \subsection{Tests contextuels avec l'option -java}
+    Nous avons créé un script de test pour la partie contextuelle qui est à peu de choses près le même que celui décrit dans la documentation de validation.
+    \begin{flushleft}
+        La différence concerne le fichier de test utilisé, puisqu'ici c'est ManualTestContextJava qui est lancé pour tous nos tests. En effet, nous ajoutons l'option -java au compilateur. Cela est utile pour tester la génération de fichier .class, et la possibilité d'utiliser du code java dans deca avec l'utilisation d'une methodJava.
+    \end{flushleft}
+
+    \subsubsection{Lancer les tests contextuels avec l'otpion -java}
+    Pour lancer le script, il suffit de lancer le fichier \textbf{basic-context-java.sh} qui se trouve dans le répertoire \textit{gl28/src/test/script}. Ce script utilise notre large batterie de tests Oracle détaillée dans la documentation de validation.
+    \begin{flushleft}
+        Ces tests se trouvent dans le répertoire \textit{custom/option/java} des dossiers \textit{valid} et \textit{invalid} comme vous pouvez le voir ci-dessous.
+    \end{flushleft}
+
+    \subsubsection{Arborescence des tests contextuels}
+    Le répertoire \textit{context} se trouve dans le dossier \textit{gl28/src/test/deca}.
+    \begin{center}
+        \includegraphics[scale=0.7]{treecontext.png}
+    \end{center}
+
+
+    \subsection{Tests de génération de code avec l'option -java}
+    Enfin, concernant les tests de génération de code, nous avons décidé d'utiliser des tests de type "boîte noire". Pour chaque fichier de test nous créons un fichier .res avec la sortie attendue. Ainsi, pour chaque test, le script vérifie que le résultat obtenu en exécutant le fichier .class généré avec à notre compilateur correspond bien au résultat attendu.
+    \begin{flushleft}
+        Ces tests se trouvent dans le répertoire \textit{gl28/src/test/deca/codegen}, puis on distingue les tests valides et invalides.
+    \end{flushleft}
+    \subsubsection{Lancer les tests de génération de code}
+    Le script qui permet de lancer l'exécution de tous les tests est \textbf{basic-gencode-java.sh}, il se trouve dans le répertoire \textit{gl28/src/test/script}.
+    \begin{flushleft}Les tests sont donc lancés en utilisant l'option -java, ce qui permet de générer des fichiers .class exécutables par la JVM. La comparaison entre le résultat obtenu et le résultat attendu nous permet de nous assurer du bon fonctionnement de notre extension BYTE. Si le résultat n'est pas le bon, alors un message l'indique.
+    \end{flushleft}
+
+    \subsubsection{Arborescence des tests de génération de code}
+    Le répertoire \textit{codegen} se trouve dans le dossier \textit{gl28/src/test/deca}. Le rôle de chacun de ces répertoires est expliqué dans la documentation de validation.
+    \begin{center}
+        \includegraphics[scale=0.6]{treecodegen.png}
+    \end{center}
+
+    \subsubsection{Répertoire \textit{option/java}}
+    En particulier, le répertoire \textit{extension} vérifie le bon fonctionnement de l'insertion de code java dans deca. Par exemple, il est possible d'importer une librairie java et de l'utiliser pour retourner un résultat.
+
 
     \section{Limitations}
     \subsection{Compatibilité Java-Deca}
