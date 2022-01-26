@@ -1,0 +1,10 @@
+{
+    // Déclaration d'un premier entier
+    int var1 = 1;
+
+    // On incrémente cet entier de 1
+    var1 = var1 + 1;
+
+    // On essaie de déclarer un deuxième entier
+    int var2 = 2;
+}
