@@ -20,17 +20,17 @@
 
 \section{Introduction}
 
-Au cour de ce projet, nous avons été amené à évaluer l'impact énergétique de notre compilateur deca et de son implémentation. On peut distinguer trois étapes lors desquels ce compilateur deca consomme de l'énergie. La première étape source de consommation est l'implémentation: le fait de coder ce compilateur demande d'utiliser des ordinateurs pendant une longue durée, de faire des tests et cela a un impact non-négligeable. La deuxième étape est celle de la compilation du code. Il s'agit de transformer le langage deca en assembleur ima, transformation qui demande des calculs et donc de l'énergie. La dernière étape est l'exécution de l'assembleur sur une machine virtuelle ima. Dans ce rapport, nous allons nous intéresser plus précisément à la première et la troisième étape en essayant de quantifier cette consommation d'énergie et en proposant des pistes de solution pour la limiter. Nous avons volontairement choisi de ne pas nous attarder sur la consommation d'énergie dû à la compilation car les optimisations que nous proposons ne sont pas orientées vers cette étape.
+Au cours de ce projet, nous avons été amené à évaluer l'impact énergétique de notre compilateur deca et de son implémentation. On peut distinguer trois étapes lors desquelles ce compilateur deca consomme de l'énergie. La première étape source de consommation est l'implémentation: le fait de coder ce compilateur demande d'utiliser des ordinateurs pendant une longue durée et de faire des tests. Tout cela a un impact non-négligeable. La deuxième étape est celle de la compilation du code. Il s'agit de transformer le langage deca en assembleur ima, transformation qui demande des calculs et donc de l'énergie. La dernière étape est l'exécution de l'assembleur sur une machine virtuelle ima. Dans ce rapport, nous allons nous intéresser plus précisément à la première et la troisième étape en essayant de quantifier cette consommation d'énergie et en proposant des pistes de solution pour la limiter. Nous avons volontairement choisi de ne pas nous attarder sur la consommation d'énergie due à la compilation car les optimisations que nous proposons ne sont pas orientées vers cette étape.
 
 
 
 \section{Consommation d'énergie durant l'implémentation}
 
-Pour commencer, penchons-nous de plus prêt sur notre consommation durant les tris semaines de développement.
+Pour commencer, penchons-nous de plus prêt sur notre consommation durant les trois semaines de développement.
 
-\subsection{Consommation dû à l'utilisation des ordinateurs}
+\subsection{Consommation due à l'utilisation des ordinateurs}
 
-Un ordinateur à besoin d'une certaine puissance électrique pour fonctionner. On estime à 100 W la puissance d'un ordinateur portable et à 200 W la consommation d'un ordinateur fixe. Lors de ce projet, nous avons utilisé cinq ordinateurs : un ordinateur fixe et quatre ordinateurs portables. On obtient donc une puissance consommée cumulée de 600 W. En faisant l'hypothèse assez réaliste que l'on travail 8 heures par jour, on obtient une énergie consommée quotidienne de:
+Un ordinateur a besoin d'une certaine puissance électrique pour fonctionner. On estime à 100 W la puissance d'un ordinateur portable et à 200 W la consommation d'un ordinateur fixe. Lors de ce projet, nous avons utilisé cinq ordinateurs : un ordinateur fixe et quatre ordinateurs portables. On obtient donc une puissance consommée cumulée de 600 W. En faisant l'hypothèse assez réaliste que l'on travaille 8 heures par jour, on obtient une énergie consommée quotidienne de:
 
 \begin{equation}
 E_{quotidien}=0,6\times 8 = 4,8\; kWh
@@ -43,46 +43,46 @@ E_{total}=4,8\times 20 = 96\; kWh
 \end{equation}
 
 
-Cette énergie est comparable à celle consommée par un foyer français pendant 8 jours. Il n'est pas chose aisée de diminuer cette consommation car on ne peut pas travailler sans ordinateur.
+Cette énergie est comparable à celle consommée par un foyer français de deux personnes pendant 21 jours. Malheureusement, il n'est pas chose aisée de diminuer cette consommation car on ne peut pas travailler sans ordinateur.
 
-\subsection{Consommation dû aux tests}
+\subsection{Consommation due aux tests}
 
-Dans le but de couvrir tous les cas de compilation possible, nous avons mis en place une base de test contenant environ cinq cents fichier deca (tests pour l’extension compris). Nous les avons régulièrement exécutés pour suivre de la meilleure des manières l'avancée du développement.Mais la compilation et l'exécution des tests a aussi une consommation énergétique. Pour mieux s'en rendre compte, nous avons utilisé la commande "/usr/bin/time -v" en passant en argument la commande "mvn verify". Nous avons fait cette expérience sur 3 ordinateurs différents, voici les résultats:
+Dans le but de couvrir tous les cas de compilation possibles, nous avons mis en place une base de test contenant environ cinq cents fichiers deca (tests pour l’extension compris). Nous les avons régulièrement exécutés pour suivre de la meilleure des manières l'avancée du développement. Mais la compilation et l'exécution des tests a aussi une consommation énergétique. Pour mieux s'en rendre compte, nous avons utilisé la commande "/usr/bin/time -v" en passant en argument la commande "mvn verify". Nous avons fait cette expérience sur 3 ordinateurs différents, voici les résultats:
 
 \begin{itemize}
 
 
-\item Ordinateur de l'école : Le processeur est un Intel Core i5 posséde une puissance de disspation thermique de $65~W$\footnote{\label{ulm}PDT donné par le site d'intel}. $145\%$ du CPU est utilisé (sachant que le maximum est de $600\%$ car il s'agit d'un processeur 6 cœurs). On obtient alors une puissance consommée de :
+\item \textbf{Ordinateur de l'école}: Le processeur est un Intel Core i5 qui possède une puissance de dissipation thermique de $65~W$\footnote{\label{ulm}PDT donné par le site d'Intel}. $145\%$ du CPU est utilisé (sachant que le maximum est de $600\%$ car il s'agit d'un processeur 6 cœurs). On obtient alors une puissance consommée de :
 
 \begin{equation}
-P=\dfrac{145}{600}\times 65 = 15~W
+P=\frac{145}{600}\times 65 = 15~W
 \end{equation}
 
-Étant donné que le temps d'exécution est de $4:28$, cela implique l'énergie consommée suivante :
+Étant donné que le temps d'exécution est de 4:28, cela implique l'énergie consommée suivante :
 
 \begin{equation}
 E=P\times T = 15 \times 268 =  4020~J = 1.11\times 10^{-3}~kWh
 \end{equation}
 
-\item Ordinateur d'Anthony : Il s'agit d'un ordinateur plutôt haut de gamme avec un processeur core i7 avec une puissance de dissipation thermique de $15~W$\footnote{\label{ulm}PDT donné par le site d'intel}. $206\%$ du CPU est utilisé (sachant que le maximum est de $400\%$ car il s'agit d'un processeur 4 cœurs). On obtient alors une puissance consommée de :
+\item \textbf{Ordinateur d'Anthony} : Il s'agit d'un ordinateur plutôt haut de gamme avec un processeur Core i7 avec une puissance de dissipation thermique de $15~W$\footnote{\label{ulm}PDT donné par le site d'intel}. $206\%$ du CPU est utilisé (sachant que le maximum est de $400\%$ car il s'agit d'un processeur 4 cœurs). On obtient alors une puissance consommée de :
 
 \begin{equation}
-P=\dfrac{206}{400}\times 15 =  7.8~W 
+P=\frac{206}{400}\times 15 =  7.8~W 
 \end{equation}
 
-Étant donné que le temps d'exécution est de $3:34$, cela implique l'énergie consommée suivante :
+Étant donné que le temps d'exécution est de 3:34, cela implique l'énergie consommée suivante :
 
 \begin{equation}
 E=P\times T = 7.8 \times 214 =  1669~J = 4.63\times 10^{-4}~kWh
 \end{equation}
 
-\item Ordinateur de Damien: Il s'agit d'un ordinateur de milieu de gamme, utilisé par l’intermédiaire d'une machine virtuelle, les ressources sont donc beaucoup plus faibles que l'ordinateur précédent. Le processeur est un core i5 avec une puissance de dissipation thermique de $15~W$\footnote{\label{ulm}PDT donné par le site d'intel}. $188\%$ du CPU est utilisé (sachant que le maximum est de $400\%$ car il s'agit d'un processeur 4 cœurs). On obtient alors une puissance consommée de :
+\item \textbf{Ordinateur de Damien}: Il s'agit d'un ordinateur de milieu de gamme, utilisé par l’intermédiaire d'une machine virtuelle, les ressources sont donc beaucoup plus faibles que l'ordinateur précédent. Le processeur est un Core i5 avec une puissance de dissipation thermique de $15~W$\footnote{\label{ulm}PDT donné par le site d'Intel}. $188\%$ du CPU est utilisé (sachant que le maximum est de $400\%$ car il s'agit d'un processeur 4 cœurs). On obtient alors une puissance consommée de :
 
 \begin{equation}
-P=\dfrac{188}{400}\times 15 =  7.1~W
+P=\frac{188}{400}\times 15 =  7.1~W
 \end{equation}
 
-Étant donné que le temps d'exécution est de $10:12$, cela implique l'énergie consommée suivante :
+Étant donné que le temps d'exécution est de 10:12, cela implique l'énergie consommée suivante :
 
 \begin{equation}
 E=P\times T = 7.8 \times 612 =  4312~J = 0,00120~kWh$
@@ -90,20 +90,19 @@ E=P\times T = 7.8 \times 612 =  4312~J = 0,00120~kWh$
 
 \end{itemize}
 
-Bien sûr, il ne s'agit ici que d'une estimation assez grossière car les conditions de calcul de la PDT restent assez obscure de la part d'Intel et il y a sans doute d'autres paramètres auxquels nous n'avons pas pensé
-
-Néanmoins, on peut déduire plusieurs enseignement de cette petite expérience:
-Un ordinateur haut de gamme consomme moins d'énergie qu'un ordinateur de milieu ou d'entrée (à revoir) car il peut réaliser un plus grand nombre d'opération par secondes tout en conservant la même PDT.
-D'autre part, la consommation énergétique de l’exécution de l'ensemble des tests reste assez faible (donner le résultat en kWh). Même en estimant que l'on a exécuté ces tests une quarantaine de fois au cours du projet, cela reste peut.
+Bien sûr, il ne s'agit ici que d'une estimation assez grossière car les conditions de calcul de la PDT restent assez obscure de la part d'Intel et il y a sans doute d'autres paramètres auxquels nous n'avons pas pensé.
+Néanmoins, on peut déduire plusieurs enseignements de cette petite expérience:
+pour un même programme, un processeur plus récent et haut de gamme comme le i7 consomme moins d'énergie qu'un processeur de milieu ou d'entrée de gamme comme le i5  car il peut réaliser un plus grand nombre d'opérations par secondes tout en conservant la même PDT.
+D'autre part, la consommation énergétique de l’exécution de l'ensemble des tests reste assez faible. Même en estimant que l'on a exécuté ces tests une quarantaine de fois au cours du projet, cela reste peut (moins de $0,01~kWh$) en comparaison avec les valeurs calculées en première partie. 
 Il est donc plus instructif de s'intéresser à un déploiement à grande échelle auprès des utilisateurs de notre compilateur deca. Pour cela, nous allons regarder de plus prêt certains cas d'usages.
 
 
 
-\section{Consommation d'énergie dû à l'exécution dans ima}
+\section{Consommation d'énergie due à l'exécution dans ima}
 
 \subsection{Cas d'usage 1 : Téléchargement d'un fichier deca sur internet}
 
-Imaginons le cas où l'on cherche à télécharger un fichier exécutable IMA sur internet. Il y a alors un intérêt énergétique et d'efficacité à avoir le fichier le plus léger possible. En effet, le conseil américain pour l’efficacité énergétique (ACEEE) établit que le téléchargement d'un gigaoctet de données coûte en moyenne 5,12 kWh. On se rend bien compte que l'accumulation des téléchargement du fichier IMA aura une forte empreinte énergétique. Pour cela nous avons mis en place une technique d'optimisation afin de diminuer le nombre de lignes d'assembleur tout en conservant le même résultat. Cette technique se base sur la suppression de code mort. Le code mort est un code généré qui ne peut être atteint lors de l'exécution. Un code assembleur généré de façon naïve peut en contenir plusieurs lignes. Par exemple, cela peut provenir d'une condition trivialement vrai ou fausse dans un conditionnel. Cela est expliqué plus en détail dans la documentation de conception.
+Imaginons le cas où l'on cherche à télécharger un fichier exécutable IMA sur internet. Il y a alors un intérêt énergétique et d'efficacité à avoir le fichier le plus léger possible. En effet, le conseil américain pour l’efficacité énergétique (ACEEE) établit que le téléchargement d'un gigaoctet de données coûte en moyenne 5,12 kWh. On se rend bien compte que l'accumulation des téléchargements du fichier IMA aura une forte empreinte énergétique. Pour cela nous avons mis en place une technique d'optimisation afin de diminuer le nombre de lignes d'assembleur tout en conservant le même résultat. Cette technique se base sur la suppression de code mort. Le code mort est un code généré qui ne peut être atteint lors de l'exécution. Un code assembleur généré de façon naïve peut en contenir plusieurs lignes. Par exemple, cela peut provenir d'une condition trivialement vraie ou fausse dans un conditionnel. Cela est expliqué plus en détail dans la documentation de conception.
 Nous avons pris soin de supprimer automatiquement ces lignes afin que notre fichier IMA ne se limite qu'au code utile. 
 
 \subsection{Cas d'usage 2 : Exécution d'un fichier gourmand en ressources}
@@ -111,7 +110,7 @@ Nous avons pris soin de supprimer automatiquement ces lignes afin que notre fich
 Un fichier IMA peut parfois demander une grosse puissance de calcul, il est donc important d'optimiser la façon dont ces calculs sont effectués pour ne pas rallonger inutilement l'exécution du code et ainsi consommer plus d'énergie. Pour cela, nous avons mis en place les optimisations suivantes:
 
 \begin{itemize}
-\item Les expressions arithmétique qui sont des constantes sont pré-calculées à la compilation 
+\item Les expressions arithmétique qui sont des constantes sont pré-calculées à la compilation.
 \item Lorsque l'on multiplie une variable entière par une puissance de 2, on réalise un décalage vers la gauche des bits de l'expression et inversement pour une division d'un entier par une puissance de 2. Lorsque le facteur dépasse $2^{20}$, on repasse à une multiplication/division classique car cela coûte moins de cycles.
 
 
