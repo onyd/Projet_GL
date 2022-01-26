@@ -97,7 +97,6 @@ public class Main extends AbstractMain {
     }
 
     /**
-     * Apply the Tree decompilation.
      * @param s Buffer to which the result will be written.
      */
     @Override

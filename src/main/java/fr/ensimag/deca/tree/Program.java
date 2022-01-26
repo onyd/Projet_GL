@@ -28,22 +28,41 @@ import javax.tools.*;
  */
 public class Program extends AbstractProgram {
     private static final Logger LOG = Logger.getLogger(Program.class);
-    
+
+    /**
+     * Initialize the deca program.
+     * @param classes list of DeclClass
+     * @param main the main
+     */
     public Program(ListDeclClass classes, AbstractMain main) {
         Validate.notNull(classes);
         Validate.notNull(main);
         this.classes = classes;
         this.main = main;
     }
+
+    /**
+     * Access the DeclClass list.
+     * @return DeclClass list.
+     */
     public ListDeclClass getClasses() {
         return classes;
     }
+    /**
+     * Access the program's Main.
+     * @return the program's main.
+     */
     public AbstractMain getMain() {
         return main;
     }
     private ListDeclClass classes;
     private AbstractMain main;
 
+    /**
+     * Apply contextual verifications.
+     * @param compiler the compiler.
+     * @throws ContextualError to be thrown when contextual error occur.
+     */
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
@@ -61,6 +80,10 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: end");
     }
 
+    /**
+     * Generate assembly code for the entire program.
+     * @param compiler the IMA compiler.
+     */
     @Override
     public void codeGenProgram(IMACompiler compiler) {
         //create the vtable
@@ -79,6 +102,16 @@ public class Program extends AbstractProgram {
         Utils.handleError(compiler);
     }
 
+    /**
+     * Generate bytecode for the entire program.
+     * @param javaCompiler the JavaCompiler instance.
+     * @param path the class path.
+     * @param className the class name.
+     * @throws ClassNotFoundException when class not found
+     * @throws NoSuchMethodException when method not found
+     * @throws InvocationTargetException when cloning Cloneable type
+     * @throws IllegalAccessException when cannot clone Cloneable type
+     */
     @Override
     public void codeGenProgramByte(JavaCompiler javaCompiler, String path, String className) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         classes.codeGenListDeclClassByte(javaCompiler, path);
@@ -126,6 +159,11 @@ public class Program extends AbstractProgram {
         compiler.getTask(null, null, null, compilationOptions, null, fileObjects).call();
     }
 
+    /**
+     * gets java source from string
+     * @param code class method.
+     * @return Iterable<JavaSourceFromString>
+     */
     static Iterable<JavaSourceFromString> getJavaSourceFromString(String code) {
         final JavaSourceFromString jsfs;
         jsfs = new JavaSourceFromString("code", code);

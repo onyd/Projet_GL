@@ -190,8 +190,8 @@ public abstract class Tree {
      * Used internally by {@link #prettyPrint}. Must call prettyPrint() on each
      * children.
      *
-     * @param s
-     * @param prefix
+     * @param s PrintStream
+     * @param prefix prefix
      */
     protected abstract void prettyPrintChildren(PrintStream s, String prefix);
 

@@ -11,6 +11,7 @@ PATH=./src/test/script/launchers:"$PATH"
 cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:./src/main/bin:"$PATH"
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
@@ -366,4 +367,36 @@ do
 
 done
 
+
+echo "${GREEN}  This part is for the extension\n${NC}"
+for fich in ./src/test/deca/codegen/valid/custom/extension/*.deca
+do
+
+  resultFile=$(echo "$fich" | sed "s/deca/res/g" | sed "s/res/deca/")
+  classFile=$(echo "$fich" | sed "s/deca/class/g" | sed "s/class/deca/")
+  name=$(basename "$fich" ".deca")
+
+  rm -f $classFile 2>/dev/null
+  decac -java $fich || exit 1
+  if [ ! -f $classFile ]; then
+      echo "Fichier .class non généré."
+      exit 1
+  fi
+
+  resultat=$(java -cp ./src/test/deca/codegen/valid/custom/extension/ $name) || exit 1
+  rm -f $classFile
+
+
+  attendu=$(cat $resultFile)
+
+  echo "    Test for" $fich
+
+  if [ "$resultat" = "$attendu" ]; then
+      echo "    The result corresponds to the expected result"
+  else
+      echo "    The result doesn't correspond to the expected result. Indeed, the result is:"
+      echo $resultat
+  fi
+
+done
 
