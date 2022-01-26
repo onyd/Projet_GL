@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2022.1.20)  25 JAN 2022 08:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2022.1.20)  26 JAN 2022 09:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -61,7 +61,14 @@ File: babel.def 2018/11/13 3.27 Babel common definitions
 (/usr/share/texlive/texmf-dist/tex/generic/babel/txtbabel.def)
 \bbl@dirlevel=\count89
 )))
-(./impact_energetique.aux)
+(./impact_energetique.aux
+
+LaTeX Warning: Label `ulm' multiply defined.
+
+
+LaTeX Warning: Label `ulm' multiply defined.
+
+)
 \openout1 = `impact_energetique.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
@@ -99,29 +106,143 @@ Overfull \hbox (56.1677pt too wide) in paragraph at lines 27--27
  []
 
 [2]
-Overfull \hbox (9.69775pt too wide) in paragraph at lines 50--50
-[]\OT1/cmr/bx/n/17.28 Consommation d'^^Senergie d^u ^^Ra la compilation 
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 55.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 55.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 55.
+
+! Undefined control sequence.
+l.58 P=\dfrac
+             {145}{600}\times 65 = 15~W
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.70 P=\dfrac
+             {206}{400}\times 15 =  7.8~W
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+[3]
+! Undefined control sequence.
+l.82 P=\dfrac
+             {188}{400}\times 15 =  7.1~W
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Display math should end with $$.
+<to be read again> 
+                    
+l.88 ... = 7.8 \times 612 =  4312~J = 0,00120~kWh$
+                                                  
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+! You can't use `\eqno' in horizontal mode.
+\endequation ->\eqno 
+                     \hbox {\@eqnnum }$$\@ignoretrue 
+l.89 \end{equation}
+                   
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.89 \end{equation}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Display math should end with $$.
+<to be read again> 
+                   \endgroup 
+l.89 \end{equation}
+                   
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+
+Overfull \hbox (20.78462pt too wide) in paragraph at lines 95--99
+[]\OT1/cmr/m/n/12 N^^Seanmoins, on peut d^^Seduire plusieurs enseignement de ce
+tte petite exp^^Serience:
  []
 
-[3] (./impact_energetique.aux) ) 
+[4]
+Overfull \hbox (14.1958pt too wide) in paragraph at lines 118--119
+[]\OT1/cmr/m/n/12 Outre les ^^Seconomies d'^^Senergie, ces optimisations nous p
+ermettent d'assurer
+ []
+
+
+Overfull \hbox (15.69717pt too wide) in paragraph at lines 122--123
+\OT1/cmr/m/n/12 dans la derni^^Rere partie, il existe des optimisations permett
+ant ^^Ra l'utilisateur
+ []
+
+[5]
+
+! LaTeX Error: \begin{itemize} on input line 113 ended by \end{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.126 \end{document}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[6] (./impact_energetique.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ )
+(\end occurred inside a group at level 1)
+
+### semi simple group (level 1) entered at line 113 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 796 strings out of 494518
- 10080 string characters out of 6176313
- 77023 words of memory out of 5000000
- 4515 multiletter control sequences out of 15000+600000
+ 823 strings out of 494518
+ 10469 string characters out of 6176313
+ 78023 words of memory out of 5000000
+ 4539 multiletter control sequences out of 15000+600000
  8808 words of font info for 31 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 22i,4n,19p,1100b,185s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on impact_energetique.pdf (3 pages, 70088 bytes).
+ 23i,8n,19p,1148b,212s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy8.pfb>
+Output written on impact_energetique.pdf (6 pages, 114286 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
- 26 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 44 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
