@@ -8,7 +8,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.SUBSP;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 
 /**
@@ -50,6 +52,19 @@ public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
         }
     }
 
+    void codeGenListDeclVariableFromMethod(IMACompiler compiler) {
+        compiler.addComment("Verify if we can add all the variable in the stack");
+        compiler.addInstruction(new TSTO(this.getList().size()));
+        if(!compiler.getCompilerOptions().getNoCheck()) {
+            compiler.addInstruction(new BOV(LabelManager.STACK_OVERFLOW_ERROR));
+        }
+        compiler.getStack().setLBPosition(1);
+        compiler.addComment("Beginning of the variable declaration");
+        for(AbstractDeclVar declVar : this.getList()) {
+            declVar.codeGenDeclVarFromMethod(compiler);
+        }
+    }
+
     void codeGenListDeclVariableByte(JavaCompiler javaCompiler, int beginIndex)
     {
         int currentIndexVar = beginIndex;
@@ -58,4 +73,5 @@ public class ListDeclVar extends AbstractListTree<AbstractDeclVar> {
             currentIndexVar++;
         }
     }
+
 }

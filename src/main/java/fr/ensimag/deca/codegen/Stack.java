@@ -8,6 +8,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
 
 public class Stack {
     private int currentStackPosition = 1;
+    private int LBPosition = 1;
     private int nbOfDecl = 0;
     private IMACompiler decacCompiler;
 
@@ -21,6 +22,10 @@ public class Stack {
 
     public void setNbOfDecl(int nbOfDecl) {
         this.nbOfDecl = nbOfDecl;
+    }
+
+    public void setLBPosition(int LBPosition) {
+        this.LBPosition = LBPosition;
     }
 
     public void loadVariableFromExpr(AbstractExpr expr) {
@@ -55,6 +60,15 @@ public class Stack {
         DAddr dAddr= new RegisterOffset(this.currentStackPosition, Register.GB);
         identifier.getVariableDefinition().setOperand(dAddr);
         this.currentStackPosition++;
+        this.decacCompiler.addInstruction(new ADDSP(1));
+        this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
+    }
+
+    public void declareVariableOnStackFromMethod(Identifier identifier, AbstractInitialization initialization) {
+        loadVariableOnR1FromIdentAndInit(identifier, initialization);
+        DAddr dAddr= new RegisterOffset(this.LBPosition, Register.LB);
+        identifier.getVariableDefinition().setOperand(dAddr);
+        this.LBPosition++;
         this.decacCompiler.addInstruction(new ADDSP(1));
         this.decacCompiler.addInstruction(new STORE(Register.R1, dAddr));
     }
