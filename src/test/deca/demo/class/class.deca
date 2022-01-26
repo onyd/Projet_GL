@@ -1,0 +1,21 @@
+class Integer {
+    int value;
+
+    void Integer(int value) {
+        this.value = value
+    }
+
+    int getValue() {
+        return this.value
+    }
+
+    float toFloat() {
+        return (float) (value);
+    }
+}
+
+{
+    Integer i = new Integer();
+    i.Integer(13);
+    println("La valeur de l'Integer créée est ", i.getValue)
+}
