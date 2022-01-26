@@ -120,7 +120,8 @@ public abstract class AbstractExpr extends AbstractInst {
         // Implicit float conversion
         if (getType().isInt() && expectedType.isFloat()) {
             ConvFloat newExpr = new ConvFloat(this);
-            setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
+            newExpr.setType(compiler.getEnvironmentType().get(compiler.FLOAT_SYMBOL).getType());
+            setType(newExpr.getType());
             return newExpr;
         }
 

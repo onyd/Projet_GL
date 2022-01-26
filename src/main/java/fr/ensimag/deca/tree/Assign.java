@@ -42,9 +42,8 @@ public class Assign extends AbstractBinaryExpr {
             ident.getLValueDefinition().setConstant(false);
         }
 
-        Type type = getRightOperand().verifyRValue(compiler, localEnv, currentClass, expectedType).getType();
-        setType(type);
-        setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, getLeftOperand().getType()));
+        setRightOperand(getRightOperand().verifyRValue(compiler, localEnv, currentClass, expectedType));
+        setType(getLeftOperand().getType());
         return getType();
     }
 
