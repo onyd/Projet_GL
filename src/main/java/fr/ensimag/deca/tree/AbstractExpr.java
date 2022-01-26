@@ -60,6 +60,9 @@ public abstract class AbstractExpr extends AbstractInst {
         return type;
     }
 
+    /**
+     * Set the type decoration associated to this expression (i.e. the type computed by contextual verification).
+     */
     protected void setType(Type type) {
         Validate.notNull(type);
         this.type = type;
@@ -130,6 +133,7 @@ public abstract class AbstractExpr extends AbstractInst {
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         verifyExpr(compiler, localEnv, currentClass);
+        // TODO verify others
     }
 
     /**
