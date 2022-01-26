@@ -187,6 +187,8 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
     \section{Analyse bibliographique}
     Dans cette section nous allons donner des détails techniques sur la  \textbf{Java virtual machine JVM}.
 
+    \subsection{Structure de fichier .class}
+
     \begin{figure}[h]
         \centering
         \includegraphics[scale=0.80]{JavaInternal.png}
@@ -197,32 +199,73 @@ method_body↓env_type↓env_exp↓env_exp_params↓class↓return
 
     Les fichiers .class sont les fichiers exécutables par la machine virtuelle java. Chaque fichier .class contient les informations concernant une et une seule classe en Java. Dans ce fichier on trouve les instructions écrites en bytecode qui seront exécutées par la JVM. Nous présentons par la suite quelques détails, mais pour plus de détails il faut regarder les spécifications du java \cite{ref_specifications_java} .
 
-    \subsection{Magic number}
+    \subsubsection{Magic number}
     Il s'agit d'un attribut identifiant les fichiers d'execution Java \cite{ref_DexFormatvsJavabytecode}.
 
-    \subsection{Class file version}
+    \subsubsection{Class file version}
     Permet de déterminer la version minimum de la machine virtuelle de java qui pourra exécuter ce fichier. Donc si la version du fichier est supérieure à celle de la JVM, la machine virtuelle ne pourra pas l'exécuter.
 
-    \subsection{Constant Pool}
+    \subsubsection{Constant Pool}
     C'est une table qui contient toutes les constantes de la classe. Ces constantes peuvent être de types différents tels que \textbf{String},\textbf{Integer}, \textbf{Float}... etc. Par exemple, lorsque le fichier .java contient une variable qui a pour valeur 123456, cette table contiendra une case référencée par un indice et cette case stocke la valeur. De façon similaire, une chaîne de caractères telle que "ma belle chaîne de caractère" sera stockée dans une autre case dans la table.
 
-    \subsection{Access Flags}
+    \subsubsection{Access Flags}
     Contient les informations sur l'accessibilité de la classe.
 
-    \subsection{Class Name}
+    \subsubsection{Class Name}
     On y trouve le nom de la classe.
-    \subsection{Super Class Name}
+    \subsubsection{Super Class Name}
     On y trouve le nom de la classe mère.
 
-    \subsection{Interface}
+    \subsubsection{Interface}
     Si la classe implémente une interface, alors le nom de l'interface sera mentionné ici.
 
-    \subsection{Champs}
+    \subsubsection{Champs}
     Les champs de la classe sont présentés ici avec leur niveau d'accessibilité private,protected ou public avec son nom et son type.
 
-    \subsection{Methods}
+    \subsubsection{Methods}
     De façon similaire aux champs, chaque méthode est décrite par son niveau d'accessibilité, son nom, les types de ses paramètres et le type de retour.
 
+    \subsection{Les types}
+    Il existe deux sorts de type en java. Les types primitifs. L'autre sort est les types références. Une référence peut être de type classe ou de type tableau.
+    \\
+
+    On distingue ces types :
+    \subsubsection{Les types numériques}
+    Il existe deux catégories :
+    \begin{itemize}
+        \item Entier : tels que byte, short,int et char.
+        \item A Virgule flottante : comme float et double.
+    \end{itemize}
+
+    \subsubsection{Le type boolean : } représente une valeur de vérité true ou false.
+    \subsubsection{Le retour d'adresse : } le type returnAddress est un pointeur vers
+    un des \textbf{Opcodes} de la JVM (utilisé par les instructions JSR, RET, et JSR$\_$W).
+
+    \subsection{Les zones mémoires \cite{ref_zones_memeoire_java}}
+    Il existe différentes zones de mémoire pour stocker les données pendant l'exécution d'un programme. Quelques zones sont crées au démarrage de la Java Virtual Machine et sont détruites quand elle s'arrête. Il existe d'autres zones qui sont crées lors de la création d'un nouveau thread, elles sont propores à ce thread et enfin détruites à la fin du thread.
+    Nous allons détailler quelques zones :
+
+    \subsubsection{Le registre program counter :} C'est un registre propre à chaque thread.
+
+    \subsubsection{La pile d'exécution :} C'est une pile propre et privée à l'exécution de chaque thread. La pile est crée au moment de la création du thread et sera détruite à la fin du thread. Le rôle de la pile est de stocker les \textbf{Frames} que nous allons détailler dans la section suivante.
+
+    \subsubsection{Le tas :} C'est une zone commune à tous les threads de la JVM. Il est créé au moment du démarrage de la JVM. Elle y stocke les données allouées dynamiquement telles que les instances des classes et les tableaux.
+
+    \subsubsection{Zone de méthodes :}
+    C'est une zone qui stocke le code de toutes les classes. Elle est partagée par tous les threads et elle stocke la \textbf{Constant Pool} \ref{Constant_Pool}, les champs et les variables de classe et des méthodes ainsi le code des méthodes.
+
+    \subsubsection{Constant Pool : } \label{Constant_Pool} Pour chaque classe dans un fichier .class, il existe une table Constant Pool \ref{fig1}. Cette table est représentée dans une zone mémoire appelée Constant Pool. Elle contient toutes les constantes connues à la compilation et les références vers les méthodes qui doivent être résolues à l'exécution.
+
+    \subsection{Les frames :}
+    Une frame a pour rôle de stocker les données et les résultats partiels, on y stocke aussi la valeur de retour des appels aux méthodes. A chaque appel à une méthode, une nouvelle frame est crée. Elle sera détruite à la fin de l'appel. La freme est allouée dans la pile du thread qui l'a créé. Cette frame a son propre tableau de variables locales, sa pile d'opérandes et une référence vers la constant pool de la classe de la méthode appelée.
+
+    \subsubsection{Les variables locales :}
+    Chaque frame contient un tableau de variables locales. Une variable locale   simple en terme de taille peut contenir un type boolean, byte, char, short, int, float, reference, ou returnAddress. Pour stocker des variables locales de type double ou long, il faut la place de deux variables locales simples.
+    Chaque variable est indexé par un indice. Comme dans une pile, l'indice de la première variable est 0. Les valeur des long ou double sont rangées dans deux cases consécutives.
+    Lorsque une méthode statique est appelée, tous les paramètres sont passés dans des variables locales consécutives à partir de la variable locale d'adresse 0.
+    Lorsque une méthode non statique est appelée, la référence sur l'objet à qui  est appelée a 0 pour indice de variable. Cette variable correspond à \textbf{this} en java. Les autres paramètres de la méthode seront rangés dans les cases qui suivent.
+
+    \subsubsection{La pile des opérandes :} Chaque frame a une pile des opérandes. La JVM fournit des instructions pour charger des constantes ou des valeurs, depuis les variables locales dans la pile des opérandes. D'autres instructions récupèrent des opérandes de la pile des opérandes, réalisent une opération sur ces opérandes, puis stockent le résultat dans la pile d'opérandes de cette frame.
 
     \section{Conception}
     \subsection{Documentation de conception}

@@ -1,0 +1,15 @@
+// Algorithme de calcul d'une factorielle
+{
+    int cpt = 1;
+    int res = 1;
+    int n;
+
+    println("Saisissez un entier : ");
+    n = readInt();
+
+    while(cpt < n) {
+        cpt = cpt + 1;
+        res = res * cpt;
+    }
+    println("La factorielle de ", n, " est : ", res);
+}
