@@ -1,0 +1,15 @@
+{
+    int cpt = 0;
+    int res = 1;
+    while(cpt < 8) {
+        res = res * 2;
+        cpt = cpt + 1;
+    }
+    println("la valeur de 2^8 est ", res);
+
+    cpt = 0;
+    while(cpt < 8) {
+        res = res / 2;
+        cpt = cpt + 1;
+    }
+}
