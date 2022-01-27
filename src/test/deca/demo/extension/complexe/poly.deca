@@ -4,13 +4,13 @@ class Transport {
     }
 }
 
-class Train extends Transport {
+class Voiture extends Transport {
     void info() {
-        println("je suis un train");
+        println("je suis une Voiture");
     }
 }
 
 {
-    Transport t = new Train();
+    Transport t = new Voiture();
     t.info();
 }
