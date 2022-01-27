@@ -1,6 +1,0 @@
-{
-    // Utilisation d'une variable qui n'est pas déclarée
-    while(i <= 10) {
-        i = i + 1;
-    }
-}

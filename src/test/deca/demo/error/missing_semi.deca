@@ -1,0 +1,5 @@
+// Programme dans lequel il manque une point-virgule
+{
+    // Il manque un point-virgule ci-dessous
+    int i = 5
+}

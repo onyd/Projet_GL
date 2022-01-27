@@ -38,5 +38,7 @@ public abstract class AbstractDeclVar extends Tree {
      */
     protected abstract void codeGenDeclVar(IMACompiler compiler);
 
+    protected abstract void codeGenDeclVarFromMethod(IMACompiler compiler);
+
     protected abstract void codeGenDeclVarByte(JavaCompiler javaCompiler, int currentIndexVar);
 }

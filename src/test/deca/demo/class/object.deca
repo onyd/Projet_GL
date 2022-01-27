@@ -1,0 +1,14 @@
+{
+    Object o = new Object();
+    Object o2 = new Object();
+    Object o3 = o;
+    println("Création d'une instance d'Object");
+    println("Creation d'un second Object");
+    println("creation d'un troisième object égale au premier object");
+    if(!o.equals(o2)) {
+        println("Le premier objet n'est bien pas égale au deuxième");
+    }
+    if(o.equals(o3)) {
+        println("Le premier objet est bien égale au troisième");
+    }
+}

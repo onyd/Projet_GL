@@ -8,6 +8,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.instructions.SUBSP;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -55,8 +57,11 @@ public class MethodBody extends AbstractMethodBody {
 
     @Override
     protected void codeGenMethodBody(IMACompiler compiler) {
-        declVars.codeGenListDeclVariable(compiler);
+        declVars.codeGenListDeclVariableFromMethod(compiler);
         instructions.codeGenListInst(compiler);
+        if(!declVars.getList().isEmpty()) {
+            compiler.addInstruction(new SUBSP(new ImmediateInteger(declVars.getList().size())));
+        }
     }
 
     @Override

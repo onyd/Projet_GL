@@ -1,0 +1,29 @@
+// Programme contenant 3 classes
+class A {
+    int x = 0;
+}
+
+class B extends A {
+    int y = 1;
+}
+
+class C extends B {
+    int z = 2;
+}
+
+{
+    // Déclaration des objets
+    A a = new A();
+    B b1 = new B();
+    B b2 = new B();
+
+    // Cast de B en A possible (upcast)
+    a = (A) (b1);
+    println("Le cast de l'objet B en A a fonctionné, on peut afficher le champs de la classe A : ", a.x);
+    println();
+
+
+    // Cast de B en C impossible (downcast)
+    println("Cast de l'objet B en sa sous-classe C");
+    b2 = (C) (b2);
+}
