@@ -17,4 +17,4 @@ Les étapes que je vais faire sont :
 4- exécuter le code compilé (le bytecode) avec la Java Virtual machine JVM.
 
 5- compiler une classe deca (NotreMath.deca) puis l’utiliser en Main.java.
-6- compiler une classe deca plus complexe (vehcules.deca) puis l’utiliser en testVehcules.java.
+6- compiler une classe deca plus complexe puis l’utiliser en MainX.java.
