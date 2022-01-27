@@ -13,14 +13,6 @@ public class Main
         int b = 5;
 
         System.out.println("La valeur minimale entre a et b : " + notreMath.minimumInt(a,b));
-
-        System.out.println("----------------------------");
-
-        //Limitation : on est obligé de copier le code du programme principal deca.
-        CompteBancaire2 cb = new CompteBancaire2();
-        cb.afficherSolde();
-        cb.ajouterSolde(5);
-        cb.afficherSolde();
     }
 }
 

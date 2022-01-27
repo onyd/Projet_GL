@@ -1,0 +1,16 @@
+class Transport {
+    void info() {
+        println("je suis un moyen de transport");
+    }
+}
+
+class Train extends Transport {
+    void info() {
+        println("je suis un train");
+    }
+}
+
+{
+    Transport t = new Train();
+    t.info();
+}

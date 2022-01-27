@@ -1,0 +1,48 @@
+class NotreMath
+{
+        int additionner(int x,int y)
+        {
+                return x+y;
+        }
+
+        int substraire(int x,int y)
+        {
+                return x-y;
+        }
+
+        float multiplier(float x,float y)
+        {
+                return x*y;
+        }
+
+        float diviser(float x,float y)
+        {
+                return x/y;
+        }
+
+
+        int minimumInt(int x,int y)
+        {
+            if(x<y)
+            {
+                return x;
+            }
+            else
+            {
+                return y;
+            }
+        }
+
+        int maximumInt(int x,int y)
+        {
+            if(x>y)
+            {
+                return x;
+            }
+            else
+            {
+                return y;
+            }
+        }
+}
+
