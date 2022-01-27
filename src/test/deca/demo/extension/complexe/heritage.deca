@@ -1,0 +1,44 @@
+class INP
+{
+    int nbEleve;
+
+    int getNbEleve() {
+        return nbEleve;
+    }
+
+    void setNbEleve(int nbEleve) {
+        this.nbEleve = nbEleve;
+    }
+}
+
+class Ecole extends INP
+{
+    int budget;
+
+    int getBudget() {
+        return budget;
+    }
+
+    void setBudget(int budget) {
+        this.budget = budget;
+    }
+}
+
+class Ensimag extends Ecole
+{
+    boolean estDansINP() {
+        return this instanceof INP;
+    }
+}
+
+{
+    Ensimag e = new Ensimag();
+    e.setNbEleve(1000);
+    e.setBudget(3000000);
+
+    if(e.estDansINP()) {
+        println("Cette école est bien dans l'INP");
+    }
+    println("le nombre d'élèves à l'ensimag est de ", e.getNbEleve());
+    println("le budget de l'ensimag est ", e.getBudget()," euros");
+}

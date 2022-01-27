@@ -1,0 +1,89 @@
+class Point {
+    int x;
+    int y;
+
+    void Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Rectangle {
+    Point topLeft;
+    Point bottomRight;
+    int sizeX;
+    int sizeY;
+
+    void Rectangle(Point topLeft, Point bottomRight) {
+        this.topLeft = topLeft;
+        this.bottomRight = bottomRight;
+        this.sizeX = this.bottomRight.x - this.topLeft.x;
+        this.sizeY = this.topLeft.y - this.bottomRight.y;
+    }
+
+    boolean estUnCoteVert(int posX, int posY) {
+        if((posY < this.topLeft.y) && (posY > this.bottomRight.y) && (this.topLeft.x == posX)) {
+            return true;
+        }
+        if((posY < this.topLeft.y) && (posY > this.bottomRight.y) && (this.bottomRight.x == posX)) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean estUnCoteHori(int posX, int posY) {
+        if((posX > this.topLeft.x) && (posX < this.bottomRight.x - 1) && (this.topLeft.y == posY)) {
+            return true;
+        }
+        if((posX > this.topLeft.x) && (posX < this.bottomRight.x - 1) && (this.bottomRight.y == posY)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+class Draw {
+    int width;
+    int height;
+
+    void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    void draw(Rectangle rectangle) {
+        int posX;
+        int poxY = this.height - 1;
+        while(poxY >= 0) {
+            while(posX < this.width) {
+                if(rectangle.estUnCoteVert(posX, poxY)) {
+                    print("|");
+                } else if(rectangle.estUnCoteHori(posX, poxY)) {
+                    print("--");
+                } else {
+                    print("  ");
+                }
+                posX = posX + 1;
+            }
+            println();
+            posX = 0;
+            poxY = poxY - 1;
+        }
+    }
+}
+
+{
+    Draw d = new Draw();
+    Rectangle rect = new Rectangle();
+    Point topLeft = new Point();
+    Point bottomRight = new Point();
+
+    //set the size of the screen
+    d.setSize(5, 5);
+
+    //create the rectangle
+    topLeft.Point(0, 4);
+    bottomRight.Point(4, 0);
+    rect.Rectangle(topLeft, bottomRight);
+    d.draw(rect);
+}
